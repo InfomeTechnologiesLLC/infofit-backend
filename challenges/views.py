@@ -1,4 +1,4 @@
-from zoneinfo import ZoneInfo
+from backports.zoneinfo import ZoneInfo
 
 from django.db import transaction
 from django.db.models import Sum
