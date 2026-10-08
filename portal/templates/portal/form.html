@@ -1,0 +1,16 @@
+{% extends 'portal/base.html' %}
+{% block content %}
+<div class="mb-3"><a href="{{ cancel_url }}" class="small">← Back</a><h1 class="h2 mt-2">{{ title }}</h1><p class="text-muted">{{ help_text }}</p></div>
+<form method="post" class="card p-4" style="max-width:780px">{% csrf_token %}
+  {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors }}</div>{% endif %}
+  <div class="row g-3">
+  {% for field in form %}<div class="col-12 {% if field.name != 'description' and field.name != 'daily_action' and field.name != 'summary' %}col-md-6{% endif %}">
+    {% if field.field.widget.input_type == 'checkbox' %}<div class="form-check mt-4">{{ field }}<label class="form-check-label" for="{{ field.id_for_label }}">{{ field.label }}</label></div>
+    {% else %}<label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% endif %}
+    {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+    {% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+  </div>{% endfor %}
+  </div>
+  <div class="d-flex gap-2 mt-4"><button type="submit" class="btn btn-primary">Save</button><a class="btn btn-outline-secondary" href="{{ cancel_url }}">Cancel</a></div>
+</form>
+{% endblock %}

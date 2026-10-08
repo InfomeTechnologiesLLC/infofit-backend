@@ -1,0 +1,9 @@
+{% extends 'portal/base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-start mb-3"><div><a href="{% url 'portal:employees' %}" class="small">← Employees</a><h1 class="h2 mt-2">{{ employee.full_name }}</h1><p class="text-muted">{{ employee.email }}{% if employee.employee_id %} · {{ employee.employee_id }}{% endif %}</p></div><a class="btn btn-outline-primary" href="{% url 'portal:employee_edit' employee.pk %}">Edit details</a></div>
+<div class="row g-3">
+  <div class="col-md-6"><div class="card p-4 h-100"><h2 class="h5">Account and organization</h2><dl class="row mb-0"><dt class="col-5">Status</dt><dd class="col-7">{% if employee.is_active %}Active{% else %}Inactive{% endif %}</dd><dt class="col-5">Department</dt><dd class="col-7">{{ employee.profile.department|default:'—' }}</dd><dt class="col-5">Team</dt><dd class="col-7">{{ employee.profile.team|default:'—' }}</dd><dt class="col-5">Designation</dt><dd class="col-7">{{ employee.profile.designation|default:'—' }}</dd><dt class="col-5">Branch</dt><dd class="col-7">{{ employee.profile.branch|default:'—' }}</dd></dl></div></div>
+  <div class="col-md-6"><div class="card p-4 h-100"><h2 class="h5">Participation</h2><dl class="row mb-0"><dt class="col-7">Challenges joined</dt><dd class="col-5">{{ challenge_count }}</dd><dt class="col-7">Challenges completed</dt><dd class="col-5">{{ completed_count }}</dd><dt class="col-7">Wellness programs joined</dt><dd class="col-5">{{ program_count }}</dd><dt class="col-7">Check-ins in last 7 days</dt><dd class="col-5">{{ checkin_count }}</dd><dt class="col-7">Last Health Connect sync</dt><dd class="col-5">{{ last_sync|date:'M j, Y H:i'|default:'No sync' }}</dd></dl></div></div>
+</div>
+<p class="small text-muted mt-3">A missing sync or check-in is not a health assessment. Individual steps, sleep, calories, and water entries are not shown here.</p>
+{% endblock %}

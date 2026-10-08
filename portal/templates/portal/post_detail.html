@@ -1,0 +1,11 @@
+{% extends 'portal/base.html' %}
+{% block content %}
+<a href="{% url 'portal:posts' %}" class="small">← Community posts</a>
+<h1 class="h2 mt-2">Post #{{ post.pk }}</h1>
+<div class="card p-4" style="max-width:850px">
+  <div class="d-flex justify-content-between"><div><strong>{{ post.author.email }}</strong><div class="small text-muted">{{ post.get_visibility_display }}{% if post.team %} · {{ post.team.name }}{% endif %} · {{ post.created_at|date:'M j, Y H:i' }}</div></div><span class="badge {% if post.status == 'published' %}text-bg-success{% else %}text-bg-secondary{% endif %}">{{ post.get_status_display }}</span></div>
+  <p class="mt-3" style="white-space:pre-wrap">{{ post.body|default:'[Photo post without a caption]' }}</p>
+  {% if post.image %}<img class="img-fluid rounded border mb-3" style="max-height:520px" src="{% url 'portal:post_photo' post.pk %}" alt="Photo attached to post {{ post.pk }}">{% endif %}
+  {% if post.status == 'published' %}<form method="post" action="{% url 'portal:hide_post' post.pk %}">{% csrf_token %}<button class="btn btn-danger" type="submit">Hide post from the app</button></form>{% endif %}
+</div>
+{% endblock %}

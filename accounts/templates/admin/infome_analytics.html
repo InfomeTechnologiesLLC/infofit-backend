@@ -1,0 +1,11 @@
+{% extends "admin/base_site.html" %}
+{% block breadcrumbs %}<div class="breadcrumbs"><a href="{% url 'admin:index' %}">Home</a> &rsaquo; Operations overview</div>{% endblock %}
+{% block content %}
+<h1>Operations overview</h1>
+<p>Company-wide operational counts. This page does not show employee health measurements.</p>
+<table style="max-width: 640px; width: 100%;">
+  <thead><tr><th scope="col">Measure</th><th scope="col">Count</th></tr></thead>
+  <tbody>{% for label, value in cards %}<tr><th scope="row">{{ label }}</th><td>{{ value }}</td></tr>{% endfor %}</tbody>
+</table>
+<p>Recent source syncs cover the seven days since {{ window_start|date:"DATETIME_FORMAT" }}. Counts are calculated when you open this page.</p>
+{% endblock %}

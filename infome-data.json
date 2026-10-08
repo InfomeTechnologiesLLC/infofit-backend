@@ -1,0 +1,3423 @@
+[
+{
+  "model": "accounts.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$bBYUxEcFG3Or7OGM1jrMJn$+/dSCEM35Qf4ZhfLhFUOv/psR15yy1Cl3QD4PSmFRHk=",
+    "last_login": "2026-10-06T09:57:00Z",
+    "is_superuser": false,
+    "email": "admin@demo.infome.test",
+    "first_name": "Demo",
+    "last_name": "Admin",
+    "employee_id": "D000",
+    "profile_image": "",
+    "role": "super_admin",
+    "is_active": true,
+    "is_staff": true,
+    "date_joined": "2026-10-01T05:59:57Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$axFw32yVg6MNTmSoDC42GV$AsxKqV3dEKH80Ao/GQrGOpXiI7Mf/srbrdIKTwJebAE=",
+    "last_login": "2026-10-07T06:02:26.756Z",
+    "is_superuser": false,
+    "email": "manager@demo.infome.test",
+    "first_name": "Demo",
+    "last_name": "Manager",
+    "employee_id": "D001",
+    "profile_image": "",
+    "role": "team_manager",
+    "is_active": true,
+    "is_staff": false,
+    "date_joined": "2026-10-01T05:59:57.615Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$VdjIlNO6CQktdXoQ0P6hrL$7Jum2+Usl9RjmERVmUsN1rt8uwPK089PCZTf1bbpvNo=",
+    "last_login": "2026-10-06T09:01:28.864Z",
+    "is_superuser": false,
+    "email": "asha@demo.infome.test",
+    "first_name": "Asha",
+    "last_name": "Demo",
+    "employee_id": "D002",
+    "profile_image": "",
+    "role": "employee",
+    "is_active": true,
+    "is_staff": false,
+    "date_joined": "2026-10-01T05:59:58.001Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$AVJzyPFqvAxwSyPOFUfucz$YH/WI5fGOjsVTpdINur9J18tmKjjgfRoBIB6cuD6Ecs=",
+    "last_login": "2026-10-07T06:01:48.953Z",
+    "is_superuser": false,
+    "email": "bilal@demo.infome.test",
+    "first_name": "Bilal",
+    "last_name": "Demo",
+    "employee_id": "D003",
+    "profile_image": "",
+    "role": "employee",
+    "is_active": true,
+    "is_staff": false,
+    "date_joined": "2026-10-01T05:59:58.414Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "pk": 5,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$B1R1afADKQVrqQbDUMZwMT$zYYYG6WkZlu0QfDlBLdeLegnAeDf8RgekQLzA5UgXgM=",
+    "last_login": "2026-10-06T10:12:46.412Z",
+    "is_superuser": false,
+    "email": "athulvsabu6@gmail.com",
+    "first_name": "Athul",
+    "last_name": "V Sabu",
+    "employee_id": null,
+    "profile_image": "",
+    "role": "employee",
+    "is_active": true,
+    "is_staff": false,
+    "date_joined": "2026-10-06T10:11:33Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.department",
+  "pk": 1,
+  "fields": {
+    "name": "Engineering (DEMO)"
+  }
+},
+{
+  "model": "accounts.team",
+  "pk": 1,
+  "fields": {
+    "name": "Team Falcon (DEMO)",
+    "description": "",
+    "department": 1,
+    "manager": 2,
+    "created_at": "2026-10-01T05:59:57.221Z"
+  }
+},
+{
+  "model": "accounts.employeeprofile",
+  "pk": 1,
+  "fields": {
+    "user": 1,
+    "department": 1,
+    "team": 1,
+    "designation": "",
+    "branch": "",
+    "date_of_joining": null,
+    "fitness_goal": "general",
+    "daily_step_goal": 10000,
+    "wellness_preferences": {},
+    "updated_at": "2026-10-01T11:08:35.307Z"
+  }
+},
+{
+  "model": "accounts.employeeprofile",
+  "pk": 2,
+  "fields": {
+    "user": 2,
+    "department": 1,
+    "team": 1,
+    "designation": "",
+    "branch": "",
+    "date_of_joining": null,
+    "fitness_goal": "general",
+    "daily_step_goal": 10000,
+    "wellness_preferences": {},
+    "updated_at": "2026-10-01T11:08:35.312Z"
+  }
+},
+{
+  "model": "accounts.employeeprofile",
+  "pk": 3,
+  "fields": {
+    "user": 3,
+    "department": 1,
+    "team": 1,
+    "designation": "",
+    "branch": "",
+    "date_of_joining": null,
+    "fitness_goal": "general",
+    "daily_step_goal": 10000,
+    "wellness_preferences": {},
+    "updated_at": "2026-10-01T11:08:35.317Z"
+  }
+},
+{
+  "model": "accounts.employeeprofile",
+  "pk": 4,
+  "fields": {
+    "user": 4,
+    "department": 1,
+    "team": 1,
+    "designation": "",
+    "branch": "",
+    "date_of_joining": null,
+    "fitness_goal": "general",
+    "daily_step_goal": 10000,
+    "wellness_preferences": {},
+    "updated_at": "2026-10-01T11:08:35.321Z"
+  }
+},
+{
+  "model": "accounts.employeeprofile",
+  "pk": 5,
+  "fields": {
+    "user": 5,
+    "department": null,
+    "team": null,
+    "designation": "",
+    "branch": "",
+    "date_of_joining": null,
+    "fitness_goal": "general",
+    "daily_step_goal": 10000,
+    "wellness_preferences": {},
+    "updated_at": "2026-10-06T10:11:33.946Z"
+  }
+},
+{
+  "model": "fitness.fitnesssource",
+  "pk": 1,
+  "fields": {
+    "user": 3,
+    "installation_id": "50eaae36-32c4-4004-838c-6a3509216d72",
+    "device_label": "samsung SM-S911B",
+    "last_sequence": 28,
+    "last_successful_sync_at": "2026-10-06T09:47:04.910Z",
+    "created_at": "2026-10-01T11:09:48.717Z"
+  }
+},
+{
+  "model": "fitness.fitnesssource",
+  "pk": 2,
+  "fields": {
+    "user": 2,
+    "installation_id": "50eaae36-32c4-4004-838c-6a3509216d72",
+    "device_label": "samsung SM-S911B",
+    "last_sequence": 15,
+    "last_successful_sync_at": "2026-10-08T04:33:49.560Z",
+    "created_at": "2026-10-06T09:53:31.974Z"
+  }
+},
+{
+  "model": "fitness.fitnesssource",
+  "pk": 3,
+  "fields": {
+    "user": 4,
+    "installation_id": "50eaae36-32c4-4004-838c-6a3509216d72",
+    "device_label": "samsung SM-S911B",
+    "last_sequence": 2,
+    "last_successful_sync_at": "2026-10-07T06:01:55.074Z",
+    "created_at": "2026-10-06T09:54:56.363Z"
+  }
+},
+{
+  "model": "fitness.fitnesssource",
+  "pk": 4,
+  "fields": {
+    "user": 1,
+    "installation_id": "50eaae36-32c4-4004-838c-6a3509216d72",
+    "device_label": "samsung SM-S911B",
+    "last_sequence": 4,
+    "last_successful_sync_at": "2026-10-06T10:08:52.606Z",
+    "created_at": "2026-10-06T09:57:06.049Z"
+  }
+},
+{
+  "model": "fitness.fitnesssource",
+  "pk": 5,
+  "fields": {
+    "user": 5,
+    "installation_id": "50eaae36-32c4-4004-838c-6a3509216d72",
+    "device_label": "samsung SM-S911B",
+    "last_sequence": 13,
+    "last_successful_sync_at": "2026-10-07T06:00:48.717Z",
+    "created_at": "2026-10-06T10:12:49.542Z"
+  }
+},
+{
+  "model": "fitness.fitnessaccount",
+  "pk": 1,
+  "fields": {
+    "user": 3,
+    "active_source": 1,
+    "time_zone": "Asia/Kolkata"
+  }
+},
+{
+  "model": "fitness.fitnessaccount",
+  "pk": 2,
+  "fields": {
+    "user": 2,
+    "active_source": 2,
+    "time_zone": "Asia/Kolkata"
+  }
+},
+{
+  "model": "fitness.fitnessaccount",
+  "pk": 3,
+  "fields": {
+    "user": 4,
+    "active_source": 3,
+    "time_zone": "Asia/Kolkata"
+  }
+},
+{
+  "model": "fitness.fitnessaccount",
+  "pk": 4,
+  "fields": {
+    "user": 1,
+    "active_source": 4,
+    "time_zone": "Asia/Kolkata"
+  }
+},
+{
+  "model": "fitness.fitnessaccount",
+  "pk": 5,
+  "fields": {
+    "user": 5,
+    "active_source": 5,
+    "time_zone": "Asia/Kolkata"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 1,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "local_date": "2026-09-25",
+    "time_zone": "Asia/Kolkata",
+    "steps": null,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "no_data",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-01T11:56:46.300Z",
+    "synced_at": "2026-10-01T11:56:48.124Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 2,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "local_date": "2026-09-26",
+    "time_zone": "Asia/Kolkata",
+    "steps": null,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "no_data",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-01T11:56:46.434Z",
+    "synced_at": "2026-10-01T11:56:48.132Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 3,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "local_date": "2026-09-27",
+    "time_zone": "Asia/Kolkata",
+    "steps": null,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "no_data",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-01T11:56:46.580Z",
+    "synced_at": "2026-10-01T11:56:48.135Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 4,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "local_date": "2026-09-28",
+    "time_zone": "Asia/Kolkata",
+    "steps": null,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "no_data",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-01T11:56:46.749Z",
+    "synced_at": "2026-10-01T11:56:48.139Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 5,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "local_date": "2026-09-29",
+    "time_zone": "Asia/Kolkata",
+    "steps": null,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "no_data",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-01T11:56:46.886Z",
+    "synced_at": "2026-10-01T11:56:48.142Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 6,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "local_date": "2026-09-30",
+    "time_zone": "Asia/Kolkata",
+    "steps": null,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "no_data",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-06T09:47:03.774Z",
+    "synced_at": "2026-10-06T09:47:04.875Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 7,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "local_date": "2026-10-01",
+    "time_zone": "Asia/Kolkata",
+    "steps": 1806,
+    "distance_m": 950.0,
+    "active_kcal": 1000.0,
+    "exercise_minutes": 30,
+    "sleep_minutes": 480,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "available",
+      "active_kcal": "available",
+      "exercise_minutes": "available",
+      "sleep_minutes": "available"
+    },
+    "observed_at": "2026-10-06T09:47:03.941Z",
+    "synced_at": "2026-10-06T09:47:04.882Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 8,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "local_date": "2026-10-02",
+    "time_zone": "Asia/Kolkata",
+    "steps": 11470,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": 480,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "available"
+    },
+    "observed_at": "2026-10-06T09:47:04.074Z",
+    "synced_at": "2026-10-06T09:47:04.892Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 9,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "local_date": "2026-10-03",
+    "time_zone": "Asia/Kolkata",
+    "steps": 24932,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-06T09:47:04.192Z",
+    "synced_at": "2026-10-06T09:47:04.897Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 10,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "local_date": "2026-10-04",
+    "time_zone": "Asia/Kolkata",
+    "steps": 23359,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-06T09:47:04.304Z",
+    "synced_at": "2026-10-06T09:47:04.901Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 11,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "local_date": "2026-10-05",
+    "time_zone": "Asia/Kolkata",
+    "steps": 9642,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-06T09:47:04.419Z",
+    "synced_at": "2026-10-06T09:47:04.904Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 12,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "local_date": "2026-10-06",
+    "time_zone": "Asia/Kolkata",
+    "steps": 1448,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-06T09:47:04.556Z",
+    "synced_at": "2026-10-06T09:47:04.907Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 13,
+  "fields": {
+    "user": 2,
+    "source": 2,
+    "local_date": "2026-09-30",
+    "time_zone": "Asia/Kolkata",
+    "steps": null,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "no_data",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-06T09:53:31.990Z",
+    "synced_at": "2026-10-06T09:53:33.746Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 14,
+  "fields": {
+    "user": 2,
+    "source": 2,
+    "local_date": "2026-10-01",
+    "time_zone": "Asia/Kolkata",
+    "steps": 1806,
+    "distance_m": 950.0,
+    "active_kcal": 1000.0,
+    "exercise_minutes": 30,
+    "sleep_minutes": 480,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "available",
+      "active_kcal": "available",
+      "exercise_minutes": "available",
+      "sleep_minutes": "available"
+    },
+    "observed_at": "2026-10-07T12:15:22.437Z",
+    "synced_at": "2026-10-07T12:15:23.820Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 15,
+  "fields": {
+    "user": 2,
+    "source": 2,
+    "local_date": "2026-10-02",
+    "time_zone": "Asia/Kolkata",
+    "steps": 11470,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": 480,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "available"
+    },
+    "observed_at": "2026-10-08T04:33:48.627Z",
+    "synced_at": "2026-10-08T04:33:49.537Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 16,
+  "fields": {
+    "user": 2,
+    "source": 2,
+    "local_date": "2026-10-03",
+    "time_zone": "Asia/Kolkata",
+    "steps": 24932,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-08T04:33:48.709Z",
+    "synced_at": "2026-10-08T04:33:49.541Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 17,
+  "fields": {
+    "user": 2,
+    "source": 2,
+    "local_date": "2026-10-04",
+    "time_zone": "Asia/Kolkata",
+    "steps": 23359,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-08T04:33:48.781Z",
+    "synced_at": "2026-10-08T04:33:49.542Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 18,
+  "fields": {
+    "user": 2,
+    "source": 2,
+    "local_date": "2026-10-05",
+    "time_zone": "Asia/Kolkata",
+    "steps": 9642,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-08T04:33:48.909Z",
+    "synced_at": "2026-10-08T04:33:49.546Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 19,
+  "fields": {
+    "user": 2,
+    "source": 2,
+    "local_date": "2026-10-06",
+    "time_zone": "Asia/Kolkata",
+    "steps": 2699,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-08T04:33:49.013Z",
+    "synced_at": "2026-10-08T04:33:49.551Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 20,
+  "fields": {
+    "user": 4,
+    "source": 3,
+    "local_date": "2026-09-30",
+    "time_zone": "Asia/Kolkata",
+    "steps": null,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "no_data",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-06T09:54:56.324Z",
+    "synced_at": "2026-10-06T09:54:58.019Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 21,
+  "fields": {
+    "user": 4,
+    "source": 3,
+    "local_date": "2026-10-01",
+    "time_zone": "Asia/Kolkata",
+    "steps": 1806,
+    "distance_m": 950.0,
+    "active_kcal": 1000.0,
+    "exercise_minutes": 30,
+    "sleep_minutes": 480,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "available",
+      "active_kcal": "available",
+      "exercise_minutes": "available",
+      "sleep_minutes": "available"
+    },
+    "observed_at": "2026-10-07T06:01:53.525Z",
+    "synced_at": "2026-10-07T06:01:54.997Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 22,
+  "fields": {
+    "user": 4,
+    "source": 3,
+    "local_date": "2026-10-02",
+    "time_zone": "Asia/Kolkata",
+    "steps": 11470,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": 480,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "available"
+    },
+    "observed_at": "2026-10-07T06:01:53.693Z",
+    "synced_at": "2026-10-07T06:01:55.027Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 23,
+  "fields": {
+    "user": 4,
+    "source": 3,
+    "local_date": "2026-10-03",
+    "time_zone": "Asia/Kolkata",
+    "steps": 24932,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-07T06:01:53.919Z",
+    "synced_at": "2026-10-07T06:01:55.039Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 24,
+  "fields": {
+    "user": 4,
+    "source": 3,
+    "local_date": "2026-10-04",
+    "time_zone": "Asia/Kolkata",
+    "steps": 23359,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-07T06:01:54.051Z",
+    "synced_at": "2026-10-07T06:01:55.046Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 25,
+  "fields": {
+    "user": 4,
+    "source": 3,
+    "local_date": "2026-10-05",
+    "time_zone": "Asia/Kolkata",
+    "steps": 9642,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-07T06:01:54.163Z",
+    "synced_at": "2026-10-07T06:01:55.053Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 26,
+  "fields": {
+    "user": 4,
+    "source": 3,
+    "local_date": "2026-10-06",
+    "time_zone": "Asia/Kolkata",
+    "steps": 2699,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-07T06:01:54.283Z",
+    "synced_at": "2026-10-07T06:01:55.061Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 27,
+  "fields": {
+    "user": 1,
+    "source": 4,
+    "local_date": "2026-09-30",
+    "time_zone": "Asia/Kolkata",
+    "steps": null,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "no_data",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-06T10:08:51.380Z",
+    "synced_at": "2026-10-06T10:08:52.580Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 28,
+  "fields": {
+    "user": 1,
+    "source": 4,
+    "local_date": "2026-10-01",
+    "time_zone": "Asia/Kolkata",
+    "steps": 1806,
+    "distance_m": 950.0,
+    "active_kcal": 1000.0,
+    "exercise_minutes": 30,
+    "sleep_minutes": 480,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "available",
+      "active_kcal": "available",
+      "exercise_minutes": "available",
+      "sleep_minutes": "available"
+    },
+    "observed_at": "2026-10-06T10:08:51.615Z",
+    "synced_at": "2026-10-06T10:08:52.586Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 29,
+  "fields": {
+    "user": 1,
+    "source": 4,
+    "local_date": "2026-10-02",
+    "time_zone": "Asia/Kolkata",
+    "steps": 11470,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": 480,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "available"
+    },
+    "observed_at": "2026-10-06T10:08:51.745Z",
+    "synced_at": "2026-10-06T10:08:52.595Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 30,
+  "fields": {
+    "user": 1,
+    "source": 4,
+    "local_date": "2026-10-03",
+    "time_zone": "Asia/Kolkata",
+    "steps": 24932,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-06T10:08:51.847Z",
+    "synced_at": "2026-10-06T10:08:52.599Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 31,
+  "fields": {
+    "user": 1,
+    "source": 4,
+    "local_date": "2026-10-04",
+    "time_zone": "Asia/Kolkata",
+    "steps": 23359,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-06T10:08:51.981Z",
+    "synced_at": "2026-10-06T10:08:52.601Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 32,
+  "fields": {
+    "user": 1,
+    "source": 4,
+    "local_date": "2026-10-05",
+    "time_zone": "Asia/Kolkata",
+    "steps": 9642,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-06T10:08:52.124Z",
+    "synced_at": "2026-10-06T10:08:52.603Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 33,
+  "fields": {
+    "user": 1,
+    "source": 4,
+    "local_date": "2026-10-06",
+    "time_zone": "Asia/Kolkata",
+    "steps": 1448,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-06T10:08:52.267Z",
+    "synced_at": "2026-10-06T10:08:52.605Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 34,
+  "fields": {
+    "user": 5,
+    "source": 5,
+    "local_date": "2026-09-30",
+    "time_zone": "Asia/Kolkata",
+    "steps": null,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "no_data",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-06T12:40:27.688Z",
+    "synced_at": "2026-10-06T12:40:29.166Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 35,
+  "fields": {
+    "user": 5,
+    "source": 5,
+    "local_date": "2026-10-01",
+    "time_zone": "Asia/Kolkata",
+    "steps": 1806,
+    "distance_m": 950.0,
+    "active_kcal": 1000.0,
+    "exercise_minutes": 30,
+    "sleep_minutes": 480,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "available",
+      "active_kcal": "available",
+      "exercise_minutes": "available",
+      "sleep_minutes": "available"
+    },
+    "observed_at": "2026-10-07T06:00:47.323Z",
+    "synced_at": "2026-10-07T06:00:48.659Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 36,
+  "fields": {
+    "user": 5,
+    "source": 5,
+    "local_date": "2026-10-02",
+    "time_zone": "Asia/Kolkata",
+    "steps": 11470,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": 480,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "available"
+    },
+    "observed_at": "2026-10-07T06:00:47.454Z",
+    "synced_at": "2026-10-07T06:00:48.679Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 37,
+  "fields": {
+    "user": 5,
+    "source": 5,
+    "local_date": "2026-10-03",
+    "time_zone": "Asia/Kolkata",
+    "steps": 24932,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-07T06:00:47.556Z",
+    "synced_at": "2026-10-07T06:00:48.689Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 38,
+  "fields": {
+    "user": 5,
+    "source": 5,
+    "local_date": "2026-10-04",
+    "time_zone": "Asia/Kolkata",
+    "steps": 23359,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-07T06:00:47.678Z",
+    "synced_at": "2026-10-07T06:00:48.694Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 39,
+  "fields": {
+    "user": 5,
+    "source": 5,
+    "local_date": "2026-10-05",
+    "time_zone": "Asia/Kolkata",
+    "steps": 9642,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-07T06:00:47.791Z",
+    "synced_at": "2026-10-07T06:00:48.701Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 40,
+  "fields": {
+    "user": 5,
+    "source": 5,
+    "local_date": "2026-10-06",
+    "time_zone": "Asia/Kolkata",
+    "steps": 2699,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-07T06:00:47.891Z",
+    "synced_at": "2026-10-07T06:00:48.706Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 41,
+  "fields": {
+    "user": 5,
+    "source": 5,
+    "local_date": "2026-10-07",
+    "time_zone": "Asia/Kolkata",
+    "steps": 1154,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-07T06:00:48.002Z",
+    "synced_at": "2026-10-07T06:00:48.712Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 42,
+  "fields": {
+    "user": 4,
+    "source": 3,
+    "local_date": "2026-10-07",
+    "time_zone": "Asia/Kolkata",
+    "steps": 1154,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-07T06:01:54.404Z",
+    "synced_at": "2026-10-07T06:01:55.068Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 43,
+  "fields": {
+    "user": 2,
+    "source": 2,
+    "local_date": "2026-10-07",
+    "time_zone": "Asia/Kolkata",
+    "steps": 5616,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-08T04:33:49.096Z",
+    "synced_at": "2026-10-08T04:33:49.555Z"
+  }
+},
+{
+  "model": "fitness.dailyactivity",
+  "pk": 44,
+  "fields": {
+    "user": 2,
+    "source": 2,
+    "local_date": "2026-10-08",
+    "time_zone": "Asia/Kolkata",
+    "steps": 1970,
+    "distance_m": null,
+    "active_kcal": null,
+    "exercise_minutes": null,
+    "sleep_minutes": null,
+    "metric_status": {
+      "steps": "available",
+      "distance_m": "no_data",
+      "active_kcal": "no_data",
+      "exercise_minutes": "no_data",
+      "sleep_minutes": "no_data"
+    },
+    "observed_at": "2026-10-08T04:33:49.196Z",
+    "synced_at": "2026-10-08T04:33:49.559Z"
+  }
+},
+{
+  "model": "fitness.exerciserecord",
+  "pk": 1,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "record_id": "17a0e721-1060-4ec1-b785-07628e53de91",
+    "origin_package": "androidx.health.connect.client.devtool",
+    "local_date": "2026-10-01",
+    "start_at": "2026-10-01T11:13:18.010Z",
+    "end_at": "2026-10-01T11:43:18.010Z",
+    "exercise_type": "79"
+  }
+},
+{
+  "model": "fitness.exerciserecord",
+  "pk": 2,
+  "fields": {
+    "user": 2,
+    "source": 2,
+    "record_id": "17a0e721-1060-4ec1-b785-07628e53de91",
+    "origin_package": "androidx.health.connect.client.devtool",
+    "local_date": "2026-10-01",
+    "start_at": "2026-10-01T11:13:18.010Z",
+    "end_at": "2026-10-01T11:43:18.010Z",
+    "exercise_type": "79"
+  }
+},
+{
+  "model": "fitness.exerciserecord",
+  "pk": 3,
+  "fields": {
+    "user": 4,
+    "source": 3,
+    "record_id": "17a0e721-1060-4ec1-b785-07628e53de91",
+    "origin_package": "androidx.health.connect.client.devtool",
+    "local_date": "2026-10-01",
+    "start_at": "2026-10-01T11:13:18.010Z",
+    "end_at": "2026-10-01T11:43:18.010Z",
+    "exercise_type": "79"
+  }
+},
+{
+  "model": "fitness.exerciserecord",
+  "pk": 4,
+  "fields": {
+    "user": 1,
+    "source": 4,
+    "record_id": "17a0e721-1060-4ec1-b785-07628e53de91",
+    "origin_package": "androidx.health.connect.client.devtool",
+    "local_date": "2026-10-01",
+    "start_at": "2026-10-01T11:13:18.010Z",
+    "end_at": "2026-10-01T11:43:18.010Z",
+    "exercise_type": "79"
+  }
+},
+{
+  "model": "fitness.exerciserecord",
+  "pk": 5,
+  "fields": {
+    "user": 5,
+    "source": 5,
+    "record_id": "17a0e721-1060-4ec1-b785-07628e53de91",
+    "origin_package": "androidx.health.connect.client.devtool",
+    "local_date": "2026-10-01",
+    "start_at": "2026-10-01T11:13:18.010Z",
+    "end_at": "2026-10-01T11:43:18.010Z",
+    "exercise_type": "79"
+  }
+},
+{
+  "model": "fitness.sleeprecord",
+  "pk": 1,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "record_id": "78c133f8-1851-47d3-a62e-9ba5a357a3e0",
+    "origin_package": "androidx.health.connect.client.devtool",
+    "local_date": "2026-10-01",
+    "start_at": "2026-09-30T17:16:23.385Z",
+    "end_at": "2026-10-01T01:16:23.385Z"
+  }
+},
+{
+  "model": "fitness.sleeprecord",
+  "pk": 2,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "record_id": "7730f3b1-6c15-4e1a-9583-2455120f9c28",
+    "origin_package": "androidx.health.connect.client.devtool",
+    "local_date": "2026-10-02",
+    "start_at": "2026-10-01T11:16:23.385Z",
+    "end_at": "2026-10-01T19:16:23.385Z"
+  }
+},
+{
+  "model": "fitness.sleeprecord",
+  "pk": 3,
+  "fields": {
+    "user": 2,
+    "source": 2,
+    "record_id": "78c133f8-1851-47d3-a62e-9ba5a357a3e0",
+    "origin_package": "androidx.health.connect.client.devtool",
+    "local_date": "2026-10-01",
+    "start_at": "2026-09-30T17:16:23.385Z",
+    "end_at": "2026-10-01T01:16:23.385Z"
+  }
+},
+{
+  "model": "fitness.sleeprecord",
+  "pk": 4,
+  "fields": {
+    "user": 2,
+    "source": 2,
+    "record_id": "7730f3b1-6c15-4e1a-9583-2455120f9c28",
+    "origin_package": "androidx.health.connect.client.devtool",
+    "local_date": "2026-10-02",
+    "start_at": "2026-10-01T11:16:23.385Z",
+    "end_at": "2026-10-01T19:16:23.385Z"
+  }
+},
+{
+  "model": "fitness.sleeprecord",
+  "pk": 5,
+  "fields": {
+    "user": 4,
+    "source": 3,
+    "record_id": "78c133f8-1851-47d3-a62e-9ba5a357a3e0",
+    "origin_package": "androidx.health.connect.client.devtool",
+    "local_date": "2026-10-01",
+    "start_at": "2026-09-30T17:16:23.385Z",
+    "end_at": "2026-10-01T01:16:23.385Z"
+  }
+},
+{
+  "model": "fitness.sleeprecord",
+  "pk": 6,
+  "fields": {
+    "user": 4,
+    "source": 3,
+    "record_id": "7730f3b1-6c15-4e1a-9583-2455120f9c28",
+    "origin_package": "androidx.health.connect.client.devtool",
+    "local_date": "2026-10-02",
+    "start_at": "2026-10-01T11:16:23.385Z",
+    "end_at": "2026-10-01T19:16:23.385Z"
+  }
+},
+{
+  "model": "fitness.sleeprecord",
+  "pk": 7,
+  "fields": {
+    "user": 1,
+    "source": 4,
+    "record_id": "78c133f8-1851-47d3-a62e-9ba5a357a3e0",
+    "origin_package": "androidx.health.connect.client.devtool",
+    "local_date": "2026-10-01",
+    "start_at": "2026-09-30T17:16:23.385Z",
+    "end_at": "2026-10-01T01:16:23.385Z"
+  }
+},
+{
+  "model": "fitness.sleeprecord",
+  "pk": 8,
+  "fields": {
+    "user": 1,
+    "source": 4,
+    "record_id": "7730f3b1-6c15-4e1a-9583-2455120f9c28",
+    "origin_package": "androidx.health.connect.client.devtool",
+    "local_date": "2026-10-02",
+    "start_at": "2026-10-01T11:16:23.385Z",
+    "end_at": "2026-10-01T19:16:23.385Z"
+  }
+},
+{
+  "model": "fitness.sleeprecord",
+  "pk": 9,
+  "fields": {
+    "user": 5,
+    "source": 5,
+    "record_id": "78c133f8-1851-47d3-a62e-9ba5a357a3e0",
+    "origin_package": "androidx.health.connect.client.devtool",
+    "local_date": "2026-10-01",
+    "start_at": "2026-09-30T17:16:23.385Z",
+    "end_at": "2026-10-01T01:16:23.385Z"
+  }
+},
+{
+  "model": "fitness.sleeprecord",
+  "pk": 10,
+  "fields": {
+    "user": 5,
+    "source": 5,
+    "record_id": "7730f3b1-6c15-4e1a-9583-2455120f9c28",
+    "origin_package": "androidx.health.connect.client.devtool",
+    "local_date": "2026-10-02",
+    "start_at": "2026-10-01T11:16:23.385Z",
+    "end_at": "2026-10-01T19:16:23.385Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 1,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "idempotency_key": "606e0fe1-5ed5-41cd-a96b-25b8e4b1036f",
+    "payload_hash": "9d92e70cd0ddd6a08e8b9b6a277fdcd88abe43f1bbb29804ae386998cc684ab3",
+    "sequence": 1,
+    "response": {
+      "accepted_dates": [
+        "2026-09-25",
+        "2026-09-26",
+        "2026-09-27",
+        "2026-09-28",
+        "2026-09-29",
+        "2026-09-30",
+        "2026-10-01"
+      ],
+      "last_sequence": 1
+    },
+    "processed_at": "2026-10-01T11:09:49.355Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 2,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "idempotency_key": "95cbf499-a08f-4d91-ba5a-119f2ec8854a",
+    "payload_hash": "8a416972b2217777c399f5637c8630542bbd1548654d36ab0f7f090f9a612121",
+    "sequence": 2,
+    "response": {
+      "accepted_dates": [
+        "2026-09-25",
+        "2026-09-26",
+        "2026-09-27",
+        "2026-09-28",
+        "2026-09-29",
+        "2026-09-30",
+        "2026-10-01"
+      ],
+      "last_sequence": 2
+    },
+    "processed_at": "2026-10-01T11:12:35.624Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 3,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "idempotency_key": "62796814-9733-4c69-8922-722fbe4c0f21",
+    "payload_hash": "bc71e8242ebdbd6ff910396a65c39f5a02d0663415a9b24b7f57ee0be56f574d",
+    "sequence": 3,
+    "response": {
+      "accepted_dates": [
+        "2026-09-25",
+        "2026-09-26",
+        "2026-09-27",
+        "2026-09-28",
+        "2026-09-29",
+        "2026-09-30",
+        "2026-10-01"
+      ],
+      "last_sequence": 3
+    },
+    "processed_at": "2026-10-01T11:12:37.870Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 4,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "idempotency_key": "dc4504dd-ac8b-4b92-9a36-cef5103ad878",
+    "payload_hash": "f1182f56bae14b9409d7e071af7146355c16d2ae0925ae73543748f1c6212d14",
+    "sequence": 4,
+    "response": {
+      "accepted_dates": [
+        "2026-09-25",
+        "2026-09-26",
+        "2026-09-27",
+        "2026-09-28",
+        "2026-09-29",
+        "2026-09-30",
+        "2026-10-01"
+      ],
+      "last_sequence": 4
+    },
+    "processed_at": "2026-10-01T11:12:42.714Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 5,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "idempotency_key": "4c4457f7-78f0-4d8b-b08b-b33064e9bc2a",
+    "payload_hash": "9216d5c3591ac7e0acdd5c71aa421a69a3661c912c0ea36c10925578aad649b1",
+    "sequence": 5,
+    "response": {
+      "accepted_dates": [
+        "2026-09-25",
+        "2026-09-26",
+        "2026-09-27",
+        "2026-09-28",
+        "2026-09-29",
+        "2026-09-30",
+        "2026-10-01"
+      ],
+      "last_sequence": 5
+    },
+    "processed_at": "2026-10-01T11:14:21.534Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 6,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "idempotency_key": "663e00a4-bf8c-43d5-b056-38ef738a0723",
+    "payload_hash": "b80d4f5d2b7d50758c31fb34b6e06b24fbc0c94d15ecdca53fd823c1f687cc20",
+    "sequence": 6,
+    "response": {
+      "accepted_dates": [
+        "2026-09-25",
+        "2026-09-26",
+        "2026-09-27",
+        "2026-09-28",
+        "2026-09-29",
+        "2026-09-30",
+        "2026-10-01"
+      ],
+      "last_sequence": 6
+    },
+    "processed_at": "2026-10-01T11:15:58.384Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 7,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "idempotency_key": "b9f1750e-a771-41f5-8bf0-ca3f33fc6ed4",
+    "payload_hash": "65d8002210f5b82294e682d0e2512c90c6a1fb13562fcdef84ef4eecd99a8a26",
+    "sequence": 7,
+    "response": {
+      "accepted_dates": [
+        "2026-09-25",
+        "2026-09-26",
+        "2026-09-27",
+        "2026-09-28",
+        "2026-09-29",
+        "2026-09-30",
+        "2026-10-01"
+      ],
+      "last_sequence": 7
+    },
+    "processed_at": "2026-10-01T11:16:02.081Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 8,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "idempotency_key": "1a7d7103-a771-49b2-908f-fbab8b74912a",
+    "payload_hash": "129df0309d4239380ba252f6cf1cb36bd523269d8ceaa688291aa5a32b3bc348",
+    "sequence": 8,
+    "response": {
+      "accepted_dates": [
+        "2026-09-25",
+        "2026-09-26",
+        "2026-09-27",
+        "2026-09-28",
+        "2026-09-29",
+        "2026-09-30",
+        "2026-10-01"
+      ],
+      "last_sequence": 8
+    },
+    "processed_at": "2026-10-01T11:20:33.842Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 9,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "idempotency_key": "7bc1a319-0d00-497f-b4a6-62e961632514",
+    "payload_hash": "fd7f486f04bb19edb216a293a634c17771120ed7b8db9dcc213629454e256d64",
+    "sequence": 9,
+    "response": {
+      "accepted_dates": [
+        "2026-09-25",
+        "2026-09-26",
+        "2026-09-27",
+        "2026-09-28",
+        "2026-09-29",
+        "2026-09-30",
+        "2026-10-01"
+      ],
+      "last_sequence": 9
+    },
+    "processed_at": "2026-10-01T11:20:57.060Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 10,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "idempotency_key": "c4313c63-687a-4e76-9cad-b0e3ccd4a9da",
+    "payload_hash": "dcc2bdfb003fcd590f28d31af3c4f363269a0baf360be26da43e39548aa0b539",
+    "sequence": 10,
+    "response": {
+      "accepted_dates": [
+        "2026-09-25",
+        "2026-09-26",
+        "2026-09-27",
+        "2026-09-28",
+        "2026-09-29",
+        "2026-09-30",
+        "2026-10-01"
+      ],
+      "last_sequence": 10
+    },
+    "processed_at": "2026-10-01T11:24:17.135Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 11,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "idempotency_key": "f6ac2c07-3d78-4ea1-8897-122bc85ac8a7",
+    "payload_hash": "bc22657be205e0a9be142f32f17b01fc8dd33be1f57926acd12305a3cc7e87da",
+    "sequence": 11,
+    "response": {
+      "accepted_dates": [
+        "2026-09-25",
+        "2026-09-26",
+        "2026-09-27",
+        "2026-09-28",
+        "2026-09-29",
+        "2026-09-30",
+        "2026-10-01"
+      ],
+      "last_sequence": 11
+    },
+    "processed_at": "2026-10-01T11:24:53.600Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 12,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "idempotency_key": "28fdb6c6-3f23-4a4a-97c7-7b4b71430a78",
+    "payload_hash": "52c81bba6a22124f364533cff4d40d47035d251b9c6f82aa034bc8929d98473d",
+    "sequence": 12,
+    "response": {
+      "accepted_dates": [
+        "2026-09-25",
+        "2026-09-26",
+        "2026-09-27",
+        "2026-09-28",
+        "2026-09-29",
+        "2026-09-30",
+        "2026-10-01"
+      ],
+      "last_sequence": 12
+    },
+    "processed_at": "2026-10-01T11:26:00.796Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 13,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "idempotency_key": "d05ff6ff-6856-4bbd-824a-ada1e8d42260",
+    "payload_hash": "a0ee95e0adf08ab2455d5b76450526eed269161fce8649f8908dc8a60d54f07f",
+    "sequence": 13,
+    "response": {
+      "accepted_dates": [
+        "2026-09-25",
+        "2026-09-26",
+        "2026-09-27",
+        "2026-09-28",
+        "2026-09-29",
+        "2026-09-30",
+        "2026-10-01"
+      ],
+      "last_sequence": 13
+    },
+    "processed_at": "2026-10-01T11:26:02.363Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 14,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "idempotency_key": "dfd438b6-5318-4237-bc33-a69f201a87e6",
+    "payload_hash": "ee9a86b6bded9fe483902261353b72138a0424a75cb90d3d8945956d0e8bdf6a",
+    "sequence": 14,
+    "response": {
+      "accepted_dates": [
+        "2026-09-25",
+        "2026-09-26",
+        "2026-09-27",
+        "2026-09-28",
+        "2026-09-29",
+        "2026-09-30",
+        "2026-10-01"
+      ],
+      "last_sequence": 14
+    },
+    "processed_at": "2026-10-01T11:34:34.305Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 15,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "idempotency_key": "92dbf761-af35-441d-b6eb-757cef3aaacd",
+    "payload_hash": "348e2f87f917cf03537e2124a4945abb236228a546871c46e2b0b122559b40b9",
+    "sequence": 15,
+    "response": {
+      "accepted_dates": [
+        "2026-09-25",
+        "2026-09-26",
+        "2026-09-27",
+        "2026-09-28",
+        "2026-09-29",
+        "2026-09-30",
+        "2026-10-01"
+      ],
+      "last_sequence": 15
+    },
+    "processed_at": "2026-10-01T11:34:35.454Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 16,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "idempotency_key": "7a043843-21ae-4f6a-b4d5-eda4065f1eef",
+    "payload_hash": "19e3ec115fe2b5adb77c1a930ce9139f47a43e1a3d6042d6e59058c91fd50ebf",
+    "sequence": 16,
+    "response": {
+      "accepted_dates": [
+        "2026-09-25",
+        "2026-09-26",
+        "2026-09-27",
+        "2026-09-28",
+        "2026-09-29",
+        "2026-09-30",
+        "2026-10-01"
+      ],
+      "last_sequence": 16
+    },
+    "processed_at": "2026-10-01T11:39:32.038Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 17,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "idempotency_key": "b13afc91-aacc-4a87-ae0a-31f17ec3cf03",
+    "payload_hash": "7da6e7a398c39089bf47dbb30666df549ead4e16483fae8ff1ee4f7bf5a940c6",
+    "sequence": 17,
+    "response": {
+      "accepted_dates": [
+        "2026-09-25",
+        "2026-09-26",
+        "2026-09-27",
+        "2026-09-28",
+        "2026-09-29",
+        "2026-09-30",
+        "2026-10-01"
+      ],
+      "last_sequence": 17
+    },
+    "processed_at": "2026-10-01T11:42:07.720Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 18,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "idempotency_key": "0c0ae706-9eb2-4cc9-83e8-2fd8e880c815",
+    "payload_hash": "fe36742a4c148264f6cea64d159f1a198401ee2272cd611bf89f092e2c617118",
+    "sequence": 18,
+    "response": {
+      "accepted_dates": [
+        "2026-09-25",
+        "2026-09-26",
+        "2026-09-27",
+        "2026-09-28",
+        "2026-09-29",
+        "2026-09-30",
+        "2026-10-01"
+      ],
+      "last_sequence": 18
+    },
+    "processed_at": "2026-10-01T11:44:26.527Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 19,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "idempotency_key": "446d660e-8b81-4837-9f79-f25e2bc0a7c8",
+    "payload_hash": "28294105d938691698670572ac1fb78577f0b7f3cc246f7cc1e3b7b2ab313e2e",
+    "sequence": 19,
+    "response": {
+      "accepted_dates": [
+        "2026-09-25",
+        "2026-09-26",
+        "2026-09-27",
+        "2026-09-28",
+        "2026-09-29",
+        "2026-09-30",
+        "2026-10-01"
+      ],
+      "last_sequence": 19
+    },
+    "processed_at": "2026-10-01T11:46:57.590Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 20,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "idempotency_key": "ef4e53bb-08bd-4b16-9006-43bae538b3cc",
+    "payload_hash": "e3a79dfc3d883d2e1bd574e2d2a405df9716f67f0c8fe9d1bcb4ef6c6fda0346",
+    "sequence": 20,
+    "response": {
+      "accepted_dates": [
+        "2026-09-25",
+        "2026-09-26",
+        "2026-09-27",
+        "2026-09-28",
+        "2026-09-29",
+        "2026-09-30",
+        "2026-10-01"
+      ],
+      "last_sequence": 20
+    },
+    "processed_at": "2026-10-01T11:47:32.690Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 21,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "idempotency_key": "ed97e6d1-7010-4834-9478-3f164d1014d3",
+    "payload_hash": "18c42e68cc48ecef0eda08db3002bee94cb1d7a8993ec51e9cc270edefd6cbfe",
+    "sequence": 21,
+    "response": {
+      "accepted_dates": [
+        "2026-09-25",
+        "2026-09-26",
+        "2026-09-27",
+        "2026-09-28",
+        "2026-09-29",
+        "2026-09-30",
+        "2026-10-01"
+      ],
+      "last_sequence": 21
+    },
+    "processed_at": "2026-10-01T11:49:43.094Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 22,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "idempotency_key": "653f8013-a467-4686-9cfb-60456ef61826",
+    "payload_hash": "e0d73c7b1b9de950d3a9214496b83bbb2254ea5df4c0bf16de0446c47a0c9e48",
+    "sequence": 22,
+    "response": {
+      "accepted_dates": [
+        "2026-09-25",
+        "2026-09-26",
+        "2026-09-27",
+        "2026-09-28",
+        "2026-09-29",
+        "2026-09-30",
+        "2026-10-01"
+      ],
+      "last_sequence": 22
+    },
+    "processed_at": "2026-10-01T11:56:48.148Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 23,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "idempotency_key": "8aab4642-9b8f-474f-9393-82144e6ae753",
+    "payload_hash": "1210e2877f96d1aaa95935487433ec2ffdae90a1b4d32c852cb7a117e3b1b528",
+    "sequence": 23,
+    "response": {
+      "accepted_dates": [
+        "2026-09-30",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06"
+      ],
+      "last_sequence": 23
+    },
+    "processed_at": "2026-10-06T09:01:29.878Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 24,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "idempotency_key": "7480d08f-debd-482c-9d03-a89b68246e54",
+    "payload_hash": "7fe9cafd4fb8f3d981cf675418d06c5ee994d46c857f0f1c3e5aace0ea7ab59a",
+    "sequence": 24,
+    "response": {
+      "accepted_dates": [
+        "2026-09-30",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06"
+      ],
+      "last_sequence": 24
+    },
+    "processed_at": "2026-10-06T09:02:30.502Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 25,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "idempotency_key": "9aeff643-5e0a-483b-a564-8e9ee4e27e0e",
+    "payload_hash": "2cc76bc767e04b60862504ad36cfe2185510e775b6c18822a59a26aee1bd6610",
+    "sequence": 25,
+    "response": {
+      "accepted_dates": [
+        "2026-09-30",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06"
+      ],
+      "last_sequence": 25
+    },
+    "processed_at": "2026-10-06T09:02:34.400Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 26,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "idempotency_key": "7047b206-c29a-4e0a-ac1c-a384d32aef07",
+    "payload_hash": "020680d6f947ae80746e99327ef621b055a8ba9b446af08728250fc36a8b9729",
+    "sequence": 26,
+    "response": {
+      "accepted_dates": [
+        "2026-09-30",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06"
+      ],
+      "last_sequence": 26
+    },
+    "processed_at": "2026-10-06T09:19:01.742Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 27,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "idempotency_key": "d36b66bd-43f5-4bdb-b458-f0b258848ea6",
+    "payload_hash": "9430fbdf1b3893f3ef53fa13d52d0e2ca0bfca6cf82558b03f76fc5dba86b5a9",
+    "sequence": 27,
+    "response": {
+      "accepted_dates": [
+        "2026-09-30",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06"
+      ],
+      "last_sequence": 27
+    },
+    "processed_at": "2026-10-06T09:45:46.340Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 28,
+  "fields": {
+    "user": 3,
+    "source": 1,
+    "idempotency_key": "844b6a14-ec72-4459-b144-d01b69b28527",
+    "payload_hash": "33b8c9c9dd109960fcd95ed737ce684467b89e317c94e754cad5c5e988d41822",
+    "sequence": 28,
+    "response": {
+      "accepted_dates": [
+        "2026-09-30",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06"
+      ],
+      "last_sequence": 28
+    },
+    "processed_at": "2026-10-06T09:47:04.911Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 29,
+  "fields": {
+    "user": 2,
+    "source": 2,
+    "idempotency_key": "370a2b3e-afe5-4ccd-aca4-edc01babcd67",
+    "payload_hash": "e59c01a1704e2ac5bbf826ae1a059dcd74efd13912e011cfddd72cf0a01dc123",
+    "sequence": 1,
+    "response": {
+      "accepted_dates": [
+        "2026-09-30",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06"
+      ],
+      "last_sequence": 1
+    },
+    "processed_at": "2026-10-06T09:53:33.784Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 30,
+  "fields": {
+    "user": 4,
+    "source": 3,
+    "idempotency_key": "385983b7-e777-4b37-a4d4-1619f6e77e0d",
+    "payload_hash": "870e6f7f9dc6829862f7d7215895b99f728454a8f384b7cc62bcc0c502faaf6c",
+    "sequence": 1,
+    "response": {
+      "accepted_dates": [
+        "2026-09-30",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06"
+      ],
+      "last_sequence": 1
+    },
+    "processed_at": "2026-10-06T09:54:58.053Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 31,
+  "fields": {
+    "user": 1,
+    "source": 4,
+    "idempotency_key": "6038cffc-9c50-451d-bd6c-559a9a13dc0f",
+    "payload_hash": "e2086e01405a3986953e69a073cd3069debd1283e35fde185282cdefa9a2546b",
+    "sequence": 1,
+    "response": {
+      "accepted_dates": [
+        "2026-09-30",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06"
+      ],
+      "last_sequence": 1
+    },
+    "processed_at": "2026-10-06T09:57:07.746Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 32,
+  "fields": {
+    "user": 1,
+    "source": 4,
+    "idempotency_key": "5cbf69f6-8bc5-4215-a381-e134a494d68d",
+    "payload_hash": "2003a51c67278a42f079f30d804c36911bf596d8fb10592e62b8ba3562902f0d",
+    "sequence": 2,
+    "response": {
+      "accepted_dates": [
+        "2026-09-30",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06"
+      ],
+      "last_sequence": 2
+    },
+    "processed_at": "2026-10-06T09:57:10.187Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 33,
+  "fields": {
+    "user": 1,
+    "source": 4,
+    "idempotency_key": "3d084521-99cb-4d44-9a97-3f328a24cb98",
+    "payload_hash": "e384be47b0fd88fd15113fab9cbf56e587e4dce7adb1411f107a164d4ae75fad",
+    "sequence": 3,
+    "response": {
+      "accepted_dates": [
+        "2026-09-30",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06"
+      ],
+      "last_sequence": 3
+    },
+    "processed_at": "2026-10-06T10:08:49.385Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 34,
+  "fields": {
+    "user": 1,
+    "source": 4,
+    "idempotency_key": "a6439ce0-958f-4844-bf14-46181b09dbd6",
+    "payload_hash": "12f7adbdc770619f76f12428efb2179a8e29c87423b53b2367be7fa47323ba77",
+    "sequence": 4,
+    "response": {
+      "accepted_dates": [
+        "2026-09-30",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06"
+      ],
+      "last_sequence": 4
+    },
+    "processed_at": "2026-10-06T10:08:52.608Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 35,
+  "fields": {
+    "user": 5,
+    "source": 5,
+    "idempotency_key": "78c636e3-8f76-4f1f-bd53-78abdc9c5fa8",
+    "payload_hash": "5bfef3b696c1e3097fda060d250f88173e80820e78b4a97441d211c4e0d7e3f4",
+    "sequence": 1,
+    "response": {
+      "accepted_dates": [
+        "2026-09-30",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06"
+      ],
+      "last_sequence": 1
+    },
+    "processed_at": "2026-10-06T10:12:50.858Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 36,
+  "fields": {
+    "user": 5,
+    "source": 5,
+    "idempotency_key": "a6fbe2d5-ce19-4bd1-abd2-d2ec6832db81",
+    "payload_hash": "a17883c94dacf367c5a71e68753ba7488e39127d4838ec9764e442e7ab043089",
+    "sequence": 2,
+    "response": {
+      "accepted_dates": [
+        "2026-09-30",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06"
+      ],
+      "last_sequence": 2
+    },
+    "processed_at": "2026-10-06T11:30:05.416Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 37,
+  "fields": {
+    "user": 5,
+    "source": 5,
+    "idempotency_key": "a306bfba-4240-4363-ba79-5798affafa91",
+    "payload_hash": "d8486c1e021dcb77bba48115282e8d83b0536648f469b711a3f20d6d9ce53c25",
+    "sequence": 3,
+    "response": {
+      "accepted_dates": [
+        "2026-09-30",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06"
+      ],
+      "last_sequence": 3
+    },
+    "processed_at": "2026-10-06T11:42:29.503Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 38,
+  "fields": {
+    "user": 5,
+    "source": 5,
+    "idempotency_key": "bf5ff124-627c-4c44-914e-34ee53635522",
+    "payload_hash": "51652a78c277a3b50690dc8133acde13463be6576a00d667dbaaf80e300c5161",
+    "sequence": 4,
+    "response": {
+      "accepted_dates": [
+        "2026-09-30",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06"
+      ],
+      "last_sequence": 4
+    },
+    "processed_at": "2026-10-06T11:42:32.991Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 39,
+  "fields": {
+    "user": 5,
+    "source": 5,
+    "idempotency_key": "c311d702-9901-4bc6-b5b3-79a87ab4ad07",
+    "payload_hash": "440591d5d1c38e114a55bec3f48f59ff5bec519c26d54eceaf7ab5085f4c5136",
+    "sequence": 5,
+    "response": {
+      "accepted_dates": [
+        "2026-09-30",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06"
+      ],
+      "last_sequence": 5
+    },
+    "processed_at": "2026-10-06T11:48:17.106Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 40,
+  "fields": {
+    "user": 5,
+    "source": 5,
+    "idempotency_key": "c9358a38-c046-48c9-b801-4a396d77f1e9",
+    "payload_hash": "063dfda98cefa7626130f9c1be5ac07ed2eab624336d967e96fa35f6f178d67d",
+    "sequence": 6,
+    "response": {
+      "accepted_dates": [
+        "2026-09-30",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06"
+      ],
+      "last_sequence": 6
+    },
+    "processed_at": "2026-10-06T12:09:17.163Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 41,
+  "fields": {
+    "user": 5,
+    "source": 5,
+    "idempotency_key": "3caadf31-1da5-4924-b2ec-505ab8d408a5",
+    "payload_hash": "3d28c23e03fff259ed1887a9ed79a477e9dfe09e21c834488f3a79aaa471c71e",
+    "sequence": 7,
+    "response": {
+      "accepted_dates": [
+        "2026-09-30",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06"
+      ],
+      "last_sequence": 7
+    },
+    "processed_at": "2026-10-06T12:10:08.489Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 42,
+  "fields": {
+    "user": 5,
+    "source": 5,
+    "idempotency_key": "e4abeef8-21f8-459a-bccf-d6583d775128",
+    "payload_hash": "bcb677b914ae10aeaba1d783943719e4d3c78c89f7dcc373a8eea76da7e2c329",
+    "sequence": 8,
+    "response": {
+      "accepted_dates": [
+        "2026-09-30",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06"
+      ],
+      "last_sequence": 8
+    },
+    "processed_at": "2026-10-06T12:12:58.637Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 43,
+  "fields": {
+    "user": 5,
+    "source": 5,
+    "idempotency_key": "cd3fb913-3d6c-4a1e-a059-85c0150e2ad6",
+    "payload_hash": "9626c4f0daabacba79f49295ed23be50fc6aabd1effd3fc26f650dbe928a1f63",
+    "sequence": 9,
+    "response": {
+      "accepted_dates": [
+        "2026-09-30",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06"
+      ],
+      "last_sequence": 9
+    },
+    "processed_at": "2026-10-06T12:13:02.222Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 44,
+  "fields": {
+    "user": 5,
+    "source": 5,
+    "idempotency_key": "49b53fc5-f9cf-4174-b0f0-f5abe6bfbebe",
+    "payload_hash": "c2f4311177e21fb15cf72bb711f4c42fece94bd37fe7706cf806d47fca41f876",
+    "sequence": 10,
+    "response": {
+      "accepted_dates": [
+        "2026-09-30",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06"
+      ],
+      "last_sequence": 10
+    },
+    "processed_at": "2026-10-06T12:40:25.960Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 45,
+  "fields": {
+    "user": 5,
+    "source": 5,
+    "idempotency_key": "41c79349-05c9-493e-852f-f6543f7b73f7",
+    "payload_hash": "035cb3d97fec1b238c5a02ece65ed299780544925a611aba6f754453f3ea456a",
+    "sequence": 11,
+    "response": {
+      "accepted_dates": [
+        "2026-09-30",
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06"
+      ],
+      "last_sequence": 11
+    },
+    "processed_at": "2026-10-06T12:40:29.192Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 46,
+  "fields": {
+    "user": 5,
+    "source": 5,
+    "idempotency_key": "548760d6-78a7-4525-9f2b-7fee37560373",
+    "payload_hash": "6d4a4b1f3af7d64c1843bb4fe72ae6f4d317ab5dc3573b3b31c8b94b85529ad8",
+    "sequence": 12,
+    "response": {
+      "accepted_dates": [
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06",
+        "2026-10-07"
+      ],
+      "last_sequence": 12
+    },
+    "processed_at": "2026-10-07T05:57:40.958Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 47,
+  "fields": {
+    "user": 5,
+    "source": 5,
+    "idempotency_key": "8c54ef44-038f-475b-a79e-a6e33adb1e58",
+    "payload_hash": "20e7fdfb80c686e1aad2be5bde1e36a47b019eb709fc2fb18542bbc66346b44e",
+    "sequence": 13,
+    "response": {
+      "accepted_dates": [
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06",
+        "2026-10-07"
+      ],
+      "last_sequence": 13
+    },
+    "processed_at": "2026-10-07T06:00:48.719Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 48,
+  "fields": {
+    "user": 4,
+    "source": 3,
+    "idempotency_key": "52457339-9fb0-404c-a860-f930293e0d25",
+    "payload_hash": "6c45778e3fda5497045630a3ef043e80dc7040865d695f062ce39b53de633a70",
+    "sequence": 2,
+    "response": {
+      "accepted_dates": [
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06",
+        "2026-10-07"
+      ],
+      "last_sequence": 2
+    },
+    "processed_at": "2026-10-07T06:01:55.076Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 49,
+  "fields": {
+    "user": 2,
+    "source": 2,
+    "idempotency_key": "ed5a321e-55ce-403b-a5c0-79f9bd693d02",
+    "payload_hash": "18300937f3fe15a6b4b4520664a4ff84d54c561942b59a8aca8be2c39b9fe4b1",
+    "sequence": 2,
+    "response": {
+      "accepted_dates": [
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06",
+        "2026-10-07"
+      ],
+      "last_sequence": 2
+    },
+    "processed_at": "2026-10-07T06:36:03.578Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 50,
+  "fields": {
+    "user": 2,
+    "source": 2,
+    "idempotency_key": "30a6194e-d2dd-46d2-ac9f-969f5b38cd38",
+    "payload_hash": "73508bea4afc766aa8724e1430a5491a4a023d09937e56656ffee6db859de776",
+    "sequence": 3,
+    "response": {
+      "accepted_dates": [
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06",
+        "2026-10-07"
+      ],
+      "last_sequence": 3
+    },
+    "processed_at": "2026-10-07T06:38:26.585Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 51,
+  "fields": {
+    "user": 2,
+    "source": 2,
+    "idempotency_key": "ec15863a-23ba-4485-beff-2dc373b74984",
+    "payload_hash": "2686d74a720f5c65b5e9974407832565505b8c314bf0f98f1b1d91704bfb291a",
+    "sequence": 4,
+    "response": {
+      "accepted_dates": [
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06",
+        "2026-10-07"
+      ],
+      "last_sequence": 4
+    },
+    "processed_at": "2026-10-07T06:39:20.160Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 52,
+  "fields": {
+    "user": 2,
+    "source": 2,
+    "idempotency_key": "7168c03e-96e1-48a9-ae47-2aa4b4abfe90",
+    "payload_hash": "6ac15ae019149265b30f7f767a23cdc4027432f2355d43ba1a9ea24bf60b3617",
+    "sequence": 5,
+    "response": {
+      "accepted_dates": [
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06",
+        "2026-10-07"
+      ],
+      "last_sequence": 5
+    },
+    "processed_at": "2026-10-07T06:47:19.654Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 53,
+  "fields": {
+    "user": 2,
+    "source": 2,
+    "idempotency_key": "ceabc985-763b-40cb-9bb8-63bf7e7b6b4a",
+    "payload_hash": "9dea3fe9f7d83aef91137d6236c49f91d24831d09cd7d045f1936fc61b5101a3",
+    "sequence": 6,
+    "response": {
+      "accepted_dates": [
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06",
+        "2026-10-07"
+      ],
+      "last_sequence": 6
+    },
+    "processed_at": "2026-10-07T06:47:24.018Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 54,
+  "fields": {
+    "user": 2,
+    "source": 2,
+    "idempotency_key": "ca041f04-a0de-4196-87be-1ef3729aa794",
+    "payload_hash": "32d7df5c9da80fc8b8ffbeadcb63ebbaf1b913e1c924a9141d028119bb6dfcdf",
+    "sequence": 7,
+    "response": {
+      "accepted_dates": [
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06",
+        "2026-10-07"
+      ],
+      "last_sequence": 7
+    },
+    "processed_at": "2026-10-07T08:53:40.616Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 55,
+  "fields": {
+    "user": 2,
+    "source": 2,
+    "idempotency_key": "272732a0-31cc-4425-9425-fd88fca5d3ba",
+    "payload_hash": "9f2f16f807847e93837e6ad3f69d2a9415bccc274423114f6449ab1477f47176",
+    "sequence": 8,
+    "response": {
+      "accepted_dates": [
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06",
+        "2026-10-07"
+      ],
+      "last_sequence": 8
+    },
+    "processed_at": "2026-10-07T09:17:55.272Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 56,
+  "fields": {
+    "user": 2,
+    "source": 2,
+    "idempotency_key": "e8e17eaa-52db-420f-9367-bd64576bf377",
+    "payload_hash": "d363842faca9662488d94c13a0f4e23ad35920177ed954d01a9adeb34621f6fa",
+    "sequence": 9,
+    "response": {
+      "accepted_dates": [
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06",
+        "2026-10-07"
+      ],
+      "last_sequence": 9
+    },
+    "processed_at": "2026-10-07T11:48:35.041Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 57,
+  "fields": {
+    "user": 2,
+    "source": 2,
+    "idempotency_key": "cd6ae573-2913-4d69-86f6-3b5f1b98ec9e",
+    "payload_hash": "199e931fc03e8c856c57e33a87ed6274dc150d3f01ccabfabfffc87562ea622c",
+    "sequence": 10,
+    "response": {
+      "accepted_dates": [
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06",
+        "2026-10-07"
+      ],
+      "last_sequence": 10
+    },
+    "processed_at": "2026-10-07T12:08:19.296Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 58,
+  "fields": {
+    "user": 2,
+    "source": 2,
+    "idempotency_key": "8eeed41b-7920-4fe2-ad93-d33be9b752b3",
+    "payload_hash": "aff551c31e282f8abfffab39ca8bcc795c0acfa5d2ffffdb3fb671189979b7b0",
+    "sequence": 11,
+    "response": {
+      "accepted_dates": [
+        "2026-10-01",
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06",
+        "2026-10-07"
+      ],
+      "last_sequence": 11
+    },
+    "processed_at": "2026-10-07T12:15:23.834Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 59,
+  "fields": {
+    "user": 2,
+    "source": 2,
+    "idempotency_key": "70e4f32a-4eb3-4467-bdb0-26da7ff59049",
+    "payload_hash": "1e28793483ae1c60aca2d8be2c8658c8a7a6ff6685c5eeba98f75e04310f22f3",
+    "sequence": 12,
+    "response": {
+      "accepted_dates": [
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06",
+        "2026-10-07",
+        "2026-10-08"
+      ],
+      "last_sequence": 12
+    },
+    "processed_at": "2026-10-08T04:15:56.970Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 60,
+  "fields": {
+    "user": 2,
+    "source": 2,
+    "idempotency_key": "b8404613-7de1-406d-8101-11571ed021dd",
+    "payload_hash": "1565d874948ab830706c9772eec91605f683042dbdd3562e48b53c15ffc14386",
+    "sequence": 13,
+    "response": {
+      "accepted_dates": [
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06",
+        "2026-10-07",
+        "2026-10-08"
+      ],
+      "last_sequence": 13
+    },
+    "processed_at": "2026-10-08T04:16:55.650Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 61,
+  "fields": {
+    "user": 2,
+    "source": 2,
+    "idempotency_key": "805d3732-0bc6-4326-add2-33b91aa1254f",
+    "payload_hash": "40ec7b35106a99897fac1e1c1f696a9df5844a9a66a99efce3dee913b0a54012",
+    "sequence": 14,
+    "response": {
+      "accepted_dates": [
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06",
+        "2026-10-07",
+        "2026-10-08"
+      ],
+      "last_sequence": 14
+    },
+    "processed_at": "2026-10-08T04:17:07.394Z"
+  }
+},
+{
+  "model": "fitness.fitnesssyncbatch",
+  "pk": 62,
+  "fields": {
+    "user": 2,
+    "source": 2,
+    "idempotency_key": "1e6650db-a5b7-48f9-937b-a0b9eea5be09",
+    "payload_hash": "5722d5b5d36f493912d3fe5c1695c3823be0f3282077d986b86abf7bf475f435",
+    "sequence": 15,
+    "response": {
+      "accepted_dates": [
+        "2026-10-02",
+        "2026-10-03",
+        "2026-10-04",
+        "2026-10-05",
+        "2026-10-06",
+        "2026-10-07",
+        "2026-10-08"
+      ],
+      "last_sequence": 15
+    },
+    "processed_at": "2026-10-08T04:33:49.562Z"
+  }
+},
+{
+  "model": "challenges.challenge",
+  "pk": 1,
+  "fields": {
+    "slug": "test-walk-oct6",
+    "title": "Test Walk",
+    "description": "",
+    "start_date": "2026-10-06",
+    "end_date": "2026-10-07",
+    "target_steps": 1000,
+    "reward_points": 25,
+    "badge_title": "First Walk",
+    "is_published": true,
+    "created_at": "2026-10-06T09:17:25.049Z"
+  }
+},
+{
+  "model": "challenges.challenge",
+  "pk": 2,
+  "fields": {
+    "slug": "walking",
+    "title": "100 step challenge",
+    "description": "",
+    "start_date": "2026-10-07",
+    "end_date": "2026-10-08",
+    "target_steps": 100,
+    "reward_points": 20,
+    "badge_title": "",
+    "is_published": true,
+    "created_at": "2026-10-07T05:59:21.630Z"
+  }
+},
+{
+  "model": "challenges.challengeenrollment",
+  "pk": 1,
+  "fields": {
+    "challenge": 1,
+    "user": 3,
+    "joined_at": "2026-10-06T09:17:38.101Z",
+    "joined_local_date": "2026-10-06"
+  }
+},
+{
+  "model": "challenges.challengeenrollment",
+  "pk": 2,
+  "fields": {
+    "challenge": 1,
+    "user": 5,
+    "joined_at": "2026-10-06T10:25:27.128Z",
+    "joined_local_date": "2026-10-06"
+  }
+},
+{
+  "model": "challenges.challengeenrollment",
+  "pk": 3,
+  "fields": {
+    "challenge": 2,
+    "user": 5,
+    "joined_at": "2026-10-07T05:59:38.217Z",
+    "joined_local_date": "2026-10-07"
+  }
+},
+{
+  "model": "challenges.challengeprogress",
+  "pk": 1,
+  "fields": {
+    "enrollment": 1,
+    "verified_steps": 1448,
+    "has_step_data": true,
+    "is_complete": true,
+    "revision": 1,
+    "evaluated_at": "2026-10-06T09:47:04.919Z"
+  }
+},
+{
+  "model": "challenges.challengeprogress",
+  "pk": 2,
+  "fields": {
+    "enrollment": 2,
+    "verified_steps": 3853,
+    "has_step_data": true,
+    "is_complete": true,
+    "revision": 1,
+    "evaluated_at": "2026-10-07T06:00:48.731Z"
+  }
+},
+{
+  "model": "challenges.challengeprogress",
+  "pk": 3,
+  "fields": {
+    "enrollment": 3,
+    "verified_steps": 1154,
+    "has_step_data": true,
+    "is_complete": true,
+    "revision": 1,
+    "evaluated_at": "2026-10-07T06:00:48.739Z"
+  }
+},
+{
+  "model": "challenges.pointsledger",
+  "pk": 1,
+  "fields": {
+    "enrollment": 1,
+    "user": 3,
+    "delta": 25,
+    "revision": 1,
+    "reason": "award",
+    "created_at": "2026-10-06T09:17:38.114Z"
+  }
+},
+{
+  "model": "challenges.pointsledger",
+  "pk": 2,
+  "fields": {
+    "enrollment": 2,
+    "user": 5,
+    "delta": 25,
+    "revision": 1,
+    "reason": "award",
+    "created_at": "2026-10-06T10:25:27.141Z"
+  }
+},
+{
+  "model": "challenges.pointsledger",
+  "pk": 3,
+  "fields": {
+    "enrollment": 3,
+    "user": 5,
+    "delta": 20,
+    "revision": 1,
+    "reason": "award",
+    "created_at": "2026-10-07T05:59:38.240Z"
+  }
+},
+{
+  "model": "challenges.badgeaward",
+  "pk": 1,
+  "fields": {
+    "enrollment": 1,
+    "is_active": true,
+    "awarded_at": "2026-10-06T09:17:38.115Z",
+    "revoked_at": null
+  }
+},
+{
+  "model": "challenges.badgeaward",
+  "pk": 2,
+  "fields": {
+    "enrollment": 2,
+    "is_active": true,
+    "awarded_at": "2026-10-06T10:25:27.142Z",
+    "revoked_at": null
+  }
+},
+{
+  "model": "community.communitypost",
+  "pk": 1,
+  "fields": {
+    "author": 3,
+    "team": 1,
+    "visibility": "company",
+    "body": "this for testing",
+    "image": "",
+    "image_sha256": "",
+    "client_request_id": null,
+    "hashtags": [
+      "#team"
+    ],
+    "status": "hidden",
+    "created_at": "2026-10-06T09:48:17.073Z",
+    "updated_at": "2026-10-06T10:23:15.722Z"
+  }
+},
+{
+  "model": "community.communitypost",
+  "pk": 2,
+  "fields": {
+    "author": 2,
+    "team": 1,
+    "visibility": "team",
+    "body": "this for testing 2",
+    "image": "",
+    "image_sha256": "",
+    "client_request_id": null,
+    "hashtags": [],
+    "status": "published",
+    "created_at": "2026-10-06T09:54:26.766Z",
+    "updated_at": "2026-10-06T09:54:26.766Z"
+  }
+},
+{
+  "model": "community.communitypost",
+  "pk": 3,
+  "fields": {
+    "author": 4,
+    "team": 1,
+    "visibility": "team",
+    "body": "this for testing 3",
+    "image": "",
+    "image_sha256": "",
+    "client_request_id": null,
+    "hashtags": [],
+    "status": "published",
+    "created_at": "2026-10-06T09:55:18.193Z",
+    "updated_at": "2026-10-06T09:55:18.193Z"
+  }
+},
+{
+  "model": "community.communitypost",
+  "pk": 4,
+  "fields": {
+    "author": 2,
+    "team": 1,
+    "visibility": "company",
+    "body": "testing",
+    "image": "",
+    "image_sha256": "",
+    "client_request_id": "30c24dc5-51f9-42af-b817-a4e2af451886",
+    "hashtags": [],
+    "status": "published",
+    "created_at": "2026-10-08T04:17:38.837Z",
+    "updated_at": "2026-10-08T04:17:38.837Z"
+  }
+},
+{
+  "model": "community.communitypost",
+  "pk": 5,
+  "fields": {
+    "author": 2,
+    "team": 1,
+    "visibility": "company",
+    "body": "testing",
+    "image": "community/posts/8e229c3249754b1b8326b4a2ad5efa60.jpg",
+    "image_sha256": "594936670e49dbde60b2269525eb9a97d3952a91c89cf0e096108b05d514701d",
+    "client_request_id": "a9fe4708-26fa-4303-998f-3fbdb473d33a",
+    "hashtags": [
+      "#testing"
+    ],
+    "status": "published",
+    "created_at": "2026-10-08T04:34:16.320Z",
+    "updated_at": "2026-10-08T04:34:16.320Z"
+  }
+},
+{
+  "model": "community.communitycomment",
+  "pk": 1,
+  "fields": {
+    "post": 2,
+    "author": 4,
+    "body": "great",
+    "status": "published",
+    "created_at": "2026-10-07T06:02:07.617Z"
+  }
+},
+{
+  "model": "community.communityreport",
+  "pk": 1,
+  "fields": {
+    "post": 1,
+    "reporter": 5,
+    "reason": "nothing",
+    "status": "open",
+    "created_at": "2026-10-06T10:14:22.808Z",
+    "reviewed_at": "2026-10-06T10:14:47Z"
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 1,
+  "fields": {
+    "user": 5,
+    "kind": "challenge_complete",
+    "title": "Challenge complete",
+    "body": "You completed 100 step challenge.",
+    "event_key": "challenge:3:complete:1",
+    "created_at": "2026-10-07T05:59:38.247Z",
+    "read_at": "2026-10-07T05:59:53.967Z"
+  }
+},
+{
+  "model": "notifications.notification",
+  "pk": 2,
+  "fields": {
+    "user": 2,
+    "kind": "community_reply",
+    "title": "New reply",
+    "body": "Someone replied to your community post.",
+    "event_key": "community:comment:1",
+    "created_at": "2026-10-07T06:02:07.636Z",
+    "read_at": "2026-10-07T06:02:30.876Z"
+  }
+},
+{
+  "model": "nutrition.meal",
+  "pk": 1,
+  "fields": {
+    "user": 2,
+    "client_request_id": "004de602-002c-423a-9cb5-c3b053da9e5a",
+    "payload_hash": "b5b2253b45031e1dcf9b2229ed21bf94061ab677f834b7c333d4eeb5642e82b5",
+    "kind": "breakfast",
+    "occurred_at": "2026-10-07T09:18:45.718Z",
+    "local_date": "2026-10-07",
+    "time_zone": "Asia/Kolkata",
+    "notes": "",
+    "total_kcal": "390.00",
+    "protein_g": "15.10",
+    "carbohydrate_g": "67.50",
+    "fat_g": "7.05",
+    "created_at": "2026-10-07T09:18:47.648Z"
+  }
+},
+{
+  "model": "nutrition.mealitem",
+  "pk": 1,
+  "fields": {
+    "meal": 1,
+    "fdc_id": 2710137,
+    "food_name": "Toddler meal, pasta and vegetables",
+    "data_type": "Survey (FNDDS)",
+    "grams": "500.0",
+    "kcal_per_100g": "78.00",
+    "kcal": "390.00",
+    "protein_g": "15.10",
+    "carbohydrate_g": "67.50",
+    "fat_g": "7.05"
+  }
+},
+{
+  "model": "wellness.wellnessprogram",
+  "pk": 1,
+  "fields": {
+    "title": "5-minute walk break",
+    "summary": "Take a short movement break each day.",
+    "daily_action": "Walk for 5 minutes at a comfortable pace.",
+    "focus_goal": "all",
+    "start_date": "2026-10-07",
+    "end_date": "2026-10-14",
+    "is_published": true,
+    "created_at": "2026-10-07T11:51:25.606Z"
+  }
+},
+{
+  "model": "wellness.programenrollment",
+  "pk": 1,
+  "fields": {
+    "program": 1,
+    "user": 2,
+    "joined_at": "2026-10-07T11:51:35.991Z"
+  }
+},
+{
+  "model": "wellness.programcheckin",
+  "pk": 1,
+  "fields": {
+    "enrollment": 1,
+    "local_date": "2026-10-07",
+    "created_at": "2026-10-07T11:51:37.873Z"
+  }
+},
+{
+  "model": "wellness.remindersettings",
+  "pk": 1,
+  "fields": {
+    "user": 2,
+    "water_enabled": true,
+    "movement_enabled": true,
+    "water_interval_minutes": 90,
+    "movement_interval_minutes": 60,
+    "start_hour": 9,
+    "end_hour": 19,
+    "time_zone": "Asia/Kolkata",
+    "updated_at": "2026-10-08T04:38:48.251Z"
+  }
+}
+]
