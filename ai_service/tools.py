@@ -1,6 +1,6 @@
 """Read-only facts for IVA; every query is restricted to the authenticated user."""
 import re
-from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+from backports.zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from django.db.models import Count, Q, Sum
 from django.utils import timezone

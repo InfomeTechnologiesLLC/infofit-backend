@@ -1,5 +1,5 @@
 """A daily IVA nudge for enrolled, unfinished challenges."""
-from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+from backports.zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from celery import shared_task
 from django.utils import timezone

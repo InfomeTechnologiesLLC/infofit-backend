@@ -1,6 +1,6 @@
 from datetime import timedelta
 from decimal import Decimal
-from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+from backports.zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from django.utils import timezone
 from rest_framework import serializers
