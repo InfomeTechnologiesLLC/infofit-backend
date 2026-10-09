@@ -1,28 +1,32 @@
 """Read-only facts for IVA; every query is restricted to the authenticated user."""
 import re
-from backports.zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from django.db.models import Count, Q, Sum
 from django.utils import timezone
 
+from accounts.models import EmployeeProfile
 from challenges.models import ChallengeEnrollment, PointsLedger
 from fitness.models import DailyActivity, FitnessAccount
 from nutrition.models import Meal
 from wellness.models import HydrationLog, ReminderSettings
+from .coaching import weekly_facts
 
 
-FITNESS_TERMS = re.compile(r"\b(steps?|walk(?:ed|ing)?|distance|calories|exercise|sleep|activity|fitness)\b")
+FITNESS_TERMS = re.compile(r"\b(steps?|walk(?:ed|ing)?|run(?:ning)?|workouts?|distance|calories|exercise|sleep|activity|fitness)\b")
 CHALLENGE_TERMS = re.compile(r"\b(challenges?|points?|badges?|progress)\b")
-NUTRITION_TERMS = re.compile(r"\b(meals?|food|eat|ate|eaten|eating|diet|nutrition|intake|protein|carbs?|fat)\b")
+NUTRITION_TERMS = re.compile(r"\b(meals?|food|eat|ate|eaten|eating|diet|nutrition|intake|protein|carbs?|fat|lunch|breakfast|dinner)\b")
 HYDRATION_TERMS = re.compile(r"\b(water|hydration|hydrate|drink|drank)\b")
 PERSONAL_TERMS = re.compile(r"\b(my|me|i|mine|today|yesterday)\b")
+WEEK_TERMS = re.compile(r"\b(this week|last week|weekly|past seven days|past 7 days)\b")
+STEP_TERMS = re.compile(r"\b(steps?|step goal)\b")
 
 
 def wants_personal_context(message):
     query = message.lower()
     return bool(PERSONAL_TERMS.search(query) and
                 (FITNESS_TERMS.search(query) or CHALLENGE_TERMS.search(query) or
-                 NUTRITION_TERMS.search(query) or HYDRATION_TERMS.search(query)))
+                 NUTRITION_TERMS.search(query) or HYDRATION_TERMS.search(query) or WEEK_TERMS.search(query)))
 
 
 def own_hydration_summary(user):
@@ -71,7 +75,7 @@ def own_fitness_summary(user):
         local_today = timezone.localtime(timezone.now(), ZoneInfo(zone_name)).date()
     except ZoneInfoNotFoundError:
         local_today = timezone.now().date()
-    day = DailyActivity.objects.filter(user=user, local_date__lte=local_today).order_by("-local_date").first()
+    day = DailyActivity.objects.filter(user=user, local_date=local_today).first()
     if not day or not account or day.source_id != account.active_source_id:
         return {"status": "no_current_source_data", "local_date": None}
     return {
@@ -88,24 +92,40 @@ def own_challenge_summary(user):
     return {
         "points": points,
         "challenges": [
-            {"title": row.challenge.title, "verified_steps": getattr(row.progress, "verified_steps", None),
-             "target_steps": row.challenge.target_steps, "complete": getattr(row.progress, "is_complete", False)}
+            {"title": row.challenge.title, "kind": row.challenge.kind,
+             "verified_steps": getattr(row.progress, "verified_steps", None),
+             "target_steps": row.challenge.target_steps,
+             "verified_running_minutes": getattr(row.progress, "verified_running_minutes", None),
+             "target_running_minutes": row.challenge.target_running_minutes,
+             "complete": getattr(row.progress, "is_complete", False)}
             for row in enrollments
         ],
     }
 
 
 def read_context(user, message):
-    if not wants_personal_context(message):
-        return {}, []
     query = message.lower()
     context = {}
+    if FITNESS_TERMS.search(query) or NUTRITION_TERMS.search(query) or CHALLENGE_TERMS.search(query):
+        profile = EmployeeProfile.objects.filter(user=user).values("fitness_goal", "daily_step_goal").first()
+        if profile:
+            context["goal"] = {"fitness_goal": profile["fitness_goal"]}
+            if STEP_TERMS.search(query):
+                context["goal"]["daily_step_goal"] = profile["daily_step_goal"]
+    if not wants_personal_context(message):
+        return context, list(context)
     if FITNESS_TERMS.search(query):
         context["fitness"] = own_fitness_summary(user)
+        if STEP_TERMS.search(query) and "goal" in context:
+            fitness = context["fitness"]
+            if fitness["status"] == "available" and fitness["metric_status"].get("steps") == "available" and fitness["steps"] is not None:
+                context["goal"]["remaining_steps_today"] = max(0, context["goal"]["daily_step_goal"] - fitness["steps"])
     if NUTRITION_TERMS.search(query):
         context["nutrition"] = own_nutrition_summary(user)
     if CHALLENGE_TERMS.search(query):
         context["challenges"] = own_challenge_summary(user)
     if HYDRATION_TERMS.search(query):
         context["hydration"] = own_hydration_summary(user)
+    if WEEK_TERMS.search(query):
+        context["weekly"] = weekly_facts(user)
     return context, list(context)
