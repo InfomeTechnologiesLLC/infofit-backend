@@ -1,7 +1,7 @@
 """Verified, user-scoped facts supplied to IVA coaching responses."""
 import json
 from datetime import timedelta
-from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+from backports.zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from django.db.models import Count, Sum
 from django.utils import timezone

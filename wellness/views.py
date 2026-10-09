@@ -1,4 +1,4 @@
-from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+from backports.zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from django.db import transaction
 from django.db.models import Count, Q, Sum
