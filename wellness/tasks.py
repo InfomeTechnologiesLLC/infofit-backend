@@ -1,5 +1,5 @@
 from datetime import timedelta
-from backports.zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from celery import shared_task
 from django.utils import timezone

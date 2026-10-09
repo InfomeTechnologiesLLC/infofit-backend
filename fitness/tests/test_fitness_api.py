@@ -1,6 +1,6 @@
 from uuid import uuid4
 from datetime import timedelta
-from backports.zoneinfo import ZoneInfo
+from zoneinfo import ZoneInfo
 
 from django.urls import reverse
 from django.utils import timezone
