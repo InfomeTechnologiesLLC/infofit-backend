@@ -31,3 +31,27 @@ class LensSerializer(serializers.Serializer):
 
 class FoodSearchSerializer(serializers.Serializer):
     q = serializers.CharField(min_length=2, max_length=80, trim_whitespace=True)
+
+
+class CoachingSerializer(serializers.Serializer):
+    period = serializers.ChoiceField(choices=("daily", "week", "challenge"))
+    challenge_id = serializers.IntegerField(min_value=1, required=False)
+
+    def validate(self, data):
+        if data["period"] == "challenge" and "challenge_id" not in data:
+            raise serializers.ValidationError({"challenge_id": "Choose a joined challenge."})
+        return data
+
+
+class ConfirmedFoodSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=100, trim_whitespace=True)
+    grams = serializers.FloatField(min_value=1, max_value=2000)
+
+
+class MealGuidanceSerializer(serializers.Serializer):
+    foods = ConfirmedFoodSerializer(many=True)
+
+    def validate_foods(self, value):
+        if not 1 <= len(value) <= 10:
+            raise serializers.ValidationError("Include one to ten confirmed foods.")
+        return value

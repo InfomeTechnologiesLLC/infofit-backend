@@ -51,7 +51,7 @@ def _request_body(messages):
     return body
 
 
-def complete(messages, model):
+def complete(messages, model, timeout=35):
     key = settings.GEMINI_API_KEY
     if not key or not model:
         raise AiUnavailable("IVA is not configured on this server.")
@@ -65,7 +65,7 @@ def complete(messages, model):
         headers={"x-goog-api-key": key, "Content-Type": "application/json"},
     )
     try:
-        with urllib.request.urlopen(request, timeout=35) as response:
+        with urllib.request.urlopen(request, timeout=timeout) as response:
             payload = json.load(response)
         parts = payload["candidates"][0]["content"]["parts"]
         answer = "".join(part.get("text", "") for part in parts if isinstance(part, dict)).strip()
