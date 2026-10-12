@@ -1,9 +1,28 @@
 {% extends 'portal/base.html' %}
 {% block content %}
-<h1 class="h2 mb-2">Staff points</h1>
-<p class="text-muted">Current net challenge points, including corrections when activity changes. This is a game ranking, not a health score.</p>
-<div class="card p-3"><div class="table-responsive"><table class="table table-hover mb-0"><thead><tr><th>Rank</th><th>Employee</th><th>Points</th></tr></thead><tbody>
-{% for row in rows %}<tr><td>#{{ row.rank }}</td><td><a href="{% url 'portal:employee_detail' row.user.pk %}">{{ row.user.full_name }}</a></td><td>{{ row.points }}</td></tr>
-{% empty %}<tr><td colspan="3" class="text-muted">No employees yet.</td></tr>{% endfor %}
-</tbody></table></div></div>
+<h1 class="h2 mb-2">Individual rankings</h1>
+<p class="text-muted">Rank employees by net challenge points, synced steps, or completed challenges. These are activity rankings, not health scores.</p>
+<div class="d-flex flex-wrap gap-2 mb-3" aria-label="Ranking type">
+  <a class="btn btn-sm {% if sort == 'points' %}btn-primary{% else %}btn-outline-primary{% endif %}" href="?sort=points&amp;period={{ period }}">Points</a>
+  <a class="btn btn-sm {% if sort == 'steps' %}btn-primary{% else %}btn-outline-primary{% endif %}" href="?sort=steps&amp;period={{ period }}">Steps</a>
+  <a class="btn btn-sm {% if sort == 'challenges' %}btn-primary{% else %}btn-outline-primary{% endif %}" href="?sort=challenges&amp;period={{ period }}">Completed challenges</a>
+</div>
+<div class="d-flex flex-wrap gap-2 mb-3" aria-label="Step period">
+  <span class="small text-muted align-self-center">Step period:</span>
+  <a class="btn btn-sm {% if period == 'week' %}btn-secondary{% else %}btn-outline-secondary{% endif %}" href="?sort={{ sort }}&amp;period=week">This week</a>
+  <a class="btn btn-sm {% if period == 'month' %}btn-secondary{% else %}btn-outline-secondary{% endif %}" href="?sort={{ sort }}&amp;period=month">This month</a>
+  <a class="btn btn-sm {% if period == 'all' %}btn-secondary{% else %}btn-outline-secondary{% endif %}" href="?sort={{ sort }}&amp;period=all">All saved days</a>
+</div>
+<div class="card p-3"><div class="table-responsive"><table class="table table-hover mb-0">
+  <thead><tr><th>Rank</th><th>Employee</th><th>Team</th><th>Points</th><th>Steps</th><th>Recorded days</th><th>Challenges completed</th></tr></thead>
+  <tbody>{% for row in rows %}<tr>
+    <td>#{{ row.rank }}</td>
+    <td><a href="{% url 'portal:employee_detail' row.user.pk %}">{{ row.user.full_name }}</a></td>
+    <td>{{ row.user.profile.team|default:'—' }}</td>
+    <td>{{ row.points }}</td>
+    <td>{% if row.step_days %}{{ row.steps }}{% else %}<span class="text-muted">No synced data</span>{% endif %}</td>
+    <td>{{ row.step_days }}</td><td>{{ row.completed }} / {{ row.joined }}</td>
+  </tr>{% empty %}<tr><td colspan="7" class="text-muted">No employees yet.</td></tr>{% endfor %}</tbody>
+</table></div></div>
+<p class="small text-muted mt-3">Ties use employee record order. Points and challenge completions are all time; the period controls steps only.</p>
 {% endblock %}

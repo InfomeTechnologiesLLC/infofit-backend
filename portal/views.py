@@ -1,6 +1,6 @@
 """Session-authenticated staff operations, separate from the Django admin UI."""
 import hashlib
-from datetime import timedelta
+from datetime import date, timedelta
 from functools import wraps
 
 from django.contrib import messages
@@ -15,19 +15,21 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
 from django.views.decorators.http import require_POST
+from django.views.decorators.cache import never_cache
 from django.core.paginator import Paginator
 
 from accounts.models import ADMIN_ROLES, Department, Role, Team, User
 from challenges.models import Challenge, ChallengeEnrollment, ChallengeProgress, PointsLedger
 from challenges.services import reconcile_user
 from community.models import CommunityPost, CommunityReport
-from fitness.models import FitnessSource
+from fitness.models import DailyActivity, FitnessAccount, FitnessSource
 from notifications.models import PushDelivery
 from nutrition.models import Meal
-from wellness.models import ProgramCheckIn, ProgramEnrollment, WellnessProgram
+from wellness.models import HydrationLog, ProgramCheckIn, ProgramEnrollment, WellnessProgram
 
 from .forms import (ChallengeForm, DepartmentForm, EmployeeForm, PortalLoginForm,
                     TeamForm, WellnessProgramForm)
+from .insights import points_totals, staff_rankings, step_period, step_totals
 
 
 class PortalLoginView(LoginView):
@@ -69,6 +71,7 @@ def page_context(title, section, **extra):
 
 
 @staff_only
+@never_cache
 def dashboard(request):
     today = timezone.localdate()
     recent = timezone.now() - timedelta(days=7)
@@ -103,29 +106,32 @@ def dashboard(request):
         ("Pushes awaiting delivery", PushDelivery.objects.filter(state__in=[PushDelivery.State.PENDING,
             PushDelivery.State.RETRY]).count()),
     ]
+    active_ids = list(User.objects.filter(role=Role.EMPLOYEE, is_active=True).values_list("pk", flat=True))
+    today_steps = step_totals(active_ids, today, today)
+    cards.insert(2, ("Employees with synced steps today", len(today_steps)))
+    cards.insert(3, ("Verified steps today", sum(row["steps"] for row in today_steps.values())))
     recent_reports = CommunityReport.objects.filter(status=CommunityReport.Status.OPEN).select_related(
         "post", "post__author", "reporter").order_by("-created_at")[:5]
     return render(request, "portal/dashboard.html", page_context("Overview", "dashboard",
         cards=cards, recent_reports=recent_reports, today=today, recent=recent,
-        top_staff=staff_points()[:3]))
-
-
-def staff_points():
-    # Rank from the net ledger, including corrections. Ties use employee ID for stability.
-    employees = User.objects.filter(role=Role.EMPLOYEE, is_active=True).annotate(
-        points=Sum("points_ledger__delta")
-    ).order_by("-points", "pk")
-    return [{"rank": rank, "user": user, "points": user.points or 0}
-            for rank, user in enumerate(employees, 1)]
+        top_staff=staff_rankings()[:3], top_steps=[row for row in staff_rankings("steps") if row["step_days"]][:3]))
 
 
 @staff_only
+@never_cache
 def points_leaderboard(request):
+    sort = request.GET.get("sort", "points")
+    if sort not in {"points", "steps", "challenges"}:
+        sort = "points"
+    period = request.GET.get("period", "month")
+    if period not in {"week", "month", "all"}:
+        period = "month"
     return render(request, "portal/points.html", page_context(
-        "Staff points", "points", rows=staff_points()))
+        "Individual rankings", "points", rows=staff_rankings(sort, period), sort=sort, period=period))
 
 
 @staff_only
+@never_cache
 def employees(request):
     query = request.GET.get("q", "").strip()[:100]
     recent = timezone.now() - timedelta(days=7)
@@ -146,10 +152,20 @@ def employees(request):
             challenge_enrollments__progress__has_step_data=True), distinct=True),
     ).order_by("email")
     page = Paginator(queryset, 20).get_page(request.GET.get("page"))
+    page.object_list = list(page.object_list)
+    ids = [employee.pk for employee in page.object_list]
+    month_start, _ = step_period("month")
+    month_steps = step_totals(ids, month_start, timezone.localdate())
+    points = points_totals(ids)
+    for employee in page.object_list:
+        employee.month_steps = month_steps.get(employee.pk, {}).get("steps")
+        employee.month_step_days = month_steps.get(employee.pk, {}).get("days", 0)
+        employee.net_points = points.get(employee.pk, 0)
     return render(request, "portal/employees.html", page_context("Employees", "employees", page=page, query=query))
 
 
 @staff_only
+@never_cache
 def employee_detail(request, pk):
     employee = get_object_or_404(User.objects.select_related("profile__team", "profile__department"),
                                  pk=pk, role=Role.EMPLOYEE)
@@ -159,9 +175,54 @@ def employee_detail(request, pk):
     program_count = ProgramEnrollment.objects.filter(user=employee).count()
     checkin_count = ProgramCheckIn.objects.filter(enrollment__user=employee, created_at__gte=recent).count()
     last_sync = FitnessSource.objects.filter(user=employee).aggregate(value=Max("last_successful_sync_at"))["value"]
+    today = timezone.localdate()
+    month_value = request.GET.get("month", "")
+    try:
+        month_start = date.fromisoformat(f"{month_value}-01") if month_value else today.replace(day=1)
+    except ValueError:
+        month_start = today.replace(day=1)
+    if month_start > today.replace(day=1):
+        month_start = today.replace(day=1)
+    next_month = (month_start.replace(day=28) + timedelta(days=4)).replace(day=1)
+    month_end = next_month - timedelta(days=1)
+    account = FitnessAccount.objects.filter(user=employee).first()
+    activity = DailyActivity.objects.filter(user=employee, source_id=account.active_source_id,
+        local_date__range=(month_start, month_end)).order_by("-local_date") if account and account.active_source_id else DailyActivity.objects.none()
+    activity_days = list(activity)
+    summary = {}
+    for period in ("today", "week", "month", "all"):
+        start, end = step_period(period, today)
+        summary[period] = step_totals([employee.pk], start, end).get(employee.pk)
+    challenge_rows = []
+    challenge_points = {row["enrollment_id"]: row["total"] or 0 for row in
+        PointsLedger.objects.filter(enrollment__user=employee).values("enrollment_id").annotate(total=Sum("delta"))}
+    for enrollment in ChallengeEnrollment.objects.filter(user=employee).select_related("challenge", "progress").order_by("-joined_at"):
+        progress = getattr(enrollment, "progress", None)
+        challenge_rows.append({"challenge": enrollment.challenge, "joined_at": enrollment.joined_at,
+            "status": "Complete" if progress and progress.is_complete else
+                "Ended" if enrollment.challenge.end_date < today else
+                "Upcoming" if enrollment.challenge.start_date > today else "In progress",
+            "points": challenge_points.get(enrollment.pk, 0),
+            "steps": progress.verified_steps if progress and progress.has_step_data else None,
+            "running_minutes": progress.verified_running_minutes if progress else None})
+    program_rows = ProgramEnrollment.objects.filter(user=employee).select_related("program").annotate(
+        checkin_total=Count("check_ins")).order_by("-joined_at")
+    points = points_totals([employee.pk]).get(employee.pk, 0)
+    hydration_month = HydrationLog.objects.filter(user=employee,
+        local_date__range=(month_start, month_end)).aggregate(total_ml=Sum("volume_ml"), entries=Count("id"))
+    rankings = {kind: next((row["rank"] for row in staff_rankings(kind) if row["user"].pk == employee.pk), None)
+                for kind in ("points", "steps", "challenges")}
     return render(request, "portal/employee_detail.html", page_context(employee.full_name, "employees",
         employee=employee, challenge_count=challenge_count, completed_count=completed_count,
-        program_count=program_count, checkin_count=checkin_count, last_sync=last_sync))
+        program_count=program_count, checkin_count=checkin_count, last_sync=last_sync,
+        step_summary=summary, activity_days=activity_days, challenge_rows=challenge_rows,
+        program_rows=program_rows, points=points, rankings=rankings,
+        month_start=month_start, previous_month=(month_start - timedelta(days=1)).strftime("%Y-%m"),
+        next_month=next_month.strftime("%Y-%m") if next_month <= today else None,
+        hydration_month=hydration_month, monthly_meals=Meal.objects.filter(user=employee,
+            local_date__range=(month_start, month_end)).count(),
+        community_post_count=CommunityPost.objects.filter(author=employee).count(),
+        meal_count=Meal.objects.filter(user=employee).count()))
 
 
 @staff_only

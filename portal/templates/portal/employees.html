@@ -1,14 +1,24 @@
 {% extends 'portal/base.html' %}
 {% block content %}
-<div class="d-flex flex-wrap justify-content-between gap-2 align-items-center mb-3"><div><h1 class="h2 mb-1">Employees</h1><p class="text-muted mb-0">Accounts and participation, without individual health measurements.</p></div><a class="btn btn-primary" href="{% url 'portal:employee_new' %}">Add employee</a></div>
-<form method="get" class="d-flex gap-2 mb-3" role="search"><input class="form-control" type="search" name="q" value="{{ query }}" placeholder="Search email, name, or employee ID" aria-label="Search employees"><button class="btn btn-outline-primary" type="submit">Search</button></form>
-<div class="card p-3"><div class="table-responsive"><table class="table table-hover mb-3"><thead><tr><th>Employee</th><th>Team</th><th>Account</th><th>Engagement in last 7 days</th><th>Completed challenges</th><th>Check-ins total</th></tr></thead><tbody>
-{% for employee in page %}<tr>
-  <td><a href="{% url 'portal:employee_detail' employee.pk %}">{{ employee.full_name }}</a><div class="small text-muted">{{ employee.email }}</div></td>
-  <td>{{ employee.profile.team|default:'—' }}</td>
-  <td>{% if employee.is_active %}<span class="badge text-bg-success">Active</span>{% else %}<span class="badge text-bg-secondary">Inactive</span>{% endif %}</td>
-  <td>{% if employee.recent_checkins or employee.recent_evaluations %}<span class="badge text-bg-info">Activity recorded</span>{% else %}<span class="text-muted">No recent record</span>{% endif %}</td>
-  <td>{{ employee.completed_count }}</td><td>{{ employee.checkin_count }}</td>
-</tr>{% empty %}<tr><td colspan="6" class="text-muted">No employees found.</td></tr>{% endfor %}
-</tbody></table></div>{% include 'portal/pagination.html' %}</div>
+<div class="d-flex flex-wrap justify-content-between gap-2 align-items-center mb-3">
+  <div><h1 class="h2 mb-1">Employees</h1><p class="text-muted mb-0">Individual activity and challenge progress from saved app records.</p></div>
+  <a class="btn btn-primary" href="{% url 'portal:employee_new' %}">Add employee</a>
+</div>
+<form method="get" class="d-flex gap-2 mb-3" role="search">
+  <input class="form-control" type="search" name="q" value="{{ query }}" placeholder="Search email, name, or employee ID" aria-label="Search employees">
+  <button class="btn btn-outline-primary" type="submit">Search</button>
+</form>
+<div class="card p-3"><div class="table-responsive"><table class="table table-hover mb-3">
+  <thead><tr><th>Employee</th><th>Team</th><th>Account</th><th>Steps this month</th><th>Challenges completed</th><th>Points</th><th>Recent participation</th></tr></thead>
+  <tbody>{% for employee in page %}<tr>
+    <td><a href="{% url 'portal:employee_detail' employee.pk %}">{{ employee.full_name }}</a><div class="small text-muted">{{ employee.email }}</div></td>
+    <td>{{ employee.profile.team|default:'—' }}</td>
+    <td>{% if employee.is_active %}<span class="badge text-bg-success">Active</span>{% else %}<span class="badge text-bg-secondary">Inactive</span>{% endif %}</td>
+    <td>{% if employee.month_step_days %}{{ employee.month_steps }} <span class="small text-muted">({{ employee.month_step_days }} days)</span>{% else %}<span class="text-muted">No synced data</span>{% endif %}</td>
+    <td>{{ employee.completed_count }} / {{ employee.challenge_count }}</td>
+    <td>{{ employee.net_points }}</td>
+    <td>{% if employee.recent_checkins or employee.recent_evaluations %}<span class="badge text-bg-info">Activity recorded</span>{% else %}<span class="text-muted">No recent record</span>{% endif %}</td>
+  </tr>{% empty %}<tr><td colspan="7" class="text-muted">No employees found.</td></tr>{% endfor %}</tbody>
+</table></div>{% include 'portal/pagination.html' %}</div>
+<p class="small text-muted mt-3">Steps are synced Health Connect readings from the active device. Missing days are not counted as zero.</p>
 {% endblock %}
