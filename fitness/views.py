@@ -1,7 +1,10 @@
 import hashlib
 import json
 from datetime import date, timedelta
-from backports.zoneinfo import ZoneInfo
+try:
+    from zoneinfo import ZoneInfo
+except ImportError:  # Python 3.8 hosts
+    from backports.zoneinfo import ZoneInfo
 
 from django.db import transaction
 from django.db.models import Count, Sum

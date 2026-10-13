@@ -1,7 +1,10 @@
 import hashlib
 import json
 from decimal import Decimal, ROUND_HALF_UP
-from backports.zoneinfo import ZoneInfo
+try:
+    from zoneinfo import ZoneInfo
+except ImportError:  # Python 3.8 hosts
+    from backports.zoneinfo import ZoneInfo
 
 from django.db import IntegrityError, transaction
 from django.shortcuts import get_object_or_404

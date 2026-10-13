@@ -1,6 +1,9 @@
 from datetime import timedelta
 import math
-from backports.zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+try:
+    from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+except ImportError:  # Python 3.8 hosts
+    from backports.zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from django.utils import timezone
 from rest_framework import serializers

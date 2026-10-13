@@ -1,4 +1,7 @@
-from backports.zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+try:
+    from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+except ImportError:  # Python 3.8 hosts
+    from backports.zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from django.db import transaction
 from django.db.models import Count, Q, Sum
@@ -110,10 +113,15 @@ class HydrationWriteSerializer(serializers.Serializer):
 class ReminderWriteSerializer(serializers.Serializer):
     water_enabled = serializers.BooleanField(required=False)
     movement_enabled = serializers.BooleanField(required=False)
-    water_interval_minutes = serializers.IntegerField(required=False, min_value=30, max_value=240)
-    movement_interval_minutes = serializers.IntegerField(required=False, min_value=30, max_value=240)
+    challenge_enabled = serializers.BooleanField(required=False)
+    water_interval_minutes = serializers.IntegerField(required=False, min_value=15, max_value=360)
+    movement_interval_minutes = serializers.IntegerField(required=False, min_value=15, max_value=360)
+    # Older app versions send whole hours; newer versions send minutes after midnight.
     start_hour = serializers.IntegerField(required=False, min_value=0, max_value=23)
     end_hour = serializers.IntegerField(required=False, min_value=1, max_value=24)
+    start_minute = serializers.IntegerField(required=False, min_value=0, max_value=1439)
+    end_minute = serializers.IntegerField(required=False, min_value=1, max_value=1440)
+    challenge_minute = serializers.IntegerField(required=False, min_value=0, max_value=1439)
     time_zone = serializers.CharField(required=False, max_length=64)
 
     def validate_time_zone(self, value):
@@ -125,10 +133,20 @@ class ReminderWriteSerializer(serializers.Serializer):
 
     def validate(self, data):
         instance = self.instance
-        start = data.get("start_hour", instance.start_hour if instance else 9)
-        end = data.get("end_hour", instance.end_hour if instance else 19)
+        if "start_minute" not in data and "start_hour" in data:
+            data["start_minute"] = data["start_hour"] * 60
+        if "end_minute" not in data and "end_hour" in data:
+            data["end_minute"] = data["end_hour"] * 60
+        data.pop("start_hour", None)
+        data.pop("end_hour", None)
+        start = data.get("start_minute", instance.start_minute if instance else 540)
+        end = data.get("end_minute", instance.end_minute if instance else 1140)
         if start >= end:
-            raise serializers.ValidationError({"end_hour": "End hour must be later than start hour."})
+            raise serializers.ValidationError({"end_minute": "End time must be later than start time."})
+        if "start_minute" in data:
+            data["start_hour"] = data["start_minute"] // 60
+        if "end_minute" in data:
+            data["end_hour"] = min(24, max(1, -(-data["end_minute"] // 60)))
         return data
 
 
@@ -198,9 +216,12 @@ class HydrationLogDetailView(APIView):
 
 def reminder_payload(settings):
     return {"water_enabled": settings.water_enabled, "movement_enabled": settings.movement_enabled,
+            "challenge_enabled": settings.challenge_enabled,
             "water_interval_minutes": settings.water_interval_minutes,
             "movement_interval_minutes": settings.movement_interval_minutes,
             "start_hour": settings.start_hour, "end_hour": settings.end_hour,
+            "start_minute": settings.start_minute, "end_minute": settings.end_minute,
+            "challenge_minute": settings.challenge_minute,
             "time_zone": settings.time_zone}
 
 

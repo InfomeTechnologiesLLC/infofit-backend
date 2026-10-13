@@ -11,6 +11,7 @@ from challenges.models import BadgeAward, Challenge, ChallengeEnrollment, Points
 from fitness.models import ExerciseRecord, FitnessAccount
 from challenges.services import reconcile_user
 from challenges.tasks import create_challenge_reminders
+from wellness.models import ReminderSettings
 from notifications.models import Notification
 
 
@@ -149,6 +150,9 @@ class ChallengeTests(APITestCase):
         self.client.post(f"/api/v1/challenges/{self.challenge.pk}/join/")
         at_four = timezone.make_aware(datetime.combine(self.today, time(16)))
         with patch("challenges.tasks.timezone.now", return_value=at_four):
+            # Challenge reminders are opt-in.
+            self.assertEqual(create_challenge_reminders(), 0)
+            ReminderSettings.objects.create(user=self.user, challenge_enabled=True, challenge_minute=16 * 60)
             self.assertEqual(create_challenge_reminders(), 1)
             self.assertEqual(create_challenge_reminders(), 0)
             self.assertEqual(Notification.objects.filter(kind=Notification.Kind.CHALLENGE_REMINDER).count(), 1)
@@ -159,6 +163,15 @@ class ChallengeTests(APITestCase):
             enrollment.progress.save(update_fields=["is_complete"])
         with patch("challenges.tasks.timezone.now", return_value=at_four + timedelta(days=1)):
             self.assertEqual(create_challenge_reminders(), 0)
+
+    def test_challenge_reminder_waits_for_chosen_time(self):
+        self.client.post(f"/api/v1/challenges/{self.challenge.pk}/join/")
+        ReminderSettings.objects.create(user=self.user, challenge_enabled=True, challenge_minute=18 * 60 + 30)
+        at_six = timezone.make_aware(datetime.combine(self.today, time(18)))
+        with patch("challenges.tasks.timezone.now", return_value=at_six):
+            self.assertEqual(create_challenge_reminders(), 0)
+        with patch("challenges.tasks.timezone.now", return_value=at_six + timedelta(minutes=35)):
+            self.assertEqual(create_challenge_reminders(), 1)
 
     def test_admin_login_page_renders_for_signed_out_visitor(self):
         self.client.force_authenticate(user=None)

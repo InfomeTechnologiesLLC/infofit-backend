@@ -3,10 +3,10 @@ from datetime import datetime, timedelta, timezone as dt_timezone
 from unittest.mock import patch
 
 from django.test import TestCase
-from rest_framework.test import APITestCase
+from rest_framework.test import APIClient, APITestCase
 
 from accounts.models import User
-from notifications.models import Notification
+from notifications.models import Notification, PushDelivery, PushDevice
 from wellness.models import HydrationLog, ReminderSettings
 from wellness.tasks import create_wellness_reminders
 
@@ -59,6 +59,35 @@ class HydrationApiTests(APITestCase):
         self.assertEqual(self.client.get(url).status_code, 401)
 
 
+class ReminderTimeSettingsTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user("times@example.test", "Strong-passphrase-123")
+        self.client = APIClient()
+        self.client.force_authenticate(self.user)
+        self.url = "/api/v1/wellness/reminders/"
+
+    def test_minute_times_and_challenge_toggle_are_saved(self):
+        response = self.client.patch(self.url, {
+            "start_minute": 8 * 60 + 30, "end_minute": 17 * 60 + 45, "challenge_enabled": True,
+            "challenge_minute": 18 * 60 + 15, "water_interval_minutes": 45, "time_zone": "Asia/Kolkata",
+        }, format="json")
+        self.assertEqual(response.status_code, 200)
+        data = self.client.get(self.url).data
+        self.assertEqual((data["start_minute"], data["end_minute"]), (510, 1065))
+        self.assertEqual((data["start_hour"], data["end_hour"]), (8, 18))
+        self.assertTrue(data["challenge_enabled"])
+        self.assertEqual(data["challenge_minute"], 1095)
+        self.assertEqual(data["water_interval_minutes"], 45)
+
+    def test_legacy_hours_still_work_and_bad_windows_are_rejected(self):
+        self.assertEqual(self.client.patch(self.url, {"start_hour": 7, "end_hour": 21}, format="json").status_code, 200)
+        data = self.client.get(self.url).data
+        self.assertEqual((data["start_minute"], data["end_minute"]), (420, 1260))
+        self.assertEqual(self.client.patch(self.url, {"start_minute": 600, "end_minute": 600}, format="json").status_code, 400)
+        self.assertEqual(self.client.patch(self.url, {"water_interval_minutes": 10}, format="json").status_code, 400)
+        self.assertEqual(self.client.patch(self.url, {"end_minute": 1440}, format="json").status_code, 200)
+
+
 class ReminderTaskTests(TestCase):
     def test_opt_in_daytime_reminders_are_idempotent_and_do_not_claim_sitting(self):
         user = User.objects.create_user("remind@example.test", "Strong-passphrase-123")
@@ -72,6 +101,20 @@ class ReminderTaskTests(TestCase):
         self.assertFalse(any("sitting" in row.body.lower() for row in Notification.objects.filter(user=user)))
         with patch("wellness.tasks.timezone.now", return_value=at_noon.replace(hour=20)):
             self.assertEqual(create_wellness_reminders(), 0)
+
+    def test_custom_start_minute_and_interval(self):
+        user = User.objects.create_user("custom@example.test", "Strong-passphrase-123")
+        ReminderSettings.objects.create(user=user, water_enabled=True, time_zone="UTC",
+                                        start_minute=9 * 60 + 15, end_minute=12 * 60, water_interval_minutes=45)
+        PushDevice.objects.create(user=user, token="device-token-for-test")
+        base = datetime(2026, 10, 7, 9, 15, tzinfo=dt_timezone.utc)
+        with patch("wellness.tasks.timezone.now", return_value=base):
+            self.assertEqual(create_wellness_reminders(), 1)  # first one at the start time
+        with patch("wellness.tasks.timezone.now", return_value=base + timedelta(minutes=20)):
+            self.assertEqual(create_wellness_reminders(), 0)
+        with patch("wellness.tasks.timezone.now", return_value=base + timedelta(minutes=46)):
+            self.assertEqual(create_wellness_reminders(), 1)  # 10:00
+        self.assertFalse(PushDelivery.objects.exists())  # the phone shows reminders itself
 
     def test_recent_water_log_suppresses_water_prompt_not_movement_prompt(self):
         user = User.objects.create_user("logged@example.test", "Strong-passphrase-123")

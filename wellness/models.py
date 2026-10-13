@@ -64,7 +64,13 @@ class ReminderSettings(models.Model):
     movement_enabled = models.BooleanField(default=False)
     water_interval_minutes = models.PositiveSmallIntegerField(default=90)
     movement_interval_minutes = models.PositiveSmallIntegerField(default=60)
+    # Legacy whole-hour window, kept in step with the minute fields for older app versions.
     start_hour = models.PositiveSmallIntegerField(default=9)
     end_hour = models.PositiveSmallIntegerField(default=19)
+    # Minutes after local midnight (9:30 = 570). end_minute may be 1440 (midnight, end of day).
+    start_minute = models.PositiveSmallIntegerField(default=540)
+    end_minute = models.PositiveSmallIntegerField(default=1140)
+    challenge_enabled = models.BooleanField(default=False)
+    challenge_minute = models.PositiveSmallIntegerField(default=1020)
     time_zone = models.CharField(max_length=64, default="UTC")
     updated_at = models.DateTimeField(auto_now=True)
