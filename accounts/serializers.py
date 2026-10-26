@@ -29,13 +29,17 @@ class ProfileSerializer(serializers.ModelSerializer):
     last_name = serializers.CharField(source="user.last_name", required=False, allow_blank=True, max_length=100)
     department = serializers.CharField(source="department.name", read_only=True, default=None)
     team = serializers.CharField(source="team.name", read_only=True, default=None)
+    onboarding_completed = serializers.SerializerMethodField()
+
+    def get_onboarding_completed(self, obj):
+        return obj.onboarding_completed_at is not None
 
     class Meta:
         model = EmployeeProfile
         fields = [
             "id", "email", "employee_id", "role", "first_name", "last_name",
             "department", "team", "designation", "branch", "date_of_joining",
-            "fitness_goal", "daily_step_goal", "wellness_preferences",
+            "fitness_goal", "daily_step_goal", "wellness_preferences", "onboarding_completed",
         ]
         # Organisational fields can only be changed by admins, never by the employee.
         read_only_fields = ["designation", "branch", "date_of_joining"]

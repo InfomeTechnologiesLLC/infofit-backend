@@ -1,5 +1,7 @@
 import logging
 
+from django.utils import timezone
+
 from rest_framework import status
 from rest_framework.generics import GenericAPIView, RetrieveUpdateAPIView
 from rest_framework.response import Response
@@ -55,6 +57,28 @@ class ProfileView(RetrieveUpdateAPIView):
     def get_object(self):
         profile, _ = EmployeeProfile.objects.select_related("user", "department", "team").get_or_create(user=self.request.user)
         return profile
+
+
+class OnboardingView(GenericAPIView):
+    """POST marks the first-login tutorial done (idempotent); DELETE re-arms it so it can be replayed."""
+    serializer_class = ProfileSerializer
+
+    def _profile(self, request):
+        profile, _ = EmployeeProfile.objects.select_related("user", "department", "team").get_or_create(user=request.user)
+        return profile
+
+    def post(self, request):
+        profile = self._profile(request)
+        if profile.onboarding_completed_at is None:
+            profile.onboarding_completed_at = timezone.now()
+            profile.save(update_fields=["onboarding_completed_at", "updated_at"])
+        return Response(ProfileSerializer(profile).data)
+
+    def delete(self, request):
+        profile = self._profile(request)
+        profile.onboarding_completed_at = None
+        profile.save(update_fields=["onboarding_completed_at", "updated_at"])
+        return Response(ProfileSerializer(profile).data)
 
 
 class PasswordChangeView(GenericAPIView):

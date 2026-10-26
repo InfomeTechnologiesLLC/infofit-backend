@@ -10,5 +10,7 @@ urlpatterns = [
     path("hydration/today/", views.HydrationTodayView.as_view()),
     path("hydration/logs/", views.HydrationLogView.as_view()),
     path("hydration/logs/<int:pk>/", views.HydrationLogDetailView.as_view()),
+    path("bmi/", views.BmiView.as_view()),
+    path("bmi/<int:pk>/", views.BmiDetailView.as_view()),
     path("reminders/", views.ReminderSettingsView.as_view()),
 ]

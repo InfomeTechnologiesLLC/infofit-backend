@@ -3,6 +3,9 @@ try:
 except ImportError:  # Python 3.8 hosts
     from backports.zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
+from datetime import timedelta
+from decimal import Decimal, ROUND_HALF_UP
+
 from django.db import transaction
 from django.db.models import Count, Q, Sum
 from django.utils import timezone
@@ -15,7 +18,7 @@ from rest_framework.views import APIView
 from accounts.models import EmployeeProfile
 from challenges.views import local_today
 from fitness.models import FitnessAccount
-from .models import HydrationLog, ProgramCheckIn, ProgramEnrollment, ReminderSettings, WellnessProgram
+from .models import BodyMeasurement, bmi_category, HydrationLog, ProgramCheckIn, ProgramEnrollment, ReminderSettings, WellnessProgram
 
 
 def user_goal(user):
@@ -114,6 +117,7 @@ class ReminderWriteSerializer(serializers.Serializer):
     water_enabled = serializers.BooleanField(required=False)
     movement_enabled = serializers.BooleanField(required=False)
     challenge_enabled = serializers.BooleanField(required=False)
+    bmi_enabled = serializers.BooleanField(required=False)
     water_interval_minutes = serializers.IntegerField(required=False, min_value=15, max_value=360)
     movement_interval_minutes = serializers.IntegerField(required=False, min_value=15, max_value=360)
     # Older app versions send whole hours; newer versions send minutes after midnight.
@@ -217,6 +221,7 @@ class HydrationLogDetailView(APIView):
 def reminder_payload(settings):
     return {"water_enabled": settings.water_enabled, "movement_enabled": settings.movement_enabled,
             "challenge_enabled": settings.challenge_enabled,
+            "bmi_enabled": settings.bmi_enabled,
             "water_interval_minutes": settings.water_interval_minutes,
             "movement_interval_minutes": settings.movement_interval_minutes,
             "start_hour": settings.start_hour, "end_hour": settings.end_hour,
@@ -242,3 +247,76 @@ class ReminderSettingsView(APIView):
             setattr(settings, field, value)
         settings.save()
         return Response(reminder_payload(settings))
+
+
+# ---- BMI tracker -----------------------------------------------------------------------------
+
+class BodyMeasurementSerializer(serializers.Serializer):
+    height_cm = serializers.DecimalField(max_digits=4, decimal_places=1, min_value=Decimal("100"), max_value=Decimal("250"))
+    weight_kg = serializers.DecimalField(max_digits=5, decimal_places=1, min_value=Decimal("25"), max_value=Decimal("300"))
+
+
+def compute_bmi(height_cm, weight_kg):
+    metres = Decimal(height_cm) / Decimal(100)
+    return (Decimal(weight_kg) / (metres * metres)).quantize(Decimal("0.1"), rounding=ROUND_HALF_UP)
+
+
+def _entry(m):
+    return {"id": m.pk, "local_date": m.local_date, "height_cm": float(m.height_cm),
+            "weight_kg": float(m.weight_kg), "bmi": float(m.bmi), "category": bmi_category(float(m.bmi))}
+
+
+def bmi_payload(user):
+    """Latest value, due date, and one point per week (the last entry of each Monday-start week)."""
+    _, zone = employee_time_zone(user)
+    today = timezone.now().astimezone(zone).date()
+    rows = list(BodyMeasurement.objects.filter(user=user).order_by("local_date")[:520])
+    weeks = {}
+    for m in rows:
+        weeks[m.local_date - timedelta(days=m.local_date.weekday())] = m  # later rows overwrite earlier
+    weekly, previous = [], None
+    for week_start in sorted(weeks):
+        item = _entry(weeks[week_start])
+        item["week_start"] = week_start
+        item["weight_change_kg"] = round(item["weight_kg"] - previous["weight_kg"], 1) if previous else None
+        item["bmi_change"] = round(item["bmi"] - previous["bmi"], 1) if previous else None
+        weekly.append(item)
+        previous = item
+    latest = _entry(rows[-1]) if rows else None
+    next_due = rows[-1].local_date + timedelta(days=7) if rows else today
+    return {
+        "local_date": today, "latest": latest, "height_cm": latest["height_cm"] if latest else None,
+        "first_weight_kg": float(rows[0].weight_kg) if rows else None,
+        "total_weight_change_kg": round(latest["weight_kg"] - float(rows[0].weight_kg), 1) if rows else None,
+        "next_due_date": next_due, "update_due": today >= next_due,
+        "weekly": weekly[-52:],
+        "note": "BMI is a general screening figure and does not account for muscle, age or body build. "
+                "It is not a diagnosis. Talk to a clinician about any health concern.",
+    }
+
+
+class BmiView(APIView):
+    def get(self, request):
+        return Response(bmi_payload(request.user))
+
+    def post(self, request):
+        serializer = BodyMeasurementSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        data = serializer.validated_data
+        zone_name, zone = employee_time_zone(request.user)
+        today = timezone.now().astimezone(zone).date()
+        _, created = BodyMeasurement.objects.update_or_create(
+            user=request.user, local_date=today,
+            defaults={"height_cm": data["height_cm"], "weight_kg": data["weight_kg"],
+                      "bmi": compute_bmi(data["height_cm"], data["weight_kg"]), "time_zone": zone_name},
+        )
+        return Response(bmi_payload(request.user), status=status.HTTP_201_CREATED if created else status.HTTP_200_OK)
+
+
+class BmiDetailView(APIView):
+    def delete(self, request, pk):
+        entry = BodyMeasurement.objects.filter(user=request.user, pk=pk).first()
+        if not entry:
+            raise NotFound("Measurement not found.")
+        entry.delete()
+        return Response(bmi_payload(request.user))

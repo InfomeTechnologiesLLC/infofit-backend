@@ -71,6 +71,35 @@ class ReminderSettings(models.Model):
     start_minute = models.PositiveSmallIntegerField(default=540)
     end_minute = models.PositiveSmallIntegerField(default=1140)
     challenge_enabled = models.BooleanField(default=False)
+    bmi_enabled = models.BooleanField(default=False)
     challenge_minute = models.PositiveSmallIntegerField(default=1020)
     time_zone = models.CharField(max_length=64, default="UTC")
     updated_at = models.DateTimeField(auto_now=True)
+
+
+def bmi_category(bmi):
+    """Standard adult BMI bands (WHO). A screening figure, not a diagnosis."""
+    if bmi < 18.5:
+        return "underweight"
+    if bmi < 25:
+        return "healthy_range"
+    if bmi < 30:
+        return "overweight"
+    return "obesity"
+
+
+class BodyMeasurement(models.Model):
+    """Self-reported height/weight. One row per employee per local day; BMI is computed on the server."""
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="body_measurements")
+    height_cm = models.DecimalField(max_digits=4, decimal_places=1)
+    weight_kg = models.DecimalField(max_digits=5, decimal_places=1)
+    bmi = models.DecimalField(max_digits=4, decimal_places=1)
+    local_date = models.DateField()
+    time_zone = models.CharField(max_length=64)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=["user", "local_date"], name="uniq_body_measurement_day")]
+        indexes = [models.Index(fields=["user", "-local_date"], name="body_measure_user_day_idx")]
+        ordering = ["-local_date"]

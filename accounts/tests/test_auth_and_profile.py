@@ -250,3 +250,39 @@ class PermissionClassTests(BaseAPITest):
 class HealthTests(BaseAPITest):
     def test_health_endpoint(self):
         self.assertEqual(self.client.get("/healthz/").status_code, 200)
+
+
+class OnboardingTests(APITestCase):
+    URL = "/api/v1/profile/onboarding/"
+
+    def setUp(self):
+        self.user = make_user("onboard@infome.test")
+        self.other = make_user("other-onboard@infome.test")
+        self.client.force_authenticate(self.user)
+
+    def test_new_profile_needs_onboarding_then_complete_is_idempotent(self):
+        self.assertFalse(self.client.get("/api/v1/profile/").data["onboarding_completed"])
+        first = self.client.post(self.URL)
+        self.assertEqual(first.status_code, 200)
+        self.assertTrue(first.data["onboarding_completed"])
+        self.user.profile.refresh_from_db()
+        stamp = self.user.profile.onboarding_completed_at
+        self.assertIsNotNone(stamp)
+        self.assertEqual(self.client.post(self.URL).status_code, 200)
+        self.user.profile.refresh_from_db()
+        self.assertEqual(self.user.profile.onboarding_completed_at, stamp)  # not re-stamped
+
+    def test_replay_resets_only_own_flag_and_flag_is_not_client_writable(self):
+        self.client.post(self.URL)
+        self.client.force_authenticate(self.other)
+        self.client.post(self.URL)
+        self.client.force_authenticate(self.user)
+        self.assertFalse(self.client.delete(self.URL).data["onboarding_completed"])
+        self.other.profile.refresh_from_db()
+        self.assertIsNotNone(self.other.profile.onboarding_completed_at)
+        patched = self.client.patch("/api/v1/profile/", {"onboarding_completed": True}, format="json")
+        self.assertFalse(patched.data["onboarding_completed"])
+
+    def test_requires_authentication(self):
+        self.client.force_authenticate(None)
+        self.assertEqual(self.client.post(self.URL).status_code, 401)

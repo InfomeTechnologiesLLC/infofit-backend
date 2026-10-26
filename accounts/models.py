@@ -104,6 +104,8 @@ class EmployeeProfile(models.Model):
     fitness_goal = models.CharField(max_length=20, choices=FitnessGoal.choices, default=FitnessGoal.GENERAL)
     daily_step_goal = models.PositiveIntegerField(default=10000)
     wellness_preferences = models.JSONField(default=dict, blank=True)
+    # Set once the employee finishes or skips the first-login tutorial; null means "show it".
+    onboarding_completed_at = models.DateTimeField(null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):

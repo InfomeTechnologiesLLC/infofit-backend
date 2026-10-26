@@ -10,6 +10,7 @@ class Notification(models.Model):
         COMMUNITY_REPLY = "community_reply", "Community reply"
         WATER_BREAK = "water_break", "Water break"
         MOVEMENT_BREAK = "movement_break", "Movement break"
+        BMI_CHECKIN = "bmi_checkin", "Weekly BMI check-in"
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="notifications")
     kind = models.CharField(max_length=32, choices=Kind.choices)

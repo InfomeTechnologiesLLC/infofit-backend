@@ -9,7 +9,7 @@ from django.utils import timezone
 
 from notifications.models import Notification
 from notifications.services import create_notification
-from .models import HydrationLog, ReminderSettings
+from .models import BodyMeasurement, HydrationLog, ReminderSettings
 
 
 def _due_slot(minute_of_day, start_minute, end_minute, interval):
@@ -65,4 +65,36 @@ def create_wellness_reminders():
                     f"wellness:movement:{date_key}:{settings.start_minute}:{interval}:{slot}", push=False,
                 )
                 created_count += int(created)
+    return created_count
+
+
+@shared_task
+def create_weekly_bmi_reminders():
+    """Opt-in weekly inbox prompt to update BMI, at the employee's reminder start time.
+
+    Sent only when the latest measurement is 7+ days old (or none exists); one per ISO week.
+    """
+    now = timezone.now()
+    created_count = 0
+    for settings in ReminderSettings.objects.filter(bmi_enabled=True).select_related("user").iterator():
+        if not settings.user.is_active:
+            continue
+        try:
+            local = now.astimezone(ZoneInfo(settings.time_zone))
+        except (ZoneInfoNotFoundError, ValueError):
+            continue
+        minute_of_day = local.hour * 60 + local.minute
+        if not (settings.start_minute <= minute_of_day < settings.start_minute + 5):
+            continue
+        latest = BodyMeasurement.objects.filter(user=settings.user).order_by("-local_date").values_list(
+            "local_date", flat=True).first()
+        if latest and (local.date() - latest).days < 7:
+            continue
+        year, week, _ = local.date().isocalendar()
+        _, created = create_notification(
+            settings.user, Notification.Kind.BMI_CHECKIN,
+            "Weekly BMI check-in", "If you wish, update your weight to keep your weekly progress up to date.",
+            f"wellness:bmi:{year}-W{week}", push=False,
+        )
+        created_count += int(created)
     return created_count
