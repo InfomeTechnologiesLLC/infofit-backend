@@ -167,7 +167,9 @@ LOGGING = {
     "disable_existing_loggers": False,
     "handlers": {"console": {"class": "logging.StreamHandler"}},
     "loggers": {
-        "infome.audit": {"handlers": ["console"], "level": "INFO"},
+        "infome.audit": {"handlers": ["console"], "level": "INFO", "propagate": False},
+        # Warnings and errors from the app's own code (IVA, community photos, automations) reach the console too.
+        "infome": {"handlers": ["console"], "level": "WARNING"},
         "django.request": {"handlers": ["console"], "level": "WARNING"},
     },
 }

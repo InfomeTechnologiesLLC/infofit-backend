@@ -5,6 +5,7 @@ from datetime import timedelta
 from unittest.mock import patch
 
 from django.core.cache import cache
+from django.test import override_settings
 from django.utils import timezone
 from rest_framework.test import APITestCase
 
@@ -210,3 +211,25 @@ class StreamTests(AgentBase):
             body = b"".join(response.streaming_content).decode()
         self.assertIn("event: error", body)
         self.assertIn("unavailable", body)
+
+
+class StreamAcceptHeaderTests(APITestCase):
+    """The Android app sends Accept: text/event-stream; DRF must not answer 406."""
+
+    def setUp(self):
+        self.user = User.objects.create_user(email="stream@example.test", password="Strong-Passphrase-123")
+        self.client.force_authenticate(self.user)
+
+    @override_settings(GEMINI_API_KEY="")
+    def test_event_stream_accept_header_reaches_the_view(self):
+        response = self.client.post("/api/v1/assistant/stream/", {"message": "hello"}, format="json",
+                                    HTTP_ACCEPT="text/event-stream")
+        self.assertEqual(response.status_code, 200)
+        body = b"".join(response.streaming_content).decode()
+        self.assertIn("event: error", body)  # no AI key in tests, so IVA reports it is unavailable
+
+    def test_validation_errors_are_still_readable_json(self):
+        response = self.client.post("/api/v1/assistant/stream/", {"message": ""}, format="json",
+                                    HTTP_ACCEPT="text/event-stream")
+        self.assertEqual(response.status_code, 400)
+        self.assertIn(b'"error"', response.content)

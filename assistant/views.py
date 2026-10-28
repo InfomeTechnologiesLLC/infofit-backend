@@ -1,3 +1,4 @@
+from rest_framework.renderers import BaseRenderer as _BaseRenderer, JSONRenderer as _JSONRenderer
 from rest_framework.response import Response
 from rest_framework.throttling import ScopedRateThrottle
 from rest_framework.views import APIView
@@ -75,10 +76,25 @@ def _sse(event, data):
     return f"event: {event}\ndata: {_json.dumps(data, default=str)}\n\n"
 
 
+class EventStreamRenderer(_BaseRenderer):
+    """Lets DRF accept `Accept: text/event-stream`. Without it DRF answers 406 before the view runs.
+
+    The stream itself is a StreamingHttpResponse and never goes through a renderer; this only renders error
+    bodies (validation, throttling, auth) as JSON text so the app can still read them.
+    """
+    media_type = "text/event-stream"
+    format = "event-stream"
+    charset = "utf-8"
+
+    def render(self, data, accepted_media_type=None, renderer_context=None):
+        return _json.dumps(data, default=str).encode("utf-8")
+
+
 class AgentStreamView(APIView):
     """Same as AgentChatView, streamed as server-sent events: `delta` events with text, then `done` (or `error`)."""
     throttle_classes = [ScopedRateThrottle]
     throttle_scope = "ai"
+    renderer_classes = [_JSONRenderer, EventStreamRenderer]
 
     def post(self, request):
         serializer = AgentMessageSerializer(data=request.data)

@@ -16,6 +16,10 @@ from rest_framework.views import APIView
 from rest_framework import serializers
 from rest_framework.throttling import ScopedRateThrottle
 
+import logging
+
+from django.conf import settings
+
 from accounts.models import ADMIN_ROLES, EmployeeProfile
 from . import moderation
 from .models import CommunityComment, CommunityPost, CommunityReaction, CommunityReport
@@ -24,8 +28,17 @@ from notifications.models import Notification
 from notifications.services import create_notification
 
 
+_log = logging.getLogger("infome.community")
+
+
 def team_id_for(user):
     return EmployeeProfile.objects.filter(user=user).values_list("team_id", flat=True).first()
+
+
+class PhotoStorageUnavailable(APIException):
+    status_code = 503
+    default_detail = "The server couldn't save the photo right now. Please try again later."
+    default_code = "photo_storage_unavailable"
 
 
 class RequestConflict(APIException):
@@ -181,7 +194,12 @@ class PhotoPostView(APIView):
                 raise RequestConflict()
             return Response(fresh_post_payload(existing.pk, request.user))
         post = CommunityPost(author=request.user, client_request_id=request_id, **fields, **screened_fields(data["body"]))
-        post.image.save(f"{uuid.uuid4().hex}.jpg", ContentFile(photo), save=False)
+        try:
+            post.image.save(f"{uuid.uuid4().hex}.jpg", ContentFile(photo), save=False)
+        except OSError as exc:
+            # Usually MEDIA_ROOT is missing, read-only or full on the server.
+            _log.exception("Could not store community photo in %s", settings.MEDIA_ROOT)
+            raise PhotoStorageUnavailable() from exc
         try:
             with transaction.atomic():
                 post.save()

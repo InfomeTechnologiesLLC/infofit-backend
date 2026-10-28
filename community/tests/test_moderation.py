@@ -54,3 +54,24 @@ class ModerationTests(APITestCase):
         response = self.client.post("/api/v1/community/posts/assist/", {"body": "walked 10k today who joins tmrw"}, format="json")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data["hashtags"], ["walking", "10k"])
+
+
+class PhotoStorageFailureTests(APITestCase):
+    def test_unwritable_media_folder_gives_a_clear_503(self):
+        import io
+        import uuid
+        from unittest.mock import patch as _patch
+        from PIL import Image
+        from accounts.models import User as _User
+        user = _User.objects.create_user(email="photo-storage@example.test", password="Strong-Passphrase-123")
+        self.client.force_authenticate(user)
+        buf = io.BytesIO()
+        Image.new("RGB", (40, 30), (10, 200, 10)).save(buf, "JPEG")
+        buf.seek(0)
+        buf.name = "p.jpg"
+        with _patch("django.db.models.fields.files.FieldFile.save", side_effect=PermissionError("read-only")):
+            response = self.client.post("/api/v1/community/posts/photos/", {
+                "body": "Lunch walk", "visibility": "company", "client_request_id": str(uuid.uuid4()), "image": buf,
+            }, format="multipart")
+        self.assertEqual(response.status_code, 503)
+        self.assertIn("couldn't save the photo", str(response.data))
