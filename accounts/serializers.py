@@ -2,7 +2,7 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from .models import EmployeeProfile, User
+from .models import Department, EmployeeProfile, User
 
 
 class LoginSerializer(TokenObtainPairSerializer):
@@ -79,3 +79,37 @@ class PasswordChangeSerializer(serializers.Serializer):
 
 class LogoutSerializer(serializers.Serializer):
     refresh = serializers.CharField()
+
+
+class RegisterSerializer(serializers.Serializer):
+    """Self sign-up from the app: name, work email, password and department. Always an ordinary employee."""
+    full_name = serializers.CharField(max_length=200, trim_whitespace=True)
+    email = serializers.EmailField(max_length=254)
+    password = serializers.CharField(write_only=True, max_length=128, trim_whitespace=False)
+    department = serializers.PrimaryKeyRelatedField(queryset=Department.objects.all(), required=False, allow_null=True)
+
+    def validate_full_name(self, value):
+        value = " ".join(value.split())
+        if len(value) < 2:
+            raise serializers.ValidationError("Enter your name.")
+        return value
+
+    def validate_email(self, value):
+        value = value.strip().lower()
+        if User.objects.filter(email__iexact=value).exists():
+            raise serializers.ValidationError("An account with this email already exists. Sign in instead.")
+        return value
+
+    def validate(self, attrs):
+        # A department is required once HR has created any; before that, sign-up still works.
+        if attrs.get("department") is None and Department.objects.exists():
+            raise serializers.ValidationError({"department": "Choose your department."})
+        first, _, last = attrs["full_name"].partition(" ")
+        candidate = User(email=attrs["email"], first_name=first[:100], last_name=last[:100])
+        try:
+            validate_password(attrs["password"], user=candidate)
+        except Exception as exc:  # django ValidationError -> field error the app can show
+            messages = getattr(exc, "messages", None) or ["Choose a stronger password."]
+            raise serializers.ValidationError({"password": messages[0]})
+        attrs["first_name"], attrs["last_name"] = first[:100], last[:100]
+        return attrs

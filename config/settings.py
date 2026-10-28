@@ -112,7 +112,7 @@ REST_FRAMEWORK = {
         "rest_framework.throttling.AnonRateThrottle",
         "rest_framework.throttling.UserRateThrottle",
     ),
-    "DEFAULT_THROTTLE_RATES": {"anon": "30/min", "user": "300/min", "login": "10/min", "ai": "10/min", "nutrition": "20/min"},
+    "DEFAULT_THROTTLE_RATES": {"anon": "30/min", "user": "300/min", "login": "10/min", "register": "10/hour", "ai": "10/min", "nutrition": "20/min"},
     "EXCEPTION_HANDLER": "config.api_errors.api_exception_handler",
 }
 
@@ -129,6 +129,8 @@ CSRF_TRUSTED_ORIGINS = env("CSRF_TRUSTED_ORIGINS")
 GEMINI_API_KEY = env("GEMINI_API_KEY", default="")
 GEMINI_MODEL = env("GEMINI_MODEL", default="gemini-2.5-flash-lite")
 GEMINI_VISION_MODEL = env("GEMINI_VISION_MODEL", default="gemini-2.5-flash-lite")
+# Anyone with the app can create an ordinary employee account. Set False to make HR create every account.
+ALLOW_SELF_REGISTRATION = env.bool("ALLOW_SELF_REGISTRATION", default=True)
 # Hold community posts that look harmful for staff review before they appear (falls back to simple rules offline).
 COMMUNITY_AI_MODERATION = env.bool("COMMUNITY_AI_MODERATION", default=True)
 # USDA's DEMO_KEY is suitable only for local evaluation; deployed servers need their own key.
