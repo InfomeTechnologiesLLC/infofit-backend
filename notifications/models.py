@@ -11,6 +11,10 @@ class Notification(models.Model):
         WATER_BREAK = "water_break", "Water break"
         MOVEMENT_BREAK = "movement_break", "Movement break"
         BMI_CHECKIN = "bmi_checkin", "Weekly BMI check-in"
+        COACH_NUDGE = "coach_nudge", "Daily coach"
+        WEEKLY_REVIEW = "weekly_review", "Weekly review"
+        REENGAGEMENT = "reengagement", "Re-engagement"
+        HR_DIGEST = "hr_digest", "HR participation digest"
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="notifications")
     kind = models.CharField(max_length=32, choices=Kind.choices)
