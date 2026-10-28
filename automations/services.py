@@ -8,7 +8,7 @@ import json
 import logging
 import statistics
 from datetime import timedelta
-from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+from backports.zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from django.conf import settings
 from django.db import transaction
