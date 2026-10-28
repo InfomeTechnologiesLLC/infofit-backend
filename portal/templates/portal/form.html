@@ -1,6 +1,43 @@
 {% extends 'portal/base.html' %}
 {% block content %}
 <div class="mb-3"><a href="{{ cancel_url }}" class="small">← Back</a><h1 class="h2 mt-2">{{ title }}</h1><p class="text-muted">{{ help_text }}</p></div>
+{% if draft_kind %}
+<div class="card p-3 mb-3 border-info-subtle" style="max-width:780px">
+  <label class="form-label fw-semibold" for="ai-brief">Draft with AI <span class="badge text-bg-info">optional</span></label>
+  <div class="d-flex flex-wrap gap-2">
+    <input id="ai-brief" class="form-control flex-grow-1" style="min-width:240px" maxlength="600"
+      placeholder="{% if draft_kind == 'challenge' %}e.g. a 2-week team step challenge for Ramadan, gentle pace{% else %}e.g. a 3-week desk-stretch habit for office staff{% endif %}">
+    <button type="button" id="ai-draft-button" class="btn btn-outline-info">Draft</button>
+  </div>
+  <div id="ai-draft-status" class="form-text">IVA fills in the title and text below. Check and edit everything before you save.</div>
+</div>
+<script>
+(function () {
+  const button = document.getElementById("ai-draft-button");
+  const status = document.getElementById("ai-draft-status");
+  const csrf = document.querySelector("[name=csrfmiddlewaretoken]").value;
+  button.addEventListener("click", async function () {
+    const brief = document.getElementById("ai-brief").value.trim();
+    if (brief.length < 3) { status.textContent = "Describe what you want in a few words."; return; }
+    button.disabled = true; status.textContent = "Drafting…";
+    try {
+      const body = new URLSearchParams({kind: "{{ draft_kind }}", brief: brief});
+      const response = await fetch("{% url 'portal:ai_draft' %}", {method: "POST", body: body,
+        headers: {"X-CSRFToken": csrf}, credentials: "same-origin"});
+      const result = await response.json();
+      if (!response.ok) { status.textContent = result.error || "Could not draft right now."; return; }
+      for (const [name, value] of Object.entries(result.draft)) {
+        const field = document.getElementById("id_" + name);
+        if (field && (!field.value || confirm("Replace the current " + name.replace("_", " ") + "?"))) field.value = value;
+      }
+      status.textContent = "Draft added. Check and edit it, then save.";
+    } catch (e) {
+      status.textContent = "Could not draft right now. Please write it yourself.";
+    } finally { button.disabled = false; }
+  });
+})();
+</script>
+{% endif %}
 <form method="post" class="card p-4" style="max-width:780px">{% csrf_token %}
   {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors }}</div>{% endif %}
   <div class="row g-3">

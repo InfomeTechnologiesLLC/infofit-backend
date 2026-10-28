@@ -36,6 +36,7 @@
       <nav class="col-12 col-lg-2" aria-label="Portal sections">
         <div class="card p-2">
           <a class="nav-link px-3 py-2 {% if section == 'dashboard' %}active{% endif %}" href="{% url 'portal:dashboard' %}">Overview</a>
+          <a class="nav-link px-3 py-2 {% if section == 'insights' %}active{% endif %}" href="{% url 'portal:insights' %}">Ask about participation</a>
           <a class="nav-link px-3 py-2 {% if section == 'employees' %}active{% endif %}" href="{% url 'portal:employees' %}">Employees</a>
           <a class="nav-link px-3 py-2 {% if section == 'teams' %}active{% endif %}" href="{% url 'portal:teams' %}">Teams</a>
           <a class="nav-link px-3 py-2 {% if section == 'departments' %}active{% endif %}" href="{% url 'portal:departments' %}">Departments</a>

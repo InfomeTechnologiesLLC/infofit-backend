@@ -11,7 +11,7 @@ from .models import Notification, PushDevice
 
 def payload(item):
     return {"id": item.id, "kind": item.kind, "title": item.title, "body": item.body,
-            "created_at": item.created_at, "read_at": item.read_at}
+            "data": item.data or {}, "created_at": item.created_at, "read_at": item.read_at}
 
 
 class NotificationPagination(PageNumberPagination):

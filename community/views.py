@@ -13,8 +13,11 @@ from rest_framework.exceptions import APIException, NotFound, PermissionDenied, 
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import serializers
+from rest_framework.throttling import ScopedRateThrottle
 
 from accounts.models import ADMIN_ROLES, EmployeeProfile
+from . import moderation
 from .models import CommunityComment, CommunityPost, CommunityReaction, CommunityReport
 from .serializers import CommentWriteSerializer, PhotoPostWriteSerializer, PostWriteSerializer, ReactionSerializer, ReportSerializer
 from notifications.models import Notification
@@ -31,11 +34,22 @@ class RequestConflict(APIException):
 
 
 def visible_posts(user):
+    """Published posts the employee may see, plus their own posts that are waiting for review."""
     team_id = team_id_for(user)
     allowed = Q(visibility=CommunityPost.Visibility.COMPANY) | Q(author=user)
     if team_id:
         allowed |= Q(visibility=CommunityPost.Visibility.TEAM, team_id=team_id)
-    return CommunityPost.objects.filter(status=CommunityPost.Status.PUBLISHED).filter(allowed)
+    return CommunityPost.objects.filter(
+        Q(status=CommunityPost.Status.PUBLISHED) & allowed |
+        Q(status=CommunityPost.Status.REVIEW, author=user))
+
+
+def screened_fields(body):
+    """Status fields for a new post after the automatic check."""
+    verdict, reason = moderation.screen(body)
+    if verdict == "review":
+        return {"status": CommunityPost.Status.REVIEW, "moderation_note": reason or "Held by the automatic check."}
+    return {}
 
 
 def post_or_404(user, pk):
@@ -71,6 +85,7 @@ def post_payload(post, user, user_kinds=None):
         "user_celebrated": CommunityReaction.Kind.CELEBRATE in kinds,
         "user_fired": CommunityReaction.Kind.FIRE in kinds,
         "can_delete": post.author_id == user.id or user.role in ADMIN_ROLES or user.is_superuser,
+        "status": post.status,
     }
 
 
@@ -103,7 +118,7 @@ class PostListView(APIView):
         if request_id:
             existing = CommunityPost.objects.filter(author=request.user, client_request_id=request_id).first()
             if existing:
-                if existing.status != CommunityPost.Status.PUBLISHED:
+                if existing.status == CommunityPost.Status.HIDDEN:
                     raise RequestConflict("This post is no longer visible.")
                 if (existing.image or existing.body != data["body"] or existing.hashtags != data.get("hashtags", [])
                         or existing.visibility != data["visibility"]):
@@ -114,14 +129,15 @@ class PostListView(APIView):
             raise ValidationError({"visibility": "Join a team before posting to a team feed."})
         fields = {"team_id": team_id, "body": data["body"],
                   "hashtags": data.get("hashtags", []), "visibility": data["visibility"]}
+        screened = screened_fields(data["body"])
         with transaction.atomic():
             if request_id:
                 post, created = CommunityPost.objects.get_or_create(
-                    author=request.user, client_request_id=request_id, defaults=fields)
+                    author=request.user, client_request_id=request_id, defaults={**fields, **screened})
                 if not created and (post.image or any(getattr(post, key) != value for key, value in fields.items() if key != "team_id")):
                     raise RequestConflict()
             else:
-                post = CommunityPost.objects.create(author=request.user, **fields)
+                post = CommunityPost.objects.create(author=request.user, **fields, **screened)
                 created = True
         return Response(fresh_post_payload(post.pk, request.user), status=status.HTTP_201_CREATED if created else 200)
 
@@ -164,7 +180,7 @@ class PhotoPostView(APIView):
             if not self.matches(existing, fields):
                 raise RequestConflict()
             return Response(fresh_post_payload(existing.pk, request.user))
-        post = CommunityPost(author=request.user, client_request_id=request_id, **fields)
+        post = CommunityPost(author=request.user, client_request_id=request_id, **fields, **screened_fields(data["body"]))
         post.image.save(f"{uuid.uuid4().hex}.jpg", ContentFile(photo), save=False)
         try:
             with transaction.atomic():
@@ -182,7 +198,7 @@ class PhotoPostView(APIView):
 
     @staticmethod
     def matches(post, fields):
-        return post.status == CommunityPost.Status.PUBLISHED and bool(post.image) and all(
+        return post.status != CommunityPost.Status.HIDDEN and bool(post.image) and all(
             getattr(post, key) == value for key, value in fields.items() if key != "team_id"
         )
 
@@ -290,3 +306,18 @@ class ReportView(APIView):
             defaults={"reason": serializer.validated_data["reason"]},
         )
         return Response({"reported": True}, status=status.HTTP_201_CREATED if created else 200)
+
+
+class AssistSerializer(serializers.Serializer):
+    body = serializers.CharField(max_length=2000, trim_whitespace=True)
+
+
+class PostAssistView(APIView):
+    """Caption and hashtag suggestions for a draft. Nothing is posted; the employee chooses what to use."""
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = "ai"
+
+    def post(self, request):
+        serializer = AssistSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response(moderation.assist(serializer.validated_data["body"]))

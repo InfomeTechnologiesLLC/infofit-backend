@@ -266,7 +266,9 @@ def records(request, section):
                                   f"{obj.target_running_minutes} running min" if obj.kind == Challenge.Kind.RUNNING else f"{obj.target_steps} steps",
                                   obj.enrollment_count, "Yes" if obj.is_published else "Draft"]
     else:
-        queryset = model.objects.annotate(enrollment_count=Count("enrollments", distinct=True)).order_by("-start_date", "-pk")
+        # Personal plans belong to one employee and are never listed or edited here.
+        queryset = model.objects.filter(owner__isnull=True).annotate(
+            enrollment_count=Count("enrollments", distinct=True)).order_by("-start_date", "-pk")
         headers = ["Program", "Dates", "Focus", "Participants", "Published"]
         make_cells = lambda obj: [obj.title, f"{obj.start_date} to {obj.end_date}", obj.get_focus_goal_display(),
                                   obj.enrollment_count, "Yes" if obj.is_published else "Draft"]
@@ -279,7 +281,8 @@ def records(request, section):
 @staff_only
 def record_form(request, section, pk=None):
     model, form_class, title, _, list_name = SECTION_CONFIG[section]
-    instance = get_object_or_404(model, pk=pk) if pk else None
+    base = model.objects.filter(owner__isnull=True) if section == "programs" else model.objects.all()
+    instance = get_object_or_404(base, pk=pk) if pk else None
     form = form_class(request.POST or None, instance=instance)
     if request.method == "POST" and form.is_valid():
         with transaction.atomic():
@@ -294,14 +297,31 @@ def record_form(request, section, pk=None):
     return render(request, "portal/form.html", page_context(
         f"Edit {title.lower().rstrip('s')}" if instance else f"Add {title.lower().rstrip('s')}",
         section, form=form, cancel_url=reverse(f"portal:{section}"),
+        draft_kind={"challenges": "challenge", "programs": "program"}.get(section),
         help_text="Published items remain visible in the app. Fields that affect an existing enrollment are locked."))
 
 
 @staff_only
 def posts(request):
-    page = Paginator(CommunityPost.objects.select_related("author", "team").order_by("-created_at"), 20).get_page(
-        request.GET.get("page"))
-    return render(request, "portal/posts.html", page_context("Community posts", "posts", page=page))
+    state = request.GET.get("status", "")
+    queryset = CommunityPost.objects.select_related("author", "team").order_by("-created_at")
+    if state in CommunityPost.Status.values:
+        queryset = queryset.filter(status=state)
+    page = Paginator(queryset, 20).get_page(request.GET.get("page"))
+    waiting = CommunityPost.objects.filter(status=CommunityPost.Status.REVIEW).count()
+    return render(request, "portal/posts.html", page_context("Community posts", "posts", page=page, state=state,
+                                                             waiting=waiting))
+
+
+@staff_only
+@require_POST
+def approve_post(request, pk):
+    post = get_object_or_404(CommunityPost, pk=pk)
+    if post.status != CommunityPost.Status.PUBLISHED:
+        post.status = CommunityPost.Status.PUBLISHED
+        post.save(update_fields=["status", "updated_at"])
+    messages.success(request, "Post published to the app feed.")
+    return redirect("portal:post_detail", pk=post.pk)
 
 
 @staff_only
@@ -371,3 +391,46 @@ def hide_reported_post(request, pk):
         report.save(update_fields=["status", "reviewed_at"])
     messages.success(request, "Post hidden and report resolved.")
     return redirect("portal:report_detail", pk=pk)
+
+
+
+# ---- AI help for staff ----------------------------------------------------------------------------
+
+@staff_only
+@never_cache
+def insights(request):
+    from ai_service.provider import AiUnavailable
+
+    from . import ai
+    question = (request.POST.get("question") or "").strip()[:500] if request.method == "POST" else ""
+    answer = error = None
+    dataset = ai.insight_dataset()
+    if question:
+        try:
+            answer = ai.ask(question, dataset)
+        except AiUnavailable:
+            error = "The AI assistant is unavailable right now. The figures below are still current."
+    return render(request, "portal/insights.html", page_context(
+        "Ask about participation", "insights", question=question, answer=answer, error=error,
+        dataset=dataset, suggestions=ai.SUGGESTED_QUESTIONS))
+
+
+@staff_only
+@require_POST
+def ai_draft(request):
+    from django.http import JsonResponse
+
+    from ai_service.provider import AiUnavailable
+
+    from . import ai
+    kind = request.POST.get("kind")
+    brief = (request.POST.get("brief") or "").strip()
+    if kind not in ai.DRAFT_SYSTEMS or not 3 <= len(brief) <= 600:
+        return JsonResponse({"error": "Describe what you want in a few words (up to 600 characters)."}, status=400)
+    try:
+        result = ai.draft(kind, brief)
+    except AiUnavailable:
+        result = None
+    if not result:
+        return JsonResponse({"error": "The AI assistant is unavailable right now. Please write it yourself."}, status=503)
+    return JsonResponse({"draft": result})

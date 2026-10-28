@@ -17,11 +17,24 @@ class WellnessProgram(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     is_published = models.BooleanField(default=False)
+    # A personal plan IVA drafted and the employee accepted. Only its owner ever sees it; staff lists exclude it.
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.CASCADE,
+                              related_name="personal_programs")
+    # Optional day-by-day actions, one string per day starting at start_date.
+    plan_days = models.JSONField(default=list, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def clean(self):
         if self.start_date and self.end_date and self.end_date < self.start_date:
             raise ValidationError({"end_date": "End date must be on or after start date."})
+
+    def action_for(self, day):
+        """Today's action for a day-by-day plan, else the program's general daily action."""
+        if self.plan_days and self.start_date and self.start_date <= day:
+            index = (day - self.start_date).days
+            if index < len(self.plan_days):
+                return self.plan_days[index]
+        return self.daily_action
 
     def __str__(self):
         return self.title

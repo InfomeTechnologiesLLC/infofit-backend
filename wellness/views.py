@@ -26,9 +26,14 @@ def user_goal(user):
     return profile.fitness_goal if profile else EmployeeProfile.FitnessGoal.GENERAL
 
 
+def visible_programs(user):
+    """Company programs plus this employee's own personal plans; never someone else's plan."""
+    return WellnessProgram.objects.filter(is_published=True).filter(Q(owner__isnull=True) | Q(owner=user))
+
+
 def eligible_program(pk, user, today):
-    program = WellnessProgram.objects.filter(pk=pk, is_published=True, end_date__gte=today).first()
-    if not program or (program.focus_goal not in ("all", user_goal(user)) and
+    program = visible_programs(user).filter(pk=pk, end_date__gte=today).first()
+    if not program or (program.owner_id is None and program.focus_goal not in ("all", user_goal(user)) and
                        not ProgramEnrollment.objects.filter(program=program, user=user).exists()):
         raise NotFound("Program not found.")
     return program
@@ -48,6 +53,9 @@ def program_payload(program, enrollment, today, goal):
         "can_join": program.start_date <= today <= program.end_date,
         "checked_in_today": bool(enrollment and enrollment.today_count),
         "check_in_count": enrollment.check_in_count if enrollment else 0,
+        "personal": program.owner_id is not None,
+        "today_action": program.action_for(today),
+        "plan_days": program.plan_days or [],
     }
 
 
@@ -64,11 +72,11 @@ class ProgramListView(APIView):
     def get(self, request):
         today = local_today(request.user)
         goal = user_goal(request.user)
-        programs = list(WellnessProgram.objects.filter(is_published=True, end_date__gte=today)
-            .filter(Q(focus_goal__in=["all", goal]) | Q(enrollments__user=request.user))
+        programs = list(visible_programs(request.user).filter(end_date__gte=today)
+            .filter(Q(focus_goal__in=["all", goal]) | Q(enrollments__user=request.user) | Q(owner=request.user))
             .distinct().order_by("start_date", "pk")[:100])
         enrollments = enrollments_for(request.user, programs, today)
-        programs.sort(key=lambda item: (item.focus_goal != goal, item.start_date, item.pk))
+        programs.sort(key=lambda item: (item.owner_id is None, item.focus_goal != goal, item.start_date, item.pk))
         return Response([program_payload(item, enrollments.get(item.pk), today, goal) for item in programs])
 
 
@@ -169,9 +177,11 @@ def hydration_today(user):
     today = timezone.now().astimezone(zone).date()
     logs = HydrationLog.objects.filter(user=user, local_date=today)
     aggregate = logs.aggregate(total_ml=Sum("volume_ml"), entries=Count("id"))
+    last = logs.order_by("-created_at", "-pk").values("pk", "created_at").first()
     return {"local_date": today, "time_zone": zone_name,
             "total_ml": aggregate["total_ml"] or 0, "entries": aggregate["entries"],
-            "last_log_id": logs.order_by("-created_at", "-pk").values_list("pk", flat=True).first()}
+            "last_log_id": last["pk"] if last else None,
+            "last_logged_at": last["created_at"] if last else None}
 
 
 class HydrationTodayView(APIView):

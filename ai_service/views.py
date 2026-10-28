@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.throttling import ScopedRateThrottle
 from rest_framework.views import APIView
 
-from .provider import complete
+from .provider import AiUnavailable, complete, complete_json
 from .nutrition import search_foods
 from .serializers import ChatSerializer, CoachingSerializer, FoodSearchSerializer, LensSerializer, MealGuidanceSerializer
 from .tools import read_context
@@ -34,6 +34,16 @@ CHAT_SYSTEM = (
     "and Health Connect active calories are different values; never combine or confuse them. A null metric "
     "means unavailable, not zero. Water entries are self-reported; missing entries do not prove someone "
     "did not drink. Do not claim to detect sitting or to save or change records."
+)
+
+LENS_ITEMS_SYSTEM = (
+    "You look at one photo and list the foods that are clearly visible, for an employee who will check and edit the list. "
+    "Output ONLY a JSON object: {\"is_food\": true|false, \"description\": \"<one short sentence>\", "
+    "\"items\": [{\"food\": \"<short generic name, e.g. idli, sambar, chapati, chicken biryani>\", "
+    "\"grams\": <integer estimate of the visible portion>}]}. "
+    "Use common Indian or Middle Eastern dish names when the dish looks like one. At most 6 items. "
+    "Never add foods that are not visible. If the photo is not food or is unclear, return is_food false and no items. "
+    "Portion grams are rough visual estimates; do not calculate calories or nutrients."
 )
 
 VISION_SYSTEM = (
@@ -129,10 +139,51 @@ class LensView(APIView):
                 {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{encoded}"}},
             ]},
         ]
+        if request.query_params.get("v") == "2":
+            return Response(lens_items(encoded))
         return Response({
             "description": complete(messages, settings.GEMINI_VISION_MODEL),
             "nutrition_available": False,
         })
+
+
+def lens_items(encoded_jpeg):
+    """One-tap Lens: visible foods with estimated grams, each matched to a food database entry.
+
+    The employee still checks every item and portion before saving; nothing is saved here.
+    """
+    from nutrition import foods
+    from nutrition.foods import NutritionUnavailable
+
+    raw = complete_json([
+        {"role": "system", "content": LENS_ITEMS_SYSTEM},
+        {"role": "user", "content": [
+            {"type": "text", "text": "List the visible foods with estimated grams."},
+            {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{encoded_jpeg}"}},
+        ]},
+    ], settings.GEMINI_VISION_MODEL)
+    if not raw:
+        raise AiUnavailable("IVA could not read this photo. Try again or log the food by name.")
+    description = " ".join(str(raw.get("description") or "").split())[:300]
+    items = []
+    if raw.get("is_food") is True and isinstance(raw.get("items"), list):
+        for entry in raw["items"][:6]:
+            if not isinstance(entry, dict) or not isinstance(entry.get("food"), str):
+                continue
+            name = " ".join(entry["food"].split())[:80]
+            grams = entry.get("grams")
+            grams = int(grams) if isinstance(grams, (int, float)) and not isinstance(grams, bool) and 5 <= grams <= 1500 else None
+            if not name:
+                continue
+            try:
+                matches = foods.search(name, limit=3)
+            except NutritionUnavailable:
+                matches = []
+            items.append({"name": name, "grams": grams or (matches[0].get("serving_g") if matches else None) or 100,
+                          "grams_estimated": True, "match": matches[0] if matches else None,
+                          "alternatives": matches[1:3]})
+    return {"description": description or ("No food was recognised." if not items else ""),
+            "is_food": bool(items), "items": items, "nutrition_available": any(i["match"] for i in items)}
 
 
 class FoodSearchView(APIView):
@@ -142,6 +193,9 @@ class FoodSearchView(APIView):
     def get(self, request):
         serializer = FoodSearchSerializer(data=request.query_params)
         serializer.is_valid(raise_exception=True)
+        if request.query_params.get("v") == "2":
+            from nutrition import foods
+            return Response({"results": foods.search(serializer.validated_data["q"])})
         return Response({"results": search_foods(serializer.validated_data["q"])})
 
 

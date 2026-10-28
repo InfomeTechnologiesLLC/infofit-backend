@@ -30,7 +30,7 @@ class MealApiTests(APITestCase):
             "items": [{"fdc_id": 12345, "grams": "150.0"}],
         }
 
-    @patch("nutrition.views.food_details", side_effect=selected_food)
+    @patch("nutrition.foods.food_details", side_effect=selected_food)
     def test_create_history_idempotency_and_local_date(self, lookup):
         response = self.client.post("/api/v1/nutrition/meals/", self.body, format="json")
         self.assertEqual(response.status_code, 201, response.data)
@@ -48,14 +48,14 @@ class MealApiTests(APITestCase):
         self.assertEqual(history.status_code, 200)
         self.assertEqual(len(history.data["results"]), 1)
 
-    @patch("nutrition.views.food_details", side_effect=selected_food)
+    @patch("nutrition.foods.food_details", side_effect=selected_food)
     def test_reused_key_with_changed_portion_conflicts(self, _lookup):
         self.assertEqual(self.client.post("/api/v1/nutrition/meals/", self.body, format="json").status_code, 201)
         changed = {**self.body, "items": [{"fdc_id": 12345, "grams": "200.0"}]}
         self.assertEqual(self.client.post("/api/v1/nutrition/meals/", changed, format="json").status_code, 409)
         self.assertEqual(Meal.objects.count(), 1)
 
-    @patch("nutrition.views.food_details", side_effect=selected_food)
+    @patch("nutrition.foods.food_details", side_effect=selected_food)
     def test_employee_isolation_and_own_delete(self, _lookup):
         meal_id = self.client.post("/api/v1/nutrition/meals/", self.body, format="json").data["id"]
         self.client.force_authenticate(self.bilal)

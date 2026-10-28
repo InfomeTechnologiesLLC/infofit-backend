@@ -22,7 +22,7 @@ class AiApiTests(APITestCase):
         self.bob = User.objects.create_user(email="bob@example.test", password="Strong-Passphrase-123")
         self.client.force_authenticate(self.alice)
 
-    @override_settings(HUGGINGFACE_API_KEY="", HUGGINGFACE_MODEL="model")
+    @override_settings(GEMINI_API_KEY="", GEMINI_MODEL="gemini-test")
     def test_missing_provider_configuration_is_explicit(self):
         response = self.client.post("/api/v1/ai/chat/", {"message": "Help me sleep"}, format="json")
         self.assertEqual(response.status_code, 503)
@@ -54,7 +54,8 @@ class AiApiTests(APITestCase):
             )
         response = self.client.post("/api/v1/ai/chat/", {"message": "How many are my steps?"}, format="json")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data["used_context"], ["fitness"])
+        # The saved goal is included with any fitness question; today's steps only for personal ones.
+        self.assertEqual(response.data["used_context"], ["goal", "fitness"])
         supplied = str(complete.call_args.args[0])
         self.assertIn("123", supplied)
         self.assertNotIn("9876", supplied)
@@ -143,21 +144,49 @@ class NutritionTests(APITestCase):
 
 
 class ProviderTests(APITestCase):
-    @override_settings(HUGGINGFACE_API_KEY="hf_test_only")
+    @override_settings(GEMINI_API_KEY="gemini_test_only")
     @patch("ai_service.provider.urllib.request.urlopen")
-    def test_server_sends_token_to_fixed_router_and_reads_answer(self, urlopen):
+    def test_server_sends_key_in_header_to_fixed_endpoint_and_reads_answer(self, urlopen):
         urlopen.return_value = BytesIO(json.dumps({
-            "choices": [{"message": {"content": "A real provider response"}}]
+            "candidates": [{"content": {"parts": [{"text": "A real provider response"}]}}]
         }).encode())
-        self.assertEqual(complete([{"role": "user", "content": "Hello"}], "test/model"), "A real provider response")
+        self.assertEqual(complete([{"role": "system", "content": "Be brief"}, {"role": "user", "content": "Hello"}],
+                                  "gemini-test"), "A real provider response")
         request = urlopen.call_args.args[0]
-        self.assertEqual(request.full_url, "https://router.huggingface.co/v1/chat/completions")
-        self.assertEqual(request.get_header("Authorization"), "Bearer hf_test_only")
-        self.assertEqual(json.loads(request.data)["model"], "test/model")
+        self.assertEqual(request.full_url,
+                         "https://generativelanguage.googleapis.com/v1beta/models/gemini-test:generateContent")
+        self.assertEqual(request.get_header("X-goog-api-key"), "gemini_test_only")
+        self.assertNotIn("gemini_test_only", request.full_url)
+        body = json.loads(request.data)
+        self.assertEqual(body["systemInstruction"]["parts"][0]["text"], "Be brief")
+        self.assertEqual(body["contents"], [{"role": "user", "parts": [{"text": "Hello"}]}])
 
-    @override_settings(HUGGINGFACE_API_KEY="hf_test_only")
+    @override_settings(GEMINI_API_KEY="gemini_test_only")
+    def test_model_name_cannot_change_the_url(self):
+        with self.assertRaises(AiUnavailable):
+            complete([{"role": "user", "content": "Hello"}], "../other?x=1")
+
+    @override_settings(GEMINI_API_KEY="gemini_test_only")
+    @patch("ai_service.provider.urllib.request.urlopen")
+    def test_stream_yields_text_and_function_calls(self, urlopen):
+        from ai_service.provider import stream
+        chunks = [
+            {"candidates": [{"content": {"parts": [{"text": "Hel"}]}}]},
+            {"candidates": [{"content": {"parts": [{"text": "lo"}]}}]},
+            {"candidates": [{"content": {"parts": [{"functionCall": {"name": "get_today_summary", "args": {}}}]}}]},
+        ]
+        urlopen.return_value = BytesIO("".join(f"data: {json.dumps(c)}\r\n\r\n" for c in chunks).encode())
+        parts = list(stream("", [{"role": "user", "parts": [{"text": "hi"}]}], "gemini-test",
+                            tools=[{"name": "get_today_summary", "description": "x"}]))
+        self.assertEqual([p.get("text") for p in parts[:2]], ["Hel", "lo"])
+        self.assertEqual(parts[2]["functionCall"]["name"], "get_today_summary")
+        request = urlopen.call_args.args[0]
+        self.assertTrue(request.full_url.endswith(":streamGenerateContent?alt=sse"))
+        self.assertIn("functionDeclarations", json.loads(request.data)["tools"][0])
+
+    @override_settings(GEMINI_API_KEY="gemini_test_only")
     @patch("ai_service.provider.urllib.request.urlopen", side_effect=urllib.error.URLError("private provider detail"))
     def test_provider_error_does_not_reveal_detail(self, _urlopen):
         with self.assertRaises(AiUnavailable) as raised:
-            complete([{"role": "user", "content": "Hello"}], "test/model")
+            complete([{"role": "user", "content": "Hello"}], "gemini-test")
         self.assertNotIn("private provider detail", str(raised.exception))

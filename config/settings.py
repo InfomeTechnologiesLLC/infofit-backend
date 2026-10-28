@@ -129,9 +129,20 @@ CSRF_TRUSTED_ORIGINS = env("CSRF_TRUSTED_ORIGINS")
 GEMINI_API_KEY = env("GEMINI_API_KEY", default="")
 GEMINI_MODEL = env("GEMINI_MODEL", default="gemini-2.5-flash-lite")
 GEMINI_VISION_MODEL = env("GEMINI_VISION_MODEL", default="gemini-2.5-flash-lite")
+# Hold community posts that look harmful for staff review before they appear (falls back to simple rules offline).
+COMMUNITY_AI_MODERATION = env.bool("COMMUNITY_AI_MODERATION", default=True)
 # USDA's DEMO_KEY is suitable only for local evaluation; deployed servers need their own key.
 USDA_FDC_API_KEY = env("USDA_FDC_API_KEY", default="DEMO_KEY" if DEBUG else "")
 FIREBASE_CREDENTIALS_FILE = env("FIREBASE_CREDENTIALS_FILE", default="")
+
+# The test suite must never call real AI, food or push services, whatever the local .env holds.
+# Tests that need a key set one with override_settings.
+import sys as _sys
+if len(_sys.argv) > 1 and _sys.argv[1] == "test":
+    GEMINI_API_KEY = ""
+    USDA_FDC_API_KEY = ""
+    FIREBASE_CREDENTIALS_FILE = ""
+    PASSWORD_HASHERS = ["config.test_hashers.FastPBKDF2PasswordHasher"]  # speed only; never used outside tests
 CELERY_BROKER_URL = env("REDIS_URL", default="redis://127.0.0.1:6379/0")
 CELERY_RESULT_BACKEND = None
 CELERY_BEAT_SCHEDULE = {

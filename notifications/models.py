@@ -15,12 +15,17 @@ class Notification(models.Model):
         WEEKLY_REVIEW = "weekly_review", "Weekly review"
         REENGAGEMENT = "reengagement", "Re-engagement"
         HR_DIGEST = "hr_digest", "HR participation digest"
+        GOAL_NUDGE = "goal_nudge", "Step goal nudge"
+        CHALLENGE_ALERT = "challenge_alert", "Challenge alert"
+        MEAL_PROMPT = "meal_prompt", "Meal reminder"
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="notifications")
     kind = models.CharField(max_length=32, choices=Kind.choices)
     title = models.CharField(max_length=120)
     body = models.CharField(max_length=240)
     event_key = models.CharField(max_length=120)
+    # Small, non-sensitive hints for notification buttons, e.g. {"meal_kind": "lunch", "repeat_meal_id": 12}.
+    data = models.JSONField(default=dict, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     read_at = models.DateTimeField(null=True, blank=True)
 

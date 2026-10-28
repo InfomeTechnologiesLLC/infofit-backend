@@ -10,6 +10,7 @@ class CommunityPost(models.Model):
     class Status(models.TextChoices):
         PUBLISHED = "published", "Published"
         HIDDEN = "hidden", "Hidden"
+        REVIEW = "review", "Waiting for review"
 
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="community_posts")
     team = models.ForeignKey("accounts.Team", null=True, blank=True, on_delete=models.SET_NULL)
@@ -20,6 +21,8 @@ class CommunityPost(models.Model):
     client_request_id = models.UUIDField(null=True, blank=True)
     hashtags = models.JSONField(default=list, blank=True)
     status = models.CharField(max_length=12, choices=Status.choices, default=Status.PUBLISHED, db_index=True)
+    # Why the automatic check held this post for staff review (shown only in the staff portal).
+    moderation_note = models.CharField(max_length=200, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

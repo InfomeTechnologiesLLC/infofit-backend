@@ -166,7 +166,7 @@ def propose_from_message(user, message):
 
 def serialize(proposal):
     return {"id": proposal.pk, "action": proposal.action, "summary": proposal.summary,
-            "details": proposal.details, "expires_at": proposal.expires_at}
+            "details": proposal.details, "expires_at": proposal.expires_at, "status": proposal.status}
 
 
 def handle_message(user, message, history):
@@ -207,13 +207,15 @@ def confirm(user, pk):
                 defaults={"volume_ml": volume, "local_date": now.astimezone(zone).date(), "time_zone": zone_name})
             proposal.result = {"hydration_log_id": entry.pk}
             message = f"Logged {volume} ml of water."
-        else:
+        elif proposal.action == "log_meal":
             meal, _ = create_meal(user, {
                 "client_request_id": request_id, "kind": proposal.payload["kind"], "occurred_at": now,
                 "time_zone": zone_name, "notes": "Added with IVA",
-                "items": [{"fdc_id": i["fdc_id"], "grams": Decimal(str(i["grams"]))} for i in proposal.payload["items"]]})
+                "items": [_meal_item(i) for i in proposal.payload["items"]]})
             proposal.result = {"meal_id": meal.pk}
             message = f"Saved your {proposal.payload['kind']} (about {int(meal.total_kcal)} kcal)."
+        else:
+            proposal.result, message = apply_action(user, proposal, request_id, now, zone_name)
         proposal.status, proposal.resolved_at = "confirmed", now
         proposal.save(update_fields=["status", "result", "resolved_at"])
     audit.info("assistant confirmed action=%s user=%s proposal=%s", proposal.action, user.pk, proposal.pk)
@@ -235,9 +237,159 @@ def undo(user, pk):
             raise ProposalGone("This can no longer be undone from chat.")
         if proposal.action == "log_water":
             HydrationLog.objects.filter(user=user, pk=proposal.result.get("hydration_log_id")).delete()
-        else:
+        elif proposal.action in ("log_meal", "repeat_meal"):
             Meal.objects.filter(user=user, pk=proposal.result.get("meal_id")).delete()
+        else:
+            reverse_action(user, proposal)
         proposal.status, proposal.resolved_at = "undone", timezone.now()
         proposal.save(update_fields=["status", "resolved_at"])
     audit.info("assistant undone action=%s user=%s proposal=%s", proposal.action, user.pk, proposal.pk)
     return proposal
+
+
+# ---- the newer IVA actions ---------------------------------------------------------------------
+
+def _meal_item(item):
+    """Proposals made before local foods existed only carry a USDA fdc_id."""
+    grams = Decimal(str(item["grams"]))
+    if item.get("food_id"):
+        return {"food_id": item["food_id"], "grams": grams}
+    return {"fdc_id": item["fdc_id"], "grams": grams}
+
+
+def apply_action(user, proposal, request_id, now, zone_name):
+    """Carry out a confirmed proposal (inside the caller's transaction). Returns (result, message).
+
+    `result` keeps whatever undo needs to put things back exactly as they were.
+    """
+    from accounts.models import EmployeeProfile
+    from challenges.models import Challenge, ChallengeEnrollment
+    from challenges.services import reconcile_user
+    from challenges.views import local_today
+    from nutrition.models import Meal as MealModel
+    from wellness.models import ProgramCheckIn, ProgramEnrollment, ReminderSettings, WellnessProgram
+    from wellness.views import visible_programs
+
+    payload, action = proposal.payload, proposal.action
+    if action == "repeat_meal":
+        source = MealModel.objects.filter(user=user, pk=payload["meal_id"]).prefetch_related("items").first()
+        if not source:
+            raise ProposalGone("That saved meal no longer exists.")
+        items = [{"food_id": f"usda:{i.fdc_id}" if i.food_source == "usda" else f"{i.food_source}:{i.food_code}",
+                  "grams": i.grams} for i in source.items.all()]
+        meal, _ = create_meal(user, {"client_request_id": request_id, "kind": payload["kind"], "occurred_at": now,
+                                     "time_zone": zone_name, "notes": "Repeated with IVA", "items": items})
+        return {"meal_id": meal.pk}, f"Saved your {payload['kind']} (about {int(meal.total_kcal)} kcal)."
+
+    if action == "join_challenge":
+        challenge = Challenge.objects.filter(pk=payload["challenge_id"], is_published=True).first()
+        today = local_today(user)
+        if not challenge or not challenge.start_date <= today <= challenge.end_date:
+            raise ProposalGone("That challenge is no longer open.")
+        enrollment, created = ChallengeEnrollment.objects.get_or_create(
+            challenge=challenge, user=user, defaults={"joined_local_date": today})
+        if created:
+            reconcile_user(user)
+        return {"enrollment_id": enrollment.pk, "created": created}, f"You joined {challenge.title}. Good luck!"
+
+    if action == "set_reminder":
+        zone_name_now = zone_name
+        settings_row, _ = ReminderSettings.objects.select_for_update().get_or_create(
+            user=user, defaults={"time_zone": zone_name_now})
+        change = dict(payload["change"])
+        previous = {field: getattr(settings_row, field) for field in change}
+        for field, value in change.items():
+            setattr(settings_row, field, value)
+        if "start_minute" in change:
+            settings_row.start_hour = change["start_minute"] // 60
+        if "end_minute" in change:
+            settings_row.end_hour = min(24, max(1, -(-change["end_minute"] // 60)))
+        settings_row.save()
+        return {"previous": previous}, "Reminder settings updated."
+
+    if action == "set_step_goal":
+        profile, _ = EmployeeProfile.objects.select_for_update().get_or_create(user=user)
+        previous = profile.daily_step_goal
+        profile.daily_step_goal = payload["daily_step_goal"]
+        profile.save(update_fields=["daily_step_goal", "updated_at"])
+        return {"previous": previous}, f"Your daily step goal is now {profile.daily_step_goal:,}."
+
+    if action == "program_checkin":
+        today = local_today(user)
+        program = visible_programs(user).filter(pk=payload["program_id"], start_date__lte=today, end_date__gte=today).first()
+        enrollment = ProgramEnrollment.objects.filter(user=user, program=program).first() if program else None
+        if not enrollment:
+            raise ProposalGone("That program is no longer available.")
+        checkin, created = ProgramCheckIn.objects.get_or_create(enrollment=enrollment, local_date=today)
+        return {"checkin_id": checkin.pk, "created": created}, f"Checked in to {program.title}. Nice work."
+
+    if action == "start_plan":
+        from datetime import date, timedelta
+        start = max(date.fromisoformat(payload["start"]), local_today(user))
+        program = WellnessProgram.objects.create(
+            title=payload["title"][:120], summary="Your personal plan from IVA"[:280],
+            daily_action=payload["days"][0][:1000], focus_goal="all", start_date=start,
+            end_date=start + timedelta(days=len(payload["days"]) - 1), is_published=True,
+            owner=user, plan_days=payload["days"])
+        ProgramEnrollment.objects.create(program=program, user=user)
+        return {"program_id": program.pk}, f"Your plan \"{program.title}\" starts today. Find it on Home."
+
+    if action == "save_preference":
+        profile, _ = EmployeeProfile.objects.select_for_update().get_or_create(user=user)
+        prefs = dict(profile.wellness_preferences or {})
+        iva = dict(prefs.get("iva") or {})
+        previous = iva.get(payload["key"])
+        iva[payload["key"]] = payload["value"]
+        prefs["iva"] = iva
+        profile.wellness_preferences = prefs
+        profile.save(update_fields=["wellness_preferences", "updated_at"])
+        return {"previous": previous}, "Got it. I'll remember that."
+
+    raise ProposalGone("This kind of suggestion is not supported.")
+
+
+def reverse_action(user, proposal):
+    """Undo a confirmed newer action, restoring what apply_action replaced."""
+    from accounts.models import EmployeeProfile
+    from challenges.models import ChallengeEnrollment, PointsLedger
+    from wellness.models import ProgramCheckIn, ProgramEnrollment, ReminderSettings, WellnessProgram
+
+    result, action = proposal.result or {}, proposal.action
+    if action == "join_challenge":
+        if not result.get("created"):
+            return
+        enrollment = ChallengeEnrollment.objects.filter(user=user, pk=result.get("enrollment_id")).first()
+        if enrollment:
+            if PointsLedger.objects.filter(enrollment=enrollment).exists():
+                raise ProposalGone("Points were already awarded for this challenge, so it cannot be undone from chat.")
+            enrollment.delete()
+    elif action == "set_reminder":
+        settings_row = ReminderSettings.objects.select_for_update().filter(user=user).first()
+        if settings_row:
+            for field, value in (result.get("previous") or {}).items():
+                setattr(settings_row, field, value)
+            settings_row.start_hour = settings_row.start_minute // 60
+            settings_row.end_hour = min(24, max(1, -(-settings_row.end_minute // 60)))
+            settings_row.save()
+    elif action == "set_step_goal":
+        EmployeeProfile.objects.filter(user=user).update(daily_step_goal=result.get("previous") or 10000)
+    elif action == "program_checkin":
+        if result.get("created"):
+            ProgramCheckIn.objects.filter(pk=result.get("checkin_id"), enrollment__user=user).delete()
+    elif action == "start_plan":
+        program = WellnessProgram.objects.filter(pk=result.get("program_id"), owner=user).first()
+        if program:
+            ProgramEnrollment.objects.filter(program=program).delete()
+            program.delete()
+    elif action == "save_preference":
+        profile = EmployeeProfile.objects.select_for_update().filter(user=user).first()
+        if profile:
+            prefs = dict(profile.wellness_preferences or {})
+            iva = dict(prefs.get("iva") or {})
+            if result.get("previous") is None:
+                iva.pop(proposal.payload["key"], None)
+            else:
+                iva[proposal.payload["key"]] = result["previous"]
+            prefs["iva"] = iva
+            profile.wellness_preferences = prefs
+            profile.save(update_fields=["wellness_preferences", "updated_at"])

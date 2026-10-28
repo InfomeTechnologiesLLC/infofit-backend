@@ -36,3 +36,108 @@ class ProposalUndoView(APIView):
     def post(self, request, pk):
         proposal = services.undo(request.user, pk)
         return Response({"status": proposal.status, "message": "Undone. That entry has been removed.", "undo_available": False})
+
+
+# ---- IVA with tools, saved history and streaming --------------------------------------------------
+
+import json as _json
+import logging as _logging
+
+from django.http import StreamingHttpResponse
+from rest_framework import serializers as _serializers
+from rest_framework.exceptions import APIException as _APIException
+
+from accounts.models import EmployeeProfile
+
+from . import agent
+from .models import ChatTurn
+from .tools import DIETS, PREFERENCE_KEYS, preferences
+
+_log = _logging.getLogger("infome.assistant")
+
+
+class AgentMessageSerializer(_serializers.Serializer):
+    message = _serializers.CharField(max_length=1000, trim_whitespace=True)
+
+
+class AgentChatView(APIView):
+    """IVA with tools. History is kept on the server, so the app sends only the new message."""
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = "ai"
+
+    def post(self, request):
+        serializer = AgentMessageSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response(agent.run(request.user, serializer.validated_data["message"]))
+
+
+def _sse(event, data):
+    return f"event: {event}\ndata: {_json.dumps(data, default=str)}\n\n"
+
+
+class AgentStreamView(APIView):
+    """Same as AgentChatView, streamed as server-sent events: `delta` events with text, then `done` (or `error`)."""
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = "ai"
+
+    def post(self, request):
+        serializer = AgentMessageSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user, message = request.user, serializer.validated_data["message"]
+
+        def events():
+            try:
+                for event, data in agent.run_events(user, message, streaming=True):
+                    yield _sse(event, data)
+            except _APIException as exc:
+                yield _sse("error", {"message": str(exc.detail)})
+            except Exception:
+                _log.exception("IVA stream failed")
+                yield _sse("error", {"message": "IVA is unavailable right now. Please try again later."})
+
+        response = StreamingHttpResponse(events(), content_type="text/event-stream")
+        response["Cache-Control"] = "no-cache"
+        response["X-Accel-Buffering"] = "no"  # stop nginx from holding the stream back
+        return response
+
+
+class ChatHistoryView(APIView):
+    def get(self, request):
+        before = request.query_params.get("before")
+        before = int(before) if before and before.isdigit() else None
+        return Response(agent.history_payload(request.user, before=before))
+
+    def delete(self, request):
+        ChatTurn.objects.filter(user=request.user).delete()
+        return Response({"cleared": True})
+
+
+class PreferencesSerializer(_serializers.Serializer):
+    diet = _serializers.ChoiceField(choices=DIETS, required=False, allow_blank=True)
+    cuisine = _serializers.CharField(max_length=PREFERENCE_KEYS["cuisine"], required=False, allow_blank=True)
+    dislikes = _serializers.CharField(max_length=PREFERENCE_KEYS["dislikes"], required=False, allow_blank=True)
+    activity = _serializers.CharField(max_length=PREFERENCE_KEYS["activity"], required=False, allow_blank=True)
+    notes = _serializers.CharField(max_length=PREFERENCE_KEYS["notes"], required=False, allow_blank=True)
+
+
+class PreferencesView(APIView):
+    """What IVA remembers about food and activity. A blank value forgets that preference."""
+    def get(self, request):
+        return Response(preferences(request.user))
+
+    def patch(self, request):
+        serializer = PreferencesSerializer(data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        profile, _ = EmployeeProfile.objects.get_or_create(user=request.user)
+        prefs = dict(profile.wellness_preferences or {})
+        iva = dict(prefs.get("iva") or {})
+        for key, value in serializer.validated_data.items():
+            value = " ".join(str(value).split())
+            if value:
+                iva[key] = value
+            else:
+                iva.pop(key, None)
+        prefs["iva"] = iva
+        profile.wellness_preferences = prefs
+        profile.save(update_fields=["wellness_preferences", "updated_at"])
+        return Response(preferences(request.user))

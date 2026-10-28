@@ -8,6 +8,27 @@ from django.utils import timezone
 from .models import PushDelivery
 
 
+# Kinds whose text is safe to show in full on the phone. Others (BMI, HR figures) only say "new notification".
+# The app also marks every notification private, so a locked screen shows only "INFOME FIT" until unlocked.
+DETAILED_KINDS = {"water_break", "movement_break", "challenge_reminder", "challenge_alert", "challenge_complete",
+                  "badge_earned", "meal_prompt", "goal_nudge", "coach_nudge", "weekly_review", "reengagement",
+                  "community_reply"}
+
+
+def push_message(token, notification):
+    """A data-only, high-priority message: the app builds the notification itself, with action buttons."""
+    from firebase_admin import messaging
+
+    detailed = notification.kind in DETAILED_KINDS
+    data = {"notification_id": str(notification.pk), "kind": notification.kind,
+            "title": notification.title if detailed else "INFOME FIT",
+            "body": notification.body if detailed else "You have a new notification"}
+    for key, value in (notification.data or {}).items() if detailed else ():
+        if isinstance(value, (str, int)) and not isinstance(value, bool):
+            data[f"x_{key}"] = str(value)[:100]
+    return messaging.Message(token=token, data=data, android=messaging.AndroidConfig(priority="high"))
+
+
 @shared_task
 def deliver_pending_pushes():
     """Best-effort FCM delivery. Inbox creation never depends on Redis or Firebase."""
@@ -30,12 +51,7 @@ def deliver_pending_pushes():
             delivery.save(update_fields=["state"])
             continue
         try:
-            # Keep details in the authenticated inbox, not on a potentially shared lock screen.
-            messaging.send(messaging.Message(
-                token=delivery.device.token,
-                notification=messaging.Notification(title="INFOME FIT", body="You have a new notification"),
-                data={"notification_id": str(delivery.notification_id)},
-            ))
+            messaging.send(push_message(delivery.device.token, delivery.notification))
         except messaging.UnregisteredError:
             delivery.state = PushDelivery.State.INVALID
         except Exception:

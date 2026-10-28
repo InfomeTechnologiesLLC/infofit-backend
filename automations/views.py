@@ -13,10 +13,12 @@ from .models import AutomationSettings, StepGoalSuggestion
 
 class AutomationSettingsSerializer(serializers.ModelSerializer):
     send_minute = serializers.IntegerField(min_value=0, max_value=1439, required=False)
+    goal_nudge_minute = serializers.IntegerField(min_value=0, max_value=1439, required=False)
 
     class Meta:
         model = AutomationSettings
-        fields = ["daily_coach_enabled", "weekly_review_enabled", "reengagement_enabled", "hr_digest_enabled", "send_minute"]
+        fields = ["daily_coach_enabled", "weekly_review_enabled", "reengagement_enabled", "hr_digest_enabled", "send_minute",
+                  "goal_nudge_enabled", "goal_nudge_minute", "challenge_alerts_enabled", "meal_prompts_enabled"]
 
 
 class AutomationSettingsView(APIView):

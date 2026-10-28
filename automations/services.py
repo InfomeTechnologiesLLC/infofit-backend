@@ -8,7 +8,10 @@ import json
 import logging
 import statistics
 from datetime import timedelta
-from backports.zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+try:
+    from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
+except ImportError:  # Python 3.8 hosts
+    from backports.zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from django.conf import settings
 from django.db import transaction
@@ -354,4 +357,140 @@ def send_hr_digests(now=None):
         _, created = create_notification(admin, Notification.Kind.HR_DIGEST, "Weekly participation digest", body,
                                          f"automation:hrdigest:{year}-W{week}", push=False)
         sent += int(created)
+    return sent
+
+
+# ---- 8. evening step-goal nudge ---------------------------------------------------------------
+
+GOAL_NUDGE_FRESH = timedelta(hours=3)   # only nudge from steps synced this recently (background sync keeps this fresh)
+STEPS_PER_MINUTE = 100                  # an easy walking pace
+
+
+def goal_nudge_text(steps, goal):
+    """None when no nudge is right: goal met, far away (no pressure), or nothing recorded."""
+    remaining = goal - steps
+    if remaining <= 0 or steps <= 0 or remaining > max(3000, goal * 0.4):
+        return None
+    minutes = max(5, -(-remaining // STEPS_PER_MINUTE))
+    return f"You're {remaining:,} steps from today's goal. An easy {minutes}-minute walk would do it."
+
+
+def send_goal_nudges(now=None):
+    now = now or timezone.now()
+    sent = 0
+    for s in AutomationSettings.objects.filter(goal_nudge_enabled=True, user__is_active=True).select_related("user").iterator():
+        local = now.astimezone(user_zone(s.user))
+        minute = local.hour * 60 + local.minute
+        if not s.goal_nudge_minute <= minute < s.goal_nudge_minute + SLOT_MINUTES:
+            continue
+        day = local.date()
+        if not can_send(s.user, "goal_nudge", day):
+            continue
+        account = FitnessAccount.objects.filter(user=s.user).first()
+        row = (DailyActivity.objects.filter(user=s.user, source_id=account.active_source_id, local_date=day).first()
+               if account and account.active_source_id else None)
+        if (not row or row.metric_status.get("steps") != "available" or row.steps is None
+                or now - row.synced_at > GOAL_NUDGE_FRESH):
+            continue
+        text = goal_nudge_text(row.steps, _goal(s.user))
+        if not text:
+            continue
+        with transaction.atomic():
+            create_notification(s.user, Notification.Kind.GOAL_NUDGE, "Nearly there", text, f"automation:goal:{day}",
+                                data={"remaining_steps": _goal(s.user) - row.steps})
+            mark_sent(s.user, "goal_nudge", day)
+        sent += 1
+    return sent
+
+
+# ---- 9. challenge alerts ------------------------------------------------------------------------
+
+def send_challenge_alerts(now=None):
+    """At the employee's message time: joined challenges ending tomorrow, and new ones open to join."""
+    now = now or timezone.now()
+    sent = 0
+    for s, local in _due(AutomationSettings.objects.filter(challenge_alerts_enabled=True, user__is_active=True), now):
+        day = local.date()
+        joined = {e.challenge_id: e for e in ChallengeEnrollment.objects.filter(user=s.user).select_related("challenge", "progress")}
+        for enrollment in joined.values():
+            challenge = enrollment.challenge
+            progress = getattr(enrollment, "progress", None)
+            if challenge.end_date != day + timedelta(days=1) or (progress and progress.is_complete):
+                continue
+            if challenge.kind == Challenge.Kind.RUNNING:
+                status_text = f"{progress.verified_running_minutes if progress else 0} of {challenge.target_running_minutes} running minutes so far."
+            elif progress and progress.has_step_data:
+                status_text = f"{progress.verified_steps:,} of {challenge.target_steps:,} steps so far."
+            else:
+                status_text = "Sync your steps to see where you are."
+            _, created = create_notification(
+                s.user, Notification.Kind.CHALLENGE_ALERT, f"{challenge.title} ends tomorrow"[:120], status_text,
+                f"automation:challenge-ends:{challenge.pk}", data={"challenge_id": challenge.pk})
+            sent += int(created)
+        fresh = Challenge.objects.filter(is_published=True, start_date__lte=day, start_date__gte=day - timedelta(days=2),
+                                         end_date__gte=day).exclude(id__in=joined)
+        for challenge in fresh[:2]:
+            _, created = create_notification(
+                s.user, Notification.Kind.CHALLENGE_ALERT, "New challenge you can join",
+                f"{challenge.title} is open now. Join it from Challenges if it suits you."[:240],
+                f"automation:challenge-new:{challenge.pk}", data={"challenge_id": challenge.pk})
+            sent += int(created)
+    return sent
+
+
+# ---- 10. meal prompts at the employee's usual times ----------------------------------------------
+
+MEAL_PROMPT_DELAY = 20   # minutes after the usual time, so people who log right away never see it
+MEAL_TIME_DAYS = 30
+MEAL_TIME_MIN_DAYS = 4
+
+
+def usual_meal_minutes(user, now=None):
+    """{kind: median local minute} for meal kinds saved on at least MEAL_TIME_MIN_DAYS of the last 30 days."""
+    now = now or timezone.now()
+    zone = user_zone(user)
+    by_kind = {}
+    for kind, occurred in Meal.objects.filter(user=user, occurred_at__gte=now - timedelta(days=MEAL_TIME_DAYS)).values_list("kind", "occurred_at"):
+        local = occurred.astimezone(zone)
+        by_kind.setdefault(kind, {}).setdefault(local.date(), local.hour * 60 + local.minute)
+    return {kind: int(statistics.median(days.values())) for kind, days in by_kind.items() if len(days) >= MEAL_TIME_MIN_DAYS}
+
+
+def frequent_meal(user, kind):
+    """The most often saved meal of this kind (same set of foods), as its latest example's id, or None."""
+    counts, latest = {}, {}
+    for meal in Meal.objects.filter(user=user, kind=kind).prefetch_related("items").order_by("-occurred_at")[:40]:
+        key = tuple(sorted(item.food_name for item in meal.items.all()))
+        if not key:
+            continue
+        counts[key] = counts.get(key, 0) + 1
+        latest.setdefault(key, meal)
+    if not counts:
+        return None
+    key = max(counts, key=lambda k: (counts[k], latest[k].occurred_at))
+    return latest[key] if counts[key] >= 2 else None
+
+
+def send_meal_prompts(now=None):
+    now = now or timezone.now()
+    sent = 0
+    for s in AutomationSettings.objects.filter(meal_prompts_enabled=True, user__is_active=True).select_related("user").iterator():
+        local = now.astimezone(user_zone(s.user))
+        minute = local.hour * 60 + local.minute
+        day = local.date()
+        for kind, usual in usual_meal_minutes(s.user, now).items():
+            due = usual + MEAL_PROMPT_DELAY
+            if not due <= minute < due + SLOT_MINUTES:
+                continue
+            if Meal.objects.filter(user=s.user, kind=kind, local_date=day).exists():
+                continue
+            usual_meal = frequent_meal(s.user, kind)
+            data = {"meal_kind": kind}
+            body = f"Had {kind}? Tap to log it."
+            if usual_meal:
+                data["repeat_meal_id"] = usual_meal.pk
+                body = f"Had {kind}? Tap to log it, or choose Same as usual."
+            _, created = create_notification(s.user, Notification.Kind.MEAL_PROMPT, f"Log your {kind}", body,
+                                             f"automation:meal:{day}:{kind}", data=data)
+            sent += int(created)
     return sent

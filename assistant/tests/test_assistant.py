@@ -133,7 +133,7 @@ class RoutingAndSafetyTests(Base):
 
 
 class MealFlowTests(Base):
-    @patch("nutrition.views.food_details", return_value=DETAILS)
+    @patch("nutrition.foods.food_details", return_value=DETAILS)
     @patch("assistant.services.search_foods", return_value=[FOOD])
     @patch("assistant.services.complete", return_value=meal())
     def test_meal_is_resolved_from_usda_confirmed_then_undone(self, *_):
@@ -164,7 +164,7 @@ class MealFlowTests(Base):
     def test_food_lookup_outage_falls_back_to_chat(self, *_):
         self.assertEqual(self.say("I had idli").data["type"], "answer")
 
-    @patch("nutrition.views.food_details", return_value=DETAILS)
+    @patch("nutrition.foods.food_details", return_value=DETAILS)
     @patch("assistant.services.search_foods", side_effect=[[FOOD], []])
     @patch("assistant.services.complete", return_value=meal([{"food": "idli", "grams": 80}, {"food": "mystery", "grams": 50}]))
     def test_partly_matched_meal_lists_what_was_missed(self, *_):

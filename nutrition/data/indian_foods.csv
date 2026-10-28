@@ -1,0 +1,1426 @@
+source,code,name,local_names,kcal_per_100g,protein_per_100g,carbohydrate_per_100g,fat_per_100g,serving_g,serving_unit
+indb,ASC001,Hot tea (Garam Chai),Garam Chai,16.14,0.39,2.58,0.53,211,tea cup
+indb,ASC002,Instant coffee,,23.16,0.64,3.65,0.75,450,tea cup
+indb,ASC003,Espreso coffee,,51.54,1.75,6.62,2.14,159,tea cup
+indb,ASC004,Iced tea,,10.34,0.03,2.70,0.01,320,tall glass
+indb,ASC005,Raw mango drink (Aam panna),Aam panna,35.92,0.16,9.05,0.03,268,tall glass
+indb,ASC006,Fruit Punch (with fresh juices),with fresh juices,36.12,0.14,9.38,0.03,544,tall glass
+indb,ASC007,Fruit Punch (with squashes),with squashes,23.13,0.07,5.99,0.02,503,tall glass
+indb,ASC008,Lemonade,,20.80,0.03,5.48,0.01,349,glass
+indb,ASC009,Lem-o-gin,,21.52,0.08,5.55,0.03,357,glass
+indb,ASC010,Cumin infused water (Jeere/Zeere ka pani),Jeere; Zeere ka pani,9.09,0.17,1.86,0.11,339,glass
+indb,ASC011,Coco pine cooler,,32.75,0.56,5.72,1.00,432,tall glass
+indb,ASC012,Summer cooler,,22.43,0.37,5.43,0.04,495,tall glass
+indb,ASC014,Hot cocoa,,90.10,3.36,9.23,4.56,191,cup
+indb,ASC015,Cold coffee with ice cream,,67.85,1.57,11.24,2.11,301,tall glass
+indb,ASC016,Banana milkshake (Kele milkshake),Kele milkshake,65.31,1.84,9.15,2.37,346,tall glass
+indb,ASC017,Mango milkshake (Aam milkshake),Aam milkshake,56.90,1.73,7.23,2.35,356,tall glass
+indb,ASC018,Pineapple milkshake (Ananas milkshake),Ananas milkshake,55.72,1.66,7.62,2.23,365,tall glass
+indb,ASC019,Orange milkshake (Narangi milkshake),Narangi milkshake,57.42,1.86,7.11,2.52,319,tall glass
+indb,ASC020,Egg nog,,97.14,4.78,8.15,5.11,304,tall glass
+indb,ASC021,Sweet Lassi (Meethi lassi),Meethi lassi,35.66,1.29,6.51,0.68,442,tall glass
+indb,ASC022,Lassi (salted),salted,18.84,1.35,1.86,0.72,423,tall glass
+indb,ASC023,Cheese and chilli sandwich,,218.11,6.80,27.40,9.78,56,triangle
+indb,ASC024,Egg sandwich (Ande ka sandwich),Ande ka sandwich,285.96,8.69,29.16,15.80,51,triangle
+indb,ASC025,Cucumber sandwich (Kheere ka sandwich),Kheere ka sandwich,188.60,4.80,25.77,8.00,61,triangle
+indb,ASC026,Cheese and pineapple sandwich (Cheese aur ananas ka sandwich),Cheese aur ananas ka sandwich,257.71,8.20,29.10,12.80,56,triangle
+indb,ASC027,Cheese and tomato sandwich (Cheese aur tamatar ke sandwich),Cheese aur tamatar ke sandwich,243.32,7.92,26.92,12.27,58,triangle
+indb,ASC028,Chicken sandwich,,253.27,13.12,25.38,11.75,58,triangle
+indb,ASC029,Peanut and tomato sandwich (Moongfali aur tamatar ka sandwich),Moongfali aur tamatar ka sandwich,291.43,9.53,28.54,16.14,61,triangle
+indb,ASC030,Rainbow sandwich,,272.75,7.75,34.26,12.54,48,triangle
+indb,ASC031,Club sandwich,,235.32,7.31,18.51,15.12,88,triangle
+indb,ASC032,Vegetarian club sandwich,,198.33,5.45,19.68,11.33,83,triangle
+indb,ASC033,Pin wheel sandwich,,311.52,8.77,14.00,24.93,28,triangle
+indb,ASC034,Carrot apple sandwich (Gajar aur seb ka sandwich),Gajar aur seb ka sandwich,214.11,5.30,29.04,9.12,97,triangle
+indb,ASC035,Salami sandwich,,255.59,8.70,21.54,15.51,74,triangle
+indb,ASC036,Vegetable and mayonnaise sandwich,,244.26,4.47,23.20,15.40,68,triangle
+indb,ASC037,Egg and tomato sandwich (Ande aur tamatar ka sandwich),Ande aur tamatar ka sandwich,222.11,7.66,25.90,10.51,60,triangle
+indb,ASC038,Sweet open sandwich,,244.25,4.99,39.24,8.15,59,triangle
+indb,ASC039,Mushroom and cheese sandwich (toasted),toasted,227.42,7.79,21.01,13.01,76,triangle
+indb,ASC040,Cheese and tomato sandwich (toasted) (Cheese aur tamatar ke sandwich (toasted)),toasted; Cheese aur tamatar ke sandwich (toasted,224.58,6.82,21.42,12.95,76,triangle
+indb,ASC041,Pea potato sandwich (toasted) (Matar aloo ka sandwich),toasted; Matar aloo ka sandwich,164.90,4.60,25.17,5.43,89,toasted triangle
+indb,ASC042,Paneer pea sandwich (toasted) (Paneer matar ka sandwich),toasted; Paneer matar ka sandwich,249.56,12.40,24.05,11.98,89,toasted triangle
+indb,ASC043,Chicken sandwich (toasted),toasted,167.37,12.08,18.82,5.32,86,toasted triangle
+indb,ASC044,Pea keema sandwich (toasted) (Matar aur keema ka sandwich),toasted; Matar aur keema ka sandwich,171.78,11.06,20.26,5.61,85,toasted triangle
+indb,ASC045,Classic club sandwich,,200.83,6.74,18.49,11.56,224,triangle
+indb,ASC047,Cracked wheat porridge (Meetha daliya),Meetha daliya,81.57,2.64,8.87,4.08,403,bowl
+indb,ASC048,Semolina porridge (Suji/Rava daliya),Suji; Rava daliya,100.89,3.75,12.39,4.08,278,bowl
+indb,ASC050,Oatmeal Porridge,,72.85,2.60,8.77,3.22,398,bowl
+indb,ASC051,Cornflakes with milk,,117.33,3.59,14.95,5.12,278,bowl
+indb,ASC052,Rice flakes (Chiwda/Aval),Chiwda; Aval,112.44,3.62,15.57,3.99,278,bowl
+indb,ASC053,Wheat flakes,,112.44,3.62,15.57,3.99,278,bowl
+indb,ASC054,Murmura (Puffed rice),Puffed rice,113.32,3.62,15.67,4.04,278,bowl
+indb,ASC055,Puffed wheat (Murmure/Moori),Murmure; Moori,113.32,3.62,15.67,4.04,278,bowl
+indb,ASC056,Boiled egg (Ubla anda),Ubla anda,45.35,4.43,0.12,3.04,151,egg
+indb,ASC057,Fried Egg,,223.67,11.59,0.31,19.62,58,egg
+indb,ASC058,Poached egg,,123.87,11.98,0.37,8.19,56,egg
+indb,ASC059,Scrambled egg (Ande ki bhurji),Ande ki bhurji,155.97,10.29,1.35,12.21,70,egg
+indb,ASC060,Baked egg,,218.85,11.88,15.42,12.65,101,egg
+indb,ASC061,Plain omelette/omlet,,272.41,9.66,0.64,25.74,143,omelette
+indb,ASC062,Stuffed egg omelette/omlet,,203.51,8.60,2.30,17.77,262,omelette
+indb,ASC063,Pancake,,203.36,5.68,20.49,10.82,42,pancake
+indb,ASC064,Keema pancake,,176.27,9.01,9.56,11.25,110,pancake
+indb,ASC065,Vegetable pancake,,125.18,3.87,12.24,6.57,117,pancake
+indb,ASC066,Jam and fruit pancake,,162.02,3.79,20.73,7.01,66,pancake
+indb,ASC067,Khoa and coconut pancake,,271.98,6.98,27.32,15.29,71,pancake
+indb,ASC068,Brown stock,,21.32,1.95,0.25,1.38,486,cup
+indb,ASC069,Vegetable stock,,17.60,0.30,0.96,1.38,415,cup
+indb,ASC070,Chicken stock,,29.88,3.69,0.37,1.51,376,cup
+indb,ASC079,Clear tomato soup (Tamatar ka soup),Tamatar ka soup,80.07,4.79,3.45,12.22,398,soup bowl
+indb,ASC080,Lentil soup,,31.17,9.65,3.94,11.68,389,soup bowl
+indb,ASC081,Chicken consomme (Clear chicken soup),Clear chicken soup,47.94,11.47,1.19,12.02,226,soup bowl
+indb,ASC082,Cream of tomato soup,,97.81,4.61,3.93,13.12,462,soup bowl
+indb,ASC083,Cream of green peas soup,,127.84,7.13,6.75,14.78,409,soup bowl
+indb,ASC084,Cream of spinach soup,,100.54,5.21,3.45,13.31,463,soup bowl
+indb,ASC085,Cream of mixed vegetable soup,,59.65,6.84,4.93,9.05,362,soup bowl
+indb,ASC086,Cream of mushroom soup,,117.28,6.64,3.74,15.50,375,soup bowl
+indb,ASC087,Chicken sweet corn soup,,28.32,14.48,1.63,12.59,242,soup bowl
+indb,ASC088,Minestrone soup,,42.66,9.30,3.71,11.09,230,soup bowl
+indb,ASC089,Egg drop soup,,26.64,12.93,1.10,13.52,318,soup bowl
+indb,ASC091,French onion soup,,55.61,11.41,4.28,14.39,352,soup bowl
+indb,ASC092,Hot and sour soup,,31.51,3.12,1.78,1.31,393,soup bowl
+indb,ASC093,Talaumein soup,,35.63,10.12,4.17,12.78,369,soup bowl
+indb,ASC094,Cold cucumber soup (Thanda kheere ka soup),Thanda kheere ka soup,48.03,2.99,4.58,1.99,188,soup bowl
+indb,ASC095,Cold summer garden soup,,49.19,8.57,2.65,14.08,307,soup bowl
+indb,ASC096,Chapati/Roti,,202.31,5.88,35.65,3.56,36,chapati
+indb,ASC097,Plain parantha/paratha,,298.30,5.06,30.69,16.86,56,parantha
+indb,ASC098,Potato parantha/paratha (Aloo ka parantha/paratha),Aloo ka parantha; paratha,205.04,3.70,23.92,10.22,93,parantha
+indb,ASC099,Radish parantha/paratha (Mooli ka parantha/paratha),Mooli ka parantha; paratha,183.52,3.30,20.54,9.53,100,parantha
+indb,ASC100,Cauliflower parantha/paratha (Phoolgobhi ka parantha/paratha),Phoolgobhi ka parantha; paratha,178.07,3.73,18.84,9.47,102,parantha
+indb,ASC101,Dal parantha/paratha,,268.24,6.78,30.03,13.05,77,parantha
+indb,ASC102,Sprouted moong parantha/paratha,,228.59,4.29,24.31,12.43,77,parantha
+indb,ASC103,Pea parantha/paratha (Matar ka parantha/paratha),Matar ka parantha; paratha,190.73,5.59,21.51,8.80,108,parantha
+indb,ASC104,Keema parantha/paratha,,238.09,9.41,18.36,13.91,100,parantha
+indb,ASC105,Paneer parantha/paratha,,262.97,7.98,24.33,14.62,85,parantha
+indb,ASC106,Besan and spinach parantha/paratha (Besan aur palak ka parantha/paratha),Besan aur palak ka parantha; paratha,216.49,5.54,21.39,12.09,82,parantha
+indb,ASC112,Tandoori parantha/paratha,,295.37,5.08,30.74,16.51,56,parantha
+indb,ASC113,Boiled rice (Uble chawal),Uble chawal,117.19,2.60,25.72,0.18,300,plate
+indb,ASC114,Plain pulao,,140.21,2.34,21.82,4.62,308,plate
+indb,ASC115,Mixed vegetable pulao,,113.05,2.72,17.49,3.33,438,plate
+indb,ASC116,Mushroom pulao,,124.29,2.52,19.02,4.03,358,plate
+indb,ASC117,Sprouted moong pulao,,112.97,2.19,17.49,3.61,408,plate
+indb,ASC119,Peanut pulao,,193.28,5.32,21.18,9.51,358,plate
+indb,ASC120,Navratan pulao,,261.71,6.20,36.98,9.45,183,plate
+indb,ASC121,Green chickpeas pulao (Choliya pulao/Hare chane ka pulao),Choliya pulao; Hare chane ka pulao,173.43,4.88,27.57,4.82,358,plate
+indb,ASC122,Mutton biryani/biriyani,,190.76,7.38,22.50,7.72,208,plate
+indb,ASC123,Vegetable biryani/biriyani,,174.61,3.16,18.56,9.51,302,plate
+indb,ASC124,"Lemon rice (Pulihora, Elumichai sadam, Chitranna)","Pulihora, Elumichai sadam, Chitranna",176.30,4.26,21.62,7.88,319,plate
+indb,ASC125,Sweet rice (Meethe chawal),Meethe chawal,215.41,2.10,42.59,4.57,348,plate
+indb,ASC126,Curd rice (Dahi bhaat/Dahi chawal/ Perugu annam/Daddojanam/Thayir saadam),Dahi bhaat; Dahi chawal;  Perugu annam; Daddojanam; Thayir saadam,195.74,5.75,32.93,4.32,216,plate
+indb,ASC127,Tamarind rice (Chintapandu pulihora/Puliyodharai/Puli sadam/Huli anna),Chintapandu pulihora; Puliyodharai; Puli sadam; Huli anna,373.04,7.45,65.08,8.53,128,plate
+indb,ASC128,Spanish rice,,164.24,4.19,31.10,2.23,217,plate
+indb,ASC129,Chinese fried rice,,120.58,4.05,13.40,5.43,351,plate
+indb,ASC133,Macroni cheese pie,,170.63,5.85,21.10,7.48,240,casserole dish
+indb,ASC134,Vegetable chowmein,,129.71,3.07,15.44,6.36,300,plate
+indb,ASC135,Chicken chowmein,,151.33,6.33,13.30,8.23,344,plate
+indb,ASC136,Cheese noodle ring,,133.67,6.22,13.96,6.12,397,plate
+indb,ASC138,Penne platter,,177.40,5.04,20.87,8.71,261,plate
+indb,ASC139,Pasta hot pot,,125.17,5.84,11.60,6.47,831,plate
+indb,ASC140,Chicken lasagne,,187.49,10.45,13.90,10.36,514,plate
+indb,ASC141,Fettuccine with spinach sauce,,129.21,3.10,12.19,7.83,355,plate
+indb,ASC142,Naan,,286.45,8.05,51.75,4.99,53,naan
+indb,ASC144,Idli,,137.54,4.64,28.18,0.33,25,idli
+indb,ASC146,Masala dosa,,164.58,3.29,19.57,7.84,210,dosa
+indb,ASC147,Semolina dosa (Suji/Rava dosa),Suji; Rava dosa,227.05,7.30,32.84,7.12,73,dosa
+indb,ASC149,Paneer kaathi roll,,285.94,6.92,20.10,19.55,148,kaathi roll
+indb,ASC150,Makki ki roti,,263.97,3.49,24.19,16.85,85,roti
+indb,ASC151,Washed moong dal (Dhuli moong ki dal),Dhuli moong ki dal,50.00,2.68,5.91,1.68,277,bowl
+indb,ASC152,Washed urad dal (Dhuli urad ki dal),Dhuli urad ki dal,61.32,2.51,5.84,2.98,296,bowl
+indb,ASC153,Split bengal gram with bottle gourd (Channa dal with ghiya/lauki),Channa dal with ghiya; lauki,73.25,2.79,7.10,3.60,279,bowl
+indb,ASC154,Dry washed urad,,124.71,6.85,15.66,3.50,143,bowl
+indb,ASC155,Mixed dal,,61.93,2.51,5.79,3.10,298,bowl
+indb,ASC156,Whole moong (Moong ki dal),Moong ki dal,53.70,2.25,5.22,2.56,342,bowl
+indb,ASC157,Whole masoor (Masoor ki dal),Masoor ki dal,54.05,2.28,5.37,2.52,342,bowl
+indb,ASC158,Whole moth (Moth ki dal),Moth ki dal,55.00,2.01,5.74,2.62,342,bowl
+indb,ASC159,Whole urad (Urad ki dal),Urad ki dal,53.80,2.21,5.05,2.62,339,bowl
+indb,ASC160,Moti mahal dal (Urad rajmah mix dal),Urad rajmah mix dal,103.13,3.93,8.74,5.66,287,bowl
+indb,ASC161,Black channa curry/Bengal gram curry (Kale chane ki curry),Kale chane ki curry,140.68,5.67,14.11,6.61,120,bowl
+indb,ASC162,Chickpeas curry (Safed channa curry),Safed channa curry,163.43,6.10,19.98,6.84,120,bowl
+indb,ASC163,Lobia curry,,148.99,6.06,17.88,5.62,120,bowl
+indb,ASC164,Soyabean curry,,163.28,10.43,6.76,10.19,120,bowl
+indb,ASC165,Kidney bean curry (Rajmah curry),Rajmah curry,143.73,5.95,16.38,5.77,120,bowl
+indb,ASC167,Sambar,,96.92,3.35,10.57,4.38,257,bowl
+indb,ASC169,Khatta channa,,202.57,6.30,21.14,10.56,157,bowl
+indb,ASC170,Sprouted moong dal chat,,32.47,1.35,6.01,0.32,257,plate
+indb,ASC171,Potato cauliflower (Aloo gobhi),Aloo gobhi,106.18,1.90,5.99,8.13,176,bowl
+indb,ASC172,Potato capsicum (Shimla mirch aloo),Shimla mirch aloo,125.53,1.41,8.72,9.33,151,bowl
+indb,ASC173,Cabbage and peas (Pattagobhi aur matar),Pattagobhi aur matar,63.88,3.24,6.24,2.64,166,bowl
+indb,ASC174,Carrot and fenugreek leaves (Gajar methi),Gajar methi,61.92,2.10,4.17,3.81,191,bowl
+indb,ASC175,Potato fenugreek (Aloo methi),Aloo methi,135.15,2.25,8.47,10.04,204,bowl
+indb,ASC177,Brinjal bhartha (Baingan ka bhartha),Baingan ka bhartha,65.12,1.38,4.40,4.48,326,bowl
+indb,ASC178,Dry potato (Sookhe aloo),Sookhe aloo,103.15,1.62,14.38,4.18,106,bowl
+indb,ASC179,Beans with coconut (Nariyal aur sem/phali; Beans thoran),Nariyal aur sem; phali; Beans thoran,131.63,2.62,4.39,11.39,150,bowl
+indb,ASC180,Cauliflower with coconut (Nariyal ke saath phoolgobhi),Nariyal ke saath phoolgobhi,132.11,2.64,3.99,11.56,150,bowl
+indb,ASC181,Carrot and cabbage with coconut (Nariyal ke saath pattagobhi aur gajar),Nariyal ke saath pattagobhi aur gajar,106.61,1.82,4.99,8.62,200,bowl
+indb,ASC182,Raw turnip with coconut,,132.15,1.80,5.78,11.47,150,bowl
+indb,ASC183,Raw papaya with coconut (Papaya thoran),Papaya thoran,132.75,1.54,5.58,11.42,150,bowl
+indb,ASC184,Stuffed okra (Bharwa bhindi),Bharwa bhindi,94.34,2.08,3.85,7.66,111,bowl
+indb,ASC185,Stuffed round gourd (Bharwa tinde),Bharwa tinde,72.80,1.10,4.02,5.75,248,bowl
+indb,ASC186,Stuffed capsicum (Bharwa shimla mirch),Bharwa shimla mirch,90.94,1.34,8.26,5.70,125,capsicum
+indb,ASC187,Stuffed brinjal (Bharwa baingan),Bharwa baingan,93.00,1.53,3.96,7.73,55,brinjal
+indb,ASC189,Stuffed tomatoes (Bharwa tamatar),Bharwa tamatar,93.35,3.28,6.19,6.06,135,tomato
+indb,ASC190,Pea potato curry (Aloo matar),Aloo matar,100.92,3.48,9.74,5.13,277,bowl
+indb,ASC191,Pea paneer curry (Matar paneer),Matar paneer,134.83,6.61,9.29,7.75,277,bowl
+indb,ASC192,Pea mushroom curry (Matar mushroom),Matar mushroom,93.30,3.87,7.41,5.16,277,bowl
+indb,ASC193,Pea curry (Matar ki sabzi),Matar ki sabzi,102.99,4.51,9.20,5.11,277,bowl
+indb,ASC194,Pea vadi curry,,101.95,4.64,8.90,5.08,287,bowl
+indb,ASC195,Paneer curry,,176.52,7.80,8.40,12.38,202,bowl
+indb,ASC196,Lotus stem curry (Kamal kakdi curry),Kamal kakdi curry,110.34,1.53,9.24,7.25,202,bowl
+indb,ASC197,Gravy for kofta,,125.59,1.75,6.31,10.35,139,bowl
+indb,ASC208,Baked vegetables,,88.99,3.67,8.44,4.44,302,bowl
+indb,ASC209,Cauliflower musallam (Phoolgobhi musallam),Phoolgobhi musallam,58.83,1.89,4.48,3.55,216,bowl
+indb,ASC210,Baked vegetables with spinach,,77.79,3.22,6.93,4.03,424,bowl
+indb,ASC211,Baked potato with skin,,135.77,3.43,11.11,8.50,78,bowl
+indb,ASC212,Shepherd's pie (vegetarian),vegetarian,135.63,5.04,12.03,7.30,271,bowl
+indb,ASC213,Baked brinjal in tomato sauce,,38.63,1.58,4.13,1.62,431,bowl
+indb,ASC215,Spinach paneer (Palak paneer),Palak paneer,77.68,4.03,4.43,4.76,296,bowl
+indb,ASC217,Sarson ka saag,,87.84,3.00,5.33,5.86,141,bowl
+indb,ASC219,Avial,,124.56,2.46,8.47,8.94,335,bowl
+indb,ASC220,Al yakhani,,147.54,2.86,4.65,13.14,232,bowl
+indb,ASC221,Shahi paneer,,156.50,5.06,6.64,12.34,259,bowl
+indb,ASC222,Paneer in butter sauce,,145.61,6.99,9.70,8.81,157,bowl
+indb,ASC223,Methi malai paneer,,194.98,7.34,8.15,14.76,193,bowl
+indb,ASC226,Kadhai Paneer,,107.99,4.33,7.34,6.81,318,bowl
+indb,ASC227,Roghan josh,,139.59,9.56,4.93,9.02,236,bowl
+indb,ASC228,Spinach mutton (Palak mutton),Palak mutton,80.32,5.74,3.45,4.71,486,bowl
+indb,ASC229,Pea keema curry (Matar keema ki sabzi),Matar keema ki sabzi,133.00,8.43,6.24,8.14,344,bowl
+indb,ASC230,Keema kofta curry,,154.45,9.77,5.64,10.39,41,kofta
+indb,ASC231,Kashmiri mutton koftas (Gushtaba),Gushtaba,97.42,6.33,3.04,6.77,304,gushtaba
+indb,ASC232,Mutton yakhni,,104.13,8.27,0.84,7.70,232,bowl
+indb,ASC233,Chicken yakhni,,99.00,10.66,0.78,6.10,252,bowl
+indb,ASC234,Mutton do piaza,,183.30,9.39,4.14,14.41,329,bowl
+indb,ASC239,Shepherd's pie (with minced meat),with minced meat,142.78,7.45,8.06,8.88,188,dish
+indb,ASC240,Chicken curry,,129.22,11.79,3.38,7.57,248,bowl
+indb,ASC241,Tandoori chicken,,145.20,16.26,2.34,7.93,1441,chicken
+indb,ASC242,Butter chicken,,137.00,10.92,3.74,8.70,275,large piece
+indb,ASC244,Chilli chicken,,198.83,9.57,2.86,16.56,387,bowl
+indb,ASC245,Fried chicken with tomato sauce (Fried chicken tamatar ki chutney kay saath),Fried chicken tamatar ki chutney kay saath,125.03,11.48,2.51,7.61,124,piece
+indb,ASC246,Fish curry (Machli curry),Machli curry,111.13,8.76,3.77,6.69,254,bowl
+indb,ASC250,Baked fish with cheese sauce,,113.96,8.64,4.06,7.02,354,bowl
+indb,ASC251,Fish tikka,,117.33,16.00,3.91,4.15,35,piece
+indb,ASC252,Tandoori fish,,95.98,11.19,2.37,4.64,234,piece
+indb,ASC253,"Paneer, apple and pineapple salad",,95.08,3.88,8.35,5.07,258,bowl
+indb,ASC254,Russian salad,,114.83,4.26,6.50,7.84,316,bowl
+indb,ASC255,Pasta salad,,190.36,4.15,12.70,13.92,216,bowl
+indb,ASC256,Deviled egg,,98.56,4.97,2.23,7.72,160,egg
+indb,ASC257,Hawain salad,,175.23,4.27,14.35,11.37,390,bowl
+indb,ASC258,Mixed pulse and vegetable salad,,83.12,4.74,13.96,0.84,170,bowl
+indb,ASC259,Sprouted moong salad,,37.81,2.29,5.48,0.74,204,bowl
+indb,ASC260,Tossed salad,,62.96,1.02,4.95,4.22,341,bowl
+indb,ASC261,Mixed vegetable salad with curd sauce,,60.28,4.23,7.03,1.50,215,bowl
+indb,ASC262,Potato salad (Aloo ka salaad),Aloo ka salaad,89.91,1.40,11.19,4.40,236,bowl
+indb,ASC263,Waldroff salad,,141.75,1.47,11.02,10.05,246,bowl
+indb,ASC264,Coleslaw,,76.71,1.24,5.59,5.32,153,bowl
+indb,ASC265,Fruit salad (Phalon ka salaad),Phalon ka salaad,78.14,0.91,15.96,1.22,304,bowl
+indb,ASC269,Tomato onion raita (Tamatar aur pyaaz ka raita),Tamatar aur pyaaz ka raita,59.00,3.74,7.08,1.84,178,bowl
+indb,ASC270,Peanut raita (Mungfali ka raita),Mungfali ka raita,150.39,8.59,9.30,8.98,123,bowl
+indb,ASC271,Sprouted moong raita,,60.89,4.62,6.13,2.19,153,bowl
+indb,ASC272,Bottle gourd raita (Ghiya/Lauki ka raita),Ghiya; Lauki ka raita,56.31,3.98,5.76,2.07,153,bowl
+indb,ASC273,Cucumber raita (Kheere ka raita),Kheere ka raita,59.13,4.04,6.35,2.08,153,bowl
+indb,ASC274,Carrot and spinach raita (Gajar aur palak ka raita),Gajar aur palak ka raita,56.83,4.00,5.83,1.99,178,bowl
+indb,ASC275,Mint raita (Pudinay ka raita),Pudinay ka raita,77.59,5.64,7.65,2.96,105,bowl
+indb,ASC276,Potato raita (Aloo ka raita),Aloo ka raita,75.38,4.22,10.24,2.04,158,bowl
+indb,ASC278,Sweet raita (Meetha raita),Meetha raita,99.24,3.24,17.93,1.78,192,bowl
+indb,ASC281,Saunth/Sonth chutney with tamarind/imli,,141.53,1.01,33.55,0.15,18,teaspoon
+indb,ASC282,Rice kheer (Chawal ki kheer),Chawal ki kheer,75.03,2.30,10.05,2.97,401,bowl
+indb,ASC283,Makhana kheer,,107.85,3.31,12.88,5.00,278,bowl
+indb,ASC285,Vermicelli kheer (Semiya/Seviyan ki kheer),Semiya; Seviyan ki kheer,120.07,3.35,15.87,5.00,232,bowl
+indb,ASC286,Semolina kheer (Suji/Rava kheer),Suji; Rava kheer,113.21,3.43,15.88,4.20,230,bowl
+indb,ASC287,Paneer kheer,,105.31,4.53,10.03,5.37,289,bowl
+indb,ASC288,Cabbage kheer (Pattagobhi ki kheer),Pattagobhi ki kheer,83.51,2.87,9.73,3.80,254,bowl
+indb,ASC289,Carrot kheer (Gajar ki kheer),Gajar ki kheer,85.35,2.81,10.09,3.85,254,bowl
+indb,ASC290,Cauliflower kheer (Phoolgobhi ki kheer),Phoolgobhi ki kheer,81.95,3.04,8.78,3.95,304,bowl
+indb,ASC291,Moong dal kheer,,77.16,2.95,9.89,2.97,405,bowl
+indb,ASC292,Phirni,,116.12,3.49,16.11,4.34,290,bowl
+indb,ASC293,Semolina halwa (Suji ka halwa),Suji ka halwa,225.65,2.16,24.67,13.38,160,bowl
+indb,ASC294,Shahi suji halwa,,382.34,3.48,44.44,21.73,98,bowl
+indb,ASC295,Carrot halwa (Gajar ka halwa),Gajar ka halwa,172.64,3.11,18.53,9.73,168,bowl
+indb,ASC296,Egg halwa (Ande ka halwa),Ande ka halwa,299.74,7.85,39.59,13.41,97,bowl
+indb,ASC297,Potato halwa (Aloo ka halwa),Aloo ka halwa,151.66,1.53,29.18,3.48,158,bowl
+indb,ASC298,Pumpkin halwa (Kaddu ka halwa),Kaddu ka halwa,190.27,1.33,27.60,8.81,155,bowl
+indb,ASC299,Moong dal halwa,,349.80,8.35,40.23,17.68,95,bowl
+indb,ASC300,Caramel custard (steamed),steamed,121.58,4.97,15.02,4.87,232,bowl
+indb,ASC301,Baked custard,,106.53,5.41,9.45,5.30,213,bowl
+indb,ASC302,Soft Custard (stirred),stirred,109.18,5.01,11.19,5.07,250,bowl
+indb,ASC304,Chocolate ice cream,,177.70,4.47,15.41,11.25,371,ice-cream cup
+indb,ASC305,Mango ice cream,,125.69,3.40,11.14,7.62,456,ice-cream cup
+indb,ASC307,Fruit Ice cream (Phalon ka Ice cream),Phalon ka Ice cream,171.46,4.37,16.05,10.38,321,ice-cream cup
+indb,ASC308,Caramel ice cream,,173.52,4.31,14.81,11.15,271,ice-cream cup
+indb,ASC309,Lemon souffle,,168.51,6.95,13.43,10.02,237,souffle cup
+indb,ASC310,Orange souffle,,168.28,6.80,14.20,9.73,244,souffle cup
+indb,ASC311,Vanilla souffle,,187.85,7.71,14.78,11.19,217,souffle cup
+indb,ASC312,Chocolate souffle,,189.32,7.88,14.74,11.36,220,souffle cup
+indb,ASC313,Pineapple souffle,,196.14,8.06,15.52,11.72,202,souffle cup
+indb,ASC314,Apple mousse,,106.92,4.21,12.77,4.27,365,bowl
+indb,ASC315,Rich chocolate mousse,,188.26,7.96,10.84,12.19,210,cup
+indb,ASC316,Mango mousse,,124.98,3.21,9.14,8.47,279,cup
+indb,ASC317,Orange and pineapple cream,,101.18,1.44,11.96,5.43,89,bowl
+indb,ASC318,Charlotte rousse,,188.29,3.95,34.08,4.78,253,bowl
+indb,ASC319,Triffle pudding,,116.97,2.93,18.24,3.93,292,bowl
+indb,ASC320,Snow flakes pudding,,95.21,4.67,8.07,4.97,318,bowl
+indb,ASC321,Kulfi,,98.43,3.21,11.30,4.70,270,kulfi
+indb,ASC322,Steamed orange pudding,,278.03,2.34,41.53,12.04,107,large slice
+indb,ASC323,Meringue and rice pudding,,112.93,4.84,14.60,4.05,224,bowl
+indb,ASC324,Cheese pudding,,285.01,11.29,19.27,18.37,121,large slice
+indb,ASC325,Chocolate pudding,,211.96,3.55,29.59,9.48,166,large slice
+indb,ASC326,Bread and butter pudding,,167.94,5.59,19.63,7.88,123,plate
+indb,ASC327,Queen of pudding,,132.92,5.51,16.35,5.38,326,large slice
+indb,ASC328,Pineapple upside down pudding,,257.73,3.15,35.73,11.91,134,large slice
+indb,ASC329,Date and nut pie,,322.42,3.93,46.86,13.31,226,bowl
+indb,ASC330,Stewed apple with custard,,92.87,1.27,18.36,1.82,283,piece
+indb,ASC331,Apple snowballs,,101.51,0.86,24.58,0.31,260,piece
+indb,ASC332,Hot orange souffle,,179.97,6.87,18.77,8.95,122,bowl
+indb,ASC333,Hot chocolate souffle,,226.09,6.70,26.21,11.10,142,bowl
+indb,ASC334,Hot vanilla souffle,,192.93,6.87,21.77,9.07,128,bowl
+indb,ASC335,Plain burfi (Burfi),Burfi,408.32,9.82,30.88,27.96,44,burfi
+indb,ASC336,Coconut burfi (Nariyal ki burfi),Nariyal ki burfi,467.64,8.81,32.15,34.63,57,burfi
+indb,ASC337,Bottle gourd burfi (Ghiya/Lauki burfi),Ghiya; Lauki burfi,275.96,5.86,24.51,17.68,72,burfi
+indb,ASC338,Chocolate burfi,,339.33,13.00,33.15,17.86,33,burfi
+indb,ASC339,Cashewnut burfi (Kaju burfi/Kaju katli),Kaju burfi; Kaju katli,421.74,5.48,37.92,28.46,29,burfi
+indb,ASC340,Gram flour burfi (Besan burfi),Besan burfi,421.79,11.19,46.59,22.41,38,burfi
+indb,ASC341,Semolina ladoo with khoya (Suji/Rava aur khoye ke ladoo ),Suji; Rava aur khoye ke ladoo,428.71,6.71,52.86,21.86,29,ladoo
+indb,ASC342,Semolina ladoo with coconut (Suji/Rava aur nariyal ke ladoo ),Suji; Rava aur nariyal ke ladoo,464.43,5.68,50.90,27.03,36,ladoo
+indb,ASC343,Gram flour ladoo (Besan ladoo),Besan ladoo,476.91,8.93,62.61,22.76,35,ladoo
+indb,ASC344,Sesame ladoo (Til ke ladoo),Til ke ladoo,396.96,10.70,43.50,19.64,28,ladoo
+indb,ASC345,Chenna murki,,252.69,10.46,36.01,8.20,90,bowl
+indb,ASC346,Milk cake,,127.41,3.01,9.13,8.93,287,slice
+indb,ASC350,Shahi tukre,,189.81,2.76,41.46,2.54,102,tukra
+indb,ASC376,Cheese pizza,,249.50,5.79,30.62,12.43,131,piece
+indb,ASC381,Paneer shaslik/tikka,,93.85,5.11,7.98,4.49,439,plate
+indb,ASC382,Peanut brittle (Moongfali ki chikki),Moongfali ki chikki,320.46,6.94,47.46,11.13,25,piece
+indb,ASC384,Dry mango chutney (Sookhe aam ki chutney),Sookhe aam ki chutney,298.13,2.43,69.17,0.70,28,tablespoon
+indb,ASC385,Peanut chutney (Mungfali ki chutney),Mungfali ki chutney,258.37,11.80,9.87,19.06,21,tablespoon
+indb,ASC386,Coconut chutney (Nariyal ki chutney),Nariyal ki chutney,265.92,3.59,8.29,25.00,25,tablespoon
+indb,ASC387,Mint and coriander chutney (Pudinay aur dhaniye ki chutney),Pudinay aur dhaniye ki chutney,102.60,2.81,21.18,0.51,26,tablespoon
+indb,ASC395,Custard tart,,225.60,3.72,28.66,10.73,72,tart
+indb,ASC396,Lemon tart,,303.35,6.12,30.68,17.45,54,tart
+indb,ASC397,Jam tart,,360.72,4.42,46.18,17.35,36,tart
+indb,ASC398,Orange cream tart,,197.16,2.58,27.43,8.72,72,tart
+indb,ASC399,Pineapple tart,,195.40,2.29,28.62,8.21,77,tart
+indb,ASC400,Cheese and mushroom tart,,246.10,5.51,21.43,15.28,67,tart
+indb,ASC401,Cottage cheese pie,,238.98,7.45,20.66,13.83,340,pie
+indb,ASC402,Minced meat pie,,221.55,7.38,18.11,13.04,354,pie
+indb,ASC403,Apple cinnamon pie,,258.73,3.35,33.68,12.21,177,slice
+indb,ASC404,Lemon meringue pie,,224.43,3.88,35.11,8.16,157,slice
+indb,ASC405,Chocolate meringue pie,,214.76,4.98,28.80,9.17,184,slice
+indb,ASC407,Cream puffs,,221.33,4.70,16.00,15.48,72,puff
+indb,ASC408,Chocolate eclairs,,239.42,4.24,26.22,13.50,169,éclair
+indb,ASC411,Minced meat patties,,265.72,6.88,15.25,19.57,130,patty
+indb,ASC412,Cheese patties,,324.01,7.38,22.23,22.67,104,patty
+indb,ASC413,Hot cheese souffle,,177.10,9.18,5.41,13.23,297,bowl
+indb,ASC414,Hot potato souffle,,125.64,5.51,8.56,7.64,367,bowl
+indb,ASC415,Hot fish souffle,,142.92,11.23,3.69,9.24,367,bowl
+indb,ASC416,Hot spinach souffle,,104.25,5.43,4.19,7.24,397,bowl
+indb,ASC417,Plain cream cake,,353.94,6.18,47.18,16.17,53,piece
+indb,ASC418,Apple cake (Seb ka cake),Seb ka cake,290.08,4.94,39.48,12.87,68,piece
+indb,ASC419,Marble cake,,354.11,6.30,46.88,16.27,54,piece
+indb,ASC420,Chocolate cake,,335.61,6.01,45.14,15.18,59,piece
+indb,ASC421,Orange cake,,357.61,6.10,48.28,16.21,52,piece
+indb,ASC422,Fruit Loaf,,324.19,5.36,46.49,13.31,56,slice
+indb,ASC423,Banana cake (Kele ka cake),Kele ka cake,389.51,5.77,40.00,23.31,66,slice
+indb,ASC424,Chocolate chiffon cake,,311.71,5.76,37.87,15.80,73,slice
+indb,ASC425,Christmas cake,,372.95,5.49,48.29,16.88,104,slice
+indb,ASC426,Strawberry and vanilla cake with butter icing,,370.54,3.89,44.25,20.39,117,slice
+indb,ASC427,Eggless cake,,318.08,8.12,46.14,11.75,61,slice
+indb,ASC429,Swiss roll,,251.87,7.30,48.34,3.77,63,swiss roll
+indb,ASC430,Pineapple pastry,,208.21,6.06,29.04,7.87,91,pastry
+indb,ASC431,Black forest pastry,,233.55,6.09,34.48,8.46,93,pastry
+indb,ASC432,Coconut finger,,274.86,7.09,42.56,8.86,72,finger
+indb,ASC433,Pineapple cake,,195.57,5.01,23.51,9.34,513,slice
+indb,ASC439,Chocolate walnut cookies (Chocolate aur akhrot ke cookies),Chocolate aur akhrot ke cookies,424.80,6.56,47.10,23.62,26,cookie
+indb,ASC440,Chocolate chip cookies,,425.29,5.79,57.98,19.38,22,cookie
+indb,ASC441,Sweet plain biscuit,,380.76,5.86,50.29,17.67,14,biscuit
+indb,ASC442,Chocolate biscuit,,379.76,5.88,51.56,17.09,15,biscuit
+indb,ASC443,Coconut biscuit (Nariyal ke biscuit),Nariyal ke biscuit,434.98,5.78,42.90,27.16,19,biscuit
+indb,ASC444,Sweet and salty biscuit (Meethay aur namkeen biscuit),Meethay aur namkeen biscuit,407.96,6.15,45.09,22.39,11,biscuit
+indb,ASC445,Peanut biscuit,,401.05,8.45,46.72,20.41,18,biscuit
+indb,ASC446,Pin wheel biscuit,,404.60,5.40,54.56,18.66,20,biscuit
+indb,ASC447,Saffron biscuit (Kesar biscuit),Kesar biscuit,458.61,6.05,59.70,22.01,11,biscuit
+indb,ASC448,Masala biscuit,,393.64,6.06,45.18,20.75,16,biscuit
+indb,ASC449,Ice box cookies,,374.24,5.70,56.09,14.44,14,cookie
+indb,ASC450,Ginger bread man,,365.00,6.61,60.26,11.01,30,biscuit
+indb,ASC451,Danish cookies,,475.33,5.33,58.00,24.92,13,biscuit
+indb,ASC452,Short bread cookies,,443.09,6.03,64.82,17.98,18,biscuit
+indb,ASC453,Coffee biscuit,,416.57,6.90,46.55,23.00,17,biscuit
+indb,ASC454,Melting moments,,437.91,5.71,55.84,21.78,17,biscuit
+indb,ASC455,Ginger biscuit (Adarak ke biscuit),Adarak ke biscuit,417.91,5.98,58.44,18.31,13,biscuit
+indb,ASC463,Split bengal gram sweet rice (Channa dal sweet rice),Channa dal sweet rice,190.21,4.15,41.07,0.64,220,plate
+indb,ASC465,Wheat flour and moong dal burfi (Atta aur moong dal ki burfi),Atta aur moong dal ki burfi,441.08,9.84,60.00,18.41,26,piece
+indb,ASC466,Spinach burfi (Palak burfi),Palak burfi,121.17,2.71,12.76,6.81,87,piece
+indb,ASC467,Sweet split chickpea roti (Sweet channa dal roti/Puranpoli),Sweet channa dal roti; Puranpoli,366.59,9.51,62.66,7.93,53,roti
+indb,ASC468,Sprouted moong daliya,,111.56,2.81,14.77,4.71,316,plate
+indb,ASC469,Sprouted moong poha,,192.60,5.59,26.60,6.89,191,plate
+indb,ASC470,Pearl millet ladoo (Bajra ladoo),Bajra ladoo,319.66,9.61,50.98,8.06,47,ladoo
+indb,ASC471,Paushtik ladoo,,485.87,7.65,60.34,24.98,35,ladoo
+indb,ASC472,Paushtik roti,,149.26,7.17,26.59,1.51,43,roti
+indb,ASC474,Dhokla,,216.49,13.45,30.68,5.28,40,piece
+indb,BFP007,Kashmiri tea (Kehwa),Kehwa,24.90,0.17,5.23,0.51,257,tea cup
+indb,BFP008,Steeped hot coffee,,15.91,0.39,3.01,0.33,202,tea cup
+indb,BFP011,Hot chocolate,,90.01,3.43,9.02,4.61,190,tea cup
+indb,BFP013,Cold coffee (with cream),with cream,82.76,1.93,11.98,3.29,251,tall glass
+indb,BFP015,Banana milkshake with ice cream (Kele ka milkshake ice cream ke saath),Kele ka milkshake ice cream ke saath,76.45,2.01,11.15,2.77,340,tall glass
+indb,BFP019,Flavoured milkshake,,66.78,2.06,8.65,2.83,285,tall glass
+indb,BFP024,Jal jeera,,30.24,0.44,6.70,0.26,140,juice glass
+indb,BFP026,Gingo,,48.02,0.14,12.42,0.06,291,tall glass
+indb,BFP027,Mintade,,40.32,0.03,10.59,0.02,570,glass
+indb,BFP029,Canjee,,6.61,0.24,0.44,0.42,170,glass
+indb,BFP030,Cauliflower canjee (Phoolgobhi ki canjee),Phoolgobhi ki canjee,6.90,0.39,0.35,0.42,179,glass
+indb,BFP031,Potato canjee (Aloo canjee),Aloo canjee,16.26,0.44,2.69,0.39,195,glass
+indb,BFP036,Vermicelli porridge (Semiya/Seviyan porridge),Semiya; Seviyan porridge,78.40,2.50,10.56,2.98,397,bowl
+indb,BFP039,Semolina upma (Suji/Rava upma),Suji; Rava upma,147.89,3.30,16.31,7.49,106,bowl
+indb,BFP040,Vermicelli upma (Semiya/Seviyan upma),Semiya; Seviyan upma,149.11,3.11,16.88,7.45,106,bowl
+indb,BFP041,Rice upma,,151.27,2.63,17.96,7.46,106,bowl
+indb,BFP042,Bread upma,,129.51,2.80,12.60,7.75,106,bowl
+indb,BFP043,Vegetable upma,,146.47,4.73,16.46,6.63,236,plate
+indb,BFP044,Poha,,294.53,6.09,35.05,14.14,55,bowl
+indb,BFP045,Vegetable poha,,180.52,4.89,21.52,8.07,98,bowl
+indb,BFP046,Moong dal stuffed cheela/chilla (Moong dal ka cheela/chilla),Moong dal ka cheela; chilla,154.89,6.97,19.42,5.11,227,cheela
+indb,BFP047,Paneer stuffed cheela/chilla,,205.19,11.44,19.16,8.89,212,cheela
+indb,BFP052,Indian style egg bhujia (Anda bhujia (Indian style)),Anda bhujia (Indian style,102.83,6.10,3.76,7.02,126,small bowl
+indb,BFP054,French omelette/omlet,,211.04,10.03,0.41,18.86,68,egg
+indb,BFP055,Puffy omelette/omlet,,188.15,8.82,0.08,16.84,76,egg
+indb,BFP056,Orange omelette/omlet,,194.66,8.93,1.68,16.84,76,egg
+indb,BFP057,Cheese and mushroom omelette/omlet,,205.63,9.69,1.68,17.82,128,egg
+indb,BFP058,Spanish omelette/omlet,,157.45,8.25,5.10,11.44,152,egg
+indb,BFP059,Mixed stock,,25.19,2.06,0.33,1.71,910,cup
+indb,BFP060,Meat stock,,24.48,2.10,0.00,1.78,870,cup
+indb,BFP062,White stock,,6.99,0.07,0.40,0.56,765,cup
+indb,BFP065,Meat consomme (with mutton),with mutton,29.76,14.86,0.51,13.68,620,bowl
+indb,BFP066,Consomme au julienne,,27.76,12.49,1.49,10.66,770,bowl
+indb,BFP067,Consomme au vermicelli,,29.94,15.23,1.30,12.98,627,bowl
+indb,BFP072,Green pea soup (Matar ka soup),Matar ka soup,39.81,11.06,3.63,12.90,556,bowl
+indb,BFP073,Spinach soup (Palak ka soup),Palak ka soup,32.59,10.54,3.03,14.26,503,bowl
+indb,BFP074,Mixed vegetable soup,,35.71,8.22,2.95,11.66,441,bowl
+indb,BFP075,Cheese soup,,41.13,12.39,1.87,17.07,445,bowl
+indb,BFP076,Mulligatawny soup,,54.42,11.26,8.24,13.28,349,bowl
+indb,BFP079,Cream of carrot soup,,59.77,8.27,5.69,12.35,466,bowl
+indb,BFP080,Cream of broccoli soup,,56.14,8.97,3.72,12.75,461,bowl
+indb,BFP082,Cream of potato soup,,60.20,8.10,6.14,12.05,476,bowl
+indb,BFP087,Almond soup (Badam ka soup),Badam ka soup,78.65,10.13,3.68,13.80,477,bowl
+indb,BFP088,Cold cucumber cream soup,,11.88,0.34,1.76,0.34,383,bowl
+indb,BFP089,Cold tomato soup,,16.90,0.11,0.59,1.56,275,bowl
+indb,BFP090,Chicken stew,,127.55,7.19,4.44,8.91,297,bowl
+indb,BFP091,Veg paneer stew,,145.55,6.98,10.22,8.41,237,bowl
+indb,BFP108,Onion-green chilli parantha/paratha (Pyaaz aur hari mirch ka parantha/paratha),Pyaaz aur hari mirch ka parantha; paratha,191.27,4.37,26.37,7.27,76,parantha
+indb,BFP110,Methi parantha/paratha,,148.36,4.27,22.19,4.34,91,parantha
+indb,BFP122,Pizza,,146.77,6.85,9.94,8.72,297,slice
+indb,BFP124,Bacon and mushroom pancake,,157.67,6.82,8.47,10.60,122,pancake
+indb,BFP125,Cheese and tomato pancake,,147.39,5.15,10.66,9.28,110,pancake
+indb,BFP127,Minced meat pancake (with chicken),with chicken,116.04,12.01,8.18,10.48,134,pancake
+indb,BFP132,Eggplant/Brinjal rice (Vangi bhat),Vangi bhat,184.80,5.28,31.74,3.67,291,plate
+indb,BFP133,Kashmiri 'tahar',,98.21,1.95,19.11,1.37,326,plate
+indb,BFP134,Cumin pulao (Jeera/Zeera pulao),Jeera; Zeera pulao,135.24,2.47,23.61,3.20,271,plate
+indb,BFP136,Peas pulao (Matar pulao),Matar pulao,108.87,3.89,18.42,1.90,472,plate
+indb,BFP137,Split bengal gram dal and vegetable pulao (Channa dal and vegetable pulao),Channa dal and vegetable pulao,116.53,3.60,19.72,2.30,442,plate
+indb,BFP138,Black channa pulao/ Bengal gram pulao (Kale chane ka pulao),Kale chane ka pulao,125.51,3.44,21.55,2.58,397,plate
+indb,BFP141,Mutton pulao,,130.77,6.52,11.26,10.78,663,plate
+indb,BFP142,Chicken pulao,,108.24,6.07,11.17,8.48,668,plate
+indb,BFP143,Mexican rice,,120.57,4.62,14.21,4.88,518,plate
+indb,BFP144,Plain khitchdi (Plain khichri/khichdi),Plain khichri; khichdi,57.03,1.72,10.04,1.01,574,small bowl
+indb,BFP147,Instant idli (with semolina),with semolina,247.29,9.16,43.40,3.61,35,idli
+indb,BFP148,Plain dosa,,380.91,10.34,64.08,8.43,36,dosa
+indb,BFP150,Masala dosa mixed vegetable fillings,,144.53,4.84,23.02,3.26,277,dosa
+indb,BFP151,Masala dosa paneer fillings,,243.12,10.31,29.76,8.84,197,dosa
+indb,BFP152,Uttapam,,255.95,6.18,36.28,9.03,68,uttapam
+indb,BFP153,Appam,,267.70,3.12,13.28,22.63,153,appam
+indb,BFP154,Beans and macaroni,,136.08,4.58,14.24,7.01,254,plate
+indb,BFP155,Spaghetti bolognese,,97.43,9.35,10.04,9.51,374,shallow dish
+indb,BFP157,Meat and macaroni casserole,,161.55,9.15,16.12,10.17,400,small casserole dish
+indb,BFP158,Spaghetti with meat balls and tomato sauce,,158.13,5.61,10.46,10.64,556,shallow dish
+indb,BFP159,Spaghetti with paneer balls and tomato sauce,,158.54,3.95,12.72,10.44,496,shallow dish
+indb,BFP161,Lasagne with meat sauce,,63.38,2.90,5.38,3.43,,dish
+indb,BFP162,Lasagne with vegetables,,49.23,1.71,5.90,2.16,,dish
+indb,BFP165,Home made egg noodles,,240.84,6.55,42.92,4.37,225,curry bowl
+indb,BFP170,Sour lentils (Khatti dal),Khatti dal,34.79,2.22,6.04,0.12,363,curry bowl
+indb,BFP171,Urad special dehusked,,69.43,3.14,8.86,2.17,266,curry bowl
+indb,BFP172,Arhar with spinach (Arhar dal aur palak),Arhar dal aur palak,52.84,2.05,4.77,2.76,403,curry bowl
+indb,BFP174,Moong dal with vadi,,24.08,0.40,1.00,2.05,362,curry bowl
+indb,BFP176,Rasam with tamarind (Puli rasam/ Chintapandu rasam/ Charu/Saaru),Puli rasam;  Chintapandu rasam;  Charu; Saaru,26.74,1.13,3.37,0.88,390,curry bowl
+indb,BFP177,Rasam with lemon (Nimmakaya rasam/Nimmakaya charu/Elumichai rasam/Nimbe hannina saaru),Nimmakaya rasam; Nimmakaya charu; Elumichai rasam; Nimbe hannina saaru,24.41,1.11,2.85,0.87,394,curry bowl
+indb,BFP178,Green gram whole with baghar (Sabut moong dal with tadka),Sabut moong dal with tadka,63.43,3.23,6.80,2.48,226,bowl
+indb,BFP179,Urad sabut special,,79.39,2.33,5.03,5.46,442,bowl
+indb,BFP185,Kabuli channa curry,,68.57,2.92,7.63,3.06,356,bowl
+indb,BFP187,Besan gatte curry,,189.38,7.75,16.26,10.72,256,bowl
+indb,BFP190,Dry masala chops,,135.07,9.08,3.30,9.54,148,chops
+indb,BFP194,Mutton korma,,115.64,7.09,2.53,8.54,366,bowl
+indb,BFP197,Minced meat ball curry,,109.79,6.82,2.86,7.85,373,bowl
+indb,BFP198,Boti kebab,,132.86,9.22,3.06,9.27,55,kebab
+indb,BFP199,Mutton seekh kebab,,133.94,11.25,3.11,8.43,45,kebab
+indb,BFP201,Indian lamb and egg curry (Nargisi kofta),Nargisi kofta,335.75,3.84,2.07,34.70,391,kofta
+indb,BFP204,Soya chunks korma (Nutrinugget korma),Nutrinugget korma,131.43,3.86,7.67,9.50,249,bowl
+indb,BFP205,Mushroom matar,,70.77,2.79,5.33,4.11,263,bowl
+indb,BFP206,Soya chunks and peas (Nutrinugget matar),Nutrinugget matar,82.62,3.03,5.82,5.11,223,bowl
+indb,BFP208,Spinach mushroom (Palak mushroom),Palak mushroom,47.63,1.94,2.95,2.96,295,bowl
+indb,BFP210,Vegetarian nargisi kofta curry,,332.15,2.29,6.58,32.94,399,kofta
+indb,BFP212,Roast chicken,,199.90,20.49,0.10,13.06,133,joint
+indb,BFP214,Shahi chicken masala,,163.70,9.82,4.07,12.02,349,bowl
+indb,BFP216,Tomato chicken,,111.68,10.57,2.13,6.71,176,bowl
+indb,BFP217,Creamy chicken,,152.87,13.52,3.13,9.57,217,bowl
+indb,BFP218,Broccoli chicken ala king,,119.56,7.97,5.34,7.57,236,bowl
+indb,BFP220,Ginger chicken,,129.17,8.24,5.60,8.24,384,bowl
+indb,BFP222,Chicken korma,,147.96,9.83,5.43,9.67,347,bowl
+indb,BFP223,Bengal fish curry (Bengali machli curry),Bengali machli curry,109.43,7.26,4.42,7.03,310,bowl
+indb,BFP229,Fish in coconut milk (Nariyal ke doodh ke saath machli),Nariyal ke doodh ke saath machli,86.21,8.66,2.73,4.43,326,dish
+indb,BFP230,Prawn curry (with coconut) (Jhinga curry),with coconut; Jhinga curry,109.55,8.54,3.10,6.93,286,bowl
+indb,BFP231,Baked stuffed fish,,121.96,16.14,2.12,5.43,608,fish
+indb,BFP232,Fish pie,,120.90,9.25,7.74,5.77,306,pie
+indb,BFP233,Crispy baked fish,,138.40,10.95,9.59,6.41,283,casserole dish
+indb,BFP234,Fish souffle,,139.71,10.51,5.14,8.55,295,dish
+indb,BFP239,Potato curry (Aloo ki sabzi),Aloo ki sabzi,89.56,1.52,10.42,4.47,202,bowl
+indb,BFP240,Egg curry (Anda curry),Anda curry,117.52,5.38,4.03,8.81,152,bowl
+indb,BFP241,Vegetable curry with coconut,,83.07,2.77,7.19,4.66,372,bowl
+indb,BFP242,Curd with potatoes (Dahi aloo),Dahi aloo,59.90,1.56,7.15,2.72,379,bowl
+indb,BFP249,Yam kofta curry (Zimikand/Suran kofta curry),Zimikand; Suran kofta curry,322.88,0.71,3.75,33.84,750,bowl
+indb,BFP250,Jackfruit kofta curry (Kathal ka kofta curry),Kathal ka kofta curry,321.08,0.80,3.17,33.83,750,bowl
+indb,BFP257,Spinach and potato (Palak aloo),Palak aloo,57.17,1.63,5.91,2.82,335,bowl
+indb,BFP258,Mooli bhujia,,91.20,1.69,4.74,7.25,198,bowl
+indb,BFP259,Bathua bhujia,,90.90,2.26,3.63,7.29,198,bowl
+indb,BFP261,Cabbage rolls (dry) ((Pattagobhi rolls) (dry)),dry; (Pattagobhi rolls; dry,142.48,8.21,6.09,9.36,83,roll
+indb,BFP262,Cabbage rolls (curry) ((Pattagobhi rolls)(curry)),curry; (Pattagobhi rolls; curry,124.63,5.76,7.03,8.17,146,roll
+indb,BFP263,Dry arbi (Sookhi arbi),Sookhi arbi,134.95,2.12,11.11,8.97,201,bowl
+indb,BFP264,Masala arbi,,185.38,3.01,16.16,11.90,116,bowl
+indb,BFP266,Peas brinjal bhartha (Matar baingan bhartha),Matar baingan bhartha,84.55,2.05,5.02,6.05,262,small bowl
+indb,BFP269,Okra/Lady's fingers fry (Bhindi sabzi/sabji/subji),Bhindi sabzi; sabji; subji,110.81,1.83,4.50,9.27,166,bowl
+indb,BFP272,Beans foogath,,105.06,2.03,3.26,9.22,181,small bowl
+indb,BFP273,Stuffed bittergourd (wet) (Bharwa karele),wet; Bharwa karele,162.36,1.36,4.68,15.24,156,bowl
+indb,BFP276,"Cauliflower, pea and potato bhujia (Phoolgobhi, matar aur aloo bhujia)","Phoolgobhi, matar aur aloo bhujia",95.67,2.75,8.23,5.54,191,bowl
+indb,BFP277,Vegetable jalfrezi,,68.48,1.40,5.43,4.38,101,bowl
+indb,BFP278,Vegetables stir fry,,30.78,1.04,3.19,1.47,389,small bowl
+indb,BFP279,Broccoli delight,,40.70,2.49,2.34,2.48,200,bowl
+indb,BFP280,Dhansak (vegetarian),vegetarian,82.80,3.32,7.28,4.18,241,bowl
+indb,BFP282,Cauliflower basket,,90.95,5.21,3.97,5.88,241,portion
+indb,BFP284,Stuffed bottle gourd (Stuffed ghiya/lauki),Stuffed ghiya; lauki,93.19,5.84,4.36,5.80,355,portion
+indb,BFP286,Ducheese potato,,140.54,3.60,10.94,9.01,43,potato
+indb,BFP287,Roast potatoes,,87.32,1.53,14.52,2.35,77,potato
+indb,BFP288,Stuffed baked potatoes,,100.20,3.82,11.03,4.39,104,potato
+indb,BFP289,Potato nests,,111.62,5.71,11.05,4.77,191,nest
+indb,BFP290,Parsley potato,,119.51,1.49,13.81,6.28,108,bowl
+indb,BFP292,Fricassee of Mushroom,,106.66,3.65,8.13,6.63,281,dish
+indb,BFP293,Cauliflower au gratin,,145.90,4.45,9.13,10.20,336,bowl
+indb,BFP294,Vegetable and cheese pie,,126.88,4.03,8.76,8.28,485,dish
+indb,BFP296,Spinach souffle,,150.18,7.36,6.27,10.52,200,small bowl
+indb,BFP299,Beetroot and egg salad (Chukandar aur ande ka salad),Chukandar aur ande ka salad,84.92,3.36,3.40,6.45,222,small bowl
+indb,BFP300,Sour cream potato salad,,121.90,2.89,9.05,8.13,227,small bowl
+indb,BFP301,Tossed green salad,,49.88,1.33,3.82,3.24,218,small bowl
+indb,BFP302,Spring basket salad,,160.46,3.36,11.61,11.30,210,basket
+indb,BFP303,Cucumber and yogurt salad (Kheere aur dahi ka salad),Kheere aur dahi ka salad,36.13,2.09,4.72,0.93,115,small plate
+indb,BFP305,Chicken and tomato towers,,100.55,6.90,2.36,6.99,264,stuffed tomato
+indb,BFP306,Jellied sunshine fruit salad,,48.86,5.85,4.21,0.85,249,small mould
+indb,BFP307,Tomato aspic,,50.37,6.87,5.02,0.26,213,small mould
+indb,BFP308,Frozen frosty fruit salad (Phalon ka salaad),Phalon ka salaad,103.51,1.68,15.61,4.17,233,slice
+indb,BFP312,Mayonnaise without eggs,,329.05,2.13,3.98,33.84,387,cup
+indb,BFP313,Curd dressing,,78.80,5.59,8.03,2.90,209,cup
+indb,BFP316,Carrot raita (Gajar ka raita),Gajar ka raita,64.78,4.14,7.19,2.19,158,bowl
+indb,BFP318,Pumpkin raita (Kaddu ka raita),Kaddu ka raita,55.60,3.74,6.02,1.88,170,bowl
+indb,BFP320,Mint and peanut raita (Pudinay aur moongfali ka raita),Pudinay aur moongfali ka raita,112.05,7.05,7.31,6.19,133,bowl
+indb,BFP321,Spinach raita (Palak ka raita),Palak ka raita,52.75,3.95,5.06,1.86,203,bowl
+indb,BFP322,Bathua raita,,54.40,4.13,5.31,1.76,203,bowl
+indb,BFP325,Pineapple raita (Ananas ka raita),Ananas ka raita,67.74,3.90,8.62,2.02,159,bowl
+indb,BFP326,Banana raita (Kele ka raita),Kele ka raita,89.03,4.13,13.51,2.07,159,bowl
+indb,BFP327,Mango raita (Aam ka raita),Aam ka raita,67.37,3.90,8.23,2.14,159,bowl
+indb,BFP328,Guava raita (Amarood ka raita),Amarood ka raita,64.36,4.19,7.27,2.07,159,bowl
+indb,BFP329,Grapes raita (Angoor ka raita),Angoor ka raita,72.59,3.98,9.66,2.07,159,bowl
+indb,BFP334,Bottle gourd kheer (Ghiya/Lauki kheer),Ghiya; Lauki kheer,84.07,2.70,10.00,3.86,268,bowl
+indb,BFP336,Pumpkin kheer (Kaddu ki kheer),Kaddu ki kheer,86.35,2.76,10.44,3.86,268,bowl
+indb,BFP338,Apple kheer (Seb ki kheer),Seb ki kheer,81.30,2.14,11.34,3.18,333,bowl
+indb,BFP345,Caramel custard (baked),baked,122.70,5.11,14.95,5.01,226,small bowl
+indb,BFP346,Vanilla ice cream without egg,,228.67,2.69,14.21,18.15,157,ice cream cup
+indb,BFP347,Vanilla ice cream with egg,,214.85,4.16,11.71,17.02,181,ice cream cup
+indb,BFP348,Strawberry ice cream,,215.61,4.15,12.26,16.96,182,ice cream cup
+indb,BFP350,Chocochip ice cream,,241.45,4.23,16.75,17.93,199,ice cream cup
+indb,BFP351,Choconut ice cream,,273.96,5.04,23.13,18.49,240,sundae glass
+indb,BFP352,Pear chocholate sunday,,183.49,2.08,15.02,13.11,244,sundae glass
+indb,BFP353,Chocolate sauce,,263.20,1.91,43.21,10.39,17,tablespoon
+indb,BFP354,Coffee ice cream,,150.62,3.15,14.09,9.43,166,ice cream cup
+indb,BFP355,Coffee pear alaska,,203.99,2.88,19.36,13.22,250,dish
+indb,BFP356,Crunchy butterscotch,,277.32,3.11,19.92,20.99,187,cup
+indb,BFP358,Peach melba ice cream,,200.85,2.06,16.31,14.51,229,sundae glass
+indb,BFP359,Vanilla ice cream with apples in hot cherry sauce,,196.32,1.73,22.75,11.45,251,dish
+indb,BFP361,Grape and orange whip,,57.39,1.41,6.72,2.62,121,orange case
+indb,BFP362,Honey banana cream,,125.49,2.78,13.64,6.68,331,tall stemmed glass
+indb,BFP363,Raspberry bavarian cream,,150.10,3.34,17.82,7.88,237,small mould
+indb,BFP364,Fruit delight,,107.09,2.09,9.11,7.09,342,small mould
+indb,BFP365,Creamy chocolate mousse,,230.52,6.85,9.53,18.16,203,dish
+indb,BFP366,Cold lemon souffle,,169.87,5.89,15.62,9.78,242,souffle dish
+indb,BFP367,Cold orange souffle,,173.19,5.94,16.27,9.82,241,souffle dish
+indb,BFP368,Cold pineapple souffle,,181.22,6.23,16.85,10.39,228,souffle dish
+indb,BFP369,Cold vanilla souffle,,179.54,6.22,16.29,10.32,236,souffle dish
+indb,BFP370,Cold chocolate souffle,,187.53,6.37,17.22,10.86,243,souffle dish
+indb,BFP371,Stewed fruit (with pear),with pear,74.32,0.25,18.22,0.32,121,bowl
+indb,BFP372,Apricot fool,,240.79,1.54,33.64,11.35,228,tall stemmed glass
+indb,BFP373,Pavlova,,200.60,1.84,21.84,12.29,362,meringue
+indb,BFP379,Apple crumb pudding,,220.85,1.54,35.17,8.87,98,small plate
+indb,BFP380,Steamed cake with chocolate sauce,,301.91,4.49,29.06,19.01,238,small mould
+indb,BFP382,Hot lemon souffle,,155.25,5.29,16.31,7.93,121,bowl
+indb,BFP388,Chum chum,,130.05,1.52,28.27,1.92,312,piece
+indb,BFP389,Dil bahar,,130.05,1.52,28.27,1.92,312,piece
+indb,BFP390,Rasbhari,,130.05,1.52,28.27,1.92,312,piece
+indb,BFP391,Rajbogh,,133.70,1.71,28.16,2.28,315,piece
+indb,BFP392,Rasgulla,,118.64,1.38,25.79,1.75,342,piece
+indb,BFP393,Rasmalai,,135.55,1.61,29.17,2.11,317,piece
+indb,BFP396,Khoa coconut burfi,,411.45,9.98,36.55,26.01,50,piece
+indb,BFP397,Danedar burfi,,102.68,3.24,12.33,4.72,140,piece
+indb,BFP401,Semolina burfi (Suji/Rava burfi),Suji; Rava burfi,348.67,3.47,47.10,16.86,47,piece
+indb,BFP403,Pumpkin coconut burfi (Kaddu aur nariyal ki burfi),Kaddu aur nariyal ki burfi,186.18,1.75,17.02,12.66,60,piece
+indb,BFP404,Khoa ladoo,,396.02,12.21,34.43,24.09,45,piece
+indb,BFP406,Wheat and gram flour ladoo (Atta besan ladoo),Atta besan ladoo,501.70,9.38,50.50,29.86,30,piece
+indb,BFP407,Semolina ladoo with nuts (Suji/Rava ladoo with nuts),Suji; Rava ladoo with nuts,441.84,5.44,48.02,25.45,31,piece
+indb,BFP412,Sesame chickpeas brittle (Til aur channe ki chikki),Til aur channe ki chikki,282.74,8.50,50.49,4.66,35,piece
+indb,BFP413,Murmura chikki,,253.82,2.12,59.59,0.32,26,piece
+indb,BFP439,Khaman (dhokla),dhokla,54.73,1.92,5.36,2.80,119,dhokla
+indb,BFP440,Instant dhokla,,207.11,7.66,24.11,9.37,42,dhokla
+indb,BFP442,Tomato ginger chutney (Tamatar adarak ki chutney),Tamatar adarak ki chutney,44.66,1.05,9.11,0.32,16,tablespoon
+indb,BFP443,Mint tomato chutney (Pudinay aur tamatar ki chutney),Pudinay aur tamatar ki chutney,43.65,1.53,8.22,0.36,19,tablespoon
+indb,BFP444,Coriander chutney (Hare dhaniye ki chutney),Hare dhaniye ki chutney,42.86,1.38,8.16,0.37,19,tablespoon
+indb,BFP445,Gooseberry chutney (Amla chutney),Amla chutney,43.02,1.44,8.83,0.62,16,tablespoon
+indb,BFP446,Walnut chutney (Akhrot ki chutney),Akhrot ki chutney,370.43,9.44,8.91,33.46,12,tablespoon
+indb,BFP447,Saunth/Sonth chutney with ginger,,84.22,0.28,20.62,0.11,33,tablespoon
+indb,BFP448,Gun powder chutney,,312.34,21.55,47.65,2.67,14,tablespoon
+indb,BFP450,Dessicated coconut chutney (Sookhe kase nariyal ki chutney),Sookhe kase nariyal ki chutney,346.36,12.88,36.72,15.88,11,tablespoon
+indb,BFP451,Curd mint dip,,76.13,4.82,9.11,2.44,33,tablespoon
+indb,BFP452,Curd vegetable dip,,56.21,3.88,6.04,1.94,28,tablespoon
+indb,BFP453,Mayonnaise vegetable dip,,241.27,3.01,4.80,23.44,43,tablespoon
+indb,BFP455,Tomato and cucumber sandwich (Tamatar aur kheere ka sandwich),Tamatar aur kheere ka sandwich,150.68,4.03,20.51,6.31,79,sandwich
+indb,BFP456,Tomato sandwich (grilled),grilled,189.92,6.26,21.29,9.39,77,sandwich
+indb,BFP457,French sandwich (toasted),toasted,186.75,6.82,14.82,11.51,112,sandwich
+indb,BFP458,Peanut butter cucumber sandwich,,243.33,9.04,29.76,10.56,55,sandwich
+indb,BFP459,Mint and peanut sandwich,,273.59,7.18,31.83,13.88,49,sandwich
+indb,BFP460,Spicy chutney sandwich,,249.58,8.74,34.03,9.58,58,sandwich
+indb,BFP461,Chicken walnut sandwich (Chicken aur akhrot ke sandwich),Chicken aur akhrot ke sandwich,285.78,12.58,22.62,16.77,67,sandwich
+indb,BFP463,Rolled sandwich,,293.07,6.45,34.69,15.29,22,sandwich
+indb,BFP466,Ribbon sandwich,,239.26,6.26,24.76,13.37,43,ribbon
+indb,BFP467,Checker board sandwich,,348.37,7.37,25.94,24.65,37,square
+indb,BFP468,Submarine sandwich,,216.92,6.09,13.60,15.32,194,hot dog bun
+indb,BFP470,Cheese open sandwich,,274.07,9.84,28.42,14.24,55,sandwich
+indb,BFP471,Sunset and sunrise open sandwich,,241.31,8.58,18.89,15.14,83,sandwich
+indb,BFP472,Danish luncheon sandwich,,193.82,9.03,17.77,10.10,86,sandwich
+indb,BFP473,Chicken and corn open sandwich,,188.16,8.63,19.21,8.83,108,sandwich
+indb,BFP476,Chocolate sponge cake,,239.86,9.13,39.54,5.51,70,piece
+indb,BFP478,Chocolate swiss roll,,306.08,6.01,26.97,19.76,47,swiss roll
+indb,BFP479,Lemon curd filling,,225.62,3.43,26.41,12.58,25,tablespoon
+indb,BFP480,Jam filling,,184.62,0.00,46.15,0.00,16,tablespoon
+indb,BFP482,Chocolate pastry,,243.37,7.05,32.24,10.12,87,pastry
+indb,BFP483,Assorted pastry,,230.74,6.78,31.99,8.91,80,pastry
+indb,BFP484,Orange gateau,,178.05,4.78,27.01,6.02,80,piece
+indb,BFP485,Black forest gateau,,217.82,5.94,30.57,8.58,66,piece
+indb,BFP489,Lemon cake,,373.85,5.29,43.10,20.63,61,piece
+indb,BFP491,Dundee cake,,396.62,7.78,41.40,22.70,60,piece
+indb,BFP492,Victorian sandwich cake,,373.09,5.18,44.74,19.83,64,piece
+indb,BFP495,Chocolate eggless cake,,312.01,6.66,43.45,13.19,114,piece
+indb,BFP496,Orange eggless cake,,355.62,7.16,52.65,13.82,99,piece
+indb,BFP498,Chocolate glace icing,,436.29,3.22,62.43,20.80,24,tablespoon
+indb,BFP499,Butter icing,,500.72,0.19,71.64,25.37,16,tablespoon
+indb,BFP500,Chocolate butter icing,,469.59,3.21,61.72,24.77,19,tablespoon
+indb,BFP502,Almond biscuit (Badam ke biscuit),Badam ke biscuit,407.74,6.25,52.14,19.70,19,biscuit
+indb,BFP505,Orange biscuit,,354.78,3.63,62.11,11.01,61,biscuit
+indb,BFP506,Gingerman biscuit,,357.43,6.26,55.24,12.73,36,gingerman
+indb,BFP507,Coffee drops,,443.07,7.57,43.06,27.16,12,small
+indb,BFP508,Christmas biscuit,,406.07,5.67,60.97,15.88,21,biscuit
+indb,BFP509,Christmas wreath biscuit,,386.05,5.43,58.07,15.01,22,biscuit
+indb,BFP510,Christmas bell biscuit,,404.85,5.66,60.79,15.84,21,biscuit
+indb,BFP511,Christmas star biscuit,,392.03,3.54,74.54,10.04,37,biscuit
+indb,BFP512,Christmas tree biscuit,,385.63,5.43,58.41,15.00,22,biscuit
+indb,BFP513,Chocolate cream shells,,427.17,5.10,59.26,19.34,23,shell
+indb,BFP516,Jelly biscuit,,404.61,4.23,55.24,19.33,18,biscuit
+indb,BFP517,Cherry and walnut cookies,,422.60,5.63,59.35,18.75,18,cookies
+indb,BFP518,Cheese straws,,382.00,9.83,30.61,24.28,10,straw
+indb,BFP519,Butterfly biscuit,,341.45,9.98,25.33,22.11,12,biscuit
+indb,BFP521,Flan pastry,,445.80,6.72,47.84,25.04,52,pastry
+indb,BFP522,Fruit flan,,261.35,3.30,34.71,12.48,465,flan
+indb,BFP523,Orange cream flan,,280.28,4.73,36.16,13.59,404,flan
+indb,BFP527,Fruit puree tart,,286.50,3.35,30.42,16.83,56,tart
+indb,BFP529,Apple banana pie,,243.99,3.13,32.12,11.39,389,pie
+indb,BFP531,Lemon chiffon pie,,259.31,4.88,27.63,14.52,536,pie
+indb,BFP532,Orange chiffon pie,,207.57,3.89,23.14,11.16,698,pie
+indb,BFP534,Cream buns,,215.74,4.45,14.16,15.81,83,bun
+indb,BFP535,Savoury puffs,,190.79,9.51,10.80,15.24,138,puff
+indb,BFP536,Choux swans,,216.34,4.35,14.92,15.60,171,swan
+indb,BFP541,Cream horns,,408.23,3.42,23.12,33.55,115,horn
+indb,BFP542,Savoury cheese horns,,295.15,5.66,21.38,20.71,74,horn
+indb,BFP544,Paneer patties,,338.58,7.60,22.79,23.96,101,patty
+indb,BFP545,Vegetable patties,,261.92,4.01,20.98,17.74,116,patty
+indb,BFP546,Pearl millet infant food (Bajra shishu aahaar),Bajra shishu aahaar,362.44,11.98,62.10,6.62,50,
+indb,BFP547,Sajina,,345.26,10.81,66.87,3.03,50,
+indb,BFP548,Cereal mix,,120.81,3.32,21.84,2.02,125,
+indb,BFP549,Pulse mix,,83.29,3.16,16.00,0.54,133,
+indb,BFP550,Shishu ahar,,93.37,2.61,17.42,1.43,133,
+indb,BFP552,Cereal pulse mix with amylase rice flour,,151.57,4.27,27.80,2.74,85,
+indb,BFP553,Banana groundnut paste/puree,,213.19,4.27,36.15,5.45,100,
+indb,BFP554,Rice dal porridge (Chawal dal ki khichdi/khichri),Chawal dal ki khichdi; khichri,383.33,10.80,65.04,8.33,33,
+indb,BFP555,Lentils and semolina porridge (Dal suji porridge/daliya),Dal suji porridge; daliya,117.29,3.26,23.19,1.06,200,
+indb,BFP556,Spinach khichri (Palak khichri/khichdi),Palak khichri; khichdi,102.18,3.43,17.35,1.91,150,
+indb,BFP557,Vegetable mix,,174.21,4.70,36.02,0.94,100,
+indb,BFP558,Lentils and wheat porridge (Dal wheat porridge/daliya ),Dal wheat porridge; daliya,52.54,2.71,8.36,0.94,170,
+indb,BFP559,Maize porridge,,89.57,2.14,15.64,1.89,170,
+indb,BFP560,Spinach peanut burfi (Palak aur mungfali ki burfi),Palak aur mungfali ki burfi,105.37,3.36,13.59,4.39,240,
+indb,BFP561,Split bengal gram burfi/fudge (Channa dal burfi),Channa dal burfi,287.36,4.65,54.63,7.09,61,piece
+indb,BFP563,Chickpea flour cookies (Sweet besan rounds/cookies),Sweet besan rounds; cookies,207.01,4.29,39.64,3.42,25,piece
+indb,BFP565,Sesame biscuit (Til ke biscuit),Til ke biscuit,424.03,8.27,53.65,19.34,15,biscuit
+indb,BFP569,Soya chikki,,423.70,7.18,62.89,15.51,75,piece
+indb,BFP570,Besan bathua chilla/cheela,,373.82,11.48,40.65,18.57,30,cheela
+indb,BFP571,Wheat flour and nuts ladoos (Atta nuts ladoos),Atta nuts ladoos,391.90,9.46,44.31,19.19,36,ladoo
+indb,BFP573,Gram flour and semolina dhokla (Besan suji dhokla),Besan suji dhokla,198.91,8.52,25.92,7.10,99,piece
+indb,BFP574,Atta dal burfi,,298.80,6.66,40.64,12.47,39,piece
+indb,BFP575,Soya roti,,283.96,9.18,40.03,9.23,50,roti
+indb,BFP576,Poshtik khichdi/khichri,,93.37,3.04,15.64,1.88,360,plate
+indb,BFP577,Namkeen daliya,,295.11,8.29,49.32,7.99,117,plate
+indb,BFP578,Sprouts upma,,316.25,9.50,44.96,10.44,95,plate
+indb,BFP579,Semolina idli (Suji/Rava idli),Suji; Rava idli,206.39,9.34,33.67,3.47,30,idli
+indb,BFP580,Poshtik chilla/cheela,,159.53,4.85,27.47,3.04,72,cheela
+indb,BFP604,Stuffed bittergourd (dry) (Bharwa karela),dry; Bharwa karela,217.65,1.29,2.49,22.38,106,bowl
+indb,BFP605,Cauliflower potato canjee,,16.79,0.57,2.63,0.39,212,glass
+indb,BFP606,Creamed spinach,,96.91,5.18,4.44,6.39,386,small bowl
+indb,BFP607,Mango milkshake with ice cream (Aam milkshake ice cream ke saath),Aam milkshake ice cream ke saath,68.35,1.93,9.18,2.80,340,tall glass
+indb,BFP608,Pineapple milkshake with ice cream (Ananas milkshake ice cream ke saath),Ananas milkshake ice cream ke saath,68.49,1.93,9.33,2.75,340,tall glass
+indb,BFP609,Orange milkshake with ice cream (Narangi milkshake ice cream ke saath),Narangi milkshake ice cream ke saath,67.82,1.95,9.15,2.75,340,tall glass
+indb,OSR001,Woodapple juice (Bel ka sharbat),Bel ka sharbat,34.18,0.63,6.51,0.70,351,glass
+indb,OSR002,Sattu drink,,23.38,0.56,5.16,0.14,534,glass
+indb,OSR004,Apple and honey sorbet (Seb aur shehad ka sharbat),Seb aur shehad ka sharbat,121.30,0.15,30.74,0.29,162,cup
+indb,OSR005,Thandai,,101.18,3.59,9.13,5.89,253,glass
+indb,OSR006,Cucumber sharbat (Kheere ka sharbat),Kheere ka sharbat,27.28,0.26,6.64,0.06,411,glass
+indb,OSR007,Apple oats chia seed smoothie,,85.64,3.49,13.07,2.48,629,glass
+indb,OSR008,Nannari sharbat,,88.79,0.01,23.62,0.01,1115,cup
+indb,OSR009,Semolina milk drink (Thari kanji),Thari kanji,44.16,0.98,6.93,1.36,263,cup
+indb,OSR010,Saffron milk (Kesariya doodh),Kesariya doodh,102.18,3.17,12.64,4.57,263,glass
+indb,OSR011,Black rice kheer (Chak-hao kheer),Chak-hao kheer,147.94,4.37,22.93,4.91,208,bowl
+indb,OSR012,Coconut kheer (Nariyal ki kheer),Nariyal ki kheer,162.61,3.40,14.42,10.55,650,bowl
+indb,OSR013,Apple sago payasam (Seb aur sabudana ki kheer),Seb aur sabudana ki kheer,136.50,3.13,14.40,7.66,331,bowl
+indb,OSR014,Kesari bath,,244.57,2.40,31.38,12.59,177,bowl
+indb,OSR015,Putharekulu,,318.30,3.66,59.61,7.55,54,roll
+indb,OSR016,Mango malpua,,334.64,1.65,12.84,30.67,393,piece
+indb,OSR017,Mango vanilla custard,,147.63,3.43,18.41,7.04,203,glass
+indb,OSR018,Kiwi granola pudding,,280.99,5.60,32.33,15.36,524,bowl
+indb,OSR019,Oats burfi,,425.19,8.89,62.47,17.27,60,piece
+indb,OSR020,Lotus seed halwa (Kamal gattay ka halwa),Kamal gattay ka halwa,370.55,7.79,39.56,20.69,362,piece
+indb,OSR021,Amaranth ladoo (Rajgira ladoo),Rajgira ladoo,454.15,10.12,51.33,22.70,44,ladoo
+indb,OSR022,Chhena poda,,344.57,13.68,33.64,17.94,74,slice
+indb,OSR023,Sweet couscous dessert,,196.20,3.81,29.69,7.69,230,bowl
+indb,OSR024,Sweetened yogurt (Shrikhand),Shrikhand,107.18,5.27,16.02,2.89,305,bowl
+indb,OSR025,Thickened sweetened milk (Rabri),Rabri,102.79,3.52,10.55,5.35,220,bowl
+indb,OSR026,Gram flour halwa (Besan halwa),Besan halwa,276.79,5.88,25.78,17.30,149,piece
+indb,OSR027,Prawn sandwich,,169.65,10.36,11.89,9.27,228,sandwich
+indb,OSR028,Watercress sandwich,,229.42,5.17,28.03,11.47,54,triangle
+indb,OSR029,Fish sandwich,,150.20,4.72,10.09,10.37,261,sandwich
+indb,OSR030,Kidney bean sandwich with cottage cheese,,176.64,9.85,18.86,6.84,240,triangle
+indb,OSR031,Finger millet biscuit (Ragi biscuit),Ragi biscuit,458.56,4.03,52.69,25.79,75,biscuit
+indb,OSR032,Buttermilk biscuit,,322.54,5.76,34.93,17.50,128,biscuit
+indb,OSR033,Lemon cookies,,394.48,5.63,42.19,23.02,157,cookie
+indb,OSR034,Sweet potato biscuit (Shakarkand ke biscuit),Shakarkand ke biscuit,296.40,5.14,38.13,13.31,151,biscuit
+indb,OSR035,Raspberry shortbread cookies,,441.12,3.00,61.25,21.25,37,cookie
+indb,OSR036,Pumpkin cookies,,218.40,2.51,44.69,3.93,85,cookie
+indb,OSR037,Greenpea cookies,,159.42,6.53,23.07,4.24,76,cookie
+indb,OSR039,Cardamom cookies (Elaichi cookies),Elaichi cookies,400.49,5.10,53.99,19.12,219,cookie
+indb,OSR040,Hazelnut cookies,,493.32,6.25,39.44,34.97,86,cookie
+indb,OSR041,Milk cookies,,459.43,10.49,48.43,24.96,125,cookie
+indb,OSR042,Cranberry cookies,,272.48,3.92,36.39,12.66,186,cookie
+indb,OSR043,Olive biscuit,,438.29,3.20,55.01,23.75,47,biscuit
+indb,OSR045,Tutti fruitti biscuit,,420.78,5.21,53.12,17.90,109,biscuit
+indb,OSR046,Peach blueberry preserves,,177.38,0.53,45.76,0.20,386,half-pints
+indb,OSR047,Pear preserves (Naashpati ka murabba),Naashpati ka murabba,101.24,0.25,25.67,0.19,596,half-pints
+indb,OSR048,Starfruit preserves,,128.93,0.24,33.62,0.12,162,jar
+indb,OSR049,Gooseberry pickle (Amla ka achaar),Amla ka achaar,278.58,1.55,7.61,27.61,23,jar
+indb,OSR050,Lotus stem pickle (Kamal kakdi ka achar),Kamal kakdi ka achar,102.69,1.44,20.07,1.60,393,jar
+indb,OSR051,Date pickle (Khajoor ka achaar),Khajoor ka achaar,182.29,1.68,34.66,4.21,138,small bowl
+indb,OSR053,Fermented bamboo shoot pickle (Mesu pickle),Mesu pickle,59.83,1.58,1.73,5.59,136,jar
+indb,OSR054,Sweet peach pickle (Aadoo ka achaar),Aadoo ka achaar,144.64,0.46,37.01,0.20,242,jar
+indb,OSR055,Pickled mustard greens,,13.12,1.51,1.05,0.22,1175,jar
+indb,OSR056,Small onion pickle,,16.86,1.65,2.76,0.64,112,bowl
+indb,OSR057,Green tomato pickle (Haray tamatar ka achaar),Haray tamatar ka achaar,193.26,1.23,2.87,19.67,64,jar
+indb,OSR058,Pickled cabbage,,13.69,0.39,2.56,0.14,259,jar
+indb,OSR061,Mango murabba candy,,293.35,0.27,77.32,0.05,76,candy
+indb,OSR062,Afghani chicken,,151.51,15.66,1.95,9.07,190,plate
+indb,OSR064,Hariyali Fish Tikka,,150.24,14.01,2.21,9.41,179,kebab
+indb,OSR065,Chicken manchurian,,142.34,9.53,6.06,11.96,445,plate
+indb,OSR066,Handi chicken,,166.02,12.32,1.49,12.46,232,plate
+indb,OSR067,Lemon chicken,,169.79,20.20,0.55,9.66,287,plate
+indb,OSR068,Lemon butter fish,,160.25,16.38,0.75,10.26,200,piece
+indb,OSR069,Baked eggs in tomato sauce,,80.05,4.92,3.78,5.22,497,plate
+indb,OSR070,Egg in a pepper,,128.78,12.64,0.17,8.68,582,egg
+indb,OSR071,Spinach mushroom scrambled egg (Palak mushroom bhurji),Palak mushroom bhurji,158.85,13.28,0.59,11.51,116,plate
+indb,OSR072,Corn omelette/omlet,,166.93,11.37,1.57,12.89,194,omelette
+indb,OSR073,Cajun chicken,,184.94,12.69,1.94,13.99,167,chicken breast
+indb,OSR074,Paaner do pyaza,,127.70,4.22,3.41,10.87,232,bowl
+indb,OSR075,Cabbage manchurian (Pattagobhi manchurian),Pattagobhi manchurian,224.26,0.64,4.85,22.48,740,bowl
+indb,OSR076,Gobi 65,,278.29,0.56,3.59,29.11,858,plate
+indb,OSR077,Paneer lababdar,,105.48,3.98,3.37,8.46,382,bowl
+indb,OSR078,Roasted cauliflower steak,,78.68,2.05,2.02,6.70,107,cauliflower steak
+indb,OSR079,Sauteed radishes with green beans,,94.32,2.41,6.04,6.61,97,plate
+indb,OSR080,Garlic chutney/Poondu chutney (Lahasun ki chutney),Lahasun ki chutney,255.51,3.34,20.44,17.55,79,small bowl
+indb,OSR081,Schezwan chutney,,205.19,3.33,10.79,17.72,757,box
+indb,OSR083,Onion chutney (Pyaaz ki chutney/Vengaya chutney),Pyaaz ki chutney; Vengaya chutney,143.94,2.97,13.52,8.38,52,cup
+indb,OSR085,Dates chutney (Khajoor ki chutney),Khajoor ki chutney,103.57,1.07,21.69,1.12,264,small bowl
+indb,OSR086,Chicken salad,,338.19,15.33,1.30,30.26,247,bowl
+indb,OSR087,Macaroni salad,,262.19,5.02,21.63,17.78,161,cup
+indb,OSR088,Cabbage raita (Pattagobhi raita),Pattagobhi raita,84.84,3.24,5.25,5.76,232,bowl
+indb,OSR089,Pomegranate raita (Anaar ka raita),Anaar ka raita,72.64,4.05,7.15,3.24,144,bowl
+indb,OSR090,Onion raita (Pyaaz ka raita),Pyaaz ka raita,71.56,4.86,7.86,2.43,157,bowl
+indb,OSR091,Green chilli raita (Hari mirch ka raita),Hari mirch ka raita,77.13,5.58,7.66,2.92,103,bowl
+indb,OSR092,Kale salad,,177.71,4.86,5.01,15.33,54,bowl
+indb,OSR093,Spinach and paneer souffle,,186.19,7.56,9.64,13.49,451,souffle dish
+indb,OSR094,Masala souffle,,123.51,6.38,8.02,7.37,1485,souffle dish
+indb,OSR095,Chicken and cheese souffle,,182.35,9.07,3.47,14.74,196,souffle dish
+indb,OSR096,Tamarind chutney (Chintapandu pachadi/Puli chutney),Chintapandu pachadi; Puli chutney,109.15,0.88,25.07,0.48,4,ml
+indb,OSR097,Pav bhaji masala,,230.47,9.13,29.15,10.96,1,gm
+indb,OSR098,Green chutney,,79.42,5.42,10.01,1.60,24,glass jar
+indb,OSR099,Sago khitchdi/khichri (Sabudana khitchdi/khichri),Sabudana khitchdi; khichri,187.16,2.72,22.41,10.10,271,bowl
+indb,OSR100,Gram flour chilla/cheela (Besan chilla/cheela),Besan chilla; cheela,135.93,7.80,21.03,2.85,52,cheela
+indb,OSR101,Vegetable namkeen jave,,112.23,2.93,18.98,2.51,365,plate
+indb,OSR102,Khakhra,,178.50,4.78,27.66,5.32,76,khakhra
+indb,OSR103,Moong bean dosa (Pesarattu),Pesarattu,285.96,12.32,31.91,11.67,27,pesarattu
+indb,OSR104,Methi thepla,,346.16,8.98,41.34,15.95,36,thepla
+indb,OSR105,Rice puttu (Ari puttu),Ari puttu,81.98,1.26,11.82,3.13,420,puttu
+indb,OSR106,Buckwheat pancake (Khura),Khura,263.30,2.91,27.28,16.43,104,pancake
+indb,OSR107,Quinoa khichdi/khichri,,64.01,3.18,8.83,1.59,318,bowl
+indb,OSR108,Khakhra chaat,,358.66,4.52,16.64,30.65,835,plate
+indb,OSR112,Pav bhaji,,96.53,2.66,11.99,4.32,581,
+indb,OSR115,Semolina dhokla (Suji/Rava dhokla),Suji; Rava dhokla,194.91,5.44,30.86,5.20,100,plate
+indb,OSR120,Wheat cake,,314.63,4.79,41.13,14.95,67,piece
+indb,OSR121,Mango cheesecake,,152.46,2.39,20.06,7.30,174,slice
+indb,OSR122,Carrot cake (Gajar ka cake),Gajar ka cake,255.59,5.60,35.98,10.27,100,slice
+indb,OSR123,Semolina cake (Suji/Rava cake),Suji; Rava cake,374.14,6.58,31.32,25.18,59,square
+indb,OSR124,Finger millet cake (Ragi cake),Ragi cake,279.46,3.96,38.93,12.27,99,slice
+indb,OSR125,Honey cake,,333.59,3.08,49.04,14.70,164,slice
+indb,OSR126,Almond cardamom cake (Badam elaichi cake),Badam elaichi cake,356.35,7.18,34.53,21.36,68,slice
+indb,OSR127,Tutti frutti cake,,347.72,4.49,52.94,12.68,848,cake
+indb,OSR128,Ham and Bean soup,,96.04,10.61,4.18,4.15,151,bowl
+indb,OSR129,Whey soup,,68.91,3.45,6.26,3.34,223,bowl
+indb,OSR130,Bottle gourd soup (Ghiya/Lauki soup),Ghiya; Lauki soup,23.05,0.45,1.16,1.79,295,bowl
+indb,OSR131,Baked potato soup,,147.05,5.73,5.85,11.21,524,bowl
+indb,OSR132,Pumpkin soup,,40.05,0.47,2.08,3.20,318,bowl
+indb,OSR133,Sweet corn soup,,32.25,0.99,3.56,1.63,392,bowl
+indb,OSR134,Paneer soup,,47.85,3.22,2.42,2.80,611,bowl
+indb,OSR135,Curried Cauliflower soup,,37.32,6.72,3.12,9.77,348,cup
+indb,OSR136,Millet soup,,55.99,11.26,8.22,12.57,232,bowl
+indb,OSR137,Lemon coriander soup,,108.06,2.27,10.32,6.26,49,bowl
+indb,OSR138,Garlic soup,,194.86,2.38,6.99,17.62,144,bowl
+indb,OSR139,Dal makhani,,74.04,3.32,7.96,3.06,353,bowl
+indb,OSR141,Dalma,,118.93,4.91,15.04,4.58,264,bowl
+indb,OSR142,Split bengal gram dal (Channa dal),Channa dal,99.67,4.15,9.99,4.62,292,bowl
+indb,OSR143,Horsegram dal (Kulthi dal),Kulthi dal,55.65,2.91,8.21,1.13,361,bowl
+indb,OSR144,Panchmel dal,,111.22,4.63,10.71,5.36,301,bowl
+indb,OSR145,Dal dhokli,,68.74,2.96,8.55,2.47,337,bowl
+indb,OSR146,Gujarati handvo,,207.09,8.24,31.86,4.80,697,cake
+indb,OSR151,Jowar dosa,,294.35,8.50,40.53,10.28,33,dosa
+indb,OSR153,Soya seekh kebab,,115.05,5.40,10.00,5.88,57,kabab
+indb,OSR154,Classic seasoned black beans,,28.78,8.01,7.66,8.28,176,bowl
+indb,OSR155,Maa chaane ki dal,,344.67,19.80,43.11,9.50,81,bowl
+indb,OSR156,Garlic chickpea soup (Lahasun aur chane ka shoraba),Lahasun aur chane ka shoraba,89.53,4.45,13.92,2.01,318,soup bowl
+indb,ASC071,White sauce (thin),thin,115.17,3.31,6.58,8.41,,
+indb,ASC072,White sauce (medium),medium,151.27,3.36,7.98,11.76,,
+indb,ASC073,White sauce (thick),thick,209.69,3.43,10.24,17.19,,
+indb,ASC074,Cheese sauce,,194.76,7.68,7.08,15.12,,
+indb,ASC075,Egg sauce,,146.85,5.97,5.88,11.08,,
+indb,ASC076,Mushroom sauce,,137.56,3.39,7.31,10.51,,
+indb,ASC077,Mustard sauce,,158.58,3.98,8.29,12.17,,
+indb,ASC078,Brown sauce,,109.18,11.92,5.38,23.67,,
+indb,ASC130,Classic italian pasta,,42.12,0.57,4.40,2.45,,
+indb,ASC131,Pasta spinach sauce,,85.46,1.76,1.76,7.90,,
+indb,ASC132,Pasta cheese sauce,,149.26,4.33,9.00,10.84,,
+indb,ASC267,Low calorie quick mayonnaise,,242.89,1.41,4.71,24.35,,
+indb,ASC388,Curd dip,,79.95,5.04,7.95,3.36,,
+indb,ASC394,Short crust pastry,,422.10,6.11,44.72,23.98,,
+indb,ASC406,Choux pastry,,222.37,5.55,16.20,14.96,,
+indb,ASC410,Flaky pastry,,443.94,4.69,33.61,31.99,,
+indb,ASC428,Sponge cake,,253.77,9.18,44.63,4.74,,
+indb,ASC434,Glace icing,,323.51,0.01,86.31,0.01,,
+indb,ASC436,Royal icing,,332.58,1.74,86.53,0.02,,
+indb,ASC437,American frosting,,257.57,1.05,67.48,0.01,,
+indb,ASC438,Gum icing,,223.07,5.94,53.19,0.00,,
+indb,ASC475,Channa murmura premix,,339.09,10.59,72.59,3.28,,
+indb,ASC476,Cracked wheat and green gram dal premix (Dalia moong dal premix),Dalia moong dal premix,362.16,15.89,64.75,5.11,,
+indb,ASC477,Rice flakes and roasted channa,,333.40,10.57,71.94,2.94,,
+indb,ASC479,Spinach soup in milk,,56.72,2.89,3.98,3.20,,
+indb,ASC480,Vegetable soup,,55.21,2.22,7.60,1.55,,
+indb,ASC481,Mashed banana with milk,,95.43,2.51,14.62,2.99,,
+indb,ASC484,Poha with curd (Poha aur dahi),Poha aur dahi,173.32,6.01,26.72,4.65,,
+indb,ASC485,Potato with curd,,73.18,3.19,12.01,1.33,,
+indb,ASC486,Sweet wheat porridge (Sweet dalia),Sweet dalia,140.66,5.11,23.77,2.79,,
+indb,ASC487,Vegetable khichdi/khichri,,143.17,5.61,19.57,4.53,,
+indb,ASC489,Moong dal mixture,,158.84,4.62,33.93,1.00,,
+indb,ASC490,Cracked wheat khichri/khichdi (Dalia khichri/khichdi),Dalia khichri; khichdi,167.45,7.56,22.35,5.52,,
+indb,ASC492,Stewed apple,,91.93,0.17,22.49,0.37,,
+indb,ASC493,Lemon squash (Nimbu ka squash),Nimbu ka squash,184.56,0.15,48.88,0.06,,
+indb,ASC494,Orange squash (Santre ka squash),Santre ka squash,193.26,0.22,50.88,0.04,,
+indb,ASC495,Lichi squash,,198.33,0.30,51.96,0.08,,
+indb,ASC496,Mango squash (Aam ka squash),Aam ka squash,194.66,0.17,50.96,0.17,,
+indb,ASC497,Pineapple squash (Ananas ka squash),Ananas ka squash,195.02,0.16,51.34,0.05,,
+indb,ASC498,Lemon and ginger squash (Nimbu aur adrak ka squash),Nimbu aur adrak ka squash,170.34,0.54,44.06,0.21,,
+indb,ASC499,Apple jam (Seb ka murabba),Seb ka murabba,188.79,0.14,48.56,0.32,,
+indb,ASC500,Plum jam (Aloo bukhara jam),Aloo bukhara jam,178.89,0.31,46.20,0.19,,
+indb,ASC501,Pineapple jam,,149.18,0.32,38.27,0.15,,
+indb,ASC502,Guava jelly (Amrood ki jelly),Amrood ki jelly,115.74,1.11,28.18,0.25,,
+indb,ASC503,Orange marmalade (Santray ka murabba),Santray ka murabba,104.17,0.66,25.94,0.13,,
+indb,ASC504,Carrot murabba (Gajar ka murabba),Gajar ka murabba,175.24,0.32,45.60,0.16,,
+indb,ASC505,Gooseberry marmalade (Amla murabba),Amla murabba,123.16,0.14,32.34,0.03,,
+indb,ASC506,Ginger candy (Adrak ki candy),Adrak ki candy,195.71,0.69,50.38,0.27,,
+indb,ASC507,Mango pickle (Aam ka achaar),Aam ka achaar,192.12,1.60,8.11,17.89,,
+indb,ASC509,Mixed vegetable pickle (Sabziyoon ka achaar),Sabziyoon ka achaar,211.20,1.90,7.48,19.68,,
+indb,ASC511,Sweet lemon pickle (Neembu ka meetha achaar),Neembu ka meetha achaar,69.54,1.22,16.87,0.21,,
+indb,ASC512,Plum chutney (Aloo bukhara ki chutney),Aloo bukhara ki chutney,177.11,0.47,44.95,0.29,,
+indb,ASC513,Raw mango chutney (Kachhe aam/Kairi ki chutney),Kachhe aam; Kairi ki chutney,193.13,0.51,49.94,0.16,,
+indb,ASC514,Tomato sauce,,34.33,0.81,7.23,0.27,,
+indb,ASC515,Tomato puree,,20.62,0.75,3.68,0.25,,
+indb,BFP001,Garam masala,,254.21,9.89,26.20,10.97,,
+indb,BFP002,Chat masala,,222.58,8.19,23.87,9.91,,
+indb,BFP003,Kashmiri masala,,389.02,8.26,23.16,31.03,,
+indb,BFP004,Rasam powder (Rasam masala),Rasam masala,267.96,12.04,25.19,11.80,,
+indb,BFP005,Sambar powder (Sambar masala),Sambar masala,297.46,12.50,23.38,15.58,,
+indb,BFP096,Barbeque sauce,,121.93,0.96,20.46,4.51,,
+indb,BFP097,Bread sauce,,111.04,3.46,8.69,7.05,,
+indb,BFP163,Green chilli sauce,,46.06,1.25,7.36,0.27,,
+indb,BFP164,Home made plain noodles,,238.78,6.21,44.50,3.56,,
+indb,BFP166,Dal moong,,43.69,2.20,4.92,1.62,,
+indb,BFP168,Onion tomato baghar (Pyaaz tamatar ka tadka),Pyaaz tamatar ka tadka,137.52,1.26,6.17,11.98,,
+indb,BFP360,Hot cherry sauce,,252.74,0.13,67.95,0.07,,
+indb,BFP583,Apple jelly (Seb ki jelly),Seb ki jelly,152.13,0.10,39.37,0.21,,
+indb,BFP585,Marmalade (Murabba),Murabba,143.76,0.23,37.64,0.04,,
+indb,BFP589,Plum squash (Aloo bukhara squash),Aloo bukhara squash,211.17,0.16,55.51,0.10,,
+indb,BFP595,Lemon green chilli pickle (Nimboo aur hari mirch ka achaar),Nimboo aur hari mirch ka achaar,14.07,0.85,2.14,0.24,,
+indb,BFP597,Brinjal pickle (Baingan ka achaar),Baingan ka achaar,139.01,2.24,4.23,12.98,,
+indb,BFP598,Sweet and sour tomato pickle (Khatta meetha tamatar ka achaar),Khatta meetha tamatar ka achaar,60.88,1.26,6.55,3.24,,
+indb,BFP599,Jhatpat achar with carrot (Jhatpat achaar gajar ke saath),Jhatpat achaar gajar ke saath,91.21,1.98,6.32,6.55,,
+indb,BFP601,Tomato chutney (Tamatar ki chutney),Tamatar ki chutney,176.07,0.97,31.85,6.01,,
+indb,BFP602,Tomato ketchup,,33.07,0.91,6.48,0.30,,
+indb,OSR082,Bengal 5 Spice Blend (Panch Phoran),Panch Phoran,289.79,18.26,20.00,22.16,,
+ifct,A001,"Amaranth seed, black",Moricha guti; Ramdana; Danthu beeja; Mawal; Cheera vithu; Chengkruk Maru; Cavali biya; Kosala sag manji Dhala; Chaulali beej; Keerai vidai; Thotakoora ginjalu.,356.12,14.59,59.98,5.74,,
+ifct,A002,"Amaranth seed, pale brown",Moricha guti; Rajagaro; Ramdana; Danthu beeja; Mawal; Cheera vithu; Chengkruk Maru; Cavali biya; Kosala sag maji kale; Chaulali beej; Keerai vidai; Thotakoora ginjalu.,355.88,13.27,61.46,5.56,,
+ifct,A003,Bajra,Baajra; Bajra; Pearl millet; Bajri; Sajje; Krai; Kambam; Bajara; Kambu; Sajjalu,347.99,10.96,61.78,5.43,,
+ifct,A004,Barley,Barli; Barley; Jav; Jau; Wushke; Krai; Sath; Jaba; Jao; Yava; Baarli Arisi,315.73,10.94,61.29,1.30,,
+ifct,A005,Jowar,Jowar; Sorghum; Jolada; Pingu; Krai; irunku; Jondhahlaa; Janha; Javara; Cholam; Jonna,334.13,9.97,67.68,1.73,,
+ifct,A006,"Maize, dry",Makoi; Bhutta; Corn; Makai; Makka; Mekke jola; Symbai riewhadem stem; Maize; Chujaak; Maka; Sukha makai; Chhali; Yaavanaala; Makka Cholam; Mokkajonna; makai.,334.13,8.80,64.77,3.77,,
+ifct,A007,"Maize, tender, local",Makoi; Bhutta; Corn; Lili makai; Makka; Mekke jola; Makai; Riewhadem Stem; Maize; Chujaak; Maka; Chhali; Makka Cholam; Mokkajonna,119.98,3.57,22.69,1.40,,
+ifct,A008,"Maize, tender, sweet",Makoi; Bhutta; Corn; Lili makai; Makka; Mekke jola; Makai; Riewhadem lieh; Maize; Chujaak; Maka; Chhali; Makka Cholam; Mokkajonna; makai.,96.80,4.16,16.42,1.35,,
+ifct,A009,Quinoa,,328.39,13.11,53.65,5.50,,
+ifct,A010,Ragi,Ragi; Finger millet; Bavato; Bhakri; Ukrai; Panjapulle; Kodo; Mandia; Mandal; Madhulika; Kelvaragu,320.75,7.16,66.82,1.92,,
+ifct,A011,Rice flakes,"Chira, Chiura; Chide, Chira; Flattened rice, Beaten rice; Paunva; Poha; Avalakki; Chevri; Shira; Aval; Chengpaak; Pohe; Chudaa, Chuda; Chirwre; Atukulu, Attukulu.",353.73,7.44,76.75,1.14,,
+ifct,A012,Rice puffed,Muri; Mamra; Muramure; Kalle Puri; Tomul; Pori; Kabok Mur; Chirmure; Murai; Mudhi; Phulian; Maramaralu,361.85,7.47,77.68,1.62,,
+ifct,A013,"Rice, raw, brown",Matia rangar chaul; Whole grain rice; Kathai chokha; Chawal; Bhura choul; Tomul; Khaw saw; Kuthari; Cheng; Arisi; Dampudu biyyam.,353.73,9.16,74.80,1.24,,
+ifct,A014,"Rice, parboiled, milled",Ukhua chaul; Siddha chowl; Converted rice; Bafela Chokha; Usna chawal; Kusubalakki; Tomul; Khaw boil; Puzhungal ari; Cheng; Ukadla tandool; Usuna chaula; Biga hua chawal; Puzhungal arisi; Uppudu biyyam.,351.58,7.81,77.16,0.55,,
+ifct,A015,"Rice, raw, milled",Milat khunda chaul; Chowl; Choka; Chawal; Akki; Tomul; Khaw boil; Cheng; Tondool; Chaula; Chaul; Arisi,356.36,7.94,78.24,0.52,,
+ifct,A016,Samai,Sama; Little millet; Kuri; Shavan; Ganuhaar; Chama; Sava; Suan; Swank; Samai,346.32,10.13,65.55,3.89,,
+ifct,A017,Varagu,Konidhan; Syama dhan; Kodo millet; Ral gana; Priyangu thene; Snol; Thina; Rala; Kangni; Thinai,331.74,8.92,66.19,2.55,,
+ifct,A018,"Wheat flour, refined",Moida; Maida; Maido; Oat; Maida mavu; Maida pindi,351.82,10.36,74.27,0.76,,
+ifct,A019,"Wheat flour, atta",Ata; Samagra gha; Atta; Sampurna godhi hittu; Oat unno lota ghaun no lot; Godhambu mavu; Kaneek; Gahama atta; Mulu Godumai maavu; Sampurna godhuma pindi.,320.27,10.57,64.17,1.53,,
+ifct,A020,"Wheat, whole",Ghehu; Gom; Ghaun; Gehun; Godhi; Kinek; Ukew; Godhumbu; Gehu; Gau; Gahama; Kanaka; Godhum; Godumai; Godhumalu,321.94,10.59,64.72,1.47,,
+ifct,A021,"Wheat, bulgur","Dalia; Burghul, Groats, Durum Wheat, Pasta wheat, Macaroni wheat; Bulgur ghaum; Bulgur godhi; Kinek; Kew; Godhambu Ravu; Bulgur gahu; Gau ko pitho; Godumai ravai; Bulgur",341.78,10.84,69.06,1.45,,
+ifct,A022,"Wheat, semolina","Suji; Durum wheat, Pasta wheat, Macaroni wheat; Ghaum soji; Gehun suji; Godhi rave; Sooj; Uppumavu; Gahu rava; Godumai ravai; Godhuma rava.",333.65,11.38,68.43,0.74,,
+ifct,A023,"Wheat, vermicelli",Sewai; Semai; Very thin pasta; Ghaun ni sev; Siwain; Shevige; Sewian; Sewai lieh; Semiya; Simai; Sevian,332.70,9.70,70.39,0.45,,
+ifct,A024,"Wheat, vermicelli, roasted",Gom sewai; Semai; Very thin pasta; Ghaun ni Shekeli sev; Siwain; Shevige; Sewian; Sewai saw; Semiya; Simai; Bhooni sevian,340.11,10.37,71.42,0.49,,
+ifct,B001,"Bengal gram, dal","Boot dail; Cholar dal; Split Bengal gram, Chickpea; Chana-ni-daad; Chan-ki-dal; Kadale bele; Chanu dal; Dai shana; Kadala parippu; Chana Tangkhai; Harabara dal; Chana ko Dal; Channa dali (Buta dali); Sholedi dal; Kadalaiparuppu; Sanaga papu; Chane ki dal.",329.11,21.55,46.72,5.31,,
+ifct,B002,"Bengal gram, whole","Boot; Chola; Chickpea; Chana; Chana, Kala chana; Kadale; Chanu; Shana kulai; Kadala; Harbara; Chana Mapum; Kabuli Chana; Buta; Shole; Chanak; Kondaikadalai; Sanagalu",287.05,18.77,39.56,5.11,,
+ifct,B003,"Black gram, dal","Matir dail phola; Biulir dal; Urad bean, Mungo bean, Black matpe bean; Aadad ni daad; Urad dal; Uddhina bele; Kaha; Uzhunnu parippu; Sagol Hawai Tangkhai; Uddachi dal; Maas ko dal; Birri dali, Biri dali; Maa ki daal; Maassa; Ulutham paruppu; Minapa pappu; Mash ki dal.",324.09,23.06,51.00,1.69,,
+ifct,B004,"Black gram, whole","Gota mati mah; Mashkolail; Urad bean, Mungo bean, Black matpe bean; Adad; Chhilke wali urad dal; Uddhina bele; Kaha; Dai iong; Uzhunu; Sagol Hawai; Uddachi dal; Birri, Biri; Sabut maa ki daal; Ulundhu; Minumulu Mapum",291.35,21.97,43.99,1.58,,
+ifct,B005,"Cowpea, brown","Lesera mahor guti; Barbati; Black eyed peas, Lobia peas; Chorap; Lobia; Alasande; Rymbai; Vella payaru; Pong Hawai; Chavli; Bodi; Jhudunga; Raajamaassa; Karamani; Bobbarlu; baunir.",320.27,20.36,54.62,1.15,,
+ifct,B006,"Cowpea, white","Lesera mahor guti; Barbati; Black eyed peas, Lobia peas; Chorap; Lobia; Alasande; Rymbai lieh; Vella payaru; Pong Hawai; Chavli; Bodi; Jhudunga; Raajamaassa; Karamani; Bobbarlu",320.27,21.25,53.77,1.14,,
+ifct,B007,"Field bean, black","Urohi guti; Shim; Common bean, Fieldbean, Broad bean, String bean; Valpapdi; Sem; Avare; Moang; Symbai Ri iong; Avar; Papta; Baragudi; Sem dal; Mochai; Chikkudu ginjalu.",276.05,19.93,43.46,0.92,,
+ifct,B008,"Field bean, brown","Urohi guti; Shim; Common bean, Fieldbean, Broad bean, String bean; Valpapdi; Sem; Avare; Moang; Symbai ri saw; Avar; Papta; Baragudi; Mochai; Chikkudu ginjalu.",282.98,19.90,45.24,0.98,,
+ifct,B009,"Field bean, white","Urohi guti; Shim; Common bean, Fieldbean, Broad bean, String bean; Valpapdi; Sem; Avare; Moang; Symbai Ri lieh; Avar; Papta; Baragudi; Mochai; Chikkudu ginjalu.",280.35,19.84,44.53,0.94,,
+ifct,B010,"Green gram, dal","Dhua mogu dail; Mung dal; Mung bean, Maash, Moong; Mug ni daad; Mug dal; Hesara bele; Muang dal; U dai stem; Cheru payar parippu; Mung Hawai; Moong ko khoste; Muga Dali; Mungi-di-dal; Payatham paruppu; Pesara pappu; Moong dal.",325.76,23.88,52.59,1.35,,
+ifct,B011,"Green gram, whole","Gota mogu mah; Moog; Mung bean, Maash, Moong; Mug; Mung; Hesare kalu; Muang; U dai jyrngam; Cheru Pararu; Mung Hawai; Mun; Moong; Muga; Sabut moong dal; Mudra; Pasipayir; Pesalu",293.74,22.53,46.13,1.14,,
+ifct,B012,"Horse gram, whole","Kulotto- kalai; Kulthi bean, Hurali, Madras gram; Kuleeth; Kulthi; Hurule; Kurath; Muthira; Bakulla; Kolatha; Kulattha; Kollu; Ulavalu",329.59,21.73,57.24,0.62,,
+ifct,B013,Lentil dal,Masur dail; Mosur dal; Masoor ni daad; Masoor dal; Laki Bele; Masoor; U dai saw; Vattu parippu; Hawai Masuri; lank dal; Masura dali; Dhooli masari dal; Triputta; Khesari paruppu; Lanka pappu.,322.42,24.35,52.53,0.75,,
+ifct,B014,"Lentil whole, brown",Gota masur mah; Mosur; Masoor (Kathai); Masur dal; Masur bele; Masoor; Masur parippu; Hawai Masuri; Musuroo; Masura; Saboot masari dal; Mysore paruppu; Misur pappu; Masur dal.,299.00,22.49,48.47,0.64,,
+ifct,B015,"Lentil whole, yellowish",Masur dal; Misur pappu; Mysore paruppu; Masur bele; Masur parippu; Masura; Mosur; Masoor rakhoda; Saboot masari dal; Mosur (Dail); Masoor; Masura Musuroo; Hawai Masuri; U dai saw.,297.80,22.87,47.91,0.61,,
+ifct,B016,Moth bean,"Mat bean, Turkish gram, Dew bean; Motha; Narippayir; Matki Kal; Matki; Kheri; Math; Bhiopnitam; Moth dal",308.56,19.75,52.09,1.76,,
+ifct,B017,"Peas, dry",Gota motor; Matar; Sukha vatana; Sukhi Matar; Batani; Kaza; Shana mator; Pattani; Matara; Sukhe hare matar dal; Kara; Hawai mangal.,303.30,20.43,48.93,1.89,,
+ifct,B018,"Rajmah, black","Rajmah; Barbati beej; Rajma, Razma; Phansi (Kadi); Thugare bele; Razma; Rajma heh; Shravangheveda; Rajma; Kale rajmah; Makussttaka; Karamani Payir; Barigalu",298.04,19.01,49.59,1.62,,
+ifct,B019,"Rajmah, brown","Rajmah; Barbati beej; Rajma, Razma; Phansi (Gulabi); Thugare bele; Razma; Rajma lieh; Shravangheveda; Rajma; Bhoore rajmah; Makussttaka; Karamani Payir; Barigalu",297.56,19.50,48.83,1.68,,
+ifct,B020,"Rajmah, red","Rajmah; Barbati beej; Rajma, Razma; Phansi (lal); Thugare bele; Razma; Rajma rit; Shravangheveda; Rajma; Lal rajmah; Makussttaka; Karamani Payir; Barigalu",299.24,19.91,48.61,1.77,,
+ifct,B021,"Red gram, dal",Rohor dail; Arhar dal; Pigeon pea; Tuver ni daad; Thugare bele; Masur; Dai shana; Tuvaru parippu; Mairongbi; Turdal; Rahar ko dal; Harada dal; Aaddhakii; Kandi pappu; Tuvaramparuppu; Tuvar ki dal.,330.78,21.70,55.23,1.56,,
+ifct,B022,"Red gram, whole",Gota rohor; Pigeon pea; Tuver; Arhar sabud; Masur; Rymbai ja; Tuvaru parippu; Mairongbi; Turdal; Harada; Arhar sabut dal; Tuvarai; Kandulu,273.90,20.47,42.48,1.38,,
+ifct,B023,Ricebean,Galmoong; Ricebean; Meth; Rymbai ja; Kattuzhunnu; Chakwai,302.34,19.97,51.26,0.74,,
+ifct,B024,"Soya bean, brown",Soya bean; Garikalai; Soybean; Bhatmas; Muth; Toh rymbai; Nunghawai; Soya bean dal,381.45,35.58,12.79,19.82,,
+ifct,B025,"Soya bean, white",Soya bean; Garikalai; Soybean; Bhatmas; Muth; Toh rymbai; Nunghawai; Soya bean dal,377.39,37.80,10.16,19.42,,
+ifct,C001,Agathi leaves,"Bok phular paat; Bak ful shak; August tree leaves, Humming bird tree leaves, spinach; Agathio; Agasthi; Agase soppu; Agathi cheera; Chu chu Rangmei; Agasthi ka sag; Agasti; Agathi keerai; Avise akulu.",70.51,8.01,5.21,1.35,,
+ifct,C002,"Amaranth leaves, green",Moricha sak; Notya Shaakh; Taldalja ni bhaaji; Chaulai; Danthu; Mawal; Cheera; Chengkruk; Math; Latte to saag; Neutia sag; Chaulai sag; Maarissa; Thandu keerai; Thotakoora,30.59,3.29,2.28,0.65,,
+ifct,C003,"Amaranth leaves, red mix",Moricha; Lal Shaakh; Lal tandaljo; Chaulai; Danthu; Mawal; Cheera; Chengkruk; Math; Latte to saag; Neutia sag; Lal chaulai sag; Maarissa; Thotakoora; Thandu keerai,33.46,3.93,2.37,0.63,,
+ifct,C004,"Amaranth leaves, red and green mix",Moricha; Notya Shaakh; Tandaljo; Chaulai; Danthu; Mawal; Cheera; Chengkruk; Math; Latte to saag; Neutia sag; Chaulai sag; Maarissa; Thandu keerai; Thotakoora,31.55,3.09,2.87,0.53,,
+ifct,C005,"Amaranth spinosus, leaves, green mix",Moricha sak; Kanta-notya; Kanta vado tandaljo; Kantewali-notya; Mulla danthu; Mawal; Mullancheru- cheera; Chengkruk; Kantemanth; Kanta notay shak; Kantewali chaulai; Mulaikeerai; Mulla thotakura.,26.29,3.54,1.61,0.36,,
+ifct,C006,"Amaranth spinosus, leaves, red and green mix",Kanta-notya shaak; Kanta vado tandaljo; Kantewali-notya; Mulla danthu; Mawal; Sla longmar; Mullancheru-cheera; Chengkruk; Kantemanth; Kanta neutia sag; Kantewali chaulai; Mulakeerai; Mulla thotakura.,23.66,2.80,1.45,0.34,,
+ifct,C007,Basella leaves,Puroi sak; Pui shaak; Malabar spinach; Poi ni bhaji; Palak; Basale soppu; Sla palong dkhar; Vallicheera; Mayalu; Poi saaga; Paalak; Kodippasali,19.60,1.57,2.01,0.45,,
+ifct,C008,Bathua leaves,Jilmil sak; Beto sak; Chilni bhaji; Bathua sagu; Sakothina soppu; Ushtahak; Sla jada; Parippuchira; Monsaobi; Chakavath; Bethe ko saag; Bathua sag; Bathu sag; Pappukura,27.72,2.50,2.56,0.44,,
+ifct,C009,Beet greens,Beetar sak; Beet greens; Beet ni bhaji; Chukandhar sag; Beet root soppu; Chogander Munji; Sla bit; Beet root cheera; Beet root ka sag; Bengali Palungo ko Saag; Chukandhar da sag; Beet root keerai; Beet root; beet patta.,34.66,2.38,3.86,0.75,,
+ifct,C010,"Betel leaves, big (kolkata)",paan; Pan; Nagarvelna pan; Pan ka patha; Kadale soppu; Tympew Dkhar; Vettiiai; Kwa Mana; Pan-ka-patta; Pana; Pan-da-patta; Vetrilai; Thamala paku; Paan ka patta.,48.28,2.51,7.37,0.75,,
+ifct,C011,"Betel leaves, small",Paan; Pan; Nagarvelna pan; Pan ka patha; Kadale soppu; Tympew; Vettiiai; Kwa Mana; Pan-ka-patta; Pana; Pan-da-patta; Thamala paku; Vetrilai; Paan ka patta.,43.74,2.62,6.16,0.75,,
+ifct,C012,Brussels sprouts,Biliti Bandhakopi; Nani kobi; Choote gobi; Mara kosu; Haakh; Kalakose; Chotee gobi; Chota bandha; Chooti band gobi; Kalaikose; Chinna cabbage; Choti bund gobh.,44.22,4.26,5.09,0.50,,
+ifct,C013,"Cabbage, Chinese",China lai; Chinese kobi; Bandh; Salat chaina.,17.93,1.58,2.36,0.13,,
+ifct,C014,"Cabbage, collard greens",Kobi na pan; Bandh; Sla kubi; Seemai parattai keerai.,30.11,3.63,2.79,0.27,,
+ifct,C015,"Cabbage, green",Bondhakobi; Badha kopi; Lili kobi; Bandh gobi; Kosu; Kubi; Muttu gose; Kobi Mana; Kobi; Banda kovi; Bandha kobi; Patta gobhi; Shaakaprabhedah; Gos koora; Muttaikose,21.51,1.36,3.25,0.12,,
+ifct,C016,"Cabbage, violet","Bondhakobi; Badha kopi; Red cabbage, Purple cabbage, Red Kraut, Blur kraut; Lal kobi; Bandh gobi; Kosu; Kubi saw; Muttu gose; Kobi; Banda kovi; Bandha kopee; Patta gobhi; Shaakaprabhedah; Muttaikose; Gos koora",23.18,1.39,3.54,0.21,,
+ifct,C017,Cauliflower leaves,Phul kobir pat; Phul gopi pata; Fulawar na pan; Phul gobi patta; Hukosu; Phoolgobi panwathir; Sla phul; Cauliflower; Kobithamchetmai mana; Phul gobi; Kauli; Phula Kobi patra; Phool gobi di patte; Gojihvaa; Pookosu keerai; Go puvvu; Phul gobi.,35.37,3.90,3.39,0.42,,
+ifct,C018,"Colocasia leaves, green",Kasu sak; Kochu pata; Advi na pan; Arvi ka sag; Shamangadda yele; Sla wang; Chembu ilagal; Paan mana; Alu pan; Karkalo; Saru saga; Arbi-di-patte; Seppam ilaigal; Chama akulu; Arvi ka patta.,43.50,3.42,3.69,1.38,,
+ifct,C019,Drumstick leaves,"Sajina paat; Sajna pata; Horseradish leaves, Benzoil leaves; Saragwa na pan; Saijan patta; Nuggeyele; Muringa ela; Sajana mana; Shevaga pan; Sajna sag; Soanjhna da patta; Murungai keerai; Mulaga akulu; Sujineki palli.",67.40,6.41,5.62,1.64,,
+ifct,C020,Fenugreek leaves,Methi paat; Methi shak; Methi pandada; Methi sag; Menthya soppu; Kasori Methi; Sla methi; Uluva ila; Methi man; Methi pata; Methi di patte; Menthikoora; Vendhaiya keerai,34.42,3.68,2.17,0.83,,
+ifct,C021,Garden cress,Bor manimuni; Halim sag; Asadio na pan; Halim ka patta; Allibija soppu; Halyun; Khliang syiar; Alivirai cheera; Ahiva ka patta; Chamsoor ko Saag; Kakharu Saga; Halim-da-sag; Alivirai keerai; Adityala akulu.,49.71,5.62,4.48,0.80,,
+ifct,C022,"Gogu leaves, green",Tengamora; Mestapat; Roselle Leaves; Ambadi; Pitwa; Pundi; Sla jajew jyrngam; Pulichai cheera; Sougri mana; Nalite saga; Pitwa sag; Pulichchai keerai; Gongura; Ambada ki bhaji.,36.33,1.86,4.06,1.09,,
+ifct,C023,"Gogu leaves, red",Tengamora; Mestapat; Roselle Leaves; Ambadi; Pitwa; Pundi; Sla jajew saw; Pulichai cheera; Sougri mana; Nalite saga; Pitwa sag; Pulichchai keerai; Gongura; Ambada ki bhaji.,36.57,1.85,4.24,1.07,,
+ifct,C024,"Knol-Khol, leaves","Ool kobi; Olkopi sag; Knol Knol, Kohlrabi, Wild cabbage greens; Gath kobi na pan; Ganth gobi ka sag; Gedde kosu; Hakh Monji; Phan Kubi; Knol-khol cheera; Kobi Maru Kabi; Nol khol ka patta; Salgam ko saag; Ulgobi saga; Ganth gobi sag; Knol-Khol keerai; Knol-khol akulu.",42.54,3.12,6.16,0.35,,
+ifct,C025,Lettuce,Salad paat; Lettuce na pan; Salad ka patta; Lettuce soppu; Hakh; Salat dkhar; Lettuce cheera; Lettuce ka patta; Saalad ko paat; Salada sag; Ilaikosu; Kavu akulu,21.75,1.54,3.01,0.27,,
+ifct,C026,Mustard leaves,Horiyo paat; Sorisa sag; Mustard greens; Sarasava pandada; Sarson ka sag; Sasuve yele; Hakh; Tyrso; Kadugu ila; Hangaam; Mochari-chi pan; Raayo ko Saag; Sarson ka saga; Saro da sag; Kadugu ilai; Ava akulu; Sarson ki patta.,30.35,3.52,2.41,0.51,,
+ifct,C027,Pak Choi leaves,"Bok choy, Horse`s ear, Chinese celery cabbage, White mustard cabbage; Pak choi na pan.",16.01,1.41,1.78,0.25,,
+ifct,C028,Parsley,Sugandhi lota; Garden parsley; Leela dhana; Seema malli; Kothimbir/dhane; Verkosu; Auchumooda; Ajmod,72.90,5.55,9.43,1.14,,
+ifct,C029,Ponnaganni,Matikaduri; Khanchari; Saranthi na pan; Saranthi sag; Honagone soppu; Ponnaganni cheera; Phakchet; Madarangh; Ponnaganni keerai; Ponnaganti koora; Kunte ki bhaji.,50.91,5.29,5.17,0.71,,
+ifct,C030,"Pumpkin leaves, tender",Rongalao paat; Kumra shak; Kolam na pan; Kumhra sag; Kumbale soppu; Aal kaniji; Sla pathaw; Manthan elakai; Mairen mana; Bhopla chipan; Khakaru saga; Petha de pate; Gummadi akulu; Parangi ilai; Kaddu ka patta.,44.22,4.21,4.75,0.74,,
+ifct,C031,Radish leaves,Dherua; Mulo shak; Muda na pan; Muli ka sag; Mullangi soppu; Mooji Hakh; Sla muli; Mullangi ilaigal; Hangham mula; Mula ka sag; Moolaa ko saag; Muli di patte; Mullangi akulu; Mullangi ilai; Muli ka patta..,26.05,2.22,2.77,0.51,,
+ifct,C032,Rumex leaves,Suka sak; Bun palung; Ambada (sorrel); Chukki soppu; Amlavetasa; Tukhm hummaz.,19.60,1.62,2.33,0.33,,
+ifct,C033,Spinach,Paleng; Palong shak; Palak ni bhaji; Palak; Spinak soppu; Palong heh; Basala cheera; Paalungo ko Saag; Palang sag; Paalakya; Pasalai keerai; Palakoora,24.38,2.14,2.05,0.64,,
+ifct,C034,"Tamarind leaves, tender",Tetul pata; Amli na pan; Imli patte; Hunise chiguru; Puliam ilaigal; Chinchecha pala; Tentuli; Chinta chiguru; Teteli paat; Mange Mana; Sla sohkyntoi.,71.46,5.84,10.04,0.49,,
+ifct,D001,Ash gourd,"Kumura; Chalkumra; Wax gourd, White gourd, Winter gourd, Tallow gourd, Ash pumpkin, Winter melon, Chinese preserving melon; Bhuru kodu; Petha; Budagumbala; Aal; Pathaw iiwbih; Kumbalanga; Torbot; Kohala; Kubhindo; Panikakharu; Venpoosani; Boodida gummadi",17.45,0.79,2.84,0.14,,
+ifct,D002,"Bamboo shoot, tender","Bahgaj; Bansber ankur; Bamboo sprouts; Lilo vans; Baans; Baimbale, Kanile; Ka lung siej; Mulankoombu; Soidon; Kalkipan; Bhet ki lakdi; Moongil kuruthu; Veduru chiguru; Bhet ki lakdi.",16.25,1.33,1.67,0.35,,
+ifct,D003,"Bean scarlet, tender","Lesera mah; Runner bean, Scarlet runner bean, Multiflora bean; Chodi; Sem; Hyambi; U buri; Hawai Ashaangbi; Sem fali.",42.78,2.86,5.16,0.99,,
+ifct,D004,"Bitter gourd, jagged, teeth ridges, elongate","Kerela; Korola; Bitter melon, Bitter squash, Balsam pear; Karela; Hagal kai; Kerela heh; Kaippakka; Karon Akhabi; Karle; Tite karela; Kalara; Tillikaa; Kakara kaya; Paavakkai",20.79,1.44,2.82,0.24,,
+ifct,D005,"Bitter gourd, jagged, teeth ridges, short","Kerela; Uchhe; Bitter melon, Bitter squash, Balsam pear; Marela; Karela; Hagal kai; Kerela rit; Kaippakka; Karon Akhabi; Karle; Tite karela; Kalara; Tillikaa; Paavakkai; Kakara kaya",18.88,1.34,2.53,0.24,,
+ifct,D006,"Bitter gourd, jagged, smooth ridges, elongate","Kerela; Korola; Bitter melon, Bitter squash, Balsam pear; Karela; Hagal kai; Kaippakka; Karon Akhabi; Karle; Tite karela; Kalara; Tillikaa; Paavakkai; Kakara kaya",19.36,1.61,2.29,0.26,,
+ifct,D007,"Bottle gourd, elongate, pale green","Jatilao; Lau; Calabash, White flowered gourd; Dudhi; Lowki; Sorekai; Zeeth aal; U klong; Cheranga; Khongdrum; Pandhara; Lauka; Kadu; Kaarabellam; Suraikkai; Sorrakaya",10.99,0.53,1.68,0.13,,
+ifct,D008,"Bottle gourd, round, pale green","Jatilao; Lau; Calabash, White flowered gourd; Dudhi; Lowki; Sorekai; Gool aal; U klong heh; Cheranga; Khongdrum; Pandhara; Lauka; Kdu; Kaarabellam; Suraikkai; Sorrakaya",13.62,0.42,2.53,0.12,,
+ifct,D009,"Bottle gourd, elongate, dark green","Jatilao; Lau; Calabash, White flowered gourd; Dudhi; Lowki; Sorekai; Zeth aal; Klong jrong; Cheranga; Khongdrum; Pandhara; Lauka; Kadu; Kaarabellam; Suraikkai",12.91,0.49,2.25,0.13,,
+ifct,D010,Brinjal-1,"Bengena; Begun; Eggplant, Aubergine; Ringna; Baingan; Badane; Wagun; Sohbaingon jyrngam; Vazhuthiniga; Lam Khamen; Vange; Bhantaa; Baigan; Vruntaakam; Kathirikkai; Vankaya",27.25,1.77,3.49,0.39,,
+ifct,D011,Brinjal-2,"Bengena; Begun; Eggplant, Aubergine; Ringna; Baingan; Badane; Wagun; Sohbaingon jyrngam; Vazhuthiniga; Lam Khamen; Vange; Bhantaa; Baigan; Vruntaakam; Kathirikkai; Vankaya",23.66,1.82,2.71,0.34,,
+ifct,D012,Brinjal-3,"Bengena; Begun; Eggplant, Aubergine; Ringna; Baingan; Badane; Wagun; Sohbaingon jyrngam; Vazhuthiniga; Lam Khamen; Vange; Bhantaa; Baigan; Vruntaakam; Kathirikkai; Vankaya",24.38,1.36,3.38,0.33,,
+ifct,D013,Brinjal-4,"Bengena; Begun; Eggplant, Aubergine; Ringna; Baingan; Badane; Wagun; Sohbaingon jyrngam; Vazhuthiniga; Lam Khamen; Vange; Bhantaa; Baigan; Vruntaakam; Kathirikkai; Vankaya",23.90,1.51,3.19,0.31,,
+ifct,D014,Brinjal-5,"Bengena; Begun; Eggplant, Aubergine; Ringna; Baingan; Badane; Wagun; Sohbaingon jyrngam; Vazhuthiniga; Lam Khamen; Vange; Bhantaa; Baigan; Vruntaakam; Kathirikkai; Vankaya",26.53,1.38,4.02,0.29,,
+ifct,D015,Brinjal-6,"Bengena; Begun; Eggplant, Aubergine; Ringna; Baingan; Badane; Wagun; Sohbaingon jyrngam; Vazhuthiniga; Lam Khamen; Vange; Bhantaa; Baigan; Vruntaakam; Kathirikkai; Vankaya",23.18,1.46,3.29,0.29,,
+ifct,D016,Brinjal-7,"Bengena; Begun; Eggplant, Aubergine; Ringna; Baingan; Badane; Wagun; Sohbaingon jyrngam; Vazhuthiniga; Lam Khamen; Vange; Bhantaa; Baigan; Vruntaakam; Kathirikkai; Vankaya",23.42,1.40,3.10,0.37,,
+ifct,D017,Brinjal-8,"Bengena; Begun; Eggplant, Aubergine; Ringna; Baingan; Badane; Wagun; Sohbaingon jyrngam; Vazhuthiniga; Lam Khamen; Vange; Bhantaa; Baigan; Vruntaakam; Kathirikkai; Vankaya",27.96,1.82,3.75,0.33,,
+ifct,D018,Brinjal-9,"Bengena; Begun; Eggplant, Aubergine; Ringna; Baingan; Badane; Wagun; Sohbaingon jyrngam; Vazhuthiniga; Lam Khamen; Vange; Bhantaa; Baigan; Vruntaakam; Kathirikkai; Vankaya",25.33,1.47,3.52,0.35,,
+ifct,D019,Brinjal-10,"Bengena; Begun; Eggplant, Aubergine; Ringna; Baingan; Badane; Wagun; Sohbaingon jyrngam; Vazhuthiniga; Lam Khamen; Vange; Bhantaa; Baigan; Vruntaakam; Kathirikkai; Vankaya",27.72,1.68,4.08,0.25,,
+ifct,D020,Brinjal-11,"Bengena; Begun; Eggplant, Aubergine; Ringna; Baingan; Badane; Wagun; Sohbaingon jyrngam; Vazhuthiniga; Lam Khamen; Vange; Bhantaa; Baigan; Vruntaakam; Kathirikkai; Vankaya",25.10,1.43,3.53,0.31,,
+ifct,D021,Brinjal-12,"Bengena; Begun; Eggplant, Aubergine; Ringna; Baingan; Badane; Wagun; Sohbaingon jyrngam; Vazhuthiniga; Lam Khamen; Vange; Bhantaa; Baigan; Vruntaakam; Kathirikkai; Vankaya",22.23,1.60,2.73,0.27,,
+ifct,D022,Brinjal-13,"Bengena; Begun; Eggplant, Aubergine; Ringna; Baingan; Badane; Wagun; Sohbaingon jyrngam; Vazhuthiniga; Lam Khamen; Vange; Bhantaa; Baigan; Vruntaakam; Kathirikkai; Vankaya",29.64,1.49,4.51,0.31,,
+ifct,D023,Brinjal-14,"Bengena; Begun; Eggplant, Aubergine; Ringna; Baingan; Badane; Wagun; Sohbaingon jyrngam; Vazhuthiniga; Lam Khamen; Vange; Bhantaa; Baigan; Vruntaakam; Kathirikkai; Vankaya",25.33,1.56,3.27,0.35,,
+ifct,D024,Brinjal-15,"Bengena; Begun; Eggplant, Aubergine; Ringna; Baingan; Badane; Wagun; Sohbaingon jyrngam; Vazhuthiniga; Lam Khamen; Vange; Bhantaa; Baigan; Vruntaakam; Kathirikkai; Vankaya",27.25,1.58,3.96,0.29,,
+ifct,D025,Brinjal-16,"Bengena; Begun; Eggplant, Aubergine; Ringna; Baingan; Badane; Wagun; Sohbaingon jyrngam; Vazhuthiniga; Lam Khamen; Vange; Bhantaa; Baigan; Vruntaakam; Kathirikkai; Vankaya",24.62,1.26,3.46,0.34,,
+ifct,D026,Brinjal-17,"Bengena; Begun; Eggplant, Aubergine; Ringna; Baingan; Badane; Wagun; Sohbaingon jyrngam; Vazhuthiniga; Lam Khamen; Vange; Bhantaa; Baigan; Vruntaakam; Kathirikkai; Vankaya",21.75,1.18,2.89,0.36,,
+ifct,D027,Brinjal-18,"Bengena; Begun; Eggplant, Aubergine; Ringna; Baingan; Badane; Wagun; Sohbaingon jyrngam; Vazhuthiniga; Lam Khamen; Vange; Bhantaa; Baigan; Vruntaakam; Kathirikkai; Vankaya",27.72,1.47,4.10,0.33,,
+ifct,D028,Brinjal-19,"Bengena; Begun; Eggplant, Aubergine; Ringna; Baingan; Badane; Wagun; Sohbaingon jyrngam; Vazhuthiniga; Lam Khamen; Vange; Bhantaa; Baigan; Vruntaakam; Kathirikkai; Vankaya",23.90,1.26,3.39,0.31,,
+ifct,D029,Brinjal-20,"Bengena; Begun; Eggplant, Aubergine; Ringna; Baingan; Badane; Wagun; Sohbaingon jyrngam; Vazhuthiniga; Lam Khamen; Vange; Bhantaa; Baigan; Vruntaakam; Kathirikkai; Vankaya",23.66,1.44,3.15,0.34,,
+ifct,D030,Brinjal-21,"Bengena; Begun; Eggplant, Aubergine; Ringna; Baingan; Badane; Wagun; Sohbaingon jyrngam; Vazhuthiniga; Lam Khamen; Vange; Bhantaa; Baigan; Vruntaakam; Kathirikkai; Vankaya",27.01,1.36,3.93,0.35,,
+ifct,D031,Brinjal - all varieties,"Bengena; Begun; Eggplant, Aubergine; Ringna; Baingan; Badane; Wagun; Sohbaingon jyrngam; Vazhuthiniga; Lam Khamen; Vange; Bhantaa; Baigan; Vruntaakam; Kathirikkai; Vankaya",25.33,1.48,3.52,0.32,,
+ifct,D032,Broad beans,"Urahi; Makhon shim; Fava bean, Faba bean, Field bean, Bell bean, Tic bean; Fafda papdi; Bakla; Chkaooaradavare; Thool Haymbe; Ri majai; Amarakka; Ghewda; Simba; Avarai; Pedda chikkudu.",29.40,3.85,2.11,0.15,,
+ifct,D033,"Capsicum, green",Kashmiri jalakia; Lanka (bilathi); Bhuler marcha; Shimla mirch; Donnmena-sinakayi; Shimla marchwangan; Sohmynken jhur jyrngam; Undamulagu; Bhoplimirchi; Shimla Lanka; Shimle-di-mirchi; Koda milagai; Shimla mirchi; Shimla mirchi.,16.25,1.11,1.84,0.34,,
+ifct,D034,"Capsicum, red",Kashmiri jalakia; Lanka (bilathi); Bhuler marcha; Shimla mirch; Donnmena- sinakayi; Shimla marchwangan; Sohmynken jhur jyrngam; Undamulagu; Bhoplimirchi; Shimla Lanka; Shimle-di-mirchi; Koda milagai; Shimla mirchi; Shimla mirchi.,19.84,1.47,2.14,0.47,,
+ifct,D035,"Capsicum, yellow",Kashmiri jalakia; Lanka (bilathi); Bhuler marcha; Shimla mirch; Donnmena-sinakayi; Shimla marchwangan; Sohmynken jhur stem; Undamulagu; Bhoplimirchi; Shimla Lanka; Shimle-di-mirchi; Koda milagai; Shimla mirchi; Shimla mirchi.,18.64,1.35,1.95,0.41,,
+ifct,D036,Cauliflower,Phul kobi; Phul kopi; Fulawar; Phul gobi; Hukosu; Phoolgobi; Phul kubi; Cauliflower; Kobithamchetmai; Kauli; Phul Kobi; Gojihvaa; Pookosu; Go puvvu; Phul gobi.,22.94,2.15,2.03,0.44,,
+ifct,D037,Celery stalk,Randhuni; Ajmud; Dieng seleri; Celery daandi,16.49,0.98,2.33,0.24,,
+ifct,D038,Cho-cho-marrow,"Squash; Cho cho marrow, Chayote; Cho-cho-marrow; Dasakusa; Cho cho sara; Phuti kakudi; Biskot; Chow-chow.",18.88,0.66,3.47,0.15,,
+ifct,D039,Cluster beans,Mah; Jhar sim; Guar; Govar; Gaur-ki-phalli; Gori koyi; Hyambi; Kothavara; Govari; Guanra chhuin; Guarae-di-faliya; Kothavaranga; Goruchikkudu; Gavar ki palli.,40.15,3.55,4.91,0.37,,
+ifct,D040,"Colocasia, stem, black",kosu thari; Kochur loti; Arwi-ki-dandi; Kesu danthu; Kawang iong; Chembin thandu; Paan Makhok; Alu-che-dath; Sarunada; Arbi de dande; Seppanthandu; Chama kada; Arwi ke kade.,23.90,0.76,3.83,0.34,,
+ifct,D041,"Colocasia, stem, green",Kosu thari; Kochur loti; Arwi-ki-dandi; Kesu danthu; Ka wang jyrngam; Chembin thandu; Paan Makhok; Alu-che-dath; Sarunada; Arbi de dande; Seppanthandu; Chama kada; Arwi ke kade.,19.36,0.91,2.86,0.22,,
+ifct,D042,"Corn, Baby",Makai; Riewhadem lung; Chujaak; Shoti shalli.,73.14,2.69,11.66,1.33,,
+ifct,D043,"Cucumber, green, elongate","Tiyoh; Sosha; Kakdi; Kheera, Kachumbar; Southe kayi; Laar; Sohkhia; Vellarikka; Thabi; Kakadi; Kakro; Kakudi; Khira; Patolah; Vellarikkai; Dosa kaya",19.60,0.71,3.48,0.16,,
+ifct,D044,"Cucumber, green, short","Tiyoh; Sosha; Kakdi; Kheera, Kachumbar; Southe kayi; Laar; Sohkhia; Thabi; Vellarikka; Kakadi; Kakro; Kakudi; Khira; Patolah; Vellarikkai; Dosa kaya",17.45,0.83,2.82,0.18,,
+ifct,D045,"Cucumber, orange, round",Tiyoh; Sosha; Kakdi; Kakadi; Southe kayi; Laar; Sohkhia pyllon; Vellarikka; Kakro; Kakudi; Khira; Patolah; Vellarikkai; Dosa kaya,19.60,0.98,3.01,0.24,,
+ifct,D046,Drumstick,"Sajina; Sajna danta; Horseradish, Benzoil; Saragavo; Saijan-ki-phalli; Nugga kayi; Dieng sajana; Muringakkai; Sajana; Shevanga sheng; Sajana chhuin; Suhanjana di phalliya; Murungakkai; Mulakaada; Sujne ki palli.",29.40,2.62,3.76,0.12,,
+ifct,D047,"Field beans, tender, broad","Urohi; Shim; Common bean, Fieldbean, Broad bean, String bean; Valpapdi; Sem; Avare; Hyambi; Ri majai; Avar; Papta; Baragudi; Vidaiavarai; Chikkudu ginjalu; Sem ki palli.",30.83,3.06,2.75,0.64,,
+ifct,D048,"Field beans, tender, lean","Urohi; Shim; Common bean, Fieldbean, Broad bean, String bean; Valpapdi; Sem; Avare; Hyambi; Ri majai; Avar; Papta; Baragudi; Chikkudu ginjalu; Vidaiavarai; Sem ki palli.",33.46,3.71,2.85,0.60,,
+ifct,D049,"French beans, country",French bean; Green beans; Fansi; Bakla; Huruli kayi; Hyambi; Presbin phyrngop; Beans; Pharasebee; Ghiu Simi; Fras bean; Vidaiavarai; Sannachikkudu,24.38,2.49,2.68,0.26,,
+ifct,D050,"French beans, hybrid",French bean; Green beans; Fansi; Bakla; Huruli kayi; Hyambi; Presbin; Beans; Pharasebee; Ghiu Simi; Fras bean; Vidaiavarai; Sannachikkudu,22.23,2.12,2.63,0.19,,
+ifct,D051,"Jack fruit, raw",Kothal; Kanthal; Jackfruit; Phanas; Kathal; Bindu; Halasu; Soh phan; Theibong; Chakka; Katahar; Panasa; Kathal ki beej; Palapazham,26.29,1.98,3.48,0.35,,
+ifct,D052,"Jack fruit, seed, mature",Kothal guti; Kanthal; Jackfruit; Phanas; Kathal; Halasu; Bindu; Shyieng soh phan; Chakka; Theibong Maru; Katahar; Panasa; Palakkottai,76.96,5.79,11.81,0.44,,
+ifct,D053,Knol - Khol,Oolkobi; Olkopi; Wild cabbage; Nol-kol; Kohl-rabi; Noolkol; Monjh haak; Phan kubi; Kobi Maru Kabi; Gyathkopi; Ulkobi; Ganth gobi; Knoolkol,16.01,1.58,1.39,0.35,,
+ifct,D054,"Kovai, big","Kunduli; Telakucha; Ivy gourd, Scarlet gourd; Ghole gluru; Konduri, Kowai; Tondekayi; Jhur thliem; Kova kai; Tondale; Kunduru; Donda kaya",17.45,1.39,2.01,0.24,,
+ifct,D055,"Kovai, small","Kunduli; Telakucha; Ivy gourd, Scarlet gourd; Ghole gluru; Konduri, Kowai; Tondekayi; Jhur thliem; Kova kai; Tondale; Kunduru; Donda kaya",19.12,1.22,2.41,0.24,,
+ifct,D056,Ladies finger,"Bhendi; Dherosh; Okra, Okro, Ochro; Bhinda; Bhindi; Bende; Bindi; bindi; Vendakkai; Belandri; Ramtoriya; Bhindikaa; Vendaikkai; Bendakaya",27.49,2.08,3.62,0.22,,
+ifct,D057,"Mango, green, raw",Keasa aam; Aam (kancha); Ambo; Katcha Aam; Mavinakayi; Kach Aamb; Soh pieng im; Manga; Heinou Ashangba; Amba; Ambu (kacha); Kaccha aam; Mangai; Mamidikaya; Kaccha aam.,49.00,0.69,10.59,0.08,,
+ifct,D058,"Onion, stalk","Piyaj paat; Piyaz kali; Spring onion, Onion greens; Dunglina dakkadi (Onion dakkadi); Pyaz; Erulli soppu; Pichiganda; Sla piat; Ulli thandu; Tilhou mana; Pati; Chhayapi ko Saag; Piaja sandha; Hare pyaaz; Vengaya thaal; Ulli kadalu; Hari pyaaz.",25.57,2.07,2.99,0.26,,
+ifct,D059,"Papaya, raw","Kesa omita; Pempe (Kacha); Papaw, Pawpaw; Papayi; Katcha pepita; Parangi; Soh kymphor im; Papita; Dudde; Omakaya; Awathabi Ashangba; Papaya; Amrutabhanda; Katcha Pepita; Pappalikkaai; Boppayi kaya",23.90,0.50,4.40,0.23,,
+ifct,D060,Parwar,Potol; Pointed gourd; Padval; Parwal; Mara thonde; Patol rit; Kovakkai; Parwar; Potala; Kommu potla,24.14,1.40,3.54,0.30,,
+ifct,D061,"Peas, fresh",Matar mah; Motor shuti; Vatana; Kaza; Matara; Matar; Batani; Mator; Hawai tharaak; Hare matar; Paccha pattani.,81.26,7.25,11.88,0.13,,
+ifct,D062,"Plantain, flower",Koldil; Mocha; Banana flower; Kel phool; Kele-ka phool; Bale motho; Pashor kait; Vazhapoo; Lafu Tharo; Kadali bhanda; Kele-da-phool; Arati puvvu; Kela ka phool.,21.27,1.47,2.15,0.63,,
+ifct,D063,"Plantain, green",Kaskol/Purakol; Kela (kanch); Cooking banana; Kela; Kele (hara); Bale kayi; Kham kael; Kait im; Vazhakkai; Laphoi Ashangba; Kel (hara); Bungo; Bantala kadali; Kela (hara); Rambhaa; Vazhakkaai; Arati kayi; Kaccha kela.,79.83,1.18,17.58,0.23,,
+ifct,D064,"Plantain, stem",Posola; Thor; Banana stem; Kelanu thed; Kele-ka-tana; Bele Dindu; Nud kait; Unnipindi; Lafu; Kelicha khunt; Kadali manja; Kele da tana; Vazhai thandu; Arati doota.,39.44,0.35,8.64,0.16,,
+ifct,D065,"Pumpkin, green, cylindrical",Rongalao; Kumro; Kohlu; Kaddu; Kumbala kash; Paarimal; Pathaw; Mathan; Mairen; Lal bhopla; Farsi; Kakharu; Kummaandah; Parangikkai; Gummadi kaya,24.62,0.87,4.22,0.18,,
+ifct,D066,"Pumpkin, orange, round",Rongalao; Kumro; Kohlu; Kaddu; Kumbala kash; Paarimal; Pathaw saw; Mathan; Mairen; Lal bhopla; Farsi; Kakharu; Kummaandah; Parangikkai; Gummadi,23.18,0.84,4.00,0.16,,
+ifct,D067,"Red gram, tender, fresh",Pigeon pea; Arhar ki fali; Thuvarai; Pacchi Kandulu; Hara tuvar.,124.28,8.09,19.46,0.92,,
+ifct,D068,Ridge gourd,"Jikaa; Jhinge; Luffa, Loofah; Turia; Torai; Heeraikai; Turrel; Jingka; Gurdudde; Peechinga; Sebot; Dodka; Janhi; Kali tori; Peerkankai; Beera kaya",13.15,0.91,1.72,0.14,,
+ifct,D069,"Ridge gourd, smooth skin","Bhol; Jhinge; Luffa, Loofah; Turia; Torai; Heeraikai; Turrel; Jingka; Gurdudde; Peechinga; Sebot; Dodka; Janchi; Kali tori; Peerkankai; Beera kaya",15.30,0.98,2.24,0.13,,
+ifct,D070,"Snake gourd, long, pale green",Dhunduli; Chichinga; Pandola; Chachinda; Podavala; Jingka; Padavalanga; Padwal; Chichindo; Galartori; Cicinndda; Pudalangai; Potla kaya,12.43,0.98,1.27,0.25,,
+ifct,D071,"Snake gourd, long, dark green",Dhunduli; Chichinga; Pandola; Chachinda; Podavala; Jingka; Padavalanga; Padwal; Chichindo; Galartori; Cicinndda; Pudalangai; Potla kaya,11.95,0.89,1.23,0.25,,
+ifct,D072,"Snake gourd, short",Dhunduli; Chichinga; Pandola; Chachinda; Podavala; Jingka; Padavalanga; Padwal; Chichindo; Galartori; Cicinndda; Pudalangai; Potla kaya,14.58,0.54,2.15,0.26,,
+ifct,D073,"Tinda, tender","Indian squash, Round melon, Indian round gourd, Apple gourd, Indian baby pumpkin; Tadabuch; Tinda; Thondekkai; Dhemase",13.86,1.02,1.90,0.17,,
+ifct,D074,"Tomato, green",Kesa bilahi; Kacha Tomato; Tamator; Goore Hannu; Rowagun; Soh saw jyrngam; Takkali; Khamen Ashinba; Hara velvangi; Bilati Baigan; Kaccha tamator; Thakkali kai; Ramamulagakaya; Kaccha tamatar.,20.79,1.12,3.18,0.27,,
+ifct,D075,"Tomato, ripe, hybrid",Poka bilahi; Tomato; Tameta; Tamator; Goore Hannu; Rowangun; Soh saw dkhar; Takkali pazham; Khamen ashinba; Velvangi; Bilati baigan; Pakke tamator; Rakta phalam; Gholobheda; Ramamulagakaya; Pakka tamatar.,18.88,0.76,3.20,0.25,,
+ifct,D076,"Tomato, ripe, local",Poka bilahi; Tomato; Tameta; Tamator; Goore Hannu; Rowangun; Takkali pazham; Khamen ashinba; Velvangi; Gholobheda; Bilati Baigan; Pakke tamator; Rakta phalam; Soh saw khasii; Ramamulagakaya; Pakka tamatar.,19.60,0.90,2.71,0.47,,
+ifct,D077,"Zucchini, green","Dhudul; Courgette, Summer squash; Sabed kaddu; Dilpasand; Kaashiral; Kashi bhopla; Golu phubi kakuri; Seemai suraikayi.",20.08,1.10,2.33,0.51,,
+ifct,D078,"Zucchini, yellow","Dhudul; Courgette, Summer squash; Sabed kaddu; Dilpasand; Kaashiral; Kashi bhopla; Golu phubi kakuri; Seemai suraikayi.",18.88,1.31,2.20,0.44,,
+ifct,E001,"Apple, big",Apel; Sev; Safarjan; Sebu; Tsoonth; Soh apple saw; Apple pazham; Sem; Safar chand; Shau; Seb; Seva; Sepu/Sema regu,62.38,0.29,13.11,0.64,,
+ifct,E002,"Apple, green",Apel; Sev; Lila safarjan; Sebu; Tsoonth; Soh apple Jyrngam; Apple pazham; Sem; Safar chand; Shau; Seb; Seva; Sepu/Sema regu,51.15,0.46,10.65,0.50,,
+ifct,E003,"Apple, small",Apel; Sev; Safarjan; Sebu; Tsoonth; Soh apple saw; Apple pazham; Sem; Safar chand; Shau; Seb; Seva; Sepu/Sema regu,63.81,0.31,13.95,0.53,,
+ifct,E004,"Apple, small, Kashmir",Apel; Sev; Safarjan; Seb; Tsoonth; Soh apple saw; Apple pazham; Sem; Safar chand; Shau; Seva; Sepu/Sema regu,64.29,0.27,13.99,0.60,,
+ifct,E005,"Apricot, dried",Malhoi; Suska khubani; Jardaloo (Suka velu); Khoomani; Jaldaru Hannu; Tser; Sheema bedhaam pazham; Malhei; Jardaalu; Khattu; Kharamani; Seema Badam/ Jallaru Pandu; Sakkarai badhami,315.73,3.17,72.63,0.74,,
+ifct,E006,"Apricot, processed",Malhoi; Suska khubani; Jardaloo; Khoomani; Jaldaru Hannu; Tser; Sheema bedhaam pazham; Malhei; Jardaalu; Khattu; Kharamani; Sakkarai badhami; Seema Badam/ Jallaru Pandu,56.41,1.47,10.93,0.64,,
+ifct,E007,Avocado fruit,Kulunashpati; Makhanphal; Bennephala/Bennehannu; Goshtub tang; Aathachakka/ Venna-pazham; Makhan phal,144.36,2.95,1.75,13.86,,
+ifct,E008,Bael fruit,"Bel; Indian bael, Bengal quince, Golden apple, Japanese bitter orange, Stone apple, Wood apple; Bila; Soh bel; Vilwa pazham; Heiri Khagok; Bhel; Marendu pandu.",135.99,2.63,28.21,0.57,,
+ifct,E009,"Banana, ripe, montham",Poka kol; Kola(paka); Paka keda; Kela; Bale hannu; Kait syiem; Vazha pazham; Laphoi; Kele; Kera; Champa kadali; Kella; Kadalii; Arati pandu,110.66,1.25,24.95,0.32,,
+ifct,E010,"Banana, ripe, poovam",Poka kol; Kola (paka); Paka keda; Kela; Bale hannu; Kait mon/ ja; Vazha pazham; Laphoi; Kele; Kera; Champa kadali; Kella; Kadalii; Arati pandu,106.36,1.49,23.41,0.35,,
+ifct,E011,"Banana, ripe, red",Poka kol; Kola (paka); Lal paka keda; Kela; Bale hannu; Kait saw; Vazha pazham; Laphoi; Kele; Kera; Champa kadali; Kella; Kadalii; Sevvazhaipazham; Arati pandu,111.62,1.29,25.21,0.29,,
+ifct,E012,"Banana, ripe, robusta",Poka kol; Kola (paka); keda; Kela; Bale hannu; Kait jaji; Vazha pazham; Laphoi; Kele; Kera; Champa kadali; Kella; Kadalii; Vazhaipazham; Arati pandu,105.16,1.23,23.63,0.33,,
+ifct,E013,Black berry,Kola jamu; Kalojam; Blackberry; Jambu; Kala Jamun; Neralai; Soh jam/ Soh jamun; Naval pazham; Jaam; Jambhool; Jamukoli; Jamun; Nagapazham,54.25,0.92,10.64,0.63,,
+ifct,E014,"Cherries, red",Cherry; Gilas; Kadugempu; Soh sherri; Cherrypazham; Cherry phal; Cherry pazham; Cherri pandu.,59.75,1.49,11.87,0.46,,
+ifct,E015,"Currants, black","kismis; Zante currants, Corinth raisins, Corinthian raisins; kadi draksh; Munakka; Nerale hannu; Soh kismis iong; Najavalppazham; Kala pravaha; Karunthiratcha; Nalla Kishmish; kala kishmish.",54.25,1.51,9.93,0.53,,
+ifct,E016,Custard apple,"Sitaphal; Ata; Sugar apple, Sweetsop; Sitapad; Sharifa; Seethapazham",98.95,1.62,20.38,0.67,,
+ifct,E017,"Dates, dry, pale brown",Khajur; Kharjura; Date palm; Kharek; Chuhara; Kharjoora; Soh khajur; Eethapazham; Thangtup; Khajura; Khajuri; Chawara; Pericham pazham; Khajoora pandu,320.27,2.45,74.91,0.35,,
+ifct,E018,"Dates, dry, dark brown",Khajur; Kharjura; Date palm; Chuhara; Kharjoora; Soh khajur; Eethapazham; Thangtup; Khajura; Khajuri; Chawara; Pericham pazham; Khajoora pandu,310.95,2.38,72.67,0.35,,
+ifct,E019,"Dates, processed",Khajur; Kharjura; Date palm; Kharjoora; Soh khajur im; Eethapazham; Thangtup; Khajura; Khajuri; Pericham pazham; Khajoora pandu,286.09,1.18,67.95,0.41,,
+ifct,E020,Fig,Dimoru; Dumura; Common fig; Anjir; Anjeer; Anjurada hannugalu; Soh Dimbur; Athipazham; Heirit; Dimiri; Anjiira; Atti pandu,81.50,2.03,16.28,0.37,,
+ifct,E021,Goosberry,Amlakhi; Indian Gooseberry; Amla; Betta nelli; Soh mylleng; Nellikka; Heikru; Aanla; Olle; Nellikkai,23.66,0.34,4.39,0.16,,
+ifct,E022,"Grapes, seeded, round, black",Angoor; Kadi Draksha; Draksha; Dach; Soh grape iong; Mundiringa; Draakssaa; Panneer dratchai; Draksha padu.,60.71,0.76,13.23,0.32,,
+ifct,E023,"Grapes, seeded, round, green",Angoor; Lili Draksha; Draksha; Dach; Soh grape jyrngam; Mundiringa; Draakssaa; Dratchai; Draksha padu.,56.17,0.77,12.19,0.29,,
+ifct,E024,"Grapes, seeded, round, red",Angoor; Lal Draksha; Draksha; Dach; Soh grape saw; Mundiringa; Draakssaa; Dratchai; Draksha padu.,58.32,0.95,12.55,0.29,,
+ifct,E025,"Grapes, seedless, oval, black",Angoor; Draksha; Dach; Soh grape iong; Mundiringa; Draakssaa; Dratchai; Draksha padu.,94.41,1.41,20.48,0.46,,
+ifct,E026,"Grapes, seedless, round, green",Angoor; Draksha; Dach; Soh grape jyrngam; Mundiringa; Draakssaa; Dratchai; Draksha padu.,53.54,0.62,11.81,0.26,,
+ifct,E027,"Grapes, seedless, round, black",Kadi Draksha; Angoor; Draksha; Dach; Soh grape iong; Mundiringa; Draakssaa; Dratchai; Draksha padu.,89.39,1.24,19.86,0.35,,
+ifct,E028,"Guava, white flesh",Madhurium; Peyara; Jamphad; Amrud; Seebe; Amrodh; Soh pyriam; Perakka (nattu); Pungton; Peru; Aamba; Pijuli (deshi); Peruka; Koiyapazham; Jama pandu,32.27,1.44,5.13,0.32,,
+ifct,E029,"Guava, pink flesh",Amrud; Jama pandu; Koiyapazham; Seebe; Perakka; Peru; Pijuli; Peyara; Lal jamphad; Madhurium; Amrodh; Peruka; Aamba; Bilaiti pungton; Soh pyriam.,46.61,1.19,9.14,0.25,,
+ifct,E030,"Jack fruit, ripe","Kothal; Kanthal; Jakfruit, Jak; Phanas; Kathal; Halasu; Soh phan; Chakka; Theibong; Katahar; Panasa; Bindu; Palapazham",72.18,2.74,14.01,0.15,,
+ifct,E031,"Jambu fruit, ripe","Jamu; Jaamrool; Java apple, Semarang rose apple, Wax jambu; Jamun; Neralai; Naval pazham; Jambhool; Jamukoli; Nagapazham",56.17,0.82,12.30,0.17,,
+ifct,E032,Karonda fruit,"Korja tenga; Koromcha; Karamda; Balalak, dindimi; Karekayi; Karvand; Karakka; Sushena; Karonda; Karamazda; Kalakkay/ Parungala",33.70,1.15,2.87,1.67,,
+ifct,E033,"Lemon, juice",Nimbhu; Nimapandu; Kagaji limbu; Pati Lebu; Limbu; Nibu; Neembu; Nemu; Nyomb; Lehin; Kaagati; Champra Mahi; Soh jew.,36.57,0.41,0.00,0.75,,
+ifct,E034,"Lime, sweet, pulp",Mosambi; Gaja nimma pandu; Kolinchi pazham; Gaja nimbe; Limbu goda; Mitha lebu; Mosumi; Mosami; Soh balensha.,27.25,0.76,5.18,0.20,,
+ifct,E035,Litchi,Lichu; Lychee; Lichi; Soh manir; Letchu,53.78,0.99,11.41,0.26,,
+ifct,E036,"Mango, ripe, banganapalli",Aam; Aam(paka); Keri; Aam (paka); Mvina hannu; Aamb; Soh pieng; Mam pazham; Heinou Amunba; Amba (piklela); Ampa; Amba (pachila); Aamra; Mampazham; Mamidi pandu; Pakka aam.,41.83,0.54,8.18,0.55,,
+ifct,E037,"Mango, ripe, gulabkhas",Aam; Aam (paka); Pakeli Kedi; Mvina hannu; Aamb; Soh pieng; Mam pazham; Heinou Amunba; Amba (piklela); Ampa; Amba (pachila); Aamra; Mampazham; Mamidi pandu; Pakka aam.,49.95,0.52,10.32,0.53,,
+ifct,E038,"Mango, ripe, himsagar",Aam; Aam (paka); Keri; Mvina hannu; Aamb; Soh pieng; Mam pazham; Heinou Amunba; Amba (piklela); Ampa; Amba (pachila); Aamra; Mampazham; Mamidi pandu; Pakka aam.,44.69,0.46,9.03,0.54,,
+ifct,E039,"Mango, ripe, kesar",Aam; Aam (paka); Kesar kedi; Mvina hannu; Aamb; Soh pieng; Mam pazham; Heinou Amunba; Amba (piklela); Ampa; Amba (pachila); Aamra; Mampazham; Mamidi pandu; Pakka aam.,55.21,0.54,11.36,0.57,,
+ifct,E040,"Mango, ripe, neelam",Aam; Aam (paka); Nilam kedi; Mvina hannu; Aamb; Soh pieng; Mam  pazham; Heinou Amunba; Amba (piklela); Ampa; Amba (pachila); Aamra; Mampazham; Mamidi pandu; Pakka aam.,42.54,0.68,8.21,0.55,,
+ifct,E041,"Mango, ripe, paheri",Aam; Aam (paka); Keri; Mvina hannu; Aamb; Soh pieng; Mam pazham; Heinou Amunba; Amba (piklela); Ampa; Amba (pachila); Aamra; Mampazham; Mamidi pandu; Pakka aam.,44.93,0.68,8.67,0.58,,
+ifct,E042,"Mango, ripe, totapari",Aam; Aam (paka); Totapuri kedi; Mvina hannu; Aamb; Soh pieng; Mam pazham; Heinou Amunba; Amba (piklela); Ampa; Amba (pachila); Aamra; Mamidi pandu; Mampazham; Pakka aam.,59.27,0.41,12.75,0.49,,
+ifct,E043,Mangosteen,Purple mangosteen; Mangustan; Kodam puli,52.34,0.63,11.41,0.24,,
+ifct,E044,Manila tamarind,Jilapi; Bakhai ambli/Vilayabi ambli; Ganga imli/ Jangal jalebi; Seema/ dora hunase; Soh kyntoi im; Mange; Vilayatichinch; Jangjalebi; Kodukkapuli; Seema chintakaya.,81.74,3.56,13.54,1.14,,
+ifct,E045,"Musk melon, orange flesh",Siral; Kharamuja; Muskmelon; Kharbujo; Kharbooja; Kherbuz; Mulam pazham; Kharbuuja,23.18,0.42,4.24,0.35,,
+ifct,E046,"Musk melon, yellow flesh",Siral; Kharamuja; Muskmelon; Kharbujo (Pido); Kharbooja; Kherbuz; Mulam pazham; Kharbuuja,27.72,0.53,5.40,0.26,,
+ifct,E047,"Orange, pulp",Komola; Kamala lebu; Santra; Kithilai; Sangtar; Soh niamtra; Madhura naranga; Komla; Santre; Suntala; Kamala; Naarangga; Saathukudi; Kamala padu,37.28,0.70,7.92,0.13,,
+ifct,E048,"Palm fruit, tender","Doub palm, Palmyra palm, Tala palm, Toddy palm, Wine palm, Ice apple; Tar; Thati mangu; Pnamnungu; Tala Saja; Panai nungu; Thati munjalu.",24.14,0.50,4.92,0.12,,
+ifct,E049,"Papaya, ripe","Amita; Pepe (paka); Papaw, Pawpaw; Papayu; Papita; Pappayi Hannu; Soh Kymphor; Papayi; Omakai; Awathabi amunba; Popai; Mewa; Amrutbhanda (Pachila); Pappali; Boppayi pandu",23.90,0.42,4.61,0.16,,
+ifct,E050,Peach,Ahom bogori; Nectarine; Aroo; Aer; Soh phareng; Chumbrei,40.15,0.86,7.82,0.37,,
+ifct,E051,Pear,Naspoti; Nashpati; Nashpatino; Berikai; Tang; Soh phoh; Sabarjil; Naspati; Berikkai; Berikaya,37.52,0.36,8.09,0.27,,
+ifct,E052,Phalsa,Pharaskol; Falsa; Phalsa hannu; Soh broi rit; Palisa; Mirgichara; Falsa pandu,71.46,1.66,15.09,0.14,,
+ifct,E053,Pineapple,Ahnaros; Anarasa; Anenas; Ananas; Punchitipul; Soh trun; Anas; Kayirha chakka; Kihom Ananas; Sapuri; Annasi pazham; Anasa pandu,43.02,0.52,9.42,0.16,,
+ifct,E054,Plum,Alubokhara; Aaddu; Onagida draakshi; Aeir; Soh plum dorris/ Norris; Heikha; Aloobhukhara,56.88,0.64,12.10,0.40,,
+ifct,E055,"Pomegranate, maroon seeds",dalim; Bedana; Dadam; Anar; Dalimbari; Daan; Soh pomegranate; Dalimb; Mathalam pazhham; Kamphoi; Dalimba; Daaddima; Madhulam pazham; Danimma pandu,54.73,1.33,11.58,0.15,,
+ifct,E056,Pummelo,Rabab tenga; Batabilembu; Pomelo; Papnuse; Chakotra; Chakkota; Soh bah; Bombilimas; Nobab; Papnus; Batapilembu; Pampara panasa.,50.19,0.68,10.64,0.42,,
+ifct,E057,"Raisins, dried, black",kishmish; Dried grape; Kadi Draksha; Kishmish; Drashi; Kismis iong; Mundiringa (unakku); Kismis; Songi; Ular dhirachai; Endu draksha; kishmish.,305.69,2.57,71.29,0.34,,
+ifct,E058,"Raisins, dried, golden",Kishmish; Dried grape; Pidi Draksha; Drashi; Kismis saw; Suke dhrakshi; Mundiringa (unakku); Kismis; kishmish; Songi; Ular dhirachai; Endu draksha,296.61,2.76,68.79,0.35,,
+ifct,E059,Rambutan,,73.14,0.68,16.84,0.16,,
+ifct,E060,Sapota,Chiku; Sapodilla; Sapota,73.37,0.92,13.90,1.26,,
+ifct,E061,Soursop,Shul-ram fal; Lakshmanaphala/Mulluramphala; Mullatha; Malai seethapalam/ Paanghi pazham; Lakshamana phalamu.,62.14,0.74,11.94,0.94,,
+ifct,E062,Star fruit,"Kordoi; Carambola, Starfruit; Amrakh; Kazmal/Kamrakh; Kamaraka/ Kapazakshi hannu; Soh pyrshong; Caturappuli; Heinoujom; Karambal; Karamanga; Tamarattai",26.29,0.79,4.51,0.39,,
+ifct,E063,Strawberry,strawberry; Nela milli hannu; Strawberry/ soh stap; Stroberry; Lachi; Istaber,24.62,0.97,3.40,0.56,,
+ifct,E064,"Tamarind, pulp",Teteli; Tetul; Amli; Imli; Hunise hannu; Tambari; Soh kyntoi; Puli; Mange; Chinch; Imali; Tentuli; Sucukrika; Chintha pandu,288.48,2.92,67.35,0.15,,
+ifct,E065,"Water melon, dark green (sugar baby)",Tormuj; Tarmuj; Watermelon; Tadbuj; Tarbuj; Kallangadi; Hend wend; Soh watermelon; Bacchanga; Thannir mathan; Kalingad; Kharbuja; Tarvuja; Dawana; Darbusani; Puchakaya,20.32,0.60,3.86,0.16,,
+ifct,E066,"Water melon, pale green",Tormuj; Tarmuj; Watermelon; Tadbuj; Tarbuj; Kallangadi; Hend wend; Soh watermelon; Bacchanga; Thannir mathan; Kalingad; Kharbuja; Tarvuja; Dawana; Darbusani; Puchakaya,16.73,0.59,3.02,0.16,,
+ifct,E067,Wood Apple,Bel; Koyeth Bael; Elephant apple; Kothu; Kaith; Bele; Bum choont; Vilam pazham; Kavath; Kaitha; Chaktora; Bilvaon (Gorakamli); Velega pandu,78.15,3.14,7.52,3.62,,
+ifct,E068,Zizyphus,"Bogori; Kula; Jujube, Ziziphus; Ber; Yelachi; Brey; Soh broi heh; Bor; Elanth pazham; Boroi; Barakoli; Beri; Badarii; Elanthai pazham; Regu pandu",48.76,1.34,9.40,0.35,,
+ifct,F001,Beet root,"Beet; Beetroot, Beet, Table beet, Garden beet, Red beet, Golden beet; Chukandar; U bit; Chogander munji; Beet root; Bita; Paalangashaakah",35.61,1.95,6.18,0.14,,
+ifct,F002,"Carrot, orange",Gajor; Gajar; Gajjare; Ghahzir; U kajor; Carrot; Gajara; Grunjanam; Gajjara gadda,33.22,0.95,5.55,0.47,,
+ifct,F003,"Carrot, red",Gajor; Gajar; Gajjare; Ghahzir; Kajor; Carrot; Gajara; Grunjanam; Gajjara gadda,38.24,1.04,6.71,0.47,,
+ifct,F004,Colocasia,Kosu; Kochu; Taro; Advi; Arwi; Samagadde; faram; Ka shriew; Chembu; Paan; Alu kanda; Saru; Seppankizhangu; Chama dumpa,88.91,3.31,17.85,0.17,,
+ifct,F005,Lotus root,"podum thari; Kamad kakdi; Kamal gatta, Kamal kakdi; Tavare dantu; Nader; Thied lotus; Thamara thandu; Thambou; Kamalkaakdi; Padma nad; Kamal zahr; Thamaraithandu; Thamara kada; Kanwal kakri.",79.35,1.94,14.67,0.93,,
+ifct,F006,"Potato, brown skin, big",Simolu aloo; Gal alu; Bateka; Alu; Alugadda; Oalu; U phan; Urula kizhangu; Aloo; Batata; Aalukah; Urulai kizhangu; Bangala dumpa,69.79,1.54,14.89,0.23,,
+ifct,F007,"Potato, brown skin, small",Simolu aloo; Gal alu; Bateka; Alu; Alugadda; Oalu; Phan rit; Aloo; Batata; Aalukah; Urulaikizhangu; Bangala dumpa.,60.95,1.35,12.90,0.22,,
+ifct,F008,"Potato, red skin",Aloo; Gal alu; Bateka; Alu; Alugadda; Oalu; Phan saw; Urula kizhangu; Batata; Aalukah; Urulaikizhangu; Bangala dumpa,73.14,1.83,15.43,0.22,,
+ifct,F009,"Radish, elongate, red skin",Mula; Muda; Muli; Mullangi; Muli saw; Gonglu; Moolikaa,32.03,0.67,6.71,0.13,,
+ifct,F010,"Radish, elongate, white skin",Mula; Muda; Muli; Mullangi; Muli lieh; Gonglu; Moolikaa,32.27,0.77,6.56,0.15,,
+ifct,F011,"Radish, round, red skin",Mula; Muda; Muli; Mullangi; Muli pyllon; Gonglu; Moolikaa,31.07,0.89,6.07,0.16,,
+ifct,F012,"Radish, round, white skin",Mula; Muda; Muli; Mullangi; Muli pyllon; Gonglu; Moolikaa,30.83,0.80,6.13,0.14,,
+ifct,F013,"Sweet potato, brown skin",Meetha aloo; Ranga alu; Sakkaria; Shakarkand; Genasu; Phankaro iong; Sakkarvalli kazhangu; Manghra; Ratalu; Sakhar Khand; Kandamula; Sakkargandi; Sakkarvalli kizhangu; Chilagada dumpa,108.99,1.33,24.25,0.26,,
+ifct,F014,"Sweet potato, pink skin",Meetha aloo; Ranga alu; Sakkaria; Shakarkand; Genasu; Phankaro saw; Sakkarvalli kazhangu; Manghra; Ratalu; Sakhar Khand; Kandamula; Sakkargandi; Sakkarvalli kizhangu; Chilagada dumpa,108.03,1.27,23.93,0.33,,
+ifct,F015,Tapioca,Sagi; Simla alu; Aararoot; Mra genasu; Phan dieng; Mrachini; U Manghra; Simla  Batata; Tarul; Kathakonda; Maravalli kizhangu; Krrapendalamu; Kasawa soji.,79.83,1.03,17.81,0.20,,
+ifct,F016,Water Chestnut,Pani singora; Pani phal; Shingoda; Shingara; Goer; Karimpolam; Kaothum; Pani singhara; Shingada; Singhara,95.60,0.86,21.46,0.37,,
+ifct,F017,"Yam, elephant","Ol kachu; Ol; Elephant foot yam, Whitespot giant arum; Suran; Zimikandha; Suvarna gadda; Shriew hati; Chena; Haa; Zimikand; Karunai kizhangu; Kandha dumpa.",84.37,2.56,17.46,0.14,,
+ifct,F018,"Yam, ordinary","Kath aloo; Gherkochoo; White yam, Winged yam, Water yam, Purple yam; Ratadu; Sooran; Suvarna gadda; Shriew jrong; Chena; Haa; Goradu; Pidaloo; Khamba alu; Aalu; Karunai kizhangu",83.41,2.18,17.65,0.17,,
+ifct,F019,"Yam, wild",Jongoli kosu; Ranga alu; Ratadu; Suaralu; Hegganasu; Shriew lieh; Kattuchena; Haa; Suran; Kodi kizhangu; Chedu paddu dumpa.,102.77,3.07,20.95,0.30,,
+ifct,G001,"Chillies, green-1",Kesa jalakia; Chili pepper; Lila marcha; Hara Mirchi; Hasi Menasinakayi; Marach wangun; Sohmynken heh; Mulaku; Morok; Hariyo khursani; Kancha Lanka; Hara mirchi; Marichika; Pachhai milagai; Pacchi Mirapakaya; Hara mirchi.,45.65,2.62,6.32,0.73,,
+ifct,G002,"Chillies, green-2",Kesa jalakia; Chili pepper; Lila marcha; Hara Mirchi; Hasi Menasinakayi; Marach wangun; Soh mynken dkhar; Mulaku; Morok; Hariyo khursani; Kancha Lanka; Hara mirchi; Marichika; Pachhai milagai; Pacchi Mirapakaya; Hara mirchi.,39.91,2.28,5.27,0.75,,
+ifct,G003,"Chillies, green-3",Kesa jalakia; Chili pepper; Lila marcha; Hara Mirchi; Hasi Menasinakayi; Marach wangun; Soh mynken dkhar; Mulaku; Morok; Hariyo khursani; Kancha Lanka; Hara mirchi; Marichika; Pachhai milagai; Pacchi Mirapakaya; Hara mirchi.,40.39,2.38,5.23,0.75,,
+ifct,G004,"Chillies, green-4",Kesa jalakia; Chili pepper; Hara Mirchi; Hasi Menasinakayi; Marach wangun; Soh mynken dkhar; Mulaku; Morok; Hariyo khursani; Kancha Lanka; Hara mirchi; Marichika; Pachhai milagai; Pacchi Mirapakaya; Hara mirchi.,45.41,2.33,6.63,0.74,,
+ifct,G005,"Chillies, green-5",Kesa jalakia; Chili pepper; Vadhvani marcha; Hara Mirchi; Hasi Menasinakayi; Marach wangun; Soh mynken dkhar; Mulaku; Morok; Hariyo khursani; Kancha Lanka; Hara mirchi; Marichika; Pachhai milagai; Pacchi Mirapakaya; Hara mirchi.,43.02,2.01,6.64,0.65,,
+ifct,G006,"Chillies, green-6",Kesa jalakia; Chili pepper; Lila marcha; Hara Mirchi; Hasi Menasinakayi; Marach wangun; Soh mynken dkhar; Mulaku; Morok; Hariyo khursani; Kancha Lanka; Hara mirchi; Marichika; Pachhai milagai; Pacchi Mirapakaya; Hara mirchi.,41.83,3.01,5.31,0.64,,
+ifct,G007,"Chillies, green-7",Kesa jalakia; Chili pepper; Gola marcha; Hara Mirchi; Hasi Menasinakayi; Marach wangun; Soh mynken beb; Mulaku; Morok; Hariyo khursani; Kancha Lanka; Hara mirchi; Marichika; Pachhai milagai; Pacchi Mirapakaya; Hara mirchi.,38.96,2.12,5.61,0.60,,
+ifct,G008,"Chillies, green - all varieties",Kesa jalakia; Chili pepper; Hara Mirchi; Hasi Menasinakayi; Marach wangun; Soh mynken dkhar; Mulaku; Morok; Hariyo khursani; Kancha Lanka; Hara mirchi; Marichika; Pachhai milagai; Pacchi Mirapakaya; Hara mirchi.,42.30,2.36,5.86,0.72,,
+ifct,G009,Coriander leaves,"Dhania paat; Dhone pata; Cilantro, Chinese parsley; Dhana pandada; Hara dhania; Kothambari; Daaniwal; Dhonia dkhar; Kothamalli; Fadhighom Mana; Kothimbir; Hario Dhaniya; Dhania Patra; Hara dhaniya patta; Kothimiri; Hara dhaniya.",31.07,3.52,1.93,0.70,,
+ifct,G010,Curry leaves,Narasingha paat; Karhi-pat; Sweet Neem leaves; Kadi umdo; Gandhela; Karibevu; Curry patta; Sla Kori; Kariveppilai; Curry Pata; Kary patta; Bhursanga Patra; Kadhi patta; Girinimba; Karivepaku; Kadi ka patta.,63.58,7.41,4.51,1.06,,
+ifct,G011,"Garlic, big clove",Nohoru; Rashun; Lasan; Lehsan; Bellulli; Ruhan; Rynsun heh/ Rynsun dkhar; Vellulli; Chanam; Lasoon; Lasun; Rasuna; Lashoonam; Poondu,123.80,6.92,21.93,0.16,,
+ifct,G012,"Garlic, small clove",Nohoru; Rashun; Lasan; Lehsan; Bellulli; Ruhan; Rynsun rit; Vellulli; Chanam; Lasoon; Lasun; Rasuna; Lashoonam; Poondu,122.85,6.75,21.84,0.14,,
+ifct,G013,"Garlic, single clove, Kashmir",Nohoru; Ek koya Rashun; Lasan; Lehsan; Bellulli; Ruhan; Rynsun; Vellulli; Chanam; Lasoon; Lasun; Rasuna; Lashoonam; Ottrai poondu,125.00,6.12,23.46,0.16,,
+ifct,G014,"Ginger, fresh",Ada kesa; Ada; Adu; Adrak; Shunti; Sying bah; Inji; Sing; Ale; Aduwa; Aadrak; Allam,54.97,2.22,8.97,0.85,,
+ifct,G015,Mango ginger,Aam ada; Amada; Amba Hardar; Aam adhrak; Mavina hasi sunthi; Adrak; Sying makhir; Mangainji; Amba haldi; Aam adrak; Mainji; Mamidiallam; Aam adrak.,42.30,1.45,6.98,0.70,,
+ifct,G016,Mint leaves,Podina; Pudina; Mentha; Phudino; Pudinth; Nungsihidak; Baabari; Pudina Patra,37.05,4.66,2.39,0.65,,
+ifct,G017,"Onion, big","Piyanj; Peyaj; Bulb onion, Common onion; Kando; Pyaz; Eerulli; Gandha; Piat; Ulli; Tilhou; Kanda; Pyaj; Piaja; Gandhe; Palaanduh; Vengayam; Neerulli/Ullipaya",48.04,1.50,9.56,0.24,,
+ifct,G018,"Onion, small","Xoru Piyanj; Gundhun; Bulb onion, Common onion; Dungri (nani); Pyaaz Kali; Chikk Eerulli; Praan; Piat rit; Cheriya Ulli; Tilhou; Kanda; Chayapi; Gandhe; Chinna vengayam; Chinna ullipaya",56.64,1.82,11.58,0.16,,
+ifct,G019,Asafoetida,"Hing; Food of the Gods, Jowani Badian, Hengu, Ingu, Kayam, Ting; Hingu; Yangu; U hing; Perungayam; Badhika; Perugayam; Inguva",331.50,6.34,71.95,1.26,,
+ifct,G020,"Cardamom, green",Ilasi; Elach; True cardamom; Alechi; Elaychi; Yelakki; Aa’l budu’a aa’ l; Elaishi; Elakkai; Elaichi; Veldoda; Alaichi; Shoti elaychi; Ela,255.02,8.10,47.76,2.60,,
+ifct,G021,"Cardamom, black","Boro elach; Hill cardamom, Bengal cardamom, Greater cardamom, Indian cardamom, Nepal cardamom, Winged cardamom, Brown cardamom; Moti alechi; Ilasi; Badi elaychi; Yelakki; Aa’l budu’a aa’ l; Elaichi; Elathari; Veldoda; Alaichi; Baddi elaychi; Ela; Elakkai",270.55,6.69,52.53,2.80,,
+ifct,G022,"Chillies, red",Sukan jolokia; Shuckhuo Lonka; Red chilli pepper; Lal marcha (sukha); Mirchi; Ona Menasinakayi; Sohmynken trykhong; Mulaku; Morok Akangba; Rato Khursani; Lanka; Lal mircha; Varamilagai; Mirapakaya; Lal mirchi.,236.62,12.69,29.46,6.40,,
+ifct,G023,Cloves,Long; Lobong; Lavang; Lavanga; Ruang; U long; Krambu; Luwang; Labang; Lavangu,186.66,5.86,18.73,8.41,,
+ifct,G024,Coriander seeds,"Dhoniya; Dhone; Cilantro seeds, Chinese parsley seeds; Sukha dhana; Dhania; Kothambari; Daaniwal; Symbai dhania; Kothambalari; Fadhighom Maru; Dhane; Dhanyaka; Kothamalli vidhai; Dhaniyalu",268.88,10.66,12.98,17.47,,
+ifct,G025,Cumin seeds,Jeera; Jire; Jiru; Jira; Jeerage; Zyur; U jeera; Jeerakam; Jiraka; Jeelakarra,304.49,13.91,22.62,16.64,,
+ifct,G026,Fenugreek seeds,Methi; Methi dana; Menthe; Meeth; Symbai methi; Uluva; Methe; Venthayam; Menthulu,234.94,25.41,10.57,5.72,,
+ifct,G027,Mace,Jayitri; Nutmeg; Javantri; Avithri; Jalwatur; Jathipatri; Jaypatri; Jaipatri; Japathri,355.64,6.24,26.51,24.41,,
+ifct,G028,Nutmeg,"Jaiphal; Jayphal; Fragrant nutmeg, True nutmeg; Jayaphad; Jayikayi mara; Zaaphal; Jathikai; Jayaphala; Jatiphala; Jajikaya",463.67,6.30,27.64,36.52,,
+ifct,G029,Omum,"Ajwain; Joan; Ajwain, Ajowan, Ajowan caraway, Ajman, Bishop`s weed, Carom; Ajmo; Ajwan; Oma; Jawind; Paspron; Ayamothakam; Onva; Juani; Ajamoda; Omum; Vamu",357.31,15.89,24.53,21.11,,
+ifct,G030,Pippali,"Pipul; Long pepper, Indian long pepper; Khus khus; Pipli; Kandan Lippili; Sohmarit khlaw; Tippali; Pimpli; Sarupippali; Javantri; Pippali; Tippili; Pippallu",216.54,10.53,35.70,2.27,,
+ifct,G031,"Pepper, black","Kola jaluk; Golmarichi; Peppercorn; Mari; Kalimirchi; Kari menasu; Marutus; Soh marit; Kurumlaku; Mire; Marich; Golomarcho; Marich ushna, hapusha; Milagu; Mirayalu; Kaali Mirch.",217.50,10.12,36.22,2.74,,
+ifct,G032,Poppy seeds,Afoo guti; Posta; Aphina; Postdana; Afim; Khaskhash; Afiam; Khaskhas; Khus Khus; Postak; Khas Khas; Khasa; Khasakhasa; Gasagasalu; Khash Khash.,422.56,20.31,12.37,30.38,,
+ifct,G033,Turmeric powder,Halodhi; Holud; Haddar; Haldi; Anashina; Lader; Shynrai; Manjal; Yaingang; Halad; Besar; Haladi; Pasupu,280.59,7.66,49.22,5.03,,
+ifct,H001,Almond,China badam; Badam; Almon; Vatam kottai; Kagji Badam; Badam paruppu; Badam Pappu,609.23,18.41,3.04,58.49,,
+ifct,H002,"Arecanut, dried, brown","Sufari; Supari; Areca nut, Betel nut; Sopari; Adike; Kwai tyrkhong; Adakka; Kwa Maru; Gua; Puuga; Kottai paakku; Vakka",350.62,5.78,70.42,4.35,,
+ifct,H003,"Arecanut, dried, red color","Sufari; Supari; Areca nut, Betel nut; Sopari; Adike; Supaari; Kwai supari; Adakka; Kwa Maru; Gua; Puuga; Paakku; Vakka",353.01,6.46,70.27,4.46,,
+ifct,H004,"Arecanut, fresh","Kesa tamul; Supari; Areca nut, Betel nut; Sopari; Adike; Supaari; Kwai im; Adakka; Kwa Maru; Gua; Puuga; Paakku; Vakka",244.74,2.73,45.00,5.51,,
+ifct,H005,Cashew nut,Kaju badam; Hijli Badam; Kaju; Geru beeja; Soh kashu; Kasu andi; Lanka ambu; Mundiri paruppu; Jeedi pappu,582.70,18.78,25.46,45.20,,
+ifct,H006,"Coconut, kernal, dry",Dab narikol; Narkel; Kopra ni kachli; Nariyal; Thengini kai; Narjil; Snep kor trykhong; Thenga; Yubi Akangba; Narel; Nadia; Gola; Kopparai; Endu Kobbari,624.04,7.27,8.01,63.26,,
+ifct,H007,"Coconut, kernel, fresh",Narikol; Narkel; Nariyad; Nariyal; Thengina kayi; Narjeel; Snep kor im; Karikku; Yubi; Narel; Naribel; Paida; Naarikela; Thenkai; Kobbari,408.94,3.84,6.30,41.38,,
+ifct,H008,"Garden cress, seeds",Soru manimunni; Halim; Asadiyo; Allibija; Alivirai; Ahiva,445.27,23.36,33.66,23.74,,
+ifct,H009,"Gingelly seeds, black",Kola til; Til; Sesame seeds; Kada tal; Acchellu; Nei iong; Ellu; Thoiding Amuba; Teel; Rasi; Nuvvulu; Til .,507.65,19.17,10.29,43.10,,
+ifct,H010,"Gingelly seeds, brown",Matia rangar til; Til; Sesame seeds; Tal; Acchellu; Nei; Ellu; Thoiding; Teel; Rasi; Nuvvulu,516.49,21.61,9.76,43.22,,
+ifct,H011,"Gingelly seeds, white",Boga til; Til; Sesame seeds; Safed tal; Acchellu; Nei; Ellu; Thoiding Angouba; Teel; Rasi; Nuvvulu,519.60,21.70,10.83,43.05,,
+ifct,H012,Ground nut,"Badam; China badam; Peanut, Groundnut, Goober; Singdana; Moog phali; Kadale kayi; Moong phalli; Nilakkadalai; Leibak Hawai; Bhui mug; Verkadalai; Verusenaga; Moog phali.",520.08,23.65,17.27,39.63,,
+ifct,H013,Mustard seeds,Soriyah; Sorse; Rai; Sasuve; Assur; Symbai syrso; Kadugu; Hangham Maru; Mohori; Rayo; Sorisa; Sarssapa; Avalu,509.56,19.51,16.80,40.19,,
+ifct,H014,Linseeds,"Tishi; Flax seeds, Common flax; Adsi; Alsi; Agasi; Ailsh; Cheruchana vithu; Jawas; Pesi; Atasii; Ali vidai; Avise ginzalu",443.83,18.55,10.99,35.67,,
+ifct,H015,"Niger seeds, black",Sorguja; Ram til; Kada tal; Kala til; Gurellu; Bazar-Bhang; Karim jeerakam; Karale; Kattelu,512.43,18.92,22.98,38.61,,
+ifct,H016,"Niger seeds, gray",Sorguja; Ram til; Tal; Kala til; Gurellu; Bazar-Bhang; Karim jeerakam; Karale; Kattelu,508.60,18.34,20.59,39.53,,
+ifct,H017,Pine seed,Pine nut; Chilgoza; Symbai soh kseh; Jhurane biya,594.17,12.55,26.77,48.79,,
+ifct,H018,Pistachio nuts,Pista; Pesta,539.44,23.35,15.82,42.49,,
+ifct,H019,Safflower seeds,Kusum; Kusumbo; Kardi; Kusambe; Symbai tiew sngi; Karadi; Sendurkan vidhai; Kusuma ginzalu.,473.47,17.66,30.18,30.87,,
+ifct,H020,Sunflower seeds,Beli phular guti; Suraj mukhi; Suraj mukhi na bee; Surya mukhi; Sryakanti bijagalu; Symbai tiew sngi; Suryakanthi; Numitlei Maru; Surjya Mukhi Manji; Suryakanthi vidhai; Podduthirugidi puvvu ginzalu.,586.28,23.53,6.85,51.85,,
+ifct,H021,Walnut,Akhrot; Akrodu; Dhoon; Walnut; Akrottandi; Heijukha; Akhrod; Okhar; Akhoot; Akrot kaya,671.37,14.92,10.14,64.27,,
+ifct,I001,"Jaggery, cane",Gur; Gurh; God; Gud; Bella; Gor; Mithai Gur; Godd; Vellam; Chini Anganba; Gul; Guda; Mandavellam; Bellam,353.73,1.85,84.87,0.16,,
+ifct,I002,"Sugarcane, juice",Kunhiyar; Akher rosh; Sherdino ras; Ganne-ka-ras; Kabbina halu; Ganne rus; Soh Pai; Karumbin neeru; Chuhing; Usacha rasa; Aakhu Dorua; Ganne-da-ras; Karumbu charu; Cheruku rasam; Ganne-ke-ras.,57.84,0.16,13.11,0.40,,
+ifct,J001,"Button mushroom, fresh","Mushroom; Banger chata; Common mushroom, Portobello mushroom; Biladi no top; Aanabay/Aanabe; Hadder; Tit budam; Kun koon; Chenghum; Bhoochhtra; Chatu; Khoomba; Kaalaan; Putta Godugu.",27.49,3.68,1.98,0.42,,
+ifct,J002,"Chicken mushroom, fresh",Mushroom; Banger chata; Biladi no top; Aanabay/Aanabe; Hadder; Tit tyndong; Kun koon; Chenghum; Bhoochhtra; Chatu; Khoomba; Kaalaan; Putta Godugu.,21.27,1.84,2.76,0.25,,
+ifct,J003,"Shiitake mushroom, fresh",Mushroom; Banger chata; Biladi no top; Aanabay/Aanabe; Hadder; Kun koon; Uyen; Bhoochhtra; Chatu; Khoomba; Kaalaan; Putta Godugu.,58.08,3.19,8.98,0.76,,
+ifct,J004,"Oyster mushroom, dried",Banger chata; Biladino top; Aanabay/Aanabe; Hadder; Kun koon; Chenghum; Bhoochhtra; Chatu; Khoomba; Kaalaan; Putta Godugu.,243.55,19.04,33.07,2.86,,
+ifct,K001,Toddy,Tari; Palm wine; Henda; Tadi; Tarai; Kiad lieh; Todhi,24.14,0.18,5.72,0.03,,
+ifct,K002,Coconut Water,Dab narikolor pani; Daberjal; Nariyad nu pani; Nariyal ka pani; Thenga neeru; Narji pooen; Um snepkor; Thenga vellam; Yubi Mahi; Naral pani; Paida pani; Gola da pani; Ilaneer; Kobbari neeru.,15.30,0.26,3.16,0.16,,
+ifct,L001,"Milk, whole, Buffalo",Mohor gakhir; Dudha (Mosher); Bhes nu dhudh; Bhains ka dhood; Uemma halu; Doodh; Dud muid; Kerbau paal; Eroi Sanghom; Doodh (Maish); Mainsi dudha; Maz da doodh; Erumaipal; Gedha/Barre palu.,107.31,3.68,8.39,6.58,,
+ifct,L002,"Milk, whole, Cow",Garoor gakhir; Doodh (garu); Gai nu dhudh; Gai ka doodh; Hasuvina halu; Doodh; Dud masi; San Sanghom; Doodh (gay); Gai dudha; Gaan da doodh; Gow kshiram; Pasumpaal; Aavu paalu.,72.90,3.26,4.94,4.48,,
+ifct,L003,Paneer,Paneer; Chena; Cottage Cheese; Chhena; Tali; Chaman; Palkatti; Channa; Paladai,257.89,18.86,12.41,14.78,,
+ifct,L004,Khoa,Khoa; Mavo; Khoya; Malai khowa; Khua,315.97,16.34,16.53,20.62,,
+ifct,M001,"Egg, poultry, whole, raw",,134.80,13.28,0.00,9.15,,
+ifct,M002,"Egg, poultry, white, raw",,44.69,10.84,0.00,0.06,,
+ifct,M003,"Egg, poultry, yolk, raw",,296.85,15.74,0.00,26.34,,
+ifct,M004,"Egg, poultry, whole, boiled",,147.71,13.43,0.00,10.54,,
+ifct,M005,"Egg, poultry, white, boiled",,52.58,12.37,0.00,0.26,,
+ifct,M006,"Egg, poultry, yolk, boiled",,308.32,16.13,0.00,27.46,,
+ifct,M007,"Egg, poultry, omlet",,169.69,16.53,0.00,11.60,,
+ifct,M008,"Egg, country hen, whole, raw",,168.26,13.14,0.00,13.00,,
+ifct,M009,"Egg, country hen, whole, boiled",,183.32,14.43,0.00,14.10,,
+ifct,M010,"Egg, country hen, omlet",,204.35,14.80,0.00,16.30,,
+ifct,M011,"Egg, duck, whole, boiled",,176.39,13.80,0.00,13.61,,
+ifct,M012,"Egg, duck, whole, raw",,181.64,14.60,0.00,13.83,,
+ifct,M013,"Egg, duck, whole, omlet",,192.16,15.10,0.00,14.80,,
+ifct,M014,"Egg, quial, whole, raw",,151.77,12.39,0.00,11.46,,
+ifct,M015,"Egg, quial, whole, boiled",,154.64,13.03,0.00,11.50,,
+ifct,N001,"Chicken, poultry, leg, skinless",,383.60,19.44,0.00,12.64,,
+ifct,N002,"Chicken, poultry, thigh, skinless",,199.81,18.18,0.00,14.23,,
+ifct,N003,"Chicken, poultry, breast, skinless",,168.26,21.81,0.00,9.00,,
+ifct,N004,"Chicken, poultry, wing, skinless",,192.88,17.42,0.00,13.81,,
+ifct,N005,"Poultry, chicken, liver",,123.80,21.57,0.00,4.08,,
+ifct,N006,"Poultry, chicken, gizzard",,92.26,18.22,0.00,2.07,,
+ifct,N007,"Country hen, leg, with skin",,172.80,17.01,0.00,11.73,,
+ifct,N008,"Country hen, thigh, with skin",,187.62,18.29,0.00,12.82,,
+ifct,N009,"Country hen, breast, with skin",,179.97,22.08,0.00,10.20,,
+ifct,N010,"Country hen, wing, with skin",,182.60,18.65,0.00,12.09,,
+ifct,N011,"Duck, meat, with skin",,130.74,19.07,0.00,6.03,,
+ifct,N012,"Emu, meat, skinless",,132.89,22.65,0.00,4.62,,
+ifct,N013,"Guinea fowl, meat, with skin",,112.09,20.52,0.00,3.24,,
+ifct,N014,"Pigeon, meat, with skin",,126.20,17.94,0.00,6.03,,
+ifct,N015,"Quail, meat, skinless",,137.67,20.92,0.00,5.95,,
+ifct,N016,"Turkey, leg, with skin",,154.64,20.30,0.00,8.15,,
+ifct,N017,"Turkey, thigh, with skin",,138.86,20.46,0.00,6.31,,
+ifct,N018,"Turkey, breast, with skin",,160.37,21.96,0.00,8.04,,
+ifct,N019,"Turkey, wing, with skin",,184.27,21.91,0.00,10.77,,
+ifct,O001,"Goat, shoulder, meat",,188.10,20.33,0.00,11.94,,
+ifct,O002,"Goat, chops",,135.76,20.39,0.00,5.98,,
+ifct,O003,"Goat, legs",,159.89,22.07,0.00,7.94,,
+ifct,O004,"Goat, brain",,127.39,13.82,0.00,8.06,,
+ifct,O005,"Goat, tongue",,188.58,16.63,0.00,13.68,,
+ifct,O006,"Goat, lungs",,95.84,16.86,0.00,3.09,,
+ifct,O007,"Goat, heart",,117.59,19.38,0.00,4.40,,
+ifct,O008,"Goat, liver",,125.72,20.32,0.00,4.88,,
+ifct,O009,"Goat, tripe",,92.26,15.36,0.00,3.36,,
+ifct,O010,"Goat, spleen",,95.84,18.45,0.00,2.37,,
+ifct,O011,"Goat, kidneys",,89.39,15.60,0.00,2.93,,
+ifct,O012,"Goat, tube (small intestine)",,125.48,12.92,0.00,8.26,,
+ifct,O013,"Goat, testis",,71.22,12.32,0.00,2.39,,
+ifct,O014,"Sheep, shoulder",,200.76,18.24,0.00,14.31,,
+ifct,O015,"Sheep, chops",,118.55,18.00,0.00,5.15,,
+ifct,O016,"Sheep, leg",,163.96,21.42,0.00,8.69,,
+ifct,O017,"Sheep, brain",,117.59,13.05,0.00,7.29,,
+ifct,O018,"Sheep, tongue",,187.14,16.61,0.00,13.53,,
+ifct,O019,"Sheep, lungs",,86.76,16.12,0.00,2.41,,
+ifct,O020,"Sheep, heart",,106.36,18.19,0.00,3.66,,
+ifct,O021,"Sheep, liver",,133.60,22.26,0.00,4.87,,
+ifct,O022,"Sheep, tripe",,103.97,16.76,0.00,4.05,,
+ifct,O023,"Sheep, spleen",,91.78,16.02,0.00,3.02,,
+ifct,O024,"Sheep, kidneys",,91.78,16.22,0.00,2.92,,
+ifct,O025,"Beef, shoulder",,212.48,20.56,0.00,14.59,,
+ifct,O026,"Beef, chops",,139.82,19.82,0.00,6.71,,
+ifct,O027,"Beef, round (leg)",,157.27,22.64,0.00,7.38,,
+ifct,O028,"Beef, brain",,125.00,10.55,0.00,9.28,,
+ifct,O029,"Beef, tongue",,174.71,15.63,0.00,12.57,,
+ifct,O030,"Beef, lungs",,83.89,15.66,0.00,2.28,,
+ifct,O031,"Beef, heart",,103.49,17.68,0.00,3.57,,
+ifct,O032,"Beef, liver",,119.26,20.73,0.00,3.96,,
+ifct,O033,"Beef, tripe",,75.53,13.10,0.00,2.51,,
+ifct,O034,"Beef, spleen",,90.34,17.42,0.00,2.22,,
+ifct,O035,"Beef, kidneys",,104.92,17.09,0.00,4.01,,
+ifct,O036,"Calf, shoulder",,151.29,20.98,0.00,7.47,,
+ifct,O037,"Calf, chops",,125.24,22.47,0.00,3.85,,
+ifct,O038,"Calf, round (leg)",,146.99,21.10,0.00,6.92,,
+ifct,O039,"Calf, brain",,107.07,9.84,0.00,7.60,,
+ifct,O040,"Calf, tongue",,176.15,17.78,0.00,11.76,,
+ifct,O041,"Calf, heart",,109.70,18.84,0.00,3.75,,
+ifct,O042,"Calf, liver",,120.22,21.02,0.00,3.95,,
+ifct,O043,"Calf, spleen",,90.58,17.71,0.00,2.12,,
+ifct,O044,"Calf, kidneys",,92.50,15.16,0.00,3.50,,
+ifct,O045,"Mithun, shoulder",,175.91,19.05,0.00,11.14,,
+ifct,O046,"Mithun, chops",,128.11,18.19,0.00,6.12,,
+ifct,O047,"Mithun, round (leg)",,115.92,19.61,0.00,4.10,,
+ifct,O048,"Pork, shoulder",,237.33,17.41,0.00,18.83,,
+ifct,O049,"Pork, chops",,178.78,19.41,0.00,11.30,,
+ifct,O050,"Pork, ham",,240.44,18.83,0.00,18.55,,
+ifct,O051,"Pork, lungs",,85.56,15.13,0.00,2.74,,
+ifct,O052,"Pork, heart",,109.23,16.31,0.00,4.87,,
+ifct,O053,"Pork, liver",,115.68,19.89,0.00,3.94,,
+ifct,O054,"Pork, stomach",,131.45,15.36,0.00,7.81,,
+ifct,O055,"Pork, spleen",,85.33,15.13,0.00,2.71,,
+ifct,O056,"Pork, kidneys",,90.58,14.35,0.00,3.65,,
+ifct,O057,"Pork, tube (small intestine)",,140.30,14.96,0.00,8.98,,
+ifct,O058,"Hare, shoulder",,144.12,21.13,0.00,6.58,,
+ifct,O059,"Hare, chops",,106.36,20.62,0.00,2.55,,
+ifct,O060,"Hare, leg",,120.22,20.52,0.00,4.16,,
+ifct,O061,"Rabbit, shoulder",,151.77,20.01,0.00,7.96,,
+ifct,O062,"Rabbit, chops",,135.04,22.61,0.00,4.88,,
+ifct,O063,"Rabbit, leg",,139.58,21.31,0.00,5.99,,
+ifct,P001,Allathi,"Tenpounder, Ladyfish, Indo pacific Tarpon; Valli poomeen, Vallipoomeen; Shonas, Dandeli, Chirya; Naum; Poomeen, Ullahti, Manna, Mooran Kendai; Jinnagow, Jallagu; [Place of collection: Chennai]",97.04,21.77,0.00,0.98,,
+ifct,P002,Aluva,"Black pomfret, Brown Pomfret, Pomfret; Halwa, Adadio; Thondrotte; Halwa; Karuvolli, Karauthakoli, Avoli, Vellavoli; Vellaivaval, Vavval, Karuvaval; Nallachanduva, Chanduva, Thellachanduva; [Place of collection: Vizag, Goa and Mumbai]",103.73,21.63,0.00,1.80,,
+ifct,P003,Anchovy,"Indian anchovy, Hardenberg`s anchovy; Conetholi; Dindus; Tamil Nethilli; Nattoo; [Place of collection: Chennai and Kochi]",87.72,19.88,0.00,0.78,,
+ifct,P004,Ari fish,Green jobfish; [Place of collection: Kochi],99.19,22.01,0.00,1.11,,
+ifct,P005,Betki,"Barramundi, Asian sea bass, Cockup, Cock up, Giant Sea Perch, Giant Seaperch; Bhekti; Bekti, Gariyu; Keliji, Koliji; Narimeen, Nuddee meen, Nair meen, Nari meen; Khajura, Jiteda, Khajuri, Fitadar; Durruah, Bekkut; Painnee meen, Koduva, Keduwa; Pandu kopah, Dadhara, Pandu menu; [Place of collection: Kolkata]",67.88,15.28,0.00,0.29,,
+ifct,P006,Black snapper,[Place of collection: Kolkata],90.11,19.50,0.00,1.24,,
+ifct,P007,Bombay duck,"Bummalo; Nehare, Lutia, Bamaloh; Bumla, Gulchi; Bunmalo, Bombil; Bombil; Vangaravasi; Cucah sawahri, Coco mottah; Lizardfish; [Place of collection: Mumbai and Kolkata]",68.59,13.53,0.00,1.03,,
+ifct,P008,Bommuralu,"Daggertooth pike conger, Dagger tooth pike conger; Eel; [Place of collection: Chennai, Goa and Vizag]",115.92,22.30,0.00,2.87,,
+ifct,P009,Cat fish,[Place of collection: Chennai],108.99,22.18,0.00,2.13,,
+ifct,P010,Chakla,"Cobia, Black kingfish, Black King Fish, Butterfish, Black salmon, Ling, Lemonfish, Crabeater, Prodigal son, Black bonito; Modasa; Neimeen; Muddus, Sakala, Sakla, Madusa; Cuddul verarl, Kadal viral; Peddah mottah; Perciform marine fish; [Place of collection: Mumbai, Vizag, Goa, Mandapam and Chennai]",97.04,20.21,0.00,1.68,,
+ifct,P011,Chappal,Unicorn leatherjacket; Filefish; [Place of collection: Goa],75.76,17.17,0.00,0.67,,
+ifct,P012,Chelu,"Rainbow runner, Rainbow yellowtail, Spanish jack, Hawaiian salmon; Poomeen, Chameen; Kulkul; Pelagic marine fish; [Place of collection: Vizag and Chennai]",87.48,20.02,0.00,0.70,,
+ifct,P013,Chembali,"Five lined snapper, Blue striped snapper, Fivelines Seaperch, Gold striped Sea-perch., Five line Snapper, Fivelined Snapper; Snapper; [Place of collection: Kochi]",97.04,20.06,0.00,1.77,,
+ifct,P014,Eri meen,"Crimson jobfish, Crimson snapper, Opakapaka, Hawaiian pink snapper; Snapper; [Place of collection: Kochi]",108.51,22.30,0.00,2.02,,
+ifct,P015,Gobro,"Coral Cod, Six barred Reef Cod, Thornycheek Grouper, Spinycheek Grouper, Grouper, Six barred Reef cod, Seabass, Coral Trout; Guri; Gobri; Kalawa, Varayan Kalawa; Gobra, Hekaru; Kalava; Serranid fish; [Place of collection: Mumbai and Goa]",86.52,19.37,0.00,0.88,,
+ifct,P016,Guitar fish,[Place of collection: Chennai],95.60,22.56,0.00,0.44,,
+ifct,P017,Hilsa,"Ilish, Hilsa, River Shad, Indian Shad, Hilsa Shad; Elish, Ilish; Ilishmach, Ilish, Hilsa, Ilisha, Hilsha; Chaski, Palla, Chaksi, Chakshi; Hilsa; Palasa, Paliya, Polasa, Palia, Mullasu; Paluva, Valava, Paliyah; Palva, Chaksi, Pala, Palla; Ilisha, Ilish, Jodi; Karuva ullam, Sevva, Dolum, Ullam, Oolum; Palasah, Polasa, Palasa, Palia; Herring; [Place of collection: Kochi]",258.84,21.80,0.00,18.49,,
+ifct,P018,Jallal,Arius; Catfish; [Place of collection: Vizag],100.38,21.55,0.00,1.46,,
+ifct,P019,Jathi vela meen,"Pig face Bream, Silver Spotted Sea Bream, Bridled Pigface bream; Pullivelameen, Kadu; Valamin; Karua; Emperor fish; [Place of collection: Mumbai and Mandapam]",108.27,22.45,0.00,1.92,,
+ifct,P020,Kadal bral,Indian lizardfish; Lizardfish; [Place of collection: Kochi],87.95,18.72,0.00,1.34,,
+ifct,P021,Kadali,Redfilament Threadfin bream; [Place of collection: Chennai],126.67,22.07,0.00,4.20,,
+ifct,P022,Kalamaara,"Indian threadfin, Monk Fish, Thread Fin, Row Ball, Bastard Mullets, Bamin, Threadfin, Indian Salmon, Giant Threadfin, Indian Threadfin; Dara, Darha, Dadha; Vahmeenu, Ramas; Thamuthi, Yeta, Wahmeen, Baameen, Norakudiyan, Bahmin; Dara, Darha, Chelna; Thiravalai, Vellaikala, Seenakalai, Tahlunkala, Panigala, Valanakala, Kala, Battihiravalai, Kondiangalai, Kattikalai; Podikimaga, Budathamaga, Boddumaga, Thellamaga, Sahala, Maga-booshee; Coastal fish; [Place of collection: Goa and Vizag]",125.00,20.89,0.00,4.54,,
+ifct,P023,Kalava,"Orange spotted grouper, Estuary cod; [Place of collection: Mandapam]",89.39,19.38,0.00,1.20,,
+ifct,P024,Kanamayya,"Blubberlip snapper, Maori Snapper, Multi coloured Snapper; Kathupiriyan; Cuttu pirium; Snapper; [Place of collection: Chennai and Vizag]",87.72,20.19,0.00,0.65,,
+ifct,P025,Kannadi paarai,"Diamond trevally, Indian threadfish, Indian threadfin, Mirror fish, Plumed trevally; Coastal marine fish; [Place of collection: Mumbai, Chennai and Mandapam]",101.10,22.09,0.00,1.27,,
+ifct,P026,Karimeen,"Green chromide, Pearlspot cichlid, Banded pearlspot, Striped chromide, Pearl Spot, Banded Etroplus; Elimeenu; Pitul; Kalunder; Karimeen, Erumeen, Irimeen; Cundahle; Seththa Kendai, Karassar, Sethakendai, Sethakandai, Palincha, Panishettai, Udupatti; Cashi mara, Cashimara, Duvvenachepa; Cichlid fish; [Place of collection: Kochi]",92.26,19.68,0.00,1.38,,
+ifct,P027,Karnagawala,Broad striped anchovy; [Place of collection: Vizag],86.76,19.52,0.00,0.84,,
+ifct,P028,Kayrai,"Yellowfin tuna, Yellow Fin Tuna; Gedar, Gedara; Bokado; Poovan choora; Kuppa, Gedar, Bugudi, Pimp; Soccer; Tuna; [Place of collection: Chennai]",108.51,20.15,0.00,3.00,,
+ifct,P029,Kiriyan,"Yellowtail scad, Northern yellowtail scad, One finlet scad, Deep trevally, Omaka, Horse Mackerel; Gondlu; Para; Pulli Parai, Para, Warri parah, Vennai Parai, Semaparai, Parai, Thenga Parai, Komaraparai, Kilisai; Manjal Parai, Pulli Parai, Para; Small inshore marine fish; [Place of collection: Kochi]",132.89,22.49,0.00,4.70,,
+ifct,P030,Kite fish,Shortfin devil ray; Ray; [Place of collection: Kochi],98.71,23.07,0.00,0.56,,
+ifct,P031,Korka,"Crescent grunter, Target Fish, Crescent Bass, Crescent Perch, Tiger Bass, Jarbua Terapon, Tiger perch, Squeaking Perch; Boorgooni, Jeerpye; Garangeta, Naida; Gore; Kotha, Marakkeri, Keeri, Kallakeedam; Naveri Hajam, Naveri; Gahnu, Galikooru; Mattakkeechan, Palin keetchan, Kovakeechan, Palinkeechan, Pootankeeli, Keeli, Keechan, Chavathinnikeeli; Baikeeli, Kilipothu, Ganam, Samudrakili; Grunter; [Place of collection: Kochi]",126.20,23.72,0.00,3.36,,
+ifct,P032,Kulam paarai,"Yellowspotted trevally, Yellowspotted kingfish, Goldspotted trevally, Tarrum; Large inshore marine fish; [Place of collection: Chennai]",119.74,21.62,0.00,3.60,,
+ifct,P033,Maagaa,Striped threadfin; Marine fish; [Place of collection: Vizag],87.48,20.11,0.00,0.67,,
+ifct,P034,Mackerel,"Indian mackerel, Rake Gillat Mackerel; Bangada; Bangda, Bangadei, Bangada; Ayila, Ayala, Ayla; Kaulagedar, Bangada, Kaula Gedar; Karan kita; Kanangeluthi, Kumala, Kumla, Augalai; Kannangadatha, Kanagurta, Kamangadachalu; Mackerel; [Place of collection: Chennai, Mumbai and Goa]",101.10,21.51,0.00,1.53,,
+ifct,P035,Manda clathi,Reticulated unicornfish; [Place of collection: Mandapam],95.12,21.27,0.00,1.00,,
+ifct,P036,Matha,"Elongate surgeonfish, Blue lined surgeonfish; Pala; Marine tropical fish; [Place of collection: Chennai and vizag]",92.97,21.17,0.00,0.79,,
+ifct,P037,Milk fish,"Milkfish, Milk fish, White Mullet; Humeen, Hoomeenu, Hoo meenu; Poomeen; Pal kendai, Palmeen, Tulu candul, Thullu, Palai meen; Pallabontha, Polah bontah; [Place of collection: Mandapam]",105.64,23.66,0.00,1.09,,
+ifct,P038,Moon fish,"Moonfish; Vaniani; Hakkimeen; Ambattan parah; Ambutan parah, Amattikatti; Perch fish; [Place of collection: Mumbai]",125.72,20.74,0.00,4.69,,
+ifct,P039,Mullet,"Flathead grey mullet, Flathead Greymullet; Ain; Bhomat, Boi, Gandhia; Mala; Tirutha, Thirutha, Tiruta; Boi, Mangan, Boita, Pilas, Bol, Pilsa, Sherto; Madavai, Kasmeen, Manla; Kathiparega, Kathi parenga; Food fish; [Place of collection: Mumbai, Kochi and Chennai]",93.93,20.23,0.00,1.32,,
+ifct,P040,Mural,"Houndfish, Crocodile needlefish, Giant Longtom; Oola, Keran; Tol; Pahmum kolah; Wahlah kuddera; Game fish; [Place of collection: Mandapam]",82.46,19.04,0.00,0.58,,
+ifct,P041,Myil meen,"Indo Pacific sailfish, Peacock Fish, Sail Fish, Indian Sail Fish, Sailfish; Tadmachhi, Kunga; Ola meen, Olameen; Tadmasa; Sailfish; [Place of collection: Chennai and Mandapam]",97.99,22.89,0.00,0.56,,
+ifct,P042,Nalla bontha,"Giant Rock Cod, Malabar Rockcod, Brown-spotted Grouper, Estuary Rock cod, Malabar Grouper, Morgan`s Cod, Blackspot Cod, Malabar Reef Cod, Speckled Grouper., Blacksaddle Grouper, Malabar Cod, Speckled Grouper, Grouper, Greasy Grouper, Blackspotted Rockcod, Malabar Reefcod, Estuary Cod, Malabar Rock Cod; Wekhali, Wekhanu., Wekhru; Gopra, Muni Meenu; Gobri; Kalawa; Gobra, Hekru, Hekaru; Bhala; Punni calawah, Kalava, Punni calawah; Bontha, Kodi Punju, Bontoo; Large serranid fish; [Place of collection: Vizag]",87.00,19.82,0.00,0.72,,
+ifct,P043,Narba,"Bigeye trevally, Bigeye jack, Great trevally, Six banded trevally, Dusky jack, Dusk Jack, Tille Jack; Bangada, Kala Bangada; Gondlu; Maduthala, Varayan para, Kuluvel; Kala Bangada; Large marine fish; [Place of collection: Vizag and Mumbai]",103.25,21.95,0.00,1.60,,
+ifct,P044,Paarai,"Blacktip trevally, Blacktip kingfish, Yellowtail kingfish; Large marine fish; [Place of collection: Chennnai]",103.97,21.58,0.00,1.84,,
+ifct,P045,Padayappa,"Rough triggerfish, Spotted oceanic triggerfish; Triggerfish; [Place of collection: Kochi]",86.04,19.70,0.00,0.69,,
+ifct,P046,Pali kora,Panna croaker; [Place of collection: Kochi],94.17,19.25,0.00,1.81,,
+ifct,P047,Pambada,"Savalai hairtail, Small head hairtail, Small Headed Hairtail, Small Headed Ribbon Fish, Small headed Ribbonfish, Silver Ribbon Fish, Hair Tail, Ribbon Fish; Patti; Pambole; Bale; Vellasavala, Thalayan, Vellathalayan, Karupputhalayan, Karuppusavala, Vellithalayan; Baia, Wagti, Bala; Chavalai, Karthigaivalai, Savalai, Mattachavalai, Olavalai; Nadippussavallu, Peddasavallu, Yellasavallu, Savala, Kothisavallu; Snapper; [Place of collection: Chennai and Kochi]",128.35,21.95,0.00,4.44,,
+ifct,P048,Pandukopa,"Larimichthys polyactis, Redlip croaker, Small yellow croaker, Little yellow croaker, Yellow corvina; Croaker; [Place of collection: Vizag]",86.04,19.73,0.00,0.65,,
+ifct,P049,Parava,"False trevally, Big jawed jumper, Big jawed jumber; Dhangari, Dangri, Chapla, Katli; Saundala, Adai minu; Adavu, Parava; Saundala, Pervi; Sudumbu, Suthumbu, Guthippu; Sudumbu, Sudumbala, Kuthuppu; [Place of collection: Kochi]",111.62,21.50,0.00,2.74,,
+ifct,P050,Parcus,"Indian halibut, Indian Turbot; Hario, Dataro; Box Lep; Zhipali, Bhakas; Erumei nakku; Noree nalaka; Large primitive flatfish; [Place of collection: Mumbai]",86.28,19.87,0.00,0.62,,
+ifct,P051,Parrot fish,"Blue barred parrotfish, Blue trim parrotfish, Cream parrotfish, Globe headed parrotfish, Green blotched parrotfish, Yellow scale parrotfish, Bluechin parrotfish; Chandi; Marine fish; [Place of collection: Mandapam]",89.63,20.82,0.00,0.57,,
+ifct,P052,Perinkilichai,"Pinjalo Snapper; Mette mirrei, Polei oolavai; Snapper; [Place of collection: Chennai]",92.50,20.89,0.00,0.87,,
+ifct,P053,Phopat,"Mahi mahi, Common dolphinfish, Common Dolphin Fish; Pomfret; Halwa, Adadio, Himra Machhi; Thondrotte; Affunose, Avoli, Karuvoli, Vellavoli; Abanoos, Halwa, Himra Masa; Baal; Karuvaval, Vavval, Vanna, Vellaivaval, Badahlan, Koppurai kula; Chanduva, Nallachanduva, Thellachanduva; Surface dwelling ray finned fish; [Place of collection: Chennai, Kochi, Vizag and Mumbai]",101.34,22.05,0.00,1.33,,
+ifct,P054,Piranha,[Place of collection: Kochi],131.21,20.46,0.00,5.43,,
+ifct,P055,"Pomfret, black","Black pomfret, Brown Pomfret; Halwa, Adadio; Thondrotte; Halwa; Vellavoli, Karuvolli, Avoli, Karauthakoli; Vellaivaval, Vavval, Karuvaval; Nallachanduva, Chanduva, Thellachanduva; Pomfret; [Place of collection: Kochi, Chennai, Mumbai, Mandapam, Vizag and Goa]",123.09,18.91,0.00,4.83,,
+ifct,P056,"Pomfret, snub nose","Snubnose Pampano; Peeyada; Ladagoo, Katattitaka; Kootili; Coastal fish; [Place of collection: Mumbai]",89.63,21.05,0.00,0.46,,
+ifct,P057,"Pomfret, white","Silver pomfret, White pomfret; Chandi, Pomfret; Vichuda; Thondrotte, Thondrette, Manji; Surangat; Vellavoli, Karuvolli, Avoli, Velutha-avoli; Saranga, Chandava, Paplet; Chandee, Ghia; Vella vavval, Karuvaval, Vavval, Vellaivaval; Thellachanduva, Nallachanduva, Chanduva; Butterfish; [Place of collection: Mumbai and Goa]",122.61,19.02,0.00,5.12,,
+ifct,P058,Pranel,"Whipfin silver biddy, Deepbody mojarra; Paiya; Pranjin; Charbat; Oodan; Mojarras; [Place of collection: Kochi]",96.80,19.69,0.00,1.89,,
+ifct,P059,Pulli paarai,"Golden trevally, Golden kingfish, Banded trevally, King trevally, Golden Toothless Trevally, Horse Mackerel; Gondlu; Para; Pilli parah, Pathi Parah, Para, Thenga Parai, Vennai Parai, Kilisai, Pathi parah, Komaraparai, Pulli Parai, Semaparai, Parai; Pulli Parai, Para, Poloosoo parah, Manjal Parai; Large marine fish; [Place of collection: Chennai]",95.36,20.06,0.00,1.55,,
+ifct,P060,Queen fish,"Doubledotted Queenfish, Talang Queenfish; Sag; Palaimeenu, Diana; Palameen; Dagol; Toal parah, Katta; Pasupara; Coastal fish; [Place of collection: Chennai, Kochi and Goa]",95.60,20.97,0.00,1.17,,
+ifct,P061,Raai fish,"Atlantic tripletail, Brown Tripletail, Tripple Tail, Brown Tripletail; Katkola; Parrandee; Chota Bekkut; Musalli; Warm water marine fish; [Place of collection: Chennai and Vizag]",102.77,21.61,0.00,1.69,,
+ifct,P062,Raai vanthu,"Brown spotted reef cod, Souman, Brownspotted grouper, Brown spotted grouper, Brownspotted rockcod., Brown spotted reef cod; Vekharu, Vekhala; Guri; Gobri; Pulli Kalawa, Kalava; Hekru, Hekaru; Kalava; Grouper fish; [Place of collection: Vizag]",97.99,19.39,0.00,2.17,,
+ifct,P063,Rani,"Freshwater gamefish; [Place of collection: Goa, Kochi, Chennai, Mumbai, Vizag and Mandapam]",90.11,18.83,0.00,1.49,,
+ifct,P064,"Ray fish, bow head, spotted","Bowmouth guitarfish, Shark ray, Mud skate, Bowmouthed Guitarfish; Sakshi, Lanj; Mun ultava; Pottila sora, Nella dindi; Ray; [Place of collection: Kochi]",83.41,19.03,0.00,0.70,,
+ifct,P065,Red snapper,"Mangrove red snapper, Mangrove jack, Creek red bream, Stuart evader, Dog bream, Purple sea perch, Purple seaperch, Red bass, Red bream, Red perch, Red reef bream, River roman, Rock barramundi, Yellow snapper, Silver spotted Grey Snapper, Gray Snapper, Malabar Red Snapper; Ratado; Chembali; Murumeen, Pahari, Chemballi; Tambusa; Paruthikanni, Patani-keeli, Karuvalai, Nethiprion, Paruthivala Meen, Chenganni, Vekkattai, Thokkal, Cheppili, Karva, Adallu, Vekkattai, Antaleyan; Rangu, Thundava., Rangoo, Thundava, Kaliviyya; Snapper; [Place of collection: Vizag]",104.45,22.79,0.00,1.34,,
+ifct,P066,"Red snapper, small","Lunar-tailed bigeye, Goggle eye, Moontail bullseye, Red Bullseye, Lunar-tailed Bullseye, Red Big Eye, Crescent Tail Bigeye, Lunar Tailed Bigeye, Dusky-finned Bullseye, Spot-finned Bull`s Eye., Moontail Bullseye, Bigeye Snapper, Black-spot Big-eye, Lunar-tailed Glasseye, Duskyfin Bulleye, Goggle-eye; Alta-punti; Dorali, Ratado; Disco Meenu; Bullsai; Tambi; Kakkasi, Paswa; Bochelu; Marine fish; [Place of collection: Goa]",107.79,21.50,0.00,2.30,,
+ifct,P067,Sadaya,"Orbicular batfish, Circular batfish, Orbiculate batfish, Round batfish, Orbic batfish; Aquarium fish; [Place of collection: Chennai]",110.42,20.68,0.00,2.97,,
+ifct,P068,Salmon,Atlantic salmon; Ray-finned fish; [Place of collection: Goa],172.32,20.97,0.00,9.86,,
+ifct,P069,Sangada,Japanese threadfin bream; Marine fish; [Place of collection: Chennai],105.88,20.26,0.00,2.67,,
+ifct,P070,Sankata paarai,"Giant trevally, Lowly trevally, Barrier trevally, Giant kingfish, Ulua, Yellowfin Jack; Kuluvel; Jarradandree-parah; Large marine fish; [Place of collection: Chennai]",103.73,21.87,0.00,1.68,,
+ifct,P071,Sardine,"Indian oil sardine, Malabar Sardine; Tarali; Baige, Buthai, Boothai, Tarli-multhi; Nalla Mathi, Nallamathi; Haird, Kanat, Tarali, Tarli, Haid; Nonalai, Charlay, Paycharlay, Paichalai; Noona-kavallu; Ray-finned fish; [Place of collection: Kolkata]",152.25,17.91,0.00,8.99,,
+ifct,P072,Shark,"Spot-tail shark, Sorrah shark; Shirat; Balda, Pisori; Katta-sorrah; Requiem shark; [Place of collection: Goa and Mandapam]",95.12,21.60,0.00,0.83,,
+ifct,P073,"Shark, hammer head",Great hammerhead; Hammerhead shark; [Place of collection: Kolkata],103.25,23.40,0.00,0.80,,
+ifct,P074,"Shark, spotted","Zebra shark; Shinawala, Magara, Shinvala, Musia; Poochasurav, Zebra Sravu; Shinvala, Mushi, Shinavla; Komarasi-sorrah, Coruhgun-sorrah, Korangum Sorrah; Potrava, Komarasi, Orookoolti-sorrah, Pollee-makum, Komrasi, Pollee Makum, Corootoolti-sorrah; Carpet shark; [Place of collection: Kochi]",91.78,20.95,0.00,0.75,,
+ifct,P075,Shelavu,"Pickhandle barracuda, Banded Barracuda, Sea Pike; Bhungar; Kandai; Cheelahoo; Ghalse, Badvi, Jaban-tal, Badri; Jellow; [Place of collection: Chennai, Goa, Vizag and Kochi]",106.60,22.46,0.00,1.74,,
+ifct,P076,Silan,"Silond catfish, Silondia Vacha, Silong Catfish; Dhain, Silan, Utti, Koch; Silond; Schilbid catfish; [Place of collection: Kolkata]",151.29,22.72,0.00,6.68,,
+ifct,P077,Silk fish,"Alfonsino, Alfonsin, Longfinned beryx, Red bream, Imperador; Deep oceanic fish; [Place of collection: Kochi]",97.51,20.65,0.00,1.53,,
+ifct,P078,Silver carp,"Silver carp; Belli-gende; Freshwater cyprinid fish, Asian carp; [Place of collection: Kolkata]",132.65,21.71,0.00,5.17,,
+ifct,P079,Sole fish,Largescale tongue-sole; Lep; Tonguefish; [Place of collection: Vizag],87.72,19.05,0.00,1.18,,
+ifct,P080,Stingray,"Common stingray, Blue Stingray; Thirukay; Stingray; [Place of collection: Kolkata]",97.51,23.98,0.00,0.68,,
+ifct,P081,Tarlava,"Spotted sicklefish, Moon-fish, Spotted Bat-fish, Spotted Drepane; Chand; Therattai, Painthi; Thotha, Thetti; [Place of collection: Chennai and Vizag]",98.95,21.72,0.00,1.20,,
+ifct,P082,Tholam,"Minstrel sweetlips, Grey Sweetlip; Harvil; Gamefish; [Place of collection: Chennai and Mandapam]",103.25,20.78,0.00,2.13,,
+ifct,P083,Tilapia,"Nile tilapia; Elapi, Japani kawoi; Tilapia; Tilapia, Cichlid fish; [Place of collection: Kolkata]",83.41,18.48,0.00,1.08,,
+ifct,P084,Tuna,"Mackerel tuna, Kawakawa, Little Tuna; Gedar; Bokado; Choora; Chuki, Bugudi, Ohaman, Gedar, Kuppa; Choori-min, Suraly; Ray-finned bony fish; [Place of collection: Chennai, Vizag, Goa, Mandapam and Kochi]",112.33,24.50,0.00,1.44,,
+ifct,P085,"Tuna, striped","Skipjack tuna, Aku, Arctic bonito, Mushmouth, Oceanic bonito, Striped tuna, Victor fish, Oceanic Skipjack; Gedar; Bokado; Choora; Kuppa, Bugudi, Gedar; Medium-sized perciform fish; [Place of collection: Kochi]",96.32,21.28,0.00,1.12,,
+ifct,P086,Valava,"Whitefin wolf-herring, Tenpounder; Kiru-wahlah; Wahlah; Herring; [Place of collection: Vizag]",97.99,21.80,0.00,1.06,,
+ifct,P087,Vanjaram,"Narrow-barred Spanish mackerel, Barred Seer Fish, King Seer; Surmai, Chhapri; Thavar; Ayakora, Chumbum; Anjai, Anjari, Surmai, Towar; Ah-ku-lah, Mah-wu-leachi, Mavulasi, Seela, Mah-wu-laachi, Vanjiram, Velra, Konam; Vanjiramu, Konema, Varimeen, Yellari, Vellikannan, Ayaokaro; Mackerel; [Place of collection: Chennai and Goa]",136.23,22.28,0.00,5.18,,
+ifct,P088,Vela meen,Green jobfish; Snapper; [Place of collection: Mandapam],128.35,22.16,0.00,4.34,,
+ifct,P089,Vora,Streaked spinefoot; Kunar; Ottah; Warahwah; Rabbitfish; [Place of collection: Chennai and Mandapam],100.86,20.14,0.00,2.14,,
+ifct,P090,Whale shark,"Tiger shark; Bhoovar, Bhoavar, Pattari; Pullia, Pilithatte; Valiasurav, Vorimiyaru, Kalla-sravu, Kalvari, Pulli Sravu, Kellan, Kethalan, Valiyasurav; Waghbeer; Wulluven Sorrah; Kettalam Sorrah, Kethalam-sorrah, Kethulam, Kurangu-sorrah, Vulluvan-sorrah; Requiem shark; [Place of collection: Mandapam]",95.84,21.83,0.00,0.82,,
+ifct,P091,Xiphinis,"Swordfish, Broadbills, Sword Fish; Kunga, Tadmachhi; Kuthirameen; Tadmasa; Billfish, Gamefish, Predatory fish; [Place of collection: Mandapam]",88.43,19.82,0.00,0.88,,
+ifct,P092,"Eggs, Cat fish",Butter catfish; Sheatfish; [Place of collection: Kolkata],143.40,24.68,0.00,5.28,,
+ifct,Q001,Crab,Florida stone crab; [Place of collection: Kolkata],81.98,10.23,0.00,1.41,,
+ifct,Q002,"Crab, sea","Three-spot swimming crab, Blood-spotted swimming crab, Red-spotted swimming crab; Large crab; [Place of collection: Chennai]",67.64,15.36,0.00,0.60,,
+ifct,Q003,"Lobster, brown","Flathead lobster, Bay lobster, Moreton Bay bug; Slipper lobster; [Place of collection: Chennai]",69.79,15.96,0.00,0.56,,
+ifct,Q004,"Lobster, king size","Flathead lobster, Bay lobster, Moreton Bay bug; Slipper lobster; [Place of collection: Chennai, Vizag, Mumbai, Kochi, Mandapam and Goa]",89.63,18.54,0.00,0.78,,
+ifct,Q005,Mud crab,"Mangrove crab, Mud crab; [Place of collection: Goa]",45.41,10.00,0.00,0.55,,
+ifct,Q006,Oyster,"Indian backwater oyster; Muringa, Muru; Kalungu, Ali, Patti; [Place of collection: Goa]",60.23,9.51,0.00,2.44,,
+ifct,Q007,"Tiger prawns, brown",Marine crustacean; [Place of collection: Chennai],65.25,14.85,0.00,0.56,,
+ifct,Q008,"Tiger Prawns, orange","Giant tiger prawn, Asian tiger shrimp; Marine crustacean; [Place of collection: Kochi]",64.53,14.25,0.00,0.74,,
+ifct,R001,"Clam, green shell","Asian green mussel, Green-lipped mussel; Kallumalkai, Kadukka; Mussel, Bivalve; [Place of collection: Goa]",58.08,12.14,0.00,0.98,,
+ifct,R002,"Clam, white shell, ribbed",Asiatic Hard Clam; [Place of collection: Goa],59.75,11.82,0.00,1.34,,
+ifct,R003,Octopus,Common octopus; [Place of collection: Mumbai],79.83,14.71,0.00,1.12,,
+ifct,R004,"Squid, black",[Place of collection: Kolkata],80.07,16.10,0.00,1.07,,
+ifct,R005,"Squid, hard shell",Pharaoh cuttlefish; Large cuttlefish; [Place of collection: Goa],76.48,16.82,0.00,0.93,,
+ifct,R006,"Squid, red",[Place of collection: Chennai and Goa],78.63,16.25,0.00,1.44,,
+ifct,R007,"Squid, white, small","Indian Ocean Squid, Indian Squid; [Place of collection: Mumbai]",84.37,17.41,0.00,1.15,,
+ifct,S001,Cat fish,"Eel-tailed catfish, Dewfish, Freshwater catfish, Jewfish, Tandan; Catfish; [Place of collection: Kolkata]",123.80,15.86,0.00,6.24,,
+ifct,S002,Catla,"Major carp; Baudhekra, Bhakua, Baudhekera; Katla, Pla Kra Ho; Tambra, Thambra, Bawas; Catla, Bhakur, Boassa, Katla, Chepti; Catla; Karakatla, Catla; Tambra, Pla Kra Ho, Catla, Katala; Bhakur, Bahkur, Barkur; Theil, Theila, Thaila; Meen, Yamaneri Kendai, Theppu Meenu, Japan Kendai, Japankendai, Thoppa, Thoppa-meen, Theppu-meenu, Thoppu Meen, Koora Kendai, Koora-kendai, Kanavi, Thoppameenu; Botcha, Botchee, Bocha, Bacha, Krishnabotcha; Asian freshwater fish; [Place of collection: Kolkata]",94.17,17.94,0.00,2.15,,
+ifct,S003,Freshwater Eel,"European eel; Eel, Catadromous fish; [Place of collection: Kolkata]",107.79,20.41,0.00,2.63,,
+ifct,S004,Gold fish,"Goldfish; Freshwater fish, Aquarium fish; [Place of collection: Kolkata and Bangaluru]",94.65,16.91,0.00,2.94,,
+ifct,S005,Pangas,Iridescent shark; Shark catfish; [Place of collection: Kolkata],203.63,17.12,0.00,16.77,,
+ifct,S006,Rohu,"Rohu, Rui, Roho labeo; Rou, Rohiti, Rohitii, Row, Rau, Rui; Rahu, Rui, Ruee; Bhobhari, Rohu; Rohu; Rohitham, Rohu; Row; Rohu, Tambada Massa, Tambada Masa, Tambada-massa; Rohu, Ruhu, Rohi; Dumra, Tapra, Rohu, Dhambra; Kannadi Kendai, Kennadi Kendai; Bocha-gandumeenu; Carp fish; [Place of collection: Kolkata]",102.29,19.71,0.00,2.39,,
+ifct,S007,Crab,Small shore crab; [Place of collection: Kolkata],78.15,13.23,0.00,0.89,,
+ifct,S008,"Prawns, big","Giant freshwater prawn, Giant river prawn; Palaemonid freshwater prawn, Shrimp; [Place of collection: Bengaluru]",90.82,19.24,0.00,0.52,,
+ifct,S009,"Prawns, small",Shrimp; [Place of collection: Mumbai],70.98,13.07,0.00,0.78,,
+ifct,S010,Tiger prawns,Shrimp; [Place of collection: Kolkata],67.88,14.24,0.00,0.66,,
+ifct,T001,Coconut oil,,0.00,0.00,0.00,100.00,,
+ifct,T002,Corn oil,,0.00,0.00,0.00,100.01,,
+ifct,T003,Cotton seed oil,,0.00,0.00,0.00,99.99,,
+ifct,T004,Gingelly oil,,0.00,0.00,0.00,100.00,,
+ifct,T005,Groundnut oil,,0.00,0.00,0.00,100.00,,
+ifct,T006,Mustard oil,,0.00,0.00,0.00,100.00,,
+ifct,T007,Palm oil,,0.00,0.00,0.00,100.00,,
+ifct,T008,Rice bran oil,,0.00,0.00,0.00,100.00,,
+ifct,T009,Safflower oil,,0.00,0.00,0.00,100.01,,
+ifct,T010,Safflower oil (blended),,0.00,0.00,0.00,100.00,,
+ifct,T011,Soyabean oil,,0.00,0.00,0.00,100.00,,
+ifct,T012,Sunflower oil,,0.00,0.00,0.00,100.00,,
+ifct,T013,Ghee,,0.00,0.00,0.00,100.00,,
+ifct,T014,Vanaspati,,0.00,0.00,0.00,100.00,,

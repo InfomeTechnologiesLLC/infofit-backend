@@ -12,8 +12,15 @@ from .models import Meal
 
 
 class MealItemInputSerializer(serializers.Serializer):
-    fdc_id = serializers.IntegerField(min_value=1)
+    """One food: `food_id` ("indb:ASC144", "ifct:A003", "usda:123") or, from older app versions, `fdc_id`."""
+    fdc_id = serializers.IntegerField(min_value=1, required=False)
+    food_id = serializers.RegexField(r"^(indb|ifct|usda):[A-Za-z0-9_.-]{1,20}$", required=False)
     grams = serializers.DecimalField(max_digits=8, decimal_places=1, min_value=Decimal("0.1"), max_value=Decimal("5000"))
+
+    def validate(self, data):
+        if ("fdc_id" in data) == ("food_id" in data):
+            raise serializers.ValidationError("Send exactly one of food_id or fdc_id for each item.")
+        return data
 
 
 class MealInputSerializer(serializers.Serializer):

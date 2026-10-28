@@ -11,6 +11,13 @@ class AutomationSettings(models.Model):
     reengagement_enabled = models.BooleanField(default=False)
     hr_digest_enabled = models.BooleanField(default=True)
     send_minute = models.PositiveSmallIntegerField(default=540, validators=[MaxValueValidator(1439)])  # 09:00 local
+    # "You're 1,200 steps from your goal" in the evening, only when today's steps synced recently.
+    goal_nudge_enabled = models.BooleanField(default=False)
+    goal_nudge_minute = models.PositiveSmallIntegerField(default=1140, validators=[MaxValueValidator(1439)])  # 19:00
+    # "Challenge ends tomorrow" and "new challenge you can join", at send_minute.
+    challenge_alerts_enabled = models.BooleanField(default=False)
+    # "Had lunch? Log it" shortly after the employee's own usual meal times, learned from saved meals.
+    meal_prompts_enabled = models.BooleanField(default=False)
     updated_at = models.DateTimeField(auto_now=True)
 
 

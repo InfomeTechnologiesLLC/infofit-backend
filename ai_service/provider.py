@@ -1,4 +1,4 @@
-"""Server-side Gemini adapter for IVA chat and photo descriptions."""
+"""Server-side Gemini adapter for IVA chat, tools (function calling), streaming and photo descriptions."""
 import json
 import re
 import urllib.error
@@ -6,6 +6,10 @@ import urllib.request
 
 from django.conf import settings
 from rest_framework.exceptions import APIException
+
+API_ROOT = "https://generativelanguage.googleapis.com/v1beta/models/"
+PROVIDER_ERRORS = (urllib.error.HTTPError, urllib.error.URLError, OSError, TimeoutError, ValueError,
+                   KeyError, IndexError, TypeError, json.JSONDecodeError)
 
 
 class AiUnavailable(APIException):
@@ -34,9 +38,9 @@ def _parts(content):
     return parts
 
 
-def _request_body(messages):
-    instructions = []
-    contents = []
+def to_contents(messages):
+    """OpenAI-style [{"role", "content"}] -> (system text, Gemini contents)."""
+    instructions, contents = [], []
     for message in messages:
         role = message["role"]
         if role == "system":
@@ -45,33 +49,104 @@ def _request_body(messages):
             contents.append({"role": "model" if role == "assistant" else "user", "parts": _parts(message["content"])})
         else:
             raise ValueError("Unsupported message role")
-    body = {"contents": contents, "generationConfig": {"maxOutputTokens": 400, "temperature": 0.3}}
-    if instructions:
-        body["systemInstruction"] = {"parts": [{"text": "\n".join(instructions)}]}
+    return "\n".join(instructions), contents
+
+
+def _body(system, contents, max_tokens=400, temperature=0.3, tools=None, json_mode=False):
+    config = {"maxOutputTokens": max_tokens, "temperature": temperature}
+    if json_mode:
+        config["responseMimeType"] = "application/json"
+    body = {"contents": contents, "generationConfig": config}
+    if system:
+        body["systemInstruction"] = {"parts": [{"text": system}]}
+    if tools:
+        body["tools"] = [{"functionDeclarations": tools}]
+        body["toolConfig"] = {"functionCallingConfig": {"mode": "AUTO"}}
     return body
 
 
-def complete(messages, model, timeout=35):
+def _request_body(messages):
+    """Kept for callers and tests that build a plain request from chat messages."""
+    system, contents = to_contents(messages)
+    return _body(system, contents)
+
+
+def _check(model):
     key = settings.GEMINI_API_KEY
     if not key or not model:
         raise AiUnavailable("IVA is not configured on this server.")
     if not re.fullmatch(r"[A-Za-z0-9._-]+", model):
         raise AiUnavailable("IVA model configuration is invalid.")
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
-    request = urllib.request.Request(
-        url,
-        data=json.dumps(_request_body(messages)).encode("utf-8"),
-        method="POST",
-        headers={"x-goog-api-key": key, "Content-Type": "application/json"},
-    )
+    return key
+
+
+def _request(model, body, stream=False):
+    key = _check(model)
+    url = API_ROOT + model + (":streamGenerateContent?alt=sse" if stream else ":generateContent")
+    return urllib.request.Request(url, data=json.dumps(body).encode("utf-8"), method="POST",
+                                  headers={"x-goog-api-key": key, "Content-Type": "application/json"})
+
+
+def _candidate_parts(payload):
+    candidates = payload.get("candidates") or []
+    if not candidates:
+        return []
+    return [p for p in (candidates[0].get("content") or {}).get("parts") or [] if isinstance(p, dict)]
+
+
+def generate(system, contents, model, tools=None, max_tokens=1024, timeout=35, json_mode=False):
+    """One model turn. Returns the raw list of parts (text and/or functionCall)."""
+    request = _request(model, _body(system, contents, max_tokens, tools=tools, json_mode=json_mode))
     try:
         with urllib.request.urlopen(request, timeout=timeout) as response:
             payload = json.load(response)
-        parts = payload["candidates"][0]["content"]["parts"]
-        answer = "".join(part.get("text", "") for part in parts if isinstance(part, dict)).strip()
-        if not answer:
-            raise ValueError("Empty model response")
-        return answer
-    except (urllib.error.HTTPError, urllib.error.URLError, OSError, TimeoutError, ValueError, KeyError, IndexError, TypeError, json.JSONDecodeError) as exc:
+        return _candidate_parts(payload)
+    except PROVIDER_ERRORS as exc:
         # Provider response bodies may contain account or request details. Never relay them.
         raise AiUnavailable() from exc
+
+
+def stream(system, contents, model, tools=None, max_tokens=1024, timeout=60):
+    """Yield parts as Gemini streams them (server-sent events). Text arrives in small pieces."""
+    request = _request(model, _body(system, contents, max_tokens, tools=tools), stream=True)
+    try:
+        with urllib.request.urlopen(request, timeout=timeout) as response:
+            for raw in response:
+                line = raw.decode("utf-8").strip()
+                if not line.startswith("data:"):
+                    continue
+                data = line[5:].strip()
+                if not data or data == "[DONE]":
+                    continue
+                yield from _candidate_parts(json.loads(data))
+    except PROVIDER_ERRORS as exc:
+        raise AiUnavailable() from exc
+
+
+def text_of(parts):
+    return "".join(part.get("text", "") for part in parts if isinstance(part.get("text"), str)).strip()
+
+
+def complete(messages, model, timeout=35, max_tokens=400, json_mode=False):
+    """Plain text answer for a list of chat messages."""
+    try:
+        system, contents = to_contents(messages)
+    except (ValueError, KeyError, TypeError) as exc:
+        raise AiUnavailable() from exc
+    answer = text_of(generate(system, contents, model, max_tokens=max_tokens, timeout=timeout, json_mode=json_mode))
+    if not answer:
+        raise AiUnavailable()
+    return answer
+
+
+def complete_json(messages, model, timeout=35, max_tokens=600):
+    """Ask for a JSON object. Returns a dict, or None if the model returned something else."""
+    text = complete(messages, model, timeout=timeout, max_tokens=max_tokens, json_mode=True)
+    start, end = text.find("{"), text.rfind("}")
+    if start == -1 or end <= start:
+        return None
+    try:
+        value = json.loads(text[start:end + 1])
+    except ValueError:
+        return None
+    return value if isinstance(value, dict) else None
