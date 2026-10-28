@@ -26,4 +26,6 @@ urlpatterns = [
     path("api/v1/notifications/", include("notifications.urls")),
     path("api/v1/nutrition/", include("nutrition.urls")),
     path("api/v1/wellness/", include("wellness.urls")),
+    path("api/v1/automations/", include("automations.urls")),
+    path("api/v1/assistant/", include("assistant.urls")),
 ]

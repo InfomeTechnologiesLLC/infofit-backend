@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     "notifications",
     "nutrition",
     "wellness",
+    "automations",
+    "assistant",
     "portal",
 ]
 
@@ -135,6 +137,7 @@ CELERY_RESULT_BACKEND = None
 CELERY_BEAT_SCHEDULE = {
     "deliver-notifications": {"task": "notifications.tasks.deliver_pending_pushes", "schedule": 60.0},
     "create-wellness-reminders": {"task": "wellness.tasks.create_wellness_reminders", "schedule": 300.0},
+    "run-scheduled-automations": {"task": "automations.tasks.run_scheduled_automations", "schedule": 300.0},
     "create-weekly-bmi-reminders": {"task": "wellness.tasks.create_weekly_bmi_reminders", "schedule": 300.0},
     "create-challenge-reminders": {"task": "challenges.tasks.create_challenge_reminders", "schedule": 300.0},
 }

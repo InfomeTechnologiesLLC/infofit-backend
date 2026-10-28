@@ -51,6 +51,60 @@ def _meal_json(meal):
     }
 
 
+def create_meal(user, data):
+    """Create a meal from validated input and return (meal, created).
+
+    Shared by the meals API and by confirmed assistant proposals so both pass the same checks.
+    A replay with the same request id returns the existing meal; a changed replay raises MealConflict.
+    """
+    payload = {
+        "kind": data["kind"], "occurred_at": data["occurred_at"].isoformat(),
+        "time_zone": data["time_zone"], "notes": data.get("notes", ""),
+        "items": [{"fdc_id": item["fdc_id"], "grams": str(item["grams"])} for item in data["items"]],
+    }
+    digest = hashlib.sha256(json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+    existing = Meal.objects.filter(user=user, client_request_id=data["client_request_id"]).prefetch_related("items").first()
+    if existing:
+        if existing.payload_hash != digest:
+            raise MealConflict()
+        return existing, False
+
+    resolved = []
+    for item in data["items"]:
+        food = food_details(item["fdc_id"])
+        grams = item["grams"]
+        factor = grams / Decimal(100)
+        resolved.append({
+            "fdc_id": food["fdc_id"], "food_name": food["description"],
+            "data_type": food["data_type"], "grams": grams,
+            "kcal_per_100g": _two(food["kcal_per_100g"]),
+            "kcal": _two(Decimal(str(food["kcal_per_100g"])) * factor),
+            "protein_g": _two(Decimal(str(food["protein_per_100g"])) * factor) if food["protein_per_100g"] is not None else None,
+            "carbohydrate_g": _two(Decimal(str(food["carbohydrate_per_100g"])) * factor) if food["carbohydrate_per_100g"] is not None else None,
+            "fat_g": _two(Decimal(str(food["fat_per_100g"])) * factor) if food["fat_per_100g"] is not None else None,
+        })
+    totals = {}
+    for name in ("protein_g", "carbohydrate_g", "fat_g"):
+        totals[name] = sum((item[name] for item in resolved), Decimal(0)) if all(
+            item[name] is not None for item in resolved) else None
+    try:
+        with transaction.atomic():
+            meal = Meal.objects.create(
+                user=user, client_request_id=data["client_request_id"], payload_hash=digest,
+                kind=data["kind"], occurred_at=data["occurred_at"],
+                local_date=data["occurred_at"].astimezone(ZoneInfo(data["time_zone"])).date(),
+                time_zone=data["time_zone"], notes=data.get("notes", ""),
+                total_kcal=sum((item["kcal"] for item in resolved), Decimal(0)), **totals,
+            )
+            MealItem.objects.bulk_create([MealItem(meal=meal, **item) for item in resolved])
+    except IntegrityError:
+        existing = Meal.objects.filter(user=user, client_request_id=data["client_request_id"]).prefetch_related("items").first()
+        if existing is None or existing.payload_hash != digest:
+            raise MealConflict()
+        return existing, False
+    return Meal.objects.prefetch_related("items").get(pk=meal.pk), True
+
+
 class MealListCreateView(APIView):
     def get(self, request):
         meals = Meal.objects.filter(user=request.user).prefetch_related("items").order_by("-occurred_at", "-id")
@@ -63,52 +117,8 @@ class MealListCreateView(APIView):
         serializer = MealInputSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
-        payload = {
-            "kind": data["kind"], "occurred_at": data["occurred_at"].isoformat(),
-            "time_zone": data["time_zone"], "notes": data.get("notes", ""),
-            "items": [{"fdc_id": item["fdc_id"], "grams": str(item["grams"])} for item in data["items"]],
-        }
-        digest = hashlib.sha256(json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
-        existing = Meal.objects.filter(user=request.user, client_request_id=data["client_request_id"]).prefetch_related("items").first()
-        if existing:
-            if existing.payload_hash != digest:
-                raise MealConflict()
-            return Response(_meal_json(existing), status=status.HTTP_200_OK)
-
-        resolved = []
-        for item in data["items"]:
-            food = food_details(item["fdc_id"])
-            grams = item["grams"]
-            factor = grams / Decimal(100)
-            resolved.append({
-                "fdc_id": food["fdc_id"], "food_name": food["description"],
-                "data_type": food["data_type"], "grams": grams,
-                "kcal_per_100g": _two(food["kcal_per_100g"]),
-                "kcal": _two(Decimal(str(food["kcal_per_100g"])) * factor),
-                "protein_g": _two(Decimal(str(food["protein_per_100g"])) * factor) if food["protein_per_100g"] is not None else None,
-                "carbohydrate_g": _two(Decimal(str(food["carbohydrate_per_100g"])) * factor) if food["carbohydrate_per_100g"] is not None else None,
-                "fat_g": _two(Decimal(str(food["fat_per_100g"])) * factor) if food["fat_per_100g"] is not None else None,
-            })
-        totals = {}
-        for name in ("protein_g", "carbohydrate_g", "fat_g"):
-            totals[name] = sum((item[name] for item in resolved), Decimal(0)) if all(
-                item[name] is not None for item in resolved) else None
-        try:
-            with transaction.atomic():
-                meal = Meal.objects.create(
-                    user=request.user, client_request_id=data["client_request_id"], payload_hash=digest,
-                    kind=data["kind"], occurred_at=data["occurred_at"],
-                    local_date=data["occurred_at"].astimezone(ZoneInfo(data["time_zone"])).date(),
-                    time_zone=data["time_zone"], notes=data.get("notes", ""),
-                    total_kcal=sum((item["kcal"] for item in resolved), Decimal(0)), **totals,
-                )
-                MealItem.objects.bulk_create([MealItem(meal=meal, **item) for item in resolved])
-        except IntegrityError:
-            existing = Meal.objects.filter(user=request.user, client_request_id=data["client_request_id"]).prefetch_related("items").first()
-            if existing is None or existing.payload_hash != digest:
-                raise MealConflict()
-            return Response(_meal_json(existing), status=status.HTTP_200_OK)
-        return Response(_meal_json(Meal.objects.prefetch_related("items").get(pk=meal.pk)), status=status.HTTP_201_CREATED)
+        meal, created = create_meal(request.user, data)
+        return Response(_meal_json(meal), status=status.HTTP_201_CREATED if created else status.HTTP_200_OK)
 
 
 class MealDetailView(APIView):

@@ -82,6 +82,18 @@ def useful_quick_prompt_answer(question, answer, context):
     return answer
 
 
+def answer_chat(user, message, history):
+    """Answer one IVA chat turn from the employee's own read-only data. Returns (answer, used_context)."""
+    context, sources = read_context(user, message)
+    messages = [{"role": "system", "content": CHAT_SYSTEM}]
+    if context:
+        messages.append({"role": "system", "content": "Read-only employee data: " + json.dumps(context)})
+    messages.extend({"role": turn["role"], "content": turn["content"]} for turn in history)
+    messages.append({"role": "user", "content": message})
+    answer = complete(messages, settings.GEMINI_MODEL)
+    return useful_quick_prompt_answer(message, answer, context), sources
+
+
 class ChatView(APIView):
     throttle_classes = [ScopedRateThrottle]
     throttle_scope = "ai"
@@ -90,15 +102,8 @@ class ChatView(APIView):
         serializer = ChatSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
-        context, sources = read_context(request.user, data["message"])
-        messages = [{"role": "system", "content": CHAT_SYSTEM}]
-        if context:
-            messages.append({"role": "system", "content": "Read-only employee data: " + json.dumps(context)})
-        messages.extend({"role": turn["role"], "content": turn["content"]} for turn in data.get("history", []))
-        messages.append({"role": "user", "content": data["message"]})
-        answer = complete(messages, settings.GEMINI_MODEL)
-        return Response({"answer": useful_quick_prompt_answer(data["message"], answer, context),
-                         "used_context": sources})
+        answer, sources = answer_chat(request.user, data["message"], data.get("history", []))
+        return Response({"answer": answer, "used_context": sources})
 
 
 class LensView(APIView):
