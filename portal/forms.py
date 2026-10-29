@@ -194,8 +194,9 @@ class ChallengeForm(BootstrapFormMixin, forms.ModelForm):
         for name in ("target_steps", "target_running_minutes", "target_value", "daily_threshold", "activity_type"):
             self.fields[name].required = False
         self.fields["kind"].help_text = "Every type is scored automatically from the phone or watch. Entries typed in by hand never count."
-        self.fields["target_steps"].help_text = "Total steps to reach. Steps from the joining day do not count."
-        self.fields["target_running_minutes"].help_text = "Minutes of running workouts recorded after joining."
+        self.fields["target_steps"].help_text = ("Total steps to reach. Every step from the start date to the end date "
+                                                 "counts (whole days), even for people who join later.")
+        self.fields["target_running_minutes"].help_text = "Minutes of running workouts recorded on the challenge dates."
         self.fields["target_value"].help_text = "In the unit shown."
         self.fields["daily_threshold"].help_text = "Steps per day, or minutes of sleep per night (420 = 7 hours)."
         self.fields["reward_points"].help_text = "Given automatically when someone reaches the target, and taken back if their data is later corrected."
@@ -227,10 +228,6 @@ class ChallengeForm(BootstrapFormMixin, forms.ModelForm):
         for name in ("target_steps", "target_running_minutes", "target_value", "daily_threshold"):
             if data.get(name) is None:
                 data[name] = 0
-        if (not self.instance.pk and kind in (Challenge.Kind.STEPS, Challenge.Kind.DISTANCE, Challenge.Kind.CALORIES,
-                                              Challenge.Kind.STEP_DAYS, Challenge.Kind.SLEEP_NIGHTS) and
-                data.get("start_date") and data.get("start_date") == data.get("end_date")):
-            self.add_error("end_date", "This type needs at least two dates, because the joining day cannot be counted.")
         return data
 
 

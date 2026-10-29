@@ -141,9 +141,10 @@ def get_hydration(user, args):
 def get_challenges(user, args):
     today = _today(user)
     joined = set(ChallengeEnrollment.objects.filter(user=user).values_list("challenge_id", flat=True))
-    open_now = Challenge.objects.filter(is_published=True, start_date__lte=today, end_date__gte=today).exclude(id__in=joined)
+    # Running now or starting soon: both can be joined, and each counts its own dates.
+    open_now = Challenge.objects.filter(is_published=True, end_date__gte=today).exclude(id__in=joined)
     return {**own_challenge_summary(user),
-            "open_to_join": [{"challenge_id": c.pk, "title": c.title, "kind": c.kind, "ends": c.end_date.isoformat(),
+            "open_to_join": [{"challenge_id": c.pk, "title": c.title, "kind": c.kind, "starts": c.start_date.isoformat(), "ends": c.end_date.isoformat(),
                               "goal": c.target_label, "what_counts": c.counting_note,
                               "reward_points": c.reward_points} for c in open_now[:10]]}
 
@@ -295,8 +296,8 @@ def join_challenge(user, args):
         raise ToolError("That challenge was not found. Call get_challenges for the open ones.")
     if ChallengeEnrollment.objects.filter(user=user, challenge=challenge).exists():
         raise ToolError("The employee has already joined this challenge.")
-    if not challenge.start_date <= today <= challenge.end_date:
-        raise ToolError("That challenge is not open for joining today.")
+    if today > challenge.end_date:
+        raise ToolError("That challenge has already ended.")
     target = challenge.target_label
     return _propose(user, "join_challenge", {"challenge_id": challenge.pk}, f"Join {challenge.title}",
                     [f"Goal: {target} by {challenge.end_date:%d %b}", f"{challenge.reward_points} points on completion"])

@@ -114,34 +114,32 @@ class ChallengeTests(APITestCase):
         self.challenge.save()
         self.assertEqual(self.client.post(f"/api/v1/challenges/{self.challenge.id}/join/").status_code, 400)
 
-    def test_join_day_steps_do_not_award_points(self):
+    def test_steps_on_the_challenge_dates_count_even_before_joining(self):
+        # The challenge runs today only; steps walked today before joining count too.
         self.assertEqual(self.sync(2000, 1).status_code, 200)
         self.assertEqual(self.client.post(f"/api/v1/challenges/{self.challenge.pk}/join/").status_code, 201)
-        self.assertEqual(self.client.get("/api/v1/challenges/me/").data["points_total"], 0)
-        self.assertEqual(PointsLedger.objects.count(), 0)
+        self.assertEqual(self.client.get("/api/v1/challenges/me/").data["points_total"], 25)
+        self.assertEqual(PointsLedger.objects.count(), 1)
 
-    def test_running_requires_post_join_running_session(self):
+    def test_running_counts_running_sessions_on_the_challenge_dates_only(self):
         self.challenge.kind = Challenge.Kind.RUNNING
         self.challenge.target_running_minutes = 20
         self.challenge.save()
         self.sync(2000, 1)
         self.client.post(f"/api/v1/challenges/{self.challenge.pk}/join/")
-        enrollment = ChallengeEnrollment.objects.get()
         source = FitnessAccount.objects.get(user=self.user).active_source
         now = timezone.now()
-        ExerciseRecord.objects.create(user=self.user, source=source, record_id="old-run",
-            origin_package="test", local_date=self.today, start_at=now - timedelta(hours=2),
-            end_at=now - timedelta(minutes=80), exercise_type="56")
-        reconcile_user(self.user)
-        self.assertEqual(PointsLedger.objects.count(), 0)
         ExerciseRecord.objects.create(user=self.user, source=source, record_id="walk",
-            origin_package="test", local_date=self.today, start_at=now + timedelta(minutes=1),
-            end_at=now + timedelta(minutes=41), exercise_type="53")
+            origin_package="test", local_date=self.today, start_at=now - timedelta(hours=3),
+            end_at=now - timedelta(hours=2), exercise_type="53")
+        ExerciseRecord.objects.create(user=self.user, source=source, record_id="yesterday-run",
+            origin_package="test", local_date=self.today - timedelta(days=1), start_at=now - timedelta(days=1),
+            end_at=now - timedelta(days=1) + timedelta(minutes=40), exercise_type="56")
         reconcile_user(self.user)
-        self.assertEqual(PointsLedger.objects.count(), 0)
-        ExerciseRecord.objects.create(user=self.user, source=source, record_id="new-run",
-            origin_package="test", local_date=self.today, start_at=now + timedelta(minutes=1),
-            end_at=now + timedelta(minutes=26), exercise_type="56")
+        self.assertEqual(PointsLedger.objects.count(), 0)   # walking and a run before the start date don't count
+        ExerciseRecord.objects.create(user=self.user, source=source, record_id="morning-run",
+            origin_package="test", local_date=self.today, start_at=now - timedelta(minutes=50),
+            end_at=now - timedelta(minutes=25), exercise_type="56")
         reconcile_user(self.user)
         self.assertEqual(self.client.get("/api/v1/challenges/me/").data["points_total"], 25)
         self.assertEqual(self.client.get("/api/v1/challenges/me/").data["challenges"][0]["verified_running_minutes"], 25)

@@ -35,7 +35,9 @@ def challenge_payload(challenge, enrollment=None, today=None):
         "target_running_minutes": challenge.target_running_minutes,
         "reward_points": challenge.reward_points,
         "badge_title": challenge.badge_title or None, "joined": enrollment is not None,
-        "can_join": bool(today and challenge.is_published and challenge.start_date <= today <= challenge.end_date),
+        # Joinable any time until it ends, also before it starts; it always counts its own dates.
+        "can_join": bool(today and challenge.is_published and today <= challenge.end_date),
+        "upcoming": bool(today and challenge.start_date > today),
         "verified_steps": progress.verified_steps if progress and progress.has_step_data else None,
         "verified_running_minutes": progress.verified_running_minutes if progress else 0,
         "counting_note": challenge.counting_note,
@@ -70,10 +72,11 @@ class JoinView(APIView):
             existing = ChallengeEnrollment.objects.filter(challenge=challenge, user=request.user).first()
             if existing:
                 return Response(challenge_payload(challenge, existing, today))
-            if not challenge.start_date <= today <= challenge.end_date:
-                raise ValidationError("This challenge is not open for joining today.")
+            if today > challenge.end_date:
+                raise ValidationError("This challenge has ended.")
             enrollment, created = ChallengeEnrollment.objects.get_or_create(
-                challenge=challenge, user=request.user, defaults={"joined_local_date": today}
+                challenge=challenge, user=request.user,
+                defaults={"joined_local_date": today},
             )
             if created:
                 reconcile_user(request.user)

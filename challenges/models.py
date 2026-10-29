@@ -85,18 +85,27 @@ class Challenge(models.Model):
 
     @property
     def counting_note(self):
-        """One plain sentence on what counts, shown in the app."""
-        manual = " Entries typed in by hand don't count."
-        return {
-            "steps": "Steps your phone or watch records count from the day after you join." + manual,
-            "running": "Only running workouts recorded after you join count; walking steps don't." + manual,
-            "distance": "Distance your phone or watch records counts from the day after you join." + manual,
-            "calories": "Active calories your watch or fitness app records count from the day after you join." + manual,
-            "active_minutes": "Recorded workouts of 10 minutes or more count, from the moment you join." + manual,
-            "workout": "Recorded workouts of this activity, 10 minutes or more, count from the moment you join." + manual,
-            "step_days": "Each day after you join with enough recorded steps counts once." + manual,
-            "sleep_nights": "Each night your watch or phone records enough sleep counts once." + manual,
-        }.get(self.kind, "")
+        """One plain sentence on exactly what counts and for which dates, shown in the app."""
+        def d(value):
+            return "{} {}".format(value.day, value.strftime("%b"))
+        if self.start_date == self.end_date:
+            when = "on {} (the whole day)".format(d(self.start_date))
+        else:
+            when = "from {} to {} (whole days)".format(d(self.start_date), d(self.end_date))
+        what = {
+            "steps": "Every step your phone or watch records",
+            "running": "Running workouts your phone or watch records",
+            "distance": "All distance your phone or watch records",
+            "calories": "Active calories your watch or fitness app records",
+            "active_minutes": "Workouts of 10 minutes or more",
+            "workout": "Workouts of this activity, 10 minutes or more,",
+            "step_days": "Each day with enough recorded steps",
+            "sleep_nights": "Each night with enough recorded sleep",
+        }.get(self.kind)
+        if not what:
+            return ""
+        return ("{} {} counts, even if you join later. Entries typed in by hand don't count."
+                .format(what, when))
 
     def progress_label(self, progress):
         """e.g. "12.4 of 50 km", or None when nothing has synced yet."""
@@ -122,10 +131,10 @@ class Challenge(models.Model):
         if self.kind == self.Kind.SLEEP_NIGHTS and not 240 <= self.daily_threshold <= 720:
             raise ValidationError({"daily_threshold": "Enter minimum sleep between 240 and 720 minutes (4 to 12 hours)."})
         if self.kind in (self.Kind.STEP_DAYS, self.Kind.SLEEP_NIGHTS) and self.start_date and self.end_date:
-            # The joining day never counts, so the most anyone can reach is the number of days minus one.
-            possible = (self.end_date - self.start_date).days
+            # Every day of the challenge can count, so the target can be at most the number of days.
+            possible = (self.end_date - self.start_date).days + 1
             if self.target_value > possible:
-                raise ValidationError({"target_value": f"At most {possible} for these dates (the joining day does not count)."})
+                raise ValidationError({"target_value": f"At most {possible} for these dates."})
         if not self.reward_points:
             raise ValidationError({"reward_points": "Reward must be positive."})
 
@@ -138,6 +147,9 @@ class ChallengeEnrollment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="challenge_enrollments")
     joined_at = models.DateTimeField(auto_now_add=True)
     joined_local_date = models.DateField()
+    # No longer used: challenges now count their own dates in full, whenever someone joins. Kept so the column and
+    # its migration stay valid.
+    join_baseline = models.JSONField(default=dict, blank=True)
 
     class Meta:
         constraints = [models.UniqueConstraint(fields=["challenge", "user"], name="uniq_challenge_user")]

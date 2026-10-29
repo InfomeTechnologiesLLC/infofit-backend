@@ -114,7 +114,7 @@
     <ul class="small text-muted mb-0 ps-3">
       <li class="mb-1">Only data the phone, watch or a workout app records by itself counts. Anything typed in by hand in a fitness app is removed.</li>
       <li class="mb-1">Only each person's one active phone counts; a second phone adds nothing.</li>
-      <li class="mb-1">Daily totals count from the day after joining; workouts must start after joining.</li>
+      <li class="mb-1">Everything recorded on the challenge dates counts (whole days, from the start date to the end date), even for people who join later. Nothing before the start date or after the end date counts.</li>
       <li class="mb-1">Workouts recorded twice (watch and phone) are counted once; workouts under 10 minutes don't count.</li>
       <li>Impossible days are capped (50,000 steps, 60 km, 2,500 kcal) and shown to you as unusual days.</li>
     </ul>
@@ -206,7 +206,7 @@
         }
         if (name === "target_value") {
           box.querySelector("[data-help-for]").textContent = (kind === "step_days" || kind === "sleep_nights")
-            ? "At most the number of days in the challenge minus one (the joining day doesn't count)." : "In the unit shown.";
+            ? "At most the number of days in the challenge." : "In the unit shown.";
         }
       }
     });

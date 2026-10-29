@@ -3,8 +3,9 @@
 Anti-cheat rules (the same for every kind):
 - Only the employee's ONE active phone counts (a second phone cannot add to the total).
 - Anything typed in by hand in a fitness app (Health Connect "manual entry") is subtracted or ignored.
-- Daily totals only count full days after the joining day (a day's total cannot be split at the joining time);
-  workout sessions must start after the moment of joining.
+- A challenge counts exactly its own dates: everything recorded from the start date to the end date (whole days, in
+  the employee's own time zone), whenever the employee joined. A challenge starting today counts today's steps;
+  one starting tomorrow counts from tomorrow.
 - Overlapping workout sessions (a watch and a phone app recording the same walk) are merged, never double counted.
 - Workout sessions shorter than 10 minutes are ignored; one session counts for at most 4 hours.
 - Impossible days are capped (e.g. more than 50,000 steps or 60 km) and counted as "flagged days" for staff.
@@ -79,19 +80,18 @@ def _merged_duration(intervals, cap=MAX_SESSION):
 
 
 def _days(challenge, enrollment, source, status_key):
-    return DailyActivity.objects.filter(
+    rows = DailyActivity.objects.filter(
         user=enrollment.user, source=source,
-        local_date__gt=enrollment.joined_local_date,
         local_date__gte=challenge.start_date, local_date__lte=challenge.end_date,
         **{f"metric_status__{status_key}": "available"},
     )
+    return rows
 
 
 def _sessions(challenge, enrollment, source, types=None, minimum=MIN_SESSION):
     rows = ExerciseRecord.objects.filter(
         user=enrollment.user, source=source,
         local_date__gte=challenge.start_date, local_date__lte=challenge.end_date,
-        start_at__gte=enrollment.joined_at,
     ).exclude(recording_method="manual")
     if types is not None:
         rows = rows.filter(exercise_type__in=types)
@@ -135,7 +135,6 @@ def score(challenge, enrollment, source):
         nights = {}
         rows = SleepRecord.objects.filter(
             user=enrollment.user, source=source,
-            local_date__gt=enrollment.joined_local_date,
             local_date__gte=challenge.start_date, local_date__lte=challenge.end_date,
         ).exclude(recording_method="manual")
         for row in rows:

@@ -51,7 +51,7 @@ def _challenge_fact(enrollment):
     progress = getattr(enrollment, "progress", None)
     label = challenge.progress_label(progress)
     if not label:
-        return f"{challenge.title} (goal {challenge.target_label}): no recorded progress has synced since joining."
+        return f"{challenge.title} (goal {challenge.target_label}): no recorded progress has synced for its dates yet."
     return f"{challenge.title} (goal {challenge.target_label}): {label} so far."
 
 

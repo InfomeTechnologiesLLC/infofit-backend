@@ -290,8 +290,8 @@ def apply_action(user, proposal, request_id, now, zone_name):
     if action == "join_challenge":
         challenge = Challenge.objects.filter(pk=payload["challenge_id"], is_published=True).first()
         today = local_today(user)
-        if not challenge or not challenge.start_date <= today <= challenge.end_date:
-            raise ProposalGone("That challenge is no longer open.")
+        if not challenge or today > challenge.end_date:
+            raise ProposalGone("That challenge has ended.")
         enrollment, created = ChallengeEnrollment.objects.get_or_create(
             challenge=challenge, user=user, defaults={"joined_local_date": today})
         if created:

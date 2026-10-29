@@ -68,13 +68,13 @@ class ScoringTests(TestCase):
         self.assertFalse(p.is_complete)
         self.assertEqual(self.points(), 0)
 
-    def test_joining_day_and_other_phones_do_not_count(self):
+    def test_start_date_counts_in_full_but_other_phones_do_not(self):
         c = self.challenge("steps", 1000)
-        self.day(1, steps=30000)                       # the joining day
-        self.day(2, steps=30000, source=self.other_source)  # a second phone
+        self.day(1, steps=3000)                        # the start date (also the joining day): counts
+        self.day(2, steps=30000, source=self.other_source)  # a second phone: never counts
         p = self.progress(c)
-        self.assertEqual(p.progress_value, 0)
-        self.assertFalse(p.is_complete)
+        self.assertEqual(p.progress_value, 3000)
+        self.assertTrue(p.is_complete)
 
     def test_impossible_days_are_capped_and_flagged(self):
         c = self.challenge("steps", 200000)
@@ -118,10 +118,11 @@ class ScoringTests(TestCase):
         self.workout(2, (7, 10), 30, kind="56")         # phone app, overlapping: adds 10 minutes
         self.workout(3, (7, 0), 120, method="manual")   # typed in: ignored
         self.workout(4, (7, 0), 5)                      # too short: ignored
-        self.workout(1, (8, 0), 60)                     # before joining at 09:00: ignored
+        self.workout(1, (8, 0), 60)                     # start date, before joining at 09:00: still counts
+        self.workout(1, (6, 0), 60, kind="56", source=self.other_source)  # another phone: ignored
         p = self.progress(c)
-        self.assertEqual(p.progress_value, 40)
-        self.assertFalse(p.is_complete)
+        self.assertEqual(p.progress_value, 100)
+        self.assertTrue(p.is_complete)
 
     def test_workout_counts_only_the_chosen_activity(self):
         c = self.challenge("workout", 45, activity_type="cycling")
@@ -175,8 +176,9 @@ class ChallengeRulesTests(TestCase):
 
     def test_day_count_target_cannot_exceed_the_days_available(self):
         with self.assertRaises(ValidationError):
-            self.make(kind="sleep_nights", target_value=10, daily_threshold=420).full_clean()  # 9 countable nights
-        self.make(kind="sleep_nights", target_value=9, daily_threshold=420).full_clean()
+            self.make(kind="sleep_nights", target_value=11, daily_threshold=420).full_clean()  # 10 days, 1-10 Oct
+        self.make(kind="sleep_nights", target_value=10, daily_threshold=420).full_clean()
+        self.make(kind="step_days", target_value=10, daily_threshold=8000).full_clean()
 
     def test_labels(self):
         self.assertEqual(self.make(kind="step_days", target_value=5, daily_threshold=8000).target_label,
