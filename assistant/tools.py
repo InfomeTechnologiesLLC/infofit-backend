@@ -159,6 +159,27 @@ def get_wellness_programs(user, args):
                           "checked_in_today": p.pk in checked} for p in programs]}
 
 
+def get_bmi(user, args):
+    """Weekly BMI entries the employee saved, the trend, their category and the healthy weight range."""
+    from wellness import bmi_advice
+    from wellness.models import BodyMeasurement
+    rows = list(BodyMeasurement.objects.filter(user=user).order_by("-local_date")[:12])
+    if not rows:
+        return {"available": False, "note": "No BMI saved yet. It can be added from the BMI card on Home."}
+    latest, oldest = rows[0], rows[-1]
+    guidance = bmi_advice.summary(latest.height_cm, float(latest.bmi))
+    return {
+        "available": True, "latest_date": latest.local_date, "bmi": float(latest.bmi),
+        "weight_kg": float(latest.weight_kg), "height_cm": float(latest.height_cm),
+        "category": guidance["category_label"],
+        "healthy_weight_range_kg": [guidance["healthy_weight_min_kg"], guidance["healthy_weight_max_kg"]],
+        "change_since_first_of_these_kg": round(float(latest.weight_kg) - float(oldest.weight_kg), 1),
+        "entries": [{"date": m.local_date, "weight_kg": float(m.weight_kg), "bmi": float(m.bmi)} for m in reversed(rows)],
+        "suggested_next_steps": guidance["advice"],
+        "note": guidance["context_note"] + " A screening figure, not a diagnosis.",
+    }
+
+
 def get_reminder_settings(user, args):
     s = ReminderSettings.objects.filter(user=user).first()
     if not s:
@@ -381,6 +402,9 @@ READ_TOOLS = {
     "get_hydration": (get_hydration, "Self-reported water per day for the last N days (1-14).", _obj({"days": INT})),
     "get_challenges": (get_challenges, "Points, joined challenges with progress, and challenges open to join (with ids).", _obj()),
     "get_wellness_programs": (get_wellness_programs, "Wellness programs and personal plans with today's action and check-in status.", _obj()),
+    "get_bmi": (get_bmi, "The employee's saved weekly BMI and weight entries, trend, category (underweight, healthy range, "
+                         "overweight, obesity), healthy weight range for their height and suggested next steps. Use only "
+                         "when they ask about BMI, weight or body goals.", _obj()),
     "get_reminder_settings": (get_reminder_settings, "Current water, movement and challenge reminder settings.", _obj()),
     "get_preferences": (get_preferences, "Saved food and activity preferences (diet, cuisine, dislikes, activity, notes).", _obj()),
     "search_food": (search_food, "Look up a food's calories per 100 g and typical serving in Indian and USDA food databases.",

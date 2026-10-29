@@ -101,3 +101,17 @@ class PortalNotificationsPageTests(TestCase):
             "start_date": today, "end_date": today, "is_published": "on"}, follow=True)
         self.assertContains(response, "1 employee will get a notification about it.")
         self.assertTrue(Notification.objects.filter(user=self.employee, kind="new_program").exists())
+
+
+class PortalDraftWarningTests(TestCase):
+    def test_new_items_default_to_published_and_drafts_are_flagged(self):
+        staff = User.objects.create_user("staff2@example.test", PW, role=Role.ADMIN, is_staff=True)
+        self.client.force_login(staff)
+        page = self.client.get(reverse("portal:program_new"))
+        self.assertTrue(page.context["form"]["is_published"].value())
+        self.assertTrue(self.client.get(reverse("portal:challenge_new")).context["form"]["is_published"].value())
+        today = timezone.localdate()
+        response = self.client.post(reverse("portal:program_new"), {
+            "title": "Quiet", "summary": "S", "daily_action": "A", "focus_goal": "all",
+            "start_date": today, "end_date": today}, follow=True)
+        self.assertContains(response, "Saved as a draft, so it is NOT shown in the app.")

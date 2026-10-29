@@ -201,6 +201,8 @@ class ChallengeForm(BootstrapFormMixin, forms.ModelForm):
         self.fields["reward_points"].help_text = "Given automatically when someone reaches the target, and taken back if their data is later corrected."
         self.fields["is_published"].help_text = ("When you publish, every employee gets a notification about it. "
                                                  "After that the code, dates, target, points and badge are locked.")
+        if not self.instance.pk:
+            self.initial.setdefault("is_published", True)
         self.style_fields()
         self.fields["kind"].widget.attrs["data-kind-select"] = "1"
         if self.instance.pk and (self.instance.is_published or self.instance.enrollments.exists()):
@@ -244,6 +246,8 @@ class WellnessProgramForm(BootstrapFormMixin, forms.ModelForm):
         self.style_fields()
         self.fields["is_published"].label = "Published (visible in the app)"
         self.fields["is_published"].help_text = "When you publish, every employee gets a notification about it."
+        if not self.instance.pk:
+            self.initial.setdefault("is_published", True)
         if self.instance.pk and self.instance.enrollments.exists():
             for name in ("focus_goal", "start_date", "end_date"):
                 self.fields[name].disabled = True

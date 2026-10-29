@@ -448,6 +448,12 @@ def record_form(request, section, pk=None):
                 for user_id in ChallengeEnrollment.objects.filter(challenge=saved).values_list("user_id", flat=True):
                     reconcile_user(User.objects.get(pk=user_id))
         messages.success(request, f"{title[:-1] if title.endswith('s') else title} saved.")
+        if section in ("challenges", "programs"):
+            if not saved.is_published:
+                messages.warning(request, "Saved as a draft, so it is NOT shown in the app. Edit it and turn on "
+                                          "\"Published\" when it is ready.")
+            elif saved.end_date < timezone.localdate():
+                messages.warning(request, "Its end date has passed, so the app does not show it.")
         if section in ("challenges", "programs") and saved.is_published and saved.announced_at is None:
             try:
                 told = announce_new_activities()

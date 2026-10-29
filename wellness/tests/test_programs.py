@@ -28,20 +28,22 @@ class ProgramApiTests(APITestCase):
         self.other = User.objects.create_user("bilal@wellness.test", "Strong-passphrase-123")
         self.client.force_authenticate(user=self.user)
 
-    def test_only_published_and_relevant_programs_are_recommended(self):
+    def test_all_published_programs_show_and_relevant_ones_are_recommended_first(self):
         today = local_today(self.user)
         matched = make_program(today, title="Endurance", focus_goal="endurance")
         all_goals = make_program(today, title="General")
         make_program(today, title="Hidden", is_published=False)
-        make_program(today, title="Other goal", focus_goal="stress")
+        other = make_program(today, title="Other goal", focus_goal="stress")
         make_program(today, title="Expired", end_date=today - timedelta(days=1))
         self.user.profile.fitness_goal = "endurance"
         self.user.profile.save()
         response = self.client.get("/api/v1/wellness/programs/")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual([row["id"] for row in response.data], [matched.id, all_goals.id])
+        # Programs for another goal are shown too (they used to be hidden), after the recommended one.
+        self.assertEqual([row["id"] for row in response.data], [matched.id, all_goals.id, other.id])
         self.assertTrue(response.data[0]["recommended"])
         self.assertFalse(response.data[1]["recommended"])
+        self.assertFalse(response.data[2]["recommended"])
         self.assertFalse(response.data[0]["joined"])
         self.assertEqual(response.data[0]["check_in_count"], 0)
 

@@ -18,6 +18,7 @@ from rest_framework.views import APIView
 from accounts.models import EmployeeProfile
 from challenges.views import local_today
 from fitness.models import FitnessAccount
+from . import bmi_advice
 from .models import BodyMeasurement, bmi_category, HydrationLog, ProgramCheckIn, ProgramEnrollment, ReminderSettings, WellnessProgram
 
 
@@ -72,8 +73,9 @@ class ProgramListView(APIView):
     def get(self, request):
         today = local_today(request.user)
         goal = user_goal(request.user)
+        # Every published company program is shown; ones matching the person's goal are marked and listed first.
+        # (Programs for another goal used to be hidden, which made new programs look missing.)
         programs = list(visible_programs(request.user).filter(end_date__gte=today)
-            .filter(Q(focus_goal__in=["all", goal]) | Q(enrollments__user=request.user) | Q(owner=request.user))
             .distinct().order_by("start_date", "pk")[:100])
         enrollments = enrollments_for(request.user, programs, today)
         programs.sort(key=lambda item: (item.owner_id is None, item.focus_goal != goal, item.start_date, item.pk))
@@ -300,6 +302,8 @@ def bmi_payload(user):
         "total_weight_change_kg": round(latest["weight_kg"] - float(rows[0].weight_kg), 1) if rows else None,
         "next_due_date": next_due, "update_due": today >= next_due,
         "weekly": weekly[-52:],
+        # Category in plain words, the healthy weight range for this height, and gentle next steps.
+        "guidance": bmi_advice.summary(latest["height_cm"], latest["bmi"]) if latest else None,
         "note": "BMI is a general screening figure and does not account for muscle, age or body build. "
                 "It is not a diagnosis. Talk to a clinician about any health concern.",
     }

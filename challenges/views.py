@@ -116,3 +116,27 @@ class LeaderboardView(APIView):
         ordered = sorted(teams.items(), key=lambda entry: (-entry[1]["points"], entry[0]))[:100]
         return Response([{"rank": i, **team, "is_user_team": bool(own_profile and own_profile.team_id == team_id)}
                          for i, (team_id, team) in enumerate(ordered, 1)])
+
+
+class RankingsView(APIView):
+    """Live company rankings. GET ?board=steps_today|steps_week|steps_month|points|teams.
+    POST {"show_my_name": bool} chooses whether colleagues see your name."""
+
+    def get(self, request):
+        from .rankings import BOARDS, board_payload
+        board = request.query_params.get("board", "steps_week")
+        if board not in BOARDS:
+            raise ValidationError({"board": "Use one of: {}.".format(", ".join(BOARDS))})
+        data = board_payload(request.user, board, local_today(request.user))
+        profile = EmployeeProfile.objects.filter(user=request.user).first()
+        data["show_my_name"] = profile.show_in_rankings if profile else True
+        return Response(data)
+
+    def post(self, request):
+        value = request.data.get("show_my_name")
+        if not isinstance(value, bool):
+            raise ValidationError({"show_my_name": "Send true or false."})
+        profile, _ = EmployeeProfile.objects.get_or_create(user=request.user)
+        profile.show_in_rankings = value
+        profile.save(update_fields=["show_in_rankings", "updated_at"])
+        return Response({"show_my_name": value})
