@@ -188,3 +188,69 @@ class PortalTests(TestCase):
         self.assertEqual(client.post(reverse("portal:hide_post", args=[post.pk])).status_code, 403)
         post.refresh_from_db()
         self.assertEqual(post.status, CommunityPost.Status.PUBLISHED)
+
+
+class EmployeeDeleteTests(TestCase):
+    def setUp(self):
+        media_dir = tempfile.TemporaryDirectory()
+        self.addCleanup(media_dir.cleanup)
+        media_settings = override_settings(MEDIA_ROOT=media_dir.name)
+        media_settings.enable()
+        self.addCleanup(media_settings.disable)
+        self.staff = User.objects.create_user("staff@example.test", PW, role=Role.ADMIN, is_staff=True)
+        self.employee = User.objects.create_user("gone@example.test", PW, role=Role.EMPLOYEE)
+        self.other = User.objects.create_user("stays@example.test", PW, role=Role.EMPLOYEE)
+        self.client.force_login(self.staff)
+        today = timezone.localdate()
+        challenge = Challenge.objects.create(slug="walk", title="Walk", start_date=today,
+            end_date=today + timedelta(days=1), target_steps=100, reward_points=5, is_published=True)
+        enrollment = ChallengeEnrollment.objects.create(challenge=challenge, user=self.employee, joined_local_date=today)
+        PointsLedger.objects.create(enrollment=enrollment, user=self.employee, delta=5, revision=1, reason="award")
+        self.challenge = challenge
+
+    def test_delete_needs_matching_email_then_removes_everything(self):
+        url = reverse("portal:employee_delete", args=[self.employee.pk])
+        page = self.client.get(url)
+        self.assertContains(page, "be undone")
+        self.assertContains(page, "Points entries")
+        from django.core.files.base import ContentFile
+        post = CommunityPost.objects.create(author=self.employee, body="Bye",
+            visibility=CommunityPost.Visibility.COMPANY)
+        post.image.save("bye.jpg", ContentFile(b"jpeg"))
+        self.employee.profile_image.save("me.jpg", ContentFile(b"jpeg"))
+        storage, names = post.image.storage, [post.image.name, self.employee.profile_image.name]
+        self.assertTrue(all(storage.exists(name) for name in names))
+        response = self.client.post(url, {"confirm_email": "wrong@example.test"})
+        self.assertContains(response, "does not match")
+        self.assertTrue(User.objects.filter(pk=self.employee.pk).exists())
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post(url, {"confirm_email": " GONE@example.test "})
+        self.assertRedirects(response, reverse("portal:employees"))
+        self.assertFalse(User.objects.filter(pk=self.employee.pk).exists())
+        self.assertFalse(PointsLedger.objects.exists())
+        self.assertFalse(ChallengeEnrollment.objects.exists())
+        self.assertTrue(Challenge.objects.filter(pk=self.challenge.pk).exists())
+        self.assertTrue(User.objects.filter(pk=self.other.pk).exists())
+        self.assertFalse(any(storage.exists(name) for name in names))
+
+    def test_staff_accounts_cannot_be_deleted_or_deactivated_here(self):
+        self.assertEqual(self.client.get(reverse("portal:employee_delete", args=[self.staff.pk])).status_code, 404)
+        self.assertEqual(self.client.post(reverse("portal:employee_toggle_active", args=[self.staff.pk])).status_code, 404)
+        self.client.force_login(self.other)
+        self.assertEqual(self.client.post(reverse("portal:employee_delete", args=[self.employee.pk]),
+                                          {"confirm_email": self.employee.email}).status_code, 403)
+        self.assertTrue(User.objects.filter(pk=self.employee.pk).exists())
+
+    def test_deactivate_and_reactivate(self):
+        url = reverse("portal:employee_toggle_active", args=[self.employee.pk])
+        self.assertEqual(self.client.get(url).status_code, 405)
+        self.client.post(url)
+        self.employee.refresh_from_db()
+        self.assertFalse(self.employee.is_active)
+        self.assertContains(self.client.get(reverse("portal:employee_detail", args=[self.employee.pk])), "Reactivate")
+        self.client.post(url)
+        self.employee.refresh_from_db()
+        self.assertTrue(self.employee.is_active)
+        listing = self.client.get(reverse("portal:employees"))
+        self.assertContains(listing, reverse("portal:employee_delete", args=[self.employee.pk]))
+        self.assertContains(listing, reverse("portal:employee_edit", args=[self.employee.pk]))

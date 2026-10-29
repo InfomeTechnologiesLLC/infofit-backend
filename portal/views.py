@@ -1,5 +1,6 @@
 """Session-authenticated staff operations, separate from the Django admin UI."""
 import hashlib
+import logging
 from datetime import date, timedelta
 from functools import wraps
 
@@ -266,6 +267,71 @@ def employee_form(request, pk=None):
         "Edit employee" if employee else "Add employee", "employees", form=form,
         cancel_url=reverse("portal:employees"),
         help_text="Portal staff can create and edit employee accounts only. Roles and staff access cannot be changed here."))
+
+
+logger = logging.getLogger("infome")
+
+
+def _employee_footprint(employee):
+    """What deleting this employee removes, for the confirmation page."""
+    return [
+        ("Challenges joined", ChallengeEnrollment.objects.filter(user=employee).count()),
+        ("Points entries", PointsLedger.objects.filter(user=employee).count()),
+        ("Wellness programs joined", ProgramEnrollment.objects.filter(user=employee).count()),
+        ("Days of fitness data", DailyActivity.objects.filter(user=employee).count()),
+        ("Meals logged", Meal.objects.filter(user=employee).count()),
+        ("Water entries", HydrationLog.objects.filter(user=employee).count()),
+        ("Community posts", CommunityPost.objects.filter(author=employee).count()),
+    ]
+
+
+@staff_only
+@never_cache
+def employee_delete(request, pk):
+    employee = get_object_or_404(User.objects.select_related("profile"), pk=pk, role=Role.EMPLOYEE)
+    error = ""
+    if request.method == "POST":
+        typed = request.POST.get("confirm_email", "").strip().lower()
+        if typed != employee.email.lower():
+            error = "The email you typed does not match. Nothing was deleted."
+        else:
+            files = [post.image for post in CommunityPost.objects.filter(author=employee).exclude(image="")
+                     if post.image]
+            if employee.profile_image:
+                files.append(employee.profile_image)
+            email, user_pk = employee.email, employee.pk
+            with transaction.atomic():
+                # Points entries protect their challenge enrollment, so they go first.
+                PointsLedger.objects.filter(user=employee).delete()
+                employee.delete()
+
+            def remove_files():
+                for field in files:
+                    try:
+                        field.storage.delete(field.name)
+                    except Exception:  # a missing file must not undo the deletion
+                        logger.warning("Could not delete file %s of deleted employee %s", field.name, user_pk)
+            transaction.on_commit(remove_files)
+            logger.info("Portal user %s deleted employee %s (%s)", request.user.pk, user_pk, email)
+            messages.success(request, "{} and all their data were deleted.".format(email))
+            return redirect("portal:employees")
+    return render(request, "portal/employee_delete.html", page_context(
+        "Delete employee", "employees", employee=employee, footprint=_employee_footprint(employee), error=error))
+
+
+@staff_only
+@require_POST
+def employee_toggle_active(request, pk):
+    employee = get_object_or_404(User, pk=pk, role=Role.EMPLOYEE)
+    employee.is_active = not employee.is_active
+    employee.save(update_fields=["is_active"])
+    logger.info("Portal user %s set employee %s active=%s", request.user.pk, employee.pk, employee.is_active)
+    if employee.is_active:
+        messages.success(request, "{} can sign in again.".format(employee.email))
+    else:
+        messages.success(request, "{} is deactivated: they can no longer sign in, and their data is kept.".format(
+            employee.email))
+    return redirect("portal:employee_detail", pk=employee.pk)
 
 
 SECTION_CONFIG = {

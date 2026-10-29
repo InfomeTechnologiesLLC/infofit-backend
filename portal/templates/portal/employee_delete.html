@@ -1,0 +1,45 @@
+{% extends 'portal/base.html' %}
+{% block content %}
+<a href="{% url 'portal:employee_detail' employee.pk %}" class="small fw-semibold"><i class="bi bi-arrow-left"></i> {{ employee.full_name }}</a>
+<div class="page-head mt-2 mb-4">
+  <h1 class="h3 mb-1">Delete {{ employee.full_name }}?</h1>
+  <p class="text-muted mb-0">{{ employee.email }}{% if employee.employee_id %} · {{ employee.employee_id }}{% endif %}</p>
+</div>
+
+<div class="row g-3">
+  <div class="col-lg-7">
+    <div class="card p-4 border-danger-subtle">
+      <div class="d-flex gap-3 align-items-start mb-3">
+        <div class="chip tone-danger"><i class="bi bi-exclamation-octagon"></i></div>
+        <div><h2 class="h5 mb-1">This can't be undone</h2>
+          <p class="mb-0 text-muted">The account and everything below are removed for good. Their points disappear from leaderboards and team totals, and their photos are deleted.</p></div>
+      </div>
+      <ul class="list-group list-group-flush mb-4">
+        {% for label, count in footprint %}<li class="list-group-item d-flex justify-content-between px-0"><span>{{ label }}</span><strong>{{ count }}</strong></li>{% endfor %}
+      </ul>
+      {% if error %}<div class="alert alert-danger border-0" role="alert">{{ error }}</div>{% endif %}
+      <form method="post">{% csrf_token %}
+        <label class="form-label" for="confirm_email">To confirm, type the employee's email: <strong>{{ employee.email }}</strong></label>
+        <input class="form-control mb-3" id="confirm_email" name="confirm_email" type="text" autocomplete="off" spellcheck="false" required>
+        <div class="d-flex flex-wrap gap-2">
+          <button class="btn btn-danger" type="submit"><i class="bi bi-trash me-1"></i>Delete permanently</button>
+          <a class="btn btn-light border" href="{% url 'portal:employee_detail' employee.pk %}">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="col-lg-5">
+    <div class="card p-4">
+      <h2 class="h6 mb-2"><i class="bi bi-person-slash me-1"></i>Only want to stop them signing in?</h2>
+      {% if employee.is_active %}
+      <p class="text-muted small">Deactivate the account instead. They can't use the app, their data is kept, and you can turn the account back on at any time.</p>
+      <form method="post" action="{% url 'portal:employee_toggle_active' employee.pk %}">{% csrf_token %}
+        <button class="btn btn-outline-secondary" type="submit">Deactivate instead</button>
+      </form>
+      {% else %}
+      <p class="text-muted small mb-0">This account is already deactivated: they can't sign in and their data is kept.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

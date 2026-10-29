@@ -16,7 +16,7 @@
   </div>
 </form>
 <div class="card"><div class="table-responsive"><table class="table table-modern">
-  <thead><tr><th>Employee</th><th>Team</th><th>Account</th><th>Steps this month</th><th>Challenges completed</th><th>Points</th><th>Recent participation</th></tr></thead>
+  <thead><tr><th>Employee</th><th>Team</th><th>Account</th><th>Steps this month</th><th>Challenges completed</th><th>Points</th><th>Recent participation</th><th class="text-end">Actions</th></tr></thead>
   <tbody>{% for employee in page %}<tr>
     <td><div class="d-flex align-items-center gap-2"><span class="avatar">{{ employee.first_name|slice:":1" }}{{ employee.last_name|slice:":1"|default:employee.email|slice:":1" }}</span><div><a class="fw-semibold text-reset" href="{% url 'portal:employee_detail' employee.pk %}">{{ employee.full_name }}</a><div class="small text-muted">{{ employee.email }}</div></div></div></td>
     <td>{% if employee.profile.team %}{{ employee.profile.team }}{% else %}<span class="badge-soft tone-warning">No team</span>{% endif %}<div class="small text-muted">{{ employee.profile.department|default:"" }}</div></td>
@@ -25,7 +25,11 @@
     <td>{{ employee.completed_count }} / {{ employee.challenge_count }}</td>
     <td>{{ employee.net_points }}</td>
     <td>{% if employee.recent_checkins or employee.recent_evaluations %}<span class="badge-soft tone-info">Active this week</span>{% else %}<span class="text-muted">No recent record</span>{% endif %}</td>
-  </tr>{% empty %}<tr><td colspan="7"><div class="empty"><i class="bi bi-people"></i>No employees found.</div></td></tr>{% endfor %}</tbody>
+    <td class="text-end text-nowrap">
+      <a class="btn btn-sm btn-light border" href="{% url 'portal:employee_edit' employee.pk %}" title="Edit {{ employee.full_name }}" aria-label="Edit {{ employee.full_name }}"><i class="bi bi-pencil"></i></a>
+      <a class="btn btn-sm btn-light border text-danger" href="{% url 'portal:employee_delete' employee.pk %}" title="Delete {{ employee.full_name }}" aria-label="Delete {{ employee.full_name }}"><i class="bi bi-trash"></i></a>
+    </td>
+  </tr>{% empty %}<tr><td colspan="8"><div class="empty"><i class="bi bi-people"></i>No employees found.</div></td></tr>{% endfor %}</tbody>
 </table></div><div class="p-3">{% include 'portal/pagination.html' %}</div></div>
 <p class="small text-muted mt-3">Steps are synced Health Connect readings from the active device. Missing days are not counted as zero.</p>
 {% endblock %}
