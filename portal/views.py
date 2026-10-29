@@ -32,6 +32,12 @@ from .forms import (CHALLENGE_KIND_HELP, ChallengeForm, DepartmentForm, Employee
 from .insights import points_totals, staff_rankings, step_period, step_totals
 
 
+
+def _iso_date(value):
+    """Parse YYYY-MM-DD (date.fromisoformat needs Python 3.7+)."""
+    from datetime import datetime as _dt
+    return _dt.strptime(value, "%Y-%m-%d").date()
+
 class PortalLoginView(LoginView):
     template_name = "portal/login.html"
     authentication_form = PortalLoginForm
@@ -200,7 +206,7 @@ def employee_detail(request, pk):
     today = timezone.localdate()
     month_value = request.GET.get("month", "")
     try:
-        month_start = date.fromisoformat(f"{month_value}-01") if month_value else today.replace(day=1)
+        month_start = _iso_date(f"{month_value}-01") if month_value else today.replace(day=1)
     except ValueError:
         month_start = today.replace(day=1)
     if month_start > today.replace(day=1):

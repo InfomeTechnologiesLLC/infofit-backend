@@ -42,6 +42,12 @@ GATE = re.compile(
     r"glass(?:es)?|bottles?|litres?|liters?|ml)\b", re.IGNORECASE)
 
 
+
+def _iso_date(value):
+    """Parse YYYY-MM-DD (date.fromisoformat needs Python 3.7+)."""
+    from datetime import datetime as _dt
+    return _dt.strptime(value, "%Y-%m-%d").date()
+
 def looks_like_logging(message):
     return not message.rstrip().endswith("?") and bool(GATE.search(message))
 
@@ -325,7 +331,7 @@ def apply_action(user, proposal, request_id, now, zone_name):
 
     if action == "start_plan":
         from datetime import date, timedelta
-        start = max(date.fromisoformat(payload["start"]), local_today(user))
+        start = max(_iso_date(payload["start"]), local_today(user))
         program = WellnessProgram.objects.create(
             title=payload["title"][:120], summary="Your personal plan from IVA"[:280],
             daily_action=payload["days"][0][:1000], focus_goal="all", start_date=start,

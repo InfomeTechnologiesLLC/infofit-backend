@@ -20,6 +20,12 @@ from .serializers import METRICS, SourceSerializer, SyncSerializer
 from challenges.services import reconcile_user
 
 
+
+def _iso_date(value):
+    """Parse YYYY-MM-DD (date.fromisoformat needs Python 3.7+)."""
+    from datetime import datetime as _dt
+    return _dt.strptime(value, "%Y-%m-%d").date()
+
 class Conflict(APIException):
     status_code = status.HTTP_409_CONFLICT
     default_detail = "Fitness source conflict."
@@ -160,7 +166,7 @@ class HomeView(APIView):
         if requested:
             from datetime import date
             try:
-                local_date = date.fromisoformat(requested)
+                local_date = _iso_date(requested)
             except ValueError:
                 raise ValidationError({"date": "Use YYYY-MM-DD."})
         else:
@@ -205,8 +211,8 @@ class StepSummaryView(APIView):
 def date_range(request):
     from datetime import date
     try:
-        start = date.fromisoformat(request.query_params["from"])
-        end = date.fromisoformat(request.query_params["to"])
+        start = _iso_date(request.query_params["from"])
+        end = _iso_date(request.query_params["to"])
     except (KeyError, ValueError):
         raise ValidationError("Provide from and to as YYYY-MM-DD.")
     if end < start or end - start >= timedelta(days=31):

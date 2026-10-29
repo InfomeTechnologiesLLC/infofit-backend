@@ -9,7 +9,6 @@ Anti-cheat rules (the same for every kind):
 - Workout sessions shorter than 10 minutes are ignored; one session counts for at most 4 hours.
 - Impossible days are capped (e.g. more than 50,000 steps or 60 km) and counted as "flagged days" for staff.
 """
-from dataclasses import dataclass
 from datetime import timedelta
 
 from fitness.models import DailyActivity, ExerciseRecord, SleepRecord
@@ -40,11 +39,21 @@ ACTIVITY_TYPES = {
 }
 
 
-@dataclass
 class Score:
-    value: float = 0
-    has_data: bool = False
-    flagged_days: int = 0
+    """Result of scoring one enrollment (a plain class so it also runs on Python 3.6)."""
+
+    def __init__(self, value=0, has_data=False, flagged_days=0):
+        self.value = value
+        self.has_data = has_data
+        self.flagged_days = flagged_days
+
+    def __eq__(self, other):
+        return isinstance(other, Score) and (self.value, self.has_data, self.flagged_days) == (
+            other.value, other.has_data, other.flagged_days)
+
+    def __repr__(self):
+        return "Score(value={!r}, has_data={!r}, flagged_days={!r})".format(
+            self.value, self.has_data, self.flagged_days)
 
 
 def _verified(day, metric, manual_field):
