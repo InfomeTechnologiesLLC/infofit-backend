@@ -21,6 +21,7 @@ from django.core.paginator import Paginator
 
 from accounts.models import ADMIN_ROLES, Department, Role, Team, User
 from challenges.models import Challenge, ChallengeEnrollment, ChallengeProgress, PointsLedger
+from automations.services import announce_new_activities
 from challenges.services import reconcile_user
 from community.models import CommunityPost, CommunityReport
 from fitness.models import DailyActivity, FitnessAccount, FitnessSource
@@ -31,6 +32,7 @@ from wellness.models import HydrationLog, ProgramCheckIn, ProgramEnrollment, Wel
 from .forms import (CHALLENGE_KIND_HELP, ChallengeForm, DepartmentForm, EmployeeForm, EmployeePasswordForm,
                     PortalLoginForm, TeamForm, WellnessProgramForm)
 from .insights import points_totals, staff_rankings, step_period, step_totals
+from . import notification_health
 
 
 
@@ -446,6 +448,15 @@ def record_form(request, section, pk=None):
                 for user_id in ChallengeEnrollment.objects.filter(challenge=saved).values_list("user_id", flat=True):
                     reconcile_user(User.objects.get(pk=user_id))
         messages.success(request, f"{title[:-1] if title.endswith('s') else title} saved.")
+        if section in ("challenges", "programs") and saved.is_published and saved.announced_at is None:
+            try:
+                told = announce_new_activities()
+            except Exception:  # the save already succeeded; the scheduler retries the announcement
+                logger.exception("Announcing %s %s failed", section, saved.pk)
+            else:
+                if told:
+                    messages.info(request, "{} employee{} will get a notification about it.".format(
+                        told, "" if told == 1 else "s"))
         if section == "challenges":
             return redirect("portal:challenge_detail", pk=saved.pk)
         return redirect(f"portal:{section}")
@@ -590,3 +601,45 @@ def ai_draft(request):
     if not result:
         return JsonResponse({"error": "The AI assistant is unavailable right now. Please write it yourself."}, status=503)
     return JsonResponse({"draft": result})
+
+
+@staff_only
+@never_cache
+def notifications_health(request):
+    from notifications.models import Notification
+    from notifications.services import create_notification
+    from notifications.tasks import deliver_now
+    if request.method == "POST":
+        action = request.POST.get("action")
+        if action == "run":
+            from notifications.management.commands.run_scheduled_jobs import run_all
+            results = run_all()
+            failed = [name for name, value in results.items() if str(value).startswith("error")]
+            if failed:
+                messages.error(request, "Ran the scheduled jobs, but these failed: {}. Details are in the server log.".format(
+                    ", ".join(failed)))
+            else:
+                messages.success(request, "Ran the scheduled jobs. {} push{} sent.".format(
+                    results.get("push_delivery", 0), "" if results.get("push_delivery") == 1 else "es"))
+        elif action == "test":
+            email = request.POST.get("email", "").strip().lower()
+            person = User.objects.filter(email__iexact=email, is_active=True).first()
+            if not person:
+                messages.error(request, "No active account uses {}.".format(email or "that email"))
+            else:
+                import uuid
+                note, _ = create_notification(person, Notification.Kind.TEST, "Test from INFOME FIT",
+                    "If you can see this, notifications are working on your phone.", "test:{}".format(uuid.uuid4()))
+                sent, problems = deliver_now(note)
+                if sent:
+                    messages.success(request, "Test sent to {} phone{} of {}. Ask them if it arrived.".format(
+                        sent, "" if sent == 1 else "s", person.email))
+                else:
+                    messages.error(request, "Not sent to {}: {}".format(person.email, " ".join(problems)))
+        return redirect("portal:notifications")
+    emails = list(User.objects.filter(is_active=True).order_by("email").values_list("email", flat=True)[:500])
+    return render(request, "portal/notifications.html", page_context(
+        "Notifications", "notifications", checks=notification_health.checks(),
+        scheduler=notification_health.scheduler_status(), cron_line=notification_health.cron_line(),
+        counts=notification_health.delivery_counts(), recent=notification_health.recent_notifications(),
+        emails=emails))

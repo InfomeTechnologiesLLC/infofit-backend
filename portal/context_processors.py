@@ -10,4 +10,13 @@ def nav_counts(request):
     return {"nav_counts": {
         "review": CommunityPost.objects.filter(status=CommunityPost.Status.REVIEW).count(),
         "reports": CommunityReport.objects.filter(status=CommunityReport.Status.OPEN).count(),
+        "notifications_problem": _notifications_problem(),
     }}
+
+
+def _notifications_problem():
+    from .notification_health import has_problem
+    try:
+        return has_problem()
+    except Exception:  # never break a page over the sidebar dot
+        return False

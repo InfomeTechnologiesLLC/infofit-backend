@@ -51,6 +51,8 @@ class Challenge(models.Model):
     reward_points = models.PositiveIntegerField()
     badge_title = models.CharField(max_length=100, blank=True)
     is_published = models.BooleanField(default=False)
+    # Set once everyone has been told about the published challenge (see automations.services.announce_new_activities).
+    announced_at = models.DateTimeField(null=True, blank=True, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     @property

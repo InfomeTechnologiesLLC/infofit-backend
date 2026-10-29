@@ -18,6 +18,9 @@ class Notification(models.Model):
         GOAL_NUDGE = "goal_nudge", "Step goal nudge"
         CHALLENGE_ALERT = "challenge_alert", "Challenge alert"
         MEAL_PROMPT = "meal_prompt", "Meal reminder"
+        NEW_CHALLENGE = "new_challenge", "New challenge"
+        NEW_PROGRAM = "new_program", "New wellness program"
+        TEST = "test", "Test notification"
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="notifications")
     kind = models.CharField(max_length=32, choices=Kind.choices)
@@ -58,3 +61,17 @@ class PushDelivery(models.Model):
     class Meta:
         constraints = [models.UniqueConstraint(fields=["notification", "device"], name="uniq_push_notification_device")]
         indexes = [models.Index(fields=["state", "next_attempt_at"], name="push_delivery_due_idx")]
+
+
+class SchedulerHeartbeat(models.Model):
+    """When each scheduled job last ran, so the portal can show whether reminders and pushes are going out."""
+    name = models.CharField(max_length=40, unique=True)
+    last_run_at = models.DateTimeField()
+    last_ok = models.BooleanField(default=True)
+    last_summary = models.CharField(max_length=500, blank=True)
+
+    @classmethod
+    def beat(cls, name, ok=True, summary=""):
+        from django.utils import timezone
+        cls.objects.update_or_create(name=name, defaults={
+            "last_run_at": timezone.now(), "last_ok": ok, "last_summary": str(summary)[:500]})

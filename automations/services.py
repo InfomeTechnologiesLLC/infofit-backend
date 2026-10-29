@@ -32,7 +32,10 @@ from .models import AutomationLog, AutomationSettings, StepGoalSuggestion
 log = logging.getLogger("infome.automations")
 
 DAILY_CAP = 2          # automated coaching messages per person per local day, across all kinds
-SLOT_MINUTES = 5       # the scheduler runs every 5 minutes, so a send window is 5 minutes wide
+SLOT_MINUTES = 5       # the scheduler runs every 5 minutes
+# A message is sent at the first scheduler run after its time, up to this long after it. This way nothing is
+# lost when the scheduler (cron or Celery) runs late or was briefly down. Each message still goes out once a day.
+CATCH_UP_MINUTES = 120
 MIN_COHORT = 5         # smallest group any HR figure may describe
 
 REVIEW_SYSTEM = (
@@ -54,12 +57,15 @@ def user_zone(user):
         return ZoneInfo("UTC")
 
 
+def _in_window(minute, start):
+    return start <= minute < start + CATCH_UP_MINUTES
+
+
 def _due(queryset, now):
-    """Yield (settings, local_datetime) for people whose chosen send time falls in the current slot."""
+    """Yield (settings, local_datetime) for people whose chosen send time passed within the catch-up window."""
     for s in queryset.select_related("user").iterator():
         local = now.astimezone(user_zone(s.user))
-        minute = local.hour * 60 + local.minute
-        if s.send_minute <= minute < s.send_minute + SLOT_MINUTES:
+        if _in_window(local.hour * 60 + local.minute, s.send_minute):
             yield s, local
 
 
@@ -347,7 +353,7 @@ def send_hr_digests(now=None):
         local = now.astimezone(user_zone(admin))
         minute = local.hour * 60 + local.minute
         send_minute = prefs.send_minute if prefs else 540
-        if local.weekday() != 0 or not (send_minute <= minute < send_minute + SLOT_MINUTES):
+        if local.weekday() != 0 or not _in_window(minute, send_minute):
             continue
         digest = digest or hr_digest(now)
         body = (f"{digest['active_employees']} of {digest['total_employees']} employees ({digest['participation_percent']}%) "
@@ -381,7 +387,7 @@ def send_goal_nudges(now=None):
     for s in AutomationSettings.objects.filter(goal_nudge_enabled=True, user__is_active=True).select_related("user").iterator():
         local = now.astimezone(user_zone(s.user))
         minute = local.hour * 60 + local.minute
-        if not s.goal_nudge_minute <= minute < s.goal_nudge_minute + SLOT_MINUTES:
+        if not _in_window(minute, s.goal_nudge_minute):
             continue
         day = local.date()
         if not can_send(s.user, "goal_nudge", day):
@@ -406,7 +412,8 @@ def send_goal_nudges(now=None):
 # ---- 9. challenge alerts ------------------------------------------------------------------------
 
 def send_challenge_alerts(now=None):
-    """At the employee's message time: joined challenges ending tomorrow, and new ones open to join."""
+    """At the employee's message time: joined challenges ending tomorrow. (New challenges are announced to
+    everyone as soon as they are published, by announce_new_activities.)"""
     now = now or timezone.now()
     sent = 0
     for s, local in _due(AutomationSettings.objects.filter(challenge_alerts_enabled=True, user__is_active=True), now):
@@ -423,20 +430,13 @@ def send_challenge_alerts(now=None):
                 s.user, Notification.Kind.CHALLENGE_ALERT, f"{challenge.title} ends tomorrow"[:120], status_text,
                 f"automation:challenge-ends:{challenge.pk}", data={"challenge_id": challenge.pk})
             sent += int(created)
-        fresh = Challenge.objects.filter(is_published=True, start_date__lte=day, start_date__gte=day - timedelta(days=2),
-                                         end_date__gte=day).exclude(id__in=joined)
-        for challenge in fresh[:2]:
-            _, created = create_notification(
-                s.user, Notification.Kind.CHALLENGE_ALERT, "New challenge you can join",
-                f"{challenge.title} is open now. Join it from Challenges if it suits you."[:240],
-                f"automation:challenge-new:{challenge.pk}", data={"challenge_id": challenge.pk})
-            sent += int(created)
     return sent
 
 
 # ---- 10. meal prompts at the employee's usual times ----------------------------------------------
 
 MEAL_PROMPT_DELAY = 20   # minutes after the usual time, so people who log right away never see it
+MEAL_CATCH_UP_MINUTES = 45  # a late scheduler run still sends it, but never long after the meal
 MEAL_TIME_DAYS = 30
 MEAL_TIME_MIN_DAYS = 4
 
@@ -476,7 +476,7 @@ def send_meal_prompts(now=None):
         day = local.date()
         for kind, usual in usual_meal_minutes(s.user, now).items():
             due = usual + MEAL_PROMPT_DELAY
-            if not due <= minute < due + SLOT_MINUTES:
+            if not due <= minute < due + MEAL_CATCH_UP_MINUTES:
                 continue
             if Meal.objects.filter(user=s.user, kind=kind, local_date=day).exists():
                 continue
@@ -489,4 +489,78 @@ def send_meal_prompts(now=None):
             _, created = create_notification(s.user, Notification.Kind.MEAL_PROMPT, f"Log your {kind}", body,
                                              f"automation:meal:{day}:{kind}", data=data)
             sent += int(created)
+    return sent
+
+
+# ---- 11. news: newly published challenges and wellness programs -----------------------------------
+
+def _news_recipients():
+    """Active employees who have not turned challenge and program news off in Settings."""
+    opted_out = AutomationSettings.objects.filter(challenge_alerts_enabled=False).values_list("user_id", flat=True)
+    return (User.objects.filter(is_active=True, role__in=[Role.EMPLOYEE, Role.TEAM_MANAGER])
+            .exclude(pk__in=opted_out).values_list("pk", flat=True))
+
+
+def _broadcast(user_ids, kind, title, body, event_key, data):
+    """One inbox notification per person (never twice for the same event), with pushes queued to their phones."""
+    from notifications.models import PushDelivery, PushDevice
+    user_ids = list(user_ids)
+    already = set(Notification.objects.filter(event_key=event_key, user_id__in=user_ids).values_list("user_id", flat=True))
+    new_ids = [pk for pk in user_ids if pk not in already]
+    Notification.objects.bulk_create([
+        Notification(user_id=pk, kind=kind, title=title[:120], body=body[:240], event_key=event_key, data=data)
+        for pk in new_ids], batch_size=500, ignore_conflicts=True)
+    created = dict(Notification.objects.filter(event_key=event_key, user_id__in=new_ids).values_list("user_id", "pk"))
+    PushDelivery.objects.bulk_create([
+        PushDelivery(notification_id=created[device.user_id], device_id=device.pk)
+        for device in PushDevice.objects.filter(enabled=True, user_id__in=list(created)).only("pk", "user_id")],
+        batch_size=500, ignore_conflicts=True)
+    return len(created)
+
+
+def _date_text(value):
+    return "{} {}".format(value.day, value.strftime("%b"))
+
+
+def announce_challenge(challenge, today):
+    if challenge.start_date > today:
+        when = "Starts {}, ends {}.".format(_date_text(challenge.start_date), _date_text(challenge.end_date))
+    else:
+        when = "Open now until {}.".format(_date_text(challenge.end_date))
+    body = "Goal: {}. {} Join it from Challenges.".format(challenge.target_label, when)
+    return _broadcast(_news_recipients(), Notification.Kind.NEW_CHALLENGE, "New challenge: {}".format(challenge.title),
+                      body, "announce:challenge:{}".format(challenge.pk), {"challenge_id": challenge.pk})
+
+
+def announce_program(program, today):
+    if program.start_date > today:
+        when = "Starts {}.".format(_date_text(program.start_date))
+    else:
+        when = "Runs until {}.".format(_date_text(program.end_date))
+    body = "{}. {} Join it on the Home screen.".format(program.summary.strip().rstrip("."), when)
+    return _broadcast(_news_recipients(), Notification.Kind.NEW_PROGRAM,
+                      "New wellness program: {}".format(program.title), body,
+                      "announce:program:{}".format(program.pk), {"program_id": program.pk})
+
+
+def announce_new_activities(now=None):
+    """Tell everyone, once, about each newly published challenge and company wellness program.
+
+    Runs with the scheduled jobs and straight after staff publish something in the portal.
+    Items that have already finished are marked as announced without sending anything.
+    """
+    from wellness.models import WellnessProgram
+    now = now or timezone.now()
+    today = timezone.localdate(now)
+    sent = 0
+    for challenge in Challenge.objects.filter(is_published=True, announced_at__isnull=True):
+        with transaction.atomic():
+            if challenge.end_date >= today:
+                sent += announce_challenge(challenge, today)
+            Challenge.objects.filter(pk=challenge.pk).update(announced_at=now)
+    for program in WellnessProgram.objects.filter(is_published=True, owner__isnull=True, announced_at__isnull=True):
+        with transaction.atomic():
+            if program.end_date >= today:
+                sent += announce_program(program, today)
+            WellnessProgram.objects.filter(pk=program.pk).update(announced_at=now)
     return sent

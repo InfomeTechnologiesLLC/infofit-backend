@@ -56,7 +56,7 @@ class GoalNudgeTests(TestCase):
 
 
 class ChallengeAlertTests(TestCase):
-    def test_ending_tomorrow_and_new_challenges(self):
+    def test_ending_tomorrow(self):
         user = user_with("alerts@example.test", challenge_alerts_enabled=True, send_minute=540)
         now = timezone.now().replace(hour=9, minute=0, second=0, microsecond=0)
         today = now.date()
@@ -65,10 +65,10 @@ class ChallengeAlertTests(TestCase):
         ChallengeEnrollment.objects.create(challenge=ending, user=user, joined_local_date=today - timedelta(days=5))
         Challenge.objects.create(slug="fresh", title="Fresh one", start_date=today, end_date=today + timedelta(days=9),
                                  target_steps=1000, reward_points=5, is_published=True)
-        self.assertEqual(services.send_challenge_alerts(now), 2)
+        self.assertEqual(services.send_challenge_alerts(now), 1)
         self.assertEqual(services.send_challenge_alerts(now), 0)
         titles = set(Notification.objects.filter(user=user).values_list("title", flat=True))
-        self.assertEqual(titles, {"Ending soon ends tomorrow", "New challenge you can join"})
+        self.assertEqual(titles, {"Ending soon ends tomorrow"})  # new ones are announced on publish instead
 
 
 class MealPromptTests(TestCase):
@@ -108,3 +108,51 @@ class PushPayloadTests(TestCase):
         bmi_data = push_message("t" * 30, bmi).data
         self.assertEqual(bmi_data["body"], "You have a new notification")
         self.assertNotIn("x_x", bmi_data)
+
+
+class AnnouncementTests(TestCase):
+    def setUp(self):
+        from accounts.models import Role
+        from notifications.models import PushDevice
+        self.today = timezone.localdate()
+        self.a = User.objects.create_user("a@example.test", PW)
+        self.b = User.objects.create_user("b@example.test", PW)
+        self.quiet = user_with("quiet@example.test", challenge_alerts_enabled=False)
+        self.gone = User.objects.create_user("gone@example.test", PW, is_active=False)
+        self.admin = User.objects.create_user("hr@example.test", PW, role=Role.HR_ADMIN, is_staff=True)
+        PushDevice.objects.create(user=self.a, token="token-a")
+
+    def challenge(self, slug, **extra):
+        values = dict(slug=slug, title=slug.title(), start_date=self.today, end_date=self.today + timedelta(days=9),
+                      target_steps=50000, reward_points=5, is_published=True)
+        values.update(extra)
+        return Challenge.objects.create(**values)
+
+    def test_published_challenge_is_announced_once_to_active_employees(self):
+        from notifications.models import PushDelivery
+        live = self.challenge("ride")
+        self.challenge("draft", is_published=False)
+        self.challenge("over", start_date=self.today - timedelta(days=20), end_date=self.today - timedelta(days=1))
+        self.assertEqual(services.announce_new_activities(), 2)
+        self.assertEqual(services.announce_new_activities(), 0)
+        notes = Notification.objects.filter(kind="new_challenge")
+        self.assertEqual(set(notes.values_list("user__email", flat=True)), {"a@example.test", "b@example.test"})
+        note = notes.get(user=self.a)
+        self.assertEqual(note.title, "New challenge: Ride")
+        self.assertIn("50,000 steps", note.body)
+        self.assertEqual(note.data, {"challenge_id": live.pk})
+        self.assertEqual(PushDelivery.objects.filter(notification=note).count(), 1)
+        self.assertFalse(Challenge.objects.filter(is_published=True, announced_at__isnull=True).exists())
+        self.assertIsNone(Challenge.objects.get(slug="draft").announced_at)
+
+    def test_company_programs_are_announced_personal_plans_are_not(self):
+        from wellness.models import WellnessProgram
+        WellnessProgram.objects.create(title="Hydrate", summary="Drink water through the day.", daily_action="Drink",
+            start_date=self.today + timedelta(days=2), end_date=self.today + timedelta(days=30), is_published=True)
+        WellnessProgram.objects.create(title="Mine", summary="Personal", daily_action="Walk", owner=self.a,
+            start_date=self.today, end_date=self.today + timedelta(days=7), is_published=True)
+        self.assertEqual(services.announce_new_activities(), 2)
+        note = Notification.objects.get(user=self.b, kind="new_program")
+        self.assertEqual(note.title, "New wellness program: Hydrate")
+        self.assertTrue(note.body.startswith("Drink water through the day. Starts "))
+        self.assertFalse(Notification.objects.filter(title__contains="Mine").exists())

@@ -20,10 +20,13 @@ def run_scheduled_automations():
         ("goal_nudges", services.send_goal_nudges),
         ("challenge_alerts", services.send_challenge_alerts),
         ("meal_prompts", services.send_meal_prompts),
+        ("announcements", services.announce_new_activities),
     ):
         try:
             results[name] = func()
         except Exception:
             log.exception("Automation %s failed", name)
             results[name] = "error"
+    from notifications.models import SchedulerHeartbeat
+    SchedulerHeartbeat.beat("automations", ok="error" not in results.values(), summary=results)
     return results

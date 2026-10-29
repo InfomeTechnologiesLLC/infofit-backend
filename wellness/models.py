@@ -22,6 +22,8 @@ class WellnessProgram(models.Model):
                               related_name="personal_programs")
     # Optional day-by-day actions, one string per day starting at start_date.
     plan_days = models.JSONField(default=list, blank=True)
+    # Set once everyone has been told about the published program (personal plans are never announced).
+    announced_at = models.DateTimeField(null=True, blank=True, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def clean(self):

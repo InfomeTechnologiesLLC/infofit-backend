@@ -149,6 +149,8 @@ if len(_sys.argv) > 1 and _sys.argv[1] == "test":
 CELERY_BROKER_URL = env("REDIS_URL", default="redis://127.0.0.1:6379/0")
 CELERY_RESULT_BACKEND = None
 CELERY_BEAT_SCHEDULE = {
+    # Servers without Celery can run all of these from cron instead: manage.py run_scheduled_jobs (see the portal's
+    # Notifications page for the exact cron line).
     "deliver-notifications": {"task": "notifications.tasks.deliver_pending_pushes", "schedule": 60.0},
     "create-wellness-reminders": {"task": "wellness.tasks.create_wellness_reminders", "schedule": 300.0},
     "run-scheduled-automations": {"task": "automations.tasks.run_scheduled_automations", "schedule": 300.0},

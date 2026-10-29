@@ -94,6 +94,7 @@
       <div class="group">Overview</div>
       <a class="nav-link {% if section == 'dashboard' %}active{% endif %}" href="{% url 'portal:dashboard' %}"><i class="bi bi-grid-1x2"></i>Dashboard</a>
       <a class="nav-link {% if section == 'insights' %}active{% endif %}" href="{% url 'portal:insights' %}"><i class="bi bi-stars"></i>Ask AI</a>
+      <a class="nav-link {% if section == 'notifications' %}active{% endif %}" href="{% url 'portal:notifications' %}"><i class="bi bi-bell"></i>Notifications{% if counts.notifications_problem %}<span class="badge rounded-pill text-bg-danger" title="Notifications need attention">!</span>{% endif %}</a>
       <div class="group">Activities</div>
       <a class="nav-link {% if section == 'challenges' %}active{% endif %}" href="{% url 'portal:challenges' %}"><i class="bi bi-trophy"></i>Challenges</a>
       <a class="nav-link {% if section == 'programs' %}active{% endif %}" href="{% url 'portal:programs' %}"><i class="bi bi-heart-pulse"></i>Wellness programs</a>

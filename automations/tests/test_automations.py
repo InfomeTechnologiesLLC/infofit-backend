@@ -51,11 +51,13 @@ class SettingsApiTests(APITestCase):
         self.user = make_user("auto@example.test")
         self.client.force_authenticate(self.user)
 
-    def test_defaults_off_patch_and_validation(self):
+    def test_defaults_on_patch_and_validation(self):
         data = self.client.get("/api/v1/automations/settings/").data
-        self.assertFalse(data["daily_coach_enabled"] or data["weekly_review_enabled"] or data["reengagement_enabled"])
-        patched = self.client.patch("/api/v1/automations/settings/", {"daily_coach_enabled": True, "send_minute": 600}, format="json")
-        self.assertTrue(patched.data["daily_coach_enabled"])
+        for flag in ("daily_coach_enabled", "weekly_review_enabled", "reengagement_enabled", "goal_nudge_enabled",
+                     "challenge_alerts_enabled", "meal_prompts_enabled"):
+            self.assertTrue(data[flag], flag)
+        patched = self.client.patch("/api/v1/automations/settings/", {"daily_coach_enabled": False, "send_minute": 600}, format="json")
+        self.assertFalse(patched.data["daily_coach_enabled"])
         self.assertEqual(patched.data["send_minute"], 600)
         self.assertEqual(self.client.patch("/api/v1/automations/settings/", {"send_minute": 2000}, format="json").status_code, 400)
 
@@ -68,6 +70,20 @@ class DailyCoachTests(TestCase):
     def setUp(self):
         self.user = make_user("daily@example.test")
         enable(self.user, daily_coach_enabled=True)
+
+    @patch("automations.services.complete", side_effect=Exception("provider down"))
+    def test_late_scheduler_still_sends_once(self, _):
+        # Cron ran late (or was down at 09:00): the 09:00 message still goes out, once, within two hours.
+        self.assertEqual(services.send_daily_coach(NOW - timedelta(minutes=1)), 0)   # before the chosen time
+        self.assertEqual(services.send_daily_coach(NOW + timedelta(minutes=95)), 1)
+        self.assertEqual(services.send_daily_coach(NOW + timedelta(minutes=100)), 0)
+        AutomationLog.objects.all().delete()
+        Notification.objects.all().delete()
+        self.assertEqual(services.send_daily_coach(NOW + timedelta(hours=3)), 0)    # too late for a morning tip
+
+    def test_new_accounts_have_coach_messages_on(self):
+        prefs = AutomationSettings.objects.get(user=make_user("fresh@example.test"))
+        self.assertTrue(prefs.daily_coach_enabled and prefs.challenge_alerts_enabled and prefs.goal_nudge_enabled)
 
     @patch("automations.services.complete", side_effect=Exception("provider down"))
     def test_sends_once_in_slot_with_template_fallback(self, _):

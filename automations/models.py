@@ -4,20 +4,20 @@ from django.db import models
 
 
 class AutomationSettings(models.Model):
-    """Per-employee opt-ins for proactive coaching. Everything defaults to off except the HR digest (admins only)."""
+    """Per-employee choices for proactive coaching. Everything is on by default; each person can turn items off in Settings."""
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="automation_settings")
-    daily_coach_enabled = models.BooleanField(default=False)
-    weekly_review_enabled = models.BooleanField(default=False)
-    reengagement_enabled = models.BooleanField(default=False)
+    daily_coach_enabled = models.BooleanField(default=True)
+    weekly_review_enabled = models.BooleanField(default=True)
+    reengagement_enabled = models.BooleanField(default=True)
     hr_digest_enabled = models.BooleanField(default=True)
     send_minute = models.PositiveSmallIntegerField(default=540, validators=[MaxValueValidator(1439)])  # 09:00 local
     # "You're 1,200 steps from your goal" in the evening, only when today's steps synced recently.
-    goal_nudge_enabled = models.BooleanField(default=False)
+    goal_nudge_enabled = models.BooleanField(default=True)
     goal_nudge_minute = models.PositiveSmallIntegerField(default=1140, validators=[MaxValueValidator(1439)])  # 19:00
-    # "Challenge ends tomorrow" and "new challenge you can join", at send_minute.
-    challenge_alerts_enabled = models.BooleanField(default=False)
+    # "Challenge ends tomorrow" at send_minute, and news of newly published challenges and wellness programs.
+    challenge_alerts_enabled = models.BooleanField(default=True)
     # "Had lunch? Log it" shortly after the employee's own usual meal times, learned from saved meals.
-    meal_prompts_enabled = models.BooleanField(default=False)
+    meal_prompts_enabled = models.BooleanField(default=True)
     updated_at = models.DateTimeField(auto_now=True)
 
 

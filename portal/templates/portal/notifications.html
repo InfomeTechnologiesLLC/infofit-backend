@@ -1,0 +1,71 @@
+{% extends 'portal/base.html' %}
+{% block content %}
+<div class="page-head d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+  <div><h1 class="h3 mb-1">Notifications</h1>
+    <p class="text-muted mb-0">Whether coach messages, challenge news and reminders are reaching people's phones.</p></div>
+  <form method="post">{% csrf_token %}<input type="hidden" name="action" value="run">
+    <button class="btn btn-light border" type="submit"><i class="bi bi-play-circle me-1"></i>Run scheduled jobs now</button></form>
+</div>
+
+<div class="row g-3 mb-4">
+  {% for check in checks %}
+  <div class="col-md-6 col-xl-4"><div class="card p-3 h-100">
+    <div class="d-flex gap-3 align-items-start">
+      <div class="chip {% if check.ok %}tone-success{% else %}tone-danger{% endif %}"><i class="bi {% if check.ok %}bi-check-lg{% else %}bi-exclamation-lg{% endif %}"></i></div>
+      <div class="min-w-0">
+        <div class="fw-bold">{{ check.title }}</div>
+        <div class="small text-muted">{{ check.detail }}</div>
+        {% if check.fix and check.fix != 'cron' %}<div class="small mt-2"><strong>To fix:</strong> {{ check.fix }}</div>{% endif %}
+        {% if check.fix == 'cron' %}<div class="small mt-2"><strong>To fix:</strong> see "Set up the scheduler" below.</div>{% endif %}
+      </div>
+    </div>
+  </div></div>
+  {% endfor %}
+</div>
+
+{% if not scheduler.ok %}
+<div class="card p-4 mb-4 border-warning-subtle">
+  <h2 class="h5 mb-2"><i class="bi bi-clock-history me-1"></i>Set up the scheduler</h2>
+  <p class="mb-2">Coach messages, challenge and program news, and every push to phones are sent by a job that must run every 5 minutes.
+    On hosting with cPanel, open <strong>Cron Jobs</strong>, choose "Once Per Five Minutes" and paste this command:</p>
+  <pre class="bg-dark text-white rounded-3 p-3 small mb-2" style="white-space:pre-wrap;word-break:break-all">{{ cron_line }}</pre>
+  <p class="small text-muted mb-0">In cPanel, paste only the part after the five stars into the Command box. If you run Celery with Celery beat instead, start the worker and beat and this card goes away. Use "Run scheduled jobs now" above to try it once straight away.</p>
+</div>
+{% endif %}
+
+<div class="row g-3 mb-4">
+  <div class="col-lg-5"><div class="card p-4 h-100">
+    <div class="card-title-row"><h2>Last 24 hours</h2></div>
+    <div class="row g-2 text-center">
+      <div class="col-3"><div class="fs-4 fw-bold">{{ counts.inbox }}</div><div class="small text-muted">in the app</div></div>
+      <div class="col-3"><div class="fs-4 fw-bold text-success">{{ counts.sent }}</div><div class="small text-muted">sent to phones</div></div>
+      <div class="col-3"><div class="fs-4 fw-bold text-warning">{{ counts.waiting }}</div><div class="small text-muted">waiting</div></div>
+      <div class="col-3"><div class="fs-4 fw-bold text-danger">{{ counts.failed }}</div><div class="small text-muted">not delivered</div></div>
+    </div>
+    <p class="small text-muted mt-3 mb-0">Water and stretch reminders are made by the phone itself, so they work even when the server cannot send pushes.</p>
+  </div></div>
+  <div class="col-lg-7"><div class="card p-4 h-100">
+    <div class="card-title-row"><h2>Send a test notification</h2></div>
+    <form method="post" class="d-flex flex-wrap gap-2">{% csrf_token %}<input type="hidden" name="action" value="test">
+      <input class="form-control" style="max-width:340px" type="email" name="email" list="people" required placeholder="Employee email" aria-label="Employee email" value="{{ request.user.email }}">
+      <datalist id="people">{% for email in emails %}<option value="{{ email }}">{% endfor %}</datalist>
+      <button class="btn btn-primary" type="submit"><i class="bi bi-send me-1"></i>Send test</button>
+    </form>
+    <p class="small text-muted mt-2 mb-0">Sends straight away and tells you here if it could not be delivered, and why. The person must be signed in to the app on their phone.</p>
+  </div></div>
+</div>
+
+<div class="card">
+  <div class="p-4 pb-2 card-title-row"><h2>Latest notifications</h2><span class="small text-muted">Newest first</span></div>
+  <div class="table-responsive"><table class="table table-modern">
+    <thead><tr><th>When</th><th>Employee</th><th>Type</th><th>Message</th><th>Phone</th></tr></thead>
+    <tbody>{% for note in recent %}<tr>
+      <td class="small text-muted text-nowrap">{{ note.created_at|timesince }} ago</td>
+      <td class="small">{{ note.user.email }}</td>
+      <td class="small text-nowrap">{{ note.get_kind_display }}</td>
+      <td><div class="fw-semibold small">{{ note.title }}</div><div class="small text-muted">{{ note.body|truncatechars:110 }}</div></td>
+      <td><span class="badge-soft tone-{{ note.push_tone }} text-nowrap">{{ note.push_state }}</span></td>
+    </tr>{% empty %}<tr><td colspan="5"><div class="empty"><i class="bi bi-bell-slash"></i>No notifications yet.</div></td></tr>{% endfor %}</tbody>
+  </table></div>
+</div>
+{% endblock %}
