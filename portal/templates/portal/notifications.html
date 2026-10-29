@@ -17,6 +17,8 @@
         <div class="small text-muted">{{ check.detail }}</div>
         {% if check.fix and check.fix != 'cron' %}<div class="small mt-2"><strong>To fix:</strong> {{ check.fix }}</div>{% endif %}
         {% if check.fix == 'cron' %}<div class="small mt-2"><strong>To fix:</strong> see "Set up the scheduler" below.</div>{% endif %}
+        {% if check.action == 'ai_test' %}<form method="post" class="mt-2">{% csrf_token %}<input type="hidden" name="action" value="ai_test">
+          <button class="btn btn-sm btn-light border" type="submit"><i class="bi bi-stars me-1"></i>Test IVA</button></form>{% endif %}
       </div>
     </div>
   </div></div>

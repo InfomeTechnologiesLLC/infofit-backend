@@ -107,8 +107,10 @@ class AgentStreamView(APIView):
                     yield _sse(event, data)
             except _APIException as exc:
                 yield _sse("error", {"message": str(exc.detail)})
-            except Exception:
+            except Exception as exc:
                 _log.exception("IVA stream failed")
+                from ai_service.provider import record_failure
+                record_failure("Server error in IVA: {}: {}".format(type(exc).__name__, exc)[:300])
                 yield _sse("error", {"message": "IVA is unavailable right now. Please try again later."})
 
         response = StreamingHttpResponse(events(), content_type="text/event-stream")

@@ -70,12 +70,26 @@ def checks(now=None):
     rows.append({"title": "Coach messages", "ok": coach_on > 0,
                  "detail": "Turned on for {} of {} employees. Each person can turn them off in the app's Settings.".format(
                      coach_on, total), "fix": None})
-    has_ai = bool(getattr(settings, "GEMINI_API_KEY", ""))
-    rows.append({"title": "AI wording for coach messages", "ok": has_ai,
-                 "detail": "Gemini writes each message from the person's own data." if has_ai else
-                 "No GEMINI_API_KEY, so coach messages use fixed sentences and can feel repetitive.",
-                 "fix": None if has_ai else "Add GEMINI_API_KEY to the server .env file and restart the site."})
+    rows.append(iva_check(sched["beats"].get("iva"), now))
     return rows
+
+
+def iva_check(beat, now):
+    model = getattr(settings, "GEMINI_MODEL", "")
+    if not getattr(settings, "GEMINI_API_KEY", ""):
+        return {"title": "IVA and AI coach (Gemini)", "ok": False, "action": "ai_test",
+                "detail": "No GEMINI_API_KEY, so IVA cannot answer and coach messages use fixed sentences.",
+                "fix": "Create a key at aistudio.google.com (Get API key), add GEMINI_API_KEY=... to the server "
+                       ".env file and restart the site."}
+    if beat and not beat.last_ok and now - beat.last_run_at <= timedelta(days=2):
+        return {"title": "IVA and AI coach (Gemini)", "ok": False, "action": "ai_test",
+                "detail": "Last problem {} ago: {}".format(_ago(now - beat.last_run_at), beat.last_summary),
+                "fix": "Press Test IVA after fixing it. A rejected or expired key needs a new key from "
+                       "aistudio.google.com; a quota error clears by itself or needs billing on the Google project."}
+    return {"title": "IVA and AI coach (Gemini)", "ok": True, "action": "ai_test",
+            "detail": "Key set, model {}. {}".format(model, "Last test passed." if beat and beat.last_ok else
+                                                     "Press Test IVA to check it really answers."),
+            "fix": None}
 
 
 def delivery_counts(now=None):

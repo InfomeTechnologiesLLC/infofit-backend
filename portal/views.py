@@ -621,6 +621,10 @@ def notifications_health(request):
             else:
                 messages.success(request, "Ran the scheduled jobs. {} push{} sent.".format(
                     results.get("push_delivery", 0), "" if results.get("push_delivery") == 1 else "es"))
+        elif action == "ai_test":
+            from ai_service.provider import diagnose
+            ok, text = diagnose()
+            (messages.success if ok else messages.error)(request, "IVA test: {}".format(text))
         elif action == "test":
             email = request.POST.get("email", "").strip().lower()
             person = User.objects.filter(email__iexact=email, is_active=True).first()
