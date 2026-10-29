@@ -155,6 +155,11 @@ class PostListView(APIView):
         return Response(fresh_post_payload(post.pk, request.user), status=status.HTTP_201_CREATED if created else 200)
 
 
+# Pillow 9.1+ moved the filter names into Image.Resampling; older Pillow (the only kind Python 3.6 servers can
+# install, up to 8.4) only has Image.LANCZOS. This works on both.
+LANCZOS = getattr(getattr(Image, "Resampling", Image), "LANCZOS")
+
+
 def prepared_photo(upload):
     if upload.size > 5 * 1024 * 1024:
         raise ValidationError({"image": "Choose a photo smaller than 5 MB."})
@@ -166,7 +171,7 @@ def prepared_photo(upload):
             original.verify()
         with Image.open(io.BytesIO(raw)) as original:
             image = ImageOps.exif_transpose(original)
-            image.thumbnail((1600, 1600), Image.Resampling.LANCZOS)
+            image.thumbnail((1600, 1600), LANCZOS)
             output = io.BytesIO()
             image.convert("RGB").save(output, format="JPEG", quality=82, optimize=True)
             content = output.getvalue()
