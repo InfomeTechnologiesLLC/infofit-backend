@@ -254,3 +254,43 @@ class EmployeeDeleteTests(TestCase):
         listing = self.client.get(reverse("portal:employees"))
         self.assertContains(listing, reverse("portal:employee_delete", args=[self.employee.pk]))
         self.assertContains(listing, reverse("portal:employee_edit", args=[self.employee.pk]))
+
+
+class EmployeePasswordTests(TestCase):
+    def setUp(self):
+        self.staff = User.objects.create_user("staff@example.test", PW, role=Role.ADMIN, is_staff=True)
+        self.employee = User.objects.create_user("worker@example.test", PW, role=Role.EMPLOYEE)
+        self.client.force_login(self.staff)
+        self.url = reverse("portal:employee_password", args=[self.employee.pk])
+
+    def test_admin_sets_new_password_and_signs_employee_out(self):
+        from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken
+        from rest_framework_simplejwt.tokens import RefreshToken
+        refresh = RefreshToken.for_user(self.employee)
+        page = self.client.get(self.url)
+        self.assertContains(page, "Set a new password")
+        self.assertContains(self.client.get(reverse("portal:employee_detail", args=[self.employee.pk])), self.url)
+        response = self.client.post(self.url, {"password1": "Fresh-Start-Pass-91", "password2": "Fresh-Start-Pass-91",
+                                               "sign_out": "on"})
+        self.assertRedirects(response, reverse("portal:employee_detail", args=[self.employee.pk]))
+        self.employee.refresh_from_db()
+        self.assertTrue(self.employee.check_password("Fresh-Start-Pass-91"))
+        self.assertFalse(self.employee.check_password(PW))
+        self.assertTrue(BlacklistedToken.objects.filter(token__jti=refresh["jti"]).exists())
+        api = Client()
+        self.assertEqual(api.post(reverse("token_refresh"), {"refresh": str(refresh)},
+                                  content_type="application/json").status_code, 401)
+
+    def test_rejects_mismatch_and_weak_passwords(self):
+        response = self.client.post(self.url, {"password1": "Fresh-Start-Pass-91", "password2": "Other-Pass-91"})
+        self.assertContains(response, "don&#x27;t match")
+        response = self.client.post(self.url, {"password1": "12345678", "password2": "12345678"})
+        self.assertEqual(response.status_code, 200)
+        self.employee.refresh_from_db()
+        self.assertTrue(self.employee.check_password(PW))
+
+    def test_only_employee_accounts_and_only_staff(self):
+        self.assertEqual(self.client.get(reverse("portal:employee_password", args=[self.staff.pk])).status_code, 404)
+        self.client.force_login(self.employee)
+        self.assertEqual(self.client.post(self.url, {"password1": "Fresh-Start-Pass-91",
+                                                     "password2": "Fresh-Start-Pass-91"}).status_code, 403)

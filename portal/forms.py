@@ -114,6 +114,32 @@ class EmployeeForm(BootstrapFormMixin, forms.Form):
         return user
 
 
+class EmployeePasswordForm(BootstrapFormMixin, forms.Form):
+    password1 = forms.CharField(label="New password", strip=False,
+        widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}))
+    password2 = forms.CharField(label="Type it again", strip=False,
+        widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}))
+    sign_out = forms.BooleanField(label="Sign them out of the app on every phone", required=False, initial=True,
+        help_text="They will need the new password to sign in again.")
+
+    def __init__(self, *args, employee=None, **kwargs):
+        self.employee = employee
+        super().__init__(*args, **kwargs)
+        self.style_fields()
+
+    def clean(self):
+        data = super().clean()
+        first, second = data.get("password1"), data.get("password2")
+        if first and second and first != second:
+            self.add_error("password2", "The two passwords don't match.")
+        elif first:
+            try:
+                validate_password(first, user=self.employee)
+            except ValidationError as error:
+                self.add_error("password1", error)
+        return data
+
+
 class DepartmentForm(BootstrapFormMixin, forms.ModelForm):
     class Meta:
         model = Department

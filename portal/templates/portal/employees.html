@@ -27,6 +27,7 @@
     <td>{% if employee.recent_checkins or employee.recent_evaluations %}<span class="badge-soft tone-info">Active this week</span>{% else %}<span class="text-muted">No recent record</span>{% endif %}</td>
     <td class="text-end text-nowrap">
       <a class="btn btn-sm btn-light border" href="{% url 'portal:employee_edit' employee.pk %}" title="Edit {{ employee.full_name }}" aria-label="Edit {{ employee.full_name }}"><i class="bi bi-pencil"></i></a>
+      <a class="btn btn-sm btn-light border" href="{% url 'portal:employee_password' employee.pk %}" title="Set password for {{ employee.full_name }}" aria-label="Set password for {{ employee.full_name }}"><i class="bi bi-key"></i></a>
       <a class="btn btn-sm btn-light border text-danger" href="{% url 'portal:employee_delete' employee.pk %}" title="Delete {{ employee.full_name }}" aria-label="Delete {{ employee.full_name }}"><i class="bi bi-trash"></i></a>
     </td>
   </tr>{% empty %}<tr><td colspan="8"><div class="empty"><i class="bi bi-people"></i>No employees found.</div></td></tr>{% endfor %}</tbody>

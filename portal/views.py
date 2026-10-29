@@ -28,8 +28,8 @@ from notifications.models import PushDelivery
 from nutrition.models import Meal
 from wellness.models import HydrationLog, ProgramCheckIn, ProgramEnrollment, WellnessProgram
 
-from .forms import (CHALLENGE_KIND_HELP, ChallengeForm, DepartmentForm, EmployeeForm, PortalLoginForm,
-                    TeamForm, WellnessProgramForm)
+from .forms import (CHALLENGE_KIND_HELP, ChallengeForm, DepartmentForm, EmployeeForm, EmployeePasswordForm,
+                    PortalLoginForm, TeamForm, WellnessProgramForm)
 from .insights import points_totals, staff_rankings, step_period, step_totals
 
 
@@ -317,6 +317,40 @@ def employee_delete(request, pk):
             return redirect("portal:employees")
     return render(request, "portal/employee_delete.html", page_context(
         "Delete employee", "employees", employee=employee, footprint=_employee_footprint(employee), error=error))
+
+
+def _sign_out_everywhere(user):
+    """Revoke every app session (refresh token) of this user; access tokens expire within minutes."""
+    from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
+    revoked = 0
+    for token in OutstandingToken.objects.filter(user=user):
+        _, created = BlacklistedToken.objects.get_or_create(token=token)
+        revoked += int(created)
+    return revoked
+
+
+@staff_only
+@never_cache
+def employee_password(request, pk):
+    employee = get_object_or_404(User, pk=pk, role=Role.EMPLOYEE)
+    form = EmployeePasswordForm(request.POST or None, employee=employee)
+    if request.method == "POST" and form.is_valid():
+        employee.set_password(form.cleaned_data["password1"])
+        employee.save(update_fields=["password"])
+        signed_out = form.cleaned_data["sign_out"]
+        if signed_out:
+            _sign_out_everywhere(employee)
+        logger.info("Portal user %s set a new password for employee %s (signed out: %s)",
+                    request.user.pk, employee.pk, signed_out)
+        messages.success(request, "New password saved for {}.{} Share it with them privately.".format(
+            employee.email, " They have been signed out of the app." if signed_out else ""))
+        return redirect("portal:employee_detail", pk=employee.pk)
+    return render(request, "portal/form.html", page_context(
+        "Set a new password", "employees", form=form,
+        cancel_url=reverse("portal:employee_detail", args=[employee.pk]),
+        help_text="Set a new password for {} ({}). Their current password stops working straight away. "
+                  "Employees can also change their own password in the app under Settings.".format(
+                      employee.full_name, employee.email)))
 
 
 @staff_only

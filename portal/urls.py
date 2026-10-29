@@ -17,6 +17,7 @@ urlpatterns = [
     path("employees/<int:pk>/", views.employee_detail, name="employee_detail"),
     path("employees/<int:pk>/edit/", views.employee_form, name="employee_edit"),
     path("employees/<int:pk>/delete/", views.employee_delete, name="employee_delete"),
+    path("employees/<int:pk>/password/", views.employee_password, name="employee_password"),
     path("employees/<int:pk>/active/", views.employee_toggle_active, name="employee_toggle_active"),
     path("departments/", views.records, {"section": "departments"}, name="departments"),
     path("departments/new/", views.record_form, {"section": "departments"}, name="department_new"),

@@ -5,6 +5,7 @@
   <div class="d-flex flex-wrap gap-2 align-items-center">
     {% if not employee.is_active %}<span class="badge-soft tone-secondary">Deactivated</span>{% endif %}
     <a class="btn btn-outline-primary" href="{% url 'portal:employee_edit' employee.pk %}"><i class="bi bi-pencil me-1"></i>Edit details</a>
+    <a class="btn btn-outline-primary" href="{% url 'portal:employee_password' employee.pk %}"><i class="bi bi-key me-1"></i>Set password</a>
     <form method="post" action="{% url 'portal:employee_toggle_active' employee.pk %}" class="d-inline">{% csrf_token %}
       {% if employee.is_active %}<button class="btn btn-outline-secondary" type="submit"><i class="bi bi-person-slash me-1"></i>Deactivate</button>
       {% else %}<button class="btn btn-outline-success" type="submit"><i class="bi bi-person-check me-1"></i>Reactivate</button>{% endif %}
