@@ -30,6 +30,11 @@ class DailyActivity(models.Model):
     active_kcal = models.FloatField(null=True, blank=True)
     exercise_minutes = models.PositiveIntegerField(null=True, blank=True)
     sleep_minutes = models.PositiveIntegerField(null=True, blank=True)
+    # Parts of the day's totals that someone typed in by hand in a fitness app (Health Connect "manual entry").
+    # Challenges subtract these, so only data the phone or watch recorded by itself counts. Null = app too old to say.
+    manual_steps = models.PositiveIntegerField(null=True, blank=True)
+    manual_distance_m = models.FloatField(null=True, blank=True)
+    manual_active_kcal = models.FloatField(null=True, blank=True)
     metric_status = models.JSONField(default=dict)
     observed_at = models.DateTimeField()
     synced_at = models.DateTimeField(auto_now=True)
@@ -47,6 +52,8 @@ class FitnessRecord(models.Model):
     local_date = models.DateField()
     start_at = models.DateTimeField()
     end_at = models.DateTimeField()
+    # How Health Connect says the record was made. "manual" (typed in by hand) never counts for challenges.
+    recording_method = models.CharField(max_length=10, default="unknown")
 
     class Meta:
         abstract = True

@@ -1,6 +1,6 @@
 {% extends 'portal/base.html' %}
 {% block content %}
-<h1 class="h2 mb-2">Individual rankings</h1>
+<h1 class="h3 fw-bold mb-2">Individual rankings</h1>
 <p class="text-muted">Rank employees by net challenge points, synced steps, or completed challenges. These are activity rankings, not health scores.</p>
 <div class="d-flex flex-wrap gap-2 mb-3" aria-label="Ranking type">
   <a class="btn btn-sm {% if sort == 'points' %}btn-primary{% else %}btn-outline-primary{% endif %}" href="?sort=points&amp;period={{ period }}">Points</a>
@@ -13,14 +13,14 @@
   <a class="btn btn-sm {% if period == 'month' %}btn-secondary{% else %}btn-outline-secondary{% endif %}" href="?sort={{ sort }}&amp;period=month">This month</a>
   <a class="btn btn-sm {% if period == 'all' %}btn-secondary{% else %}btn-outline-secondary{% endif %}" href="?sort={{ sort }}&amp;period=all">All saved days</a>
 </div>
-<div class="card p-3"><div class="table-responsive"><table class="table table-hover mb-0">
+<div class="card"><div class="table-responsive"><table class="table table-modern">
   <thead><tr><th>Rank</th><th>Employee</th><th>Team</th><th>Points</th><th>Steps</th><th>Recorded days</th><th>Challenges completed</th></tr></thead>
   <tbody>{% for row in rows %}<tr>
     <td>#{{ row.rank }}</td>
     <td><a href="{% url 'portal:employee_detail' row.user.pk %}">{{ row.user.full_name }}</a></td>
     <td>{{ row.user.profile.team|default:'—' }}</td>
     <td>{{ row.points }}</td>
-    <td>{% if row.step_days %}{{ row.steps }}{% else %}<span class="text-muted">No synced data</span>{% endif %}</td>
+    <td>{% if row.step_days %}{{ row.steps|floatformat:"0g" }}{% else %}<span class="text-muted">No synced data</span>{% endif %}</td>
     <td>{{ row.step_days }}</td><td>{{ row.completed }} / {{ row.joined }}</td>
   </tr>{% empty %}<tr><td colspan="7" class="text-muted">No employees yet.</td></tr>{% endfor %}</tbody>
 </table></div></div>

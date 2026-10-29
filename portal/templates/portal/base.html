@@ -4,57 +4,129 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ title|default:"Staff portal" }} · INFOME FIT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
   <style>
-    :root { color-scheme: light; }
-    body { background: #f4f7fb; color: #192431; }
-    .brand { font-weight: 800; letter-spacing: .03em; color: #0a6b75; }
-    .nav-link.active { background: #d9f5f3; color: #075e69; font-weight: 700; }
-    .nav-link { color: #354358; border-radius: .6rem; }
-    .nav-link:hover { background: #ecf4f8; }
-    .card { border: 1px solid #e0e8ee; box-shadow: 0 4px 16px rgba(20,40,60,.035); }
-    .metric { font-size: 2rem; font-weight: 750; line-height: 1.1; }
-    .table td, .table th { vertical-align: middle; }
-    .table-responsive { overflow-x: auto; }
-    .content-wrap { max-width: 1440px; }
-    .text-muted { color: #58687a !important; }
+    :root {
+      color-scheme: light;
+      --if-bg: #f3f6fb; --if-surface: #ffffff; --if-ink: #0f1b2d; --if-muted: #5b6b80; --if-line: #e4eaf2;
+      --if-brand: #0891b2; --if-brand-2: #7c3aed; --if-brand-soft: #e0f7fb;
+      --if-side: #0b1220; --if-side-2: #111a2e; --if-side-ink: #c9d4e5; --if-side-muted: #7d8aa3;
+      --bs-body-font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --bs-primary: #0891b2; --bs-primary-rgb: 8, 145, 178; --bs-link-color: #0e7490; --bs-link-hover-color: #155e75;
+      --bs-border-radius: .65rem; --bs-border-radius-lg: 1rem;
+    }
+    body { background: var(--if-bg); color: var(--if-ink); font-size: .935rem; }
+    .text-muted, .text-secondary { color: var(--if-muted) !important; }
+    a { text-decoration: none; }
+    /* sidebar */
+    .if-side { width: 252px; background: linear-gradient(180deg, var(--if-side), var(--if-side-2)); color: var(--if-side-ink); }
+    @media (min-width: 992px) { .if-side { position: fixed; inset: 0 auto 0 0; } .if-main { margin-left: 252px; } }
+    .if-logo { width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center; font-weight: 800; color: #fff;
+               background: linear-gradient(135deg, #06b6d4, #7c3aed); box-shadow: 0 6px 18px rgba(124,58,237,.35); }
+    .if-side .group { font-size: .7rem; letter-spacing: .09em; text-transform: uppercase; color: var(--if-side-muted); margin: 1.1rem .9rem .35rem; }
+    .if-side .nav-link { color: var(--if-side-ink); border-radius: .6rem; padding: .5rem .8rem; display: flex; align-items: center; gap: .65rem; font-weight: 500; }
+    .if-side .nav-link i { font-size: 1.05rem; opacity: .85; }
+    .if-side .nav-link:hover { background: rgba(255,255,255,.06); color: #fff; }
+    .if-side .nav-link.active { background: linear-gradient(90deg, rgba(6,182,212,.22), rgba(124,58,237,.18)); color: #fff; box-shadow: inset 3px 0 0 #22d3ee; }
+    .if-side .nav-link .badge { margin-left: auto; }
+    .if-side .who { border-top: 1px solid rgba(255,255,255,.08); }
+    /* top bar + page */
+    .if-top { background: rgba(255,255,255,.85); backdrop-filter: blur(8px); border-bottom: 1px solid var(--if-line); position: sticky; top: 0; z-index: 1020; }
+    .page-head h1 { font-weight: 800; letter-spacing: -.02em; }
+    .content-wrap { max-width: 1480px; }
+    /* cards */
+    .card { border: 1px solid var(--if-line); border-radius: 1rem; box-shadow: 0 1px 2px rgba(15,27,45,.04), 0 8px 24px rgba(15,27,45,.04); }
+    .card-title-row { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-bottom: .9rem; }
+    .card-title-row h2 { font-size: 1rem; font-weight: 700; margin: 0; }
+    .kpi { padding: 1.1rem 1.2rem; }
+    .kpi .label { color: var(--if-muted); font-size: .8rem; font-weight: 600; }
+    .kpi .value { font-size: 1.85rem; font-weight: 800; letter-spacing: -.02em; line-height: 1.15; }
+    .kpi .note { color: var(--if-muted); font-size: .78rem; }
+    @media (max-width: 575.98px) { .kpi { padding: .9rem; } .kpi .chip { display: none; } .kpi .value { font-size: 1.45rem; } }
+    .min-w-0 { min-width: 0; }
+    .chip { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; font-size: 1.25rem; flex-shrink: 0; }
+    .tone-teal { background: #ccfbf1; color: #0f766e; } .tone-amber { background: #fef3c7; color: #b45309; }
+    .tone-violet { background: #ede9fe; color: #6d28d9; } .tone-cyan { background: #cffafe; color: #0e7490; }
+    .tone-green { background: #dcfce7; color: #15803d; } .tone-blue { background: #dbeafe; color: #1d4ed8; }
+    .tone-red { background: #fee2e2; color: #b91c1c; } .tone-pink { background: #fce7f3; color: #be185d; }
+    .tone-secondary { background: #eef2f7; color: #475569; }
+    .tone-danger { background: #fee2e2; color: #b91c1c; } .tone-warning { background: #fef3c7; color: #b45309; }
+    .tone-info { background: #dbeafe; color: #1d4ed8; } .tone-success { background: #dcfce7; color: #15803d; }
+    .badge-soft { font-weight: 600; padding: .35em .65em; border-radius: 999px; }
+    /* tables */
+    .table-modern { margin: 0; }
+    .table-modern thead th { font-size: .74rem; text-transform: uppercase; letter-spacing: .06em; color: var(--if-muted); font-weight: 700;
+                             background: #f8fafc; border-bottom: 1px solid var(--if-line); padding: .7rem .9rem; white-space: nowrap; }
+    .table-modern td { padding: .75rem .9rem; vertical-align: middle; border-color: #eef2f7; }
+    .table-modern tbody tr:hover { background: #f8fbff; }
+    .avatar { width: 34px; height: 34px; border-radius: 50%; display: inline-grid; place-items: center; font-weight: 700; font-size: .78rem;
+              color: #fff; background: linear-gradient(135deg, #06b6d4, #7c3aed); flex-shrink: 0; text-transform: uppercase; }
+    .progress { height: 8px; border-radius: 99px; background: #eef2f7; }
+    .progress-bar { background: linear-gradient(90deg, #06b6d4, #7c3aed); border-radius: 99px; }
+    .btn { font-weight: 600; border-radius: .65rem; }
+    .btn-primary { background: linear-gradient(135deg, #0891b2, #6d28d9); border: 0; }
+    .btn-primary:hover { filter: brightness(1.07); }
+    .form-control, .form-select { border-radius: .6rem; border-color: #d6dfea; padding: .55rem .8rem; }
+    .form-control:focus, .form-select:focus { border-color: #22d3ee; box-shadow: 0 0 0 .2rem rgba(34,211,238,.2); }
+    .form-label { font-weight: 600; font-size: .88rem; }
+    .empty { text-align: center; color: var(--if-muted); padding: 2rem 1rem; }
+    .empty i { font-size: 1.8rem; display: block; margin-bottom: .4rem; opacity: .6; }
+    .seg .btn { border-radius: 999px !important; }
+    .list-row { display: flex; align-items: center; gap: .75rem; padding: .7rem 0; border-bottom: 1px solid #eef2f7; }
+    .list-row:last-child { border-bottom: 0; }
   </style>
+  {% block head %}{% endblock %}
 </head>
 <body>
 {% if request.user.is_authenticated and section %}
-  <header class="bg-white border-bottom">
-    <div class="container-fluid content-wrap d-flex justify-content-between align-items-center py-3">
-      <a class="brand text-decoration-none fs-5" href="{% url 'portal:dashboard' %}">INFOME FIT · Staff portal</a>
-      <div class="d-flex align-items-center gap-3">
-        <span class="small text-muted d-none d-sm-inline">{{ request.user.email }}</span>
-        <form method="post" action="{% url 'portal:logout' %}">{% csrf_token %}<button class="btn btn-outline-secondary btn-sm" type="submit">Sign out</button></form>
-      </div>
+  {% with counts=nav_counts %}
+  <aside class="if-side offcanvas-lg offcanvas-start d-flex flex-column" tabindex="-1" id="portalNav" aria-label="Portal sections">
+    <div class="d-flex align-items-center gap-2 px-3 pt-3 pb-2">
+      <div class="if-logo">IF</div>
+      <div class="lh-sm"><div class="fw-bold text-white">INFOME FIT</div><div class="small" style="color:var(--if-side-muted)">Staff portal</div></div>
+      <button type="button" class="btn-close btn-close-white ms-auto d-lg-none" data-bs-dismiss="offcanvas" data-bs-target="#portalNav" aria-label="Close menu"></button>
     </div>
-  </header>
-  <div class="container-fluid content-wrap py-4">
-    <div class="row g-4">
-      <nav class="col-12 col-lg-2" aria-label="Portal sections">
-        <div class="card p-2">
-          <a class="nav-link px-3 py-2 {% if section == 'dashboard' %}active{% endif %}" href="{% url 'portal:dashboard' %}">Overview</a>
-          <a class="nav-link px-3 py-2 {% if section == 'insights' %}active{% endif %}" href="{% url 'portal:insights' %}">Ask about participation</a>
-          <a class="nav-link px-3 py-2 {% if section == 'employees' %}active{% endif %}" href="{% url 'portal:employees' %}">Employees</a>
-          <a class="nav-link px-3 py-2 {% if section == 'teams' %}active{% endif %}" href="{% url 'portal:teams' %}">Teams</a>
-          <a class="nav-link px-3 py-2 {% if section == 'departments' %}active{% endif %}" href="{% url 'portal:departments' %}">Departments</a>
-          <a class="nav-link px-3 py-2 {% if section == 'challenges' %}active{% endif %}" href="{% url 'portal:challenges' %}">Challenges</a>
-          <a class="nav-link px-3 py-2 {% if section == 'points' %}active{% endif %}" href="{% url 'portal:points' %}">Individual rankings</a>
-          <a class="nav-link px-3 py-2 {% if section == 'programs' %}active{% endif %}" href="{% url 'portal:programs' %}">Wellness programs</a>
-          <a class="nav-link px-3 py-2 {% if section == 'posts' %}active{% endif %}" href="{% url 'portal:posts' %}">Community posts</a>
-          <a class="nav-link px-3 py-2 {% if section == 'reports' %}active{% endif %}" href="{% url 'portal:reports' %}">Reports</a>
-        </div>
-      </nav>
-      <main class="col-12 col-lg-10">
-        {% for message in messages %}<div class="alert alert-{{ message.tags|default:'info' }}" role="status">{{ message }}</div>{% endfor %}
-        {% block content %}{% endblock %}
-      </main>
+    <nav class="px-2 flex-grow-1 overflow-auto">
+      <div class="group">Overview</div>
+      <a class="nav-link {% if section == 'dashboard' %}active{% endif %}" href="{% url 'portal:dashboard' %}"><i class="bi bi-grid-1x2"></i>Dashboard</a>
+      <a class="nav-link {% if section == 'insights' %}active{% endif %}" href="{% url 'portal:insights' %}"><i class="bi bi-stars"></i>Ask AI</a>
+      <div class="group">Activities</div>
+      <a class="nav-link {% if section == 'challenges' %}active{% endif %}" href="{% url 'portal:challenges' %}"><i class="bi bi-trophy"></i>Challenges</a>
+      <a class="nav-link {% if section == 'programs' %}active{% endif %}" href="{% url 'portal:programs' %}"><i class="bi bi-heart-pulse"></i>Wellness programs</a>
+      <a class="nav-link {% if section == 'points' %}active{% endif %}" href="{% url 'portal:points' %}"><i class="bi bi-bar-chart-line"></i>Rankings</a>
+      <div class="group">People</div>
+      <a class="nav-link {% if section == 'employees' %}active{% endif %}" href="{% url 'portal:employees' %}"><i class="bi bi-people"></i>Employees</a>
+      <a class="nav-link {% if section == 'teams' %}active{% endif %}" href="{% url 'portal:teams' %}"><i class="bi bi-diagram-3"></i>Teams</a>
+      <a class="nav-link {% if section == 'departments' %}active{% endif %}" href="{% url 'portal:departments' %}"><i class="bi bi-building"></i>Departments</a>
+      <div class="group">Community</div>
+      <a class="nav-link {% if section == 'posts' %}active{% endif %}" href="{% url 'portal:posts' %}"><i class="bi bi-chat-square-heart"></i>Posts{% if counts.review %}<span class="badge rounded-pill text-bg-warning">{{ counts.review }}</span>{% endif %}</a>
+      <a class="nav-link {% if section == 'reports' %}active{% endif %}" href="{% url 'portal:reports' %}"><i class="bi bi-flag"></i>Reports{% if counts.reports %}<span class="badge rounded-pill text-bg-danger">{{ counts.reports }}</span>{% endif %}</a>
+    </nav>
+    <div class="who px-3 py-3 d-flex align-items-center gap-2">
+      <span class="avatar">{{ request.user.email|slice:":2" }}</span>
+      <div class="small text-truncate flex-grow-1" style="color:var(--if-side-ink)" title="{{ request.user.email }}">{{ request.user.email }}</div>
+      <form method="post" action="{% url 'portal:logout' %}">{% csrf_token %}<button class="btn btn-sm btn-outline-light border-0" type="submit" title="Sign out" aria-label="Sign out"><i class="bi bi-box-arrow-right"></i></button></form>
     </div>
+  </aside>
+  {% endwith %}
+  <div class="if-main">
+    <div class="if-top d-lg-none px-3 py-2 d-flex align-items-center gap-2">
+      <button class="btn btn-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#portalNav" aria-controls="portalNav" aria-label="Open menu"><i class="bi bi-list"></i></button>
+      <div class="if-logo" style="width:30px;height:30px;font-size:.8rem">IF</div><span class="fw-bold">INFOME FIT</span>
+    </div>
+    <main class="container-fluid content-wrap px-3 px-md-4 py-4">
+      {% for message in messages %}<div class="alert alert-{{ message.tags|default:'info' }} d-flex align-items-center gap-2 border-0 shadow-sm" role="status"><i class="bi bi-check-circle"></i>{{ message }}</div>{% endfor %}
+      {% block content %}{% endblock %}
+    </main>
   </div>
 {% else %}
   {% block login_content %}{% endblock %}
 {% endif %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+{% block scripts %}{% endblock %}
 </body>
 </html>

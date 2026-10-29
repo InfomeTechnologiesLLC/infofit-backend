@@ -1,16 +1,131 @@
 {% extends 'portal/base.html' %}
+{% block head %}
+<style>
+  .type-card { border: 1.5px solid var(--if-line); border-radius: .9rem; padding: .8rem .9rem; cursor: pointer; height: 100%; background: #fff; transition: .15s; text-align: left; width: 100%; }
+  .type-card:hover { border-color: #67e8f9; }
+  .type-card.active { border-color: #0891b2; background: linear-gradient(135deg, rgba(6,182,212,.08), rgba(124,58,237,.06)); box-shadow: 0 0 0 3px rgba(34,211,238,.18); }
+  .type-card i { font-size: 1.3rem; color: #6d28d9; }
+  .type-card .t { font-weight: 700; font-size: .9rem; margin-top: .25rem; }
+  .type-card .d { font-size: .76rem; color: var(--if-muted); line-height: 1.35; margin-top: .15rem; }
+  .form-section { font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; color: var(--if-muted); font-weight: 700; margin: 1.4rem 0 .6rem; }
+  .goal-preview { background: #0b1220; color: #e2e8f0; border-radius: .9rem; padding: 1rem 1.1rem; }
+  .goal-preview .big { font-size: 1.15rem; font-weight: 700; color: #fff; }
+</style>
+{% endblock %}
 {% block content %}
-<div class="mb-3"><a href="{{ cancel_url }}" class="small">← Back</a><h1 class="h2 mt-2">{{ title }}</h1><p class="text-muted">{{ help_text }}</p></div>
+<a href="{{ cancel_url }}" class="small fw-semibold"><i class="bi bi-arrow-left"></i> Back</a>
+<div class="page-head mt-2 mb-4"><h1 class="h3 mb-1">{{ title }}</h1><p class="text-muted mb-0">{{ help_text }}</p></div>
+
+<div class="row g-4">
+<div class="col-xl-8">
 {% if draft_kind %}
-<div class="card p-3 mb-3 border-info-subtle" style="max-width:780px">
-  <label class="form-label fw-semibold" for="ai-brief">Draft with AI <span class="badge text-bg-info">optional</span></label>
+<div class="card p-3 mb-3">
+  <label class="form-label" for="ai-brief"><i class="bi bi-stars text-primary"></i> Draft the wording with AI <span class="badge-soft tone-info ms-1">optional</span></label>
   <div class="d-flex flex-wrap gap-2">
     <input id="ai-brief" class="form-control flex-grow-1" style="min-width:240px" maxlength="600"
-      placeholder="{% if draft_kind == 'challenge' %}e.g. a 2-week team step challenge for Ramadan, gentle pace{% else %}e.g. a 3-week desk-stretch habit for office staff{% endif %}">
-    <button type="button" id="ai-draft-button" class="btn btn-outline-info">Draft</button>
+      placeholder="{% if draft_kind == 'challenge' %}e.g. a 2-week cycling challenge for the whole office, friendly tone{% else %}e.g. a 3-week desk-stretch habit for office staff{% endif %}">
+    <button type="button" id="ai-draft-button" class="btn btn-light border"><i class="bi bi-magic me-1"></i>Draft</button>
   </div>
   <div id="ai-draft-status" class="form-text">IVA fills in the title and text below. Check and edit everything before you save.</div>
 </div>
+{% endif %}
+
+<form method="post" class="card p-4" id="record-form">{% csrf_token %}
+  {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors }}</div>{% endif %}
+
+  {% if kind_help %}
+  {# Challenge form: a picture of each type, then only the fields the chosen type uses. #}
+  <div class="form-section mt-0">1 · What should people do?</div>
+  <div class="row g-2 mb-1" id="type-cards" role="radiogroup" aria-label="Challenge type">
+    {% for value, label in form.fields.kind.choices %}{% if value %}
+    <div class="col-6 col-md-4 col-xxl-3">
+      <button type="button" class="type-card" data-kind="{{ value }}" role="radio" aria-checked="false" {% if form.kind.field.disabled %}disabled{% endif %}>
+        <i class="bi {% if value == 'steps' %}bi-person-walking{% elif value == 'running' %}bi-lightning-charge{% elif value == 'distance' %}bi-signpost-split{% elif value == 'active_minutes' %}bi-stopwatch{% elif value == 'workout' %}bi-bicycle{% elif value == 'calories' %}bi-fire{% elif value == 'step_days' %}bi-calendar-check{% else %}bi-moon-stars{% endif %}"></i>
+        <div class="t">{{ label }}</div>
+        <div class="d">{% for k, text in kind_help.items %}{% if k == value %}{{ text }}{% endif %}{% endfor %}</div>
+      </button>
+    </div>
+    {% endif %}{% endfor %}
+  </div>
+  <div class="d-none">{{ form.kind }}</div>
+  {% for error in form.kind.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+  <div class="small text-muted mb-2"><i class="bi bi-shield-check text-success"></i> {{ form.kind.help_text }}</div>
+
+  <div class="row g-3">
+    {% for field in form %}{% if field.name == 'activity_type' or field.name == 'target_steps' or field.name == 'target_running_minutes' or field.name == 'target_value' or field.name == 'daily_threshold' %}
+    <div class="col-md-6" data-field="{{ field.name }}">
+      <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+      <div class="input-group">{{ field }}<span class="input-group-text" data-unit-for="{{ field.name }}"></span></div>
+      <div class="form-text" data-help-for="{{ field.name }}">{{ field.help_text }}</div>
+      {% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+    </div>
+    {% endif %}{% endfor %}
+  </div>
+
+  <div class="form-section">2 · Name and describe it</div>
+  <div class="row g-3">
+    {% for field in form %}{% if field.name == 'title' or field.name == 'slug' or field.name == 'description' %}
+    <div class="{% if field.name == 'description' %}col-12{% else %}col-md-6{% endif %}">
+      <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}
+      {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+      {% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+    </div>
+    {% endif %}{% endfor %}
+  </div>
+
+  <div class="form-section">3 · Dates and reward</div>
+  <div class="row g-3">
+    {% for field in form %}{% if field.name == 'start_date' or field.name == 'end_date' or field.name == 'reward_points' or field.name == 'badge_title' %}
+    <div class="col-md-6">
+      <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}
+      {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+      {% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+    </div>
+    {% endif %}{% endfor %}
+    <div class="col-12"><div class="form-check form-switch">{{ form.is_published }}<label class="form-check-label fw-semibold" for="{{ form.is_published.id_for_label }}">{{ form.is_published.label }}</label></div>
+      <div class="form-text">{{ form.is_published.help_text }}</div></div>
+  </div>
+
+  {% else %}
+  <div class="row g-3">
+  {% for field in form %}<div class="col-12 {% if field.name != 'description' and field.name != 'daily_action' and field.name != 'summary' %}col-md-6{% endif %}">
+    {% if field.field.widget.input_type == 'checkbox' %}<div class="form-check form-switch mt-md-4">{{ field }}<label class="form-check-label fw-semibold" for="{{ field.id_for_label }}">{{ field.label }}</label></div>
+    {% else %}<label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% endif %}
+    {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+    {% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+  </div>{% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="d-flex gap-2 mt-4"><button type="submit" class="btn btn-primary px-4"><i class="bi bi-check2 me-1"></i>Save</button><a class="btn btn-light border" href="{{ cancel_url }}">Cancel</a></div>
+</form>
+</div>
+
+{% if kind_help %}
+<div class="col-xl-4">
+  <div class="goal-preview mb-3" aria-live="polite">
+    <div class="small text-uppercase fw-semibold" style="letter-spacing:.08em;color:#67e8f9">Preview in the app</div>
+    <div class="big mt-1" id="preview-title">Your challenge</div>
+    <div class="mt-1" id="preview-goal">Pick a type and a target</div>
+    <div class="small mt-2" style="color:#94a3b8" id="preview-meta"></div>
+  </div>
+  <div class="card p-4">
+    <h2 class="h6 fw-bold mb-2"><i class="bi bi-shield-check text-success"></i> Why people can't cheat</h2>
+    <ul class="small text-muted mb-0 ps-3">
+      <li class="mb-1">Only data the phone, watch or a workout app records by itself counts. Anything typed in by hand in a fitness app is removed.</li>
+      <li class="mb-1">Only each person's one active phone counts; a second phone adds nothing.</li>
+      <li class="mb-1">Daily totals count from the day after joining; workouts must start after joining.</li>
+      <li class="mb-1">Workouts recorded twice (watch and phone) are counted once; workouts under 10 minutes don't count.</li>
+      <li>Impossible days are capped (50,000 steps, 60 km, 2,500 kcal) and shown to you as unusual days.</li>
+    </ul>
+  </div>
+</div>
+{% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% if draft_kind %}
 <script>
 (function () {
   const button = document.getElementById("ai-draft-button");
@@ -28,7 +143,9 @@
       if (!response.ok) { status.textContent = result.error || "Could not draft right now."; return; }
       for (const [name, value] of Object.entries(result.draft)) {
         const field = document.getElementById("id_" + name);
-        if (field && (!field.value || confirm("Replace the current " + name.replace("_", " ") + "?"))) field.value = value;
+        if (field && !field.disabled && (!field.value || confirm("Replace the current " + name.replace("_", " ") + "?"))) {
+          field.value = value; field.dispatchEvent(new Event("input"));
+        }
       }
       status.textContent = "Draft added. Check and edit it, then save.";
     } catch (e) {
@@ -38,16 +155,71 @@
 })();
 </script>
 {% endif %}
-<form method="post" class="card p-4" style="max-width:780px">{% csrf_token %}
-  {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors }}</div>{% endif %}
-  <div class="row g-3">
-  {% for field in form %}<div class="col-12 {% if field.name != 'description' and field.name != 'daily_action' and field.name != 'summary' %}col-md-6{% endif %}">
-    {% if field.field.widget.input_type == 'checkbox' %}<div class="form-check mt-4">{{ field }}<label class="form-check-label" for="{{ field.id_for_label }}">{{ field.label }}</label></div>
-    {% else %}<label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% endif %}
-    {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
-    {% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
-  </div>{% endfor %}
-  </div>
-  <div class="d-flex gap-2 mt-4"><button type="submit" class="btn btn-primary">Save</button><a class="btn btn-outline-secondary" href="{{ cancel_url }}">Cancel</a></div>
-</form>
+{% if kind_help %}
+<script>
+(function () {
+  // Which fields each challenge type uses, their labels and units.
+  const KINDS = {
+    steps: { fields: { target_steps: ["Total steps", "steps"] } },
+    running: { fields: { target_running_minutes: ["Minutes of running", "min"] } },
+    distance: { fields: { target_value: ["Total distance", "km"] } },
+    active_minutes: { fields: { target_value: ["Workout minutes", "min"] } },
+    workout: { fields: { activity_type: ["Which activity counts", ""], target_value: ["Minutes of this activity", "min"] } },
+    calories: { fields: { target_value: ["Active calories to burn", "kcal"] } },
+    step_days: { fields: { daily_threshold: ["Steps needed on a day", "steps"], target_value: ["Number of such days", "days"] } },
+    sleep_nights: { fields: { daily_threshold: ["Minimum sleep per night", "min"], target_value: ["Number of such nights", "nights"] } },
+  };
+  const select = document.getElementById("id_kind");
+  const cards = document.querySelectorAll(".type-card");
+  const val = id => (document.getElementById(id) || {}).value || "";
+  const fmt = n => Number(n || 0).toLocaleString();
+  function goalText(kind) {
+    const t = val("id_target_value"), d = val("id_daily_threshold");
+    const act = document.getElementById("id_activity_type");
+    const actName = act && act.selectedIndex > 0 ? act.options[act.selectedIndex].text.split(" (")[0].toLowerCase() : "an activity";
+    switch (kind) {
+      case "steps": return fmt(val("id_target_steps")) + " steps";
+      case "running": return fmt(val("id_target_running_minutes")) + " min of running";
+      case "distance": return fmt(t) + " km walked or run";
+      case "active_minutes": return fmt(t) + " min of workouts";
+      case "workout": return fmt(t) + " min of " + actName;
+      case "calories": return fmt(t) + " active kcal burned";
+      case "step_days": return fmt(t) + " days with " + fmt(d) + "+ steps";
+      case "sleep_nights": return fmt(t) + " nights with " + (Number(d || 0) / 60).toFixed(1).replace(".0", "") + "+ hours of sleep";
+    }
+    return "";
+  }
+  function refresh() {
+    const kind = select.value || "steps";
+    const spec = (KINDS[kind] || KINDS.steps).fields;
+    cards.forEach(c => { const on = c.dataset.kind === kind; c.classList.toggle("active", on); c.setAttribute("aria-checked", on); });
+    document.querySelectorAll("[data-field]").forEach(box => {
+      const name = box.dataset.field, info = spec[name];
+      box.classList.toggle("d-none", !info);
+      if (info) {
+        box.querySelector("label").textContent = info[0];
+        const unit = box.querySelector("[data-unit-for]");
+        unit.textContent = info[1]; unit.classList.toggle("d-none", !info[1]);
+        if (name === "daily_threshold") {
+          box.querySelector("[data-help-for]").textContent = kind === "sleep_nights"
+            ? "In minutes: 420 = 7 hours, 450 = 7.5 hours." : "A day counts when the phone records at least this many steps.";
+        }
+        if (name === "target_value") {
+          box.querySelector("[data-help-for]").textContent = (kind === "step_days" || kind === "sleep_nights")
+            ? "At most the number of days in the challenge minus one (the joining day doesn't count)." : "In the unit shown.";
+        }
+      }
+    });
+    document.getElementById("preview-title").textContent = val("id_title") || "Your challenge";
+    document.getElementById("preview-goal").textContent = "Goal: " + goalText(kind);
+    const s = val("id_start_date"), e = val("id_end_date"), p = val("id_reward_points"), b = val("id_badge_title");
+    document.getElementById("preview-meta").textContent = [s && e ? s + " to " + e : "", p ? p + " points" : "", b ? "badge: " + b : ""].filter(Boolean).join(" · ");
+  }
+  cards.forEach(c => c.addEventListener("click", () => { select.value = c.dataset.kind; refresh(); }));
+  document.getElementById("record-form").addEventListener("input", refresh);
+  document.getElementById("record-form").addEventListener("change", refresh);
+  refresh();
+})();
+</script>
+{% endif %}
 {% endblock %}

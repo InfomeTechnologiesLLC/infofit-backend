@@ -27,7 +27,7 @@ from notifications.models import PushDelivery
 from nutrition.models import Meal
 from wellness.models import HydrationLog, ProgramCheckIn, ProgramEnrollment, WellnessProgram
 
-from .forms import (ChallengeForm, DepartmentForm, EmployeeForm, PortalLoginForm,
+from .forms import (CHALLENGE_KIND_HELP, ChallengeForm, DepartmentForm, EmployeeForm, PortalLoginForm,
                     TeamForm, WellnessProgramForm)
 from .insights import points_totals, staff_rankings, step_period, step_totals
 
@@ -73,48 +73,59 @@ def page_context(title, section, **extra):
 @staff_only
 @never_cache
 def dashboard(request):
+    from . import dashboard as figures
     today = timezone.localdate()
-    recent = timezone.now() - timedelta(days=7)
-    employee_filter = {"user__role": Role.EMPLOYEE, "user__is_active": True}
-    challenge_participants = set(ChallengeEnrollment.objects.filter(
-        **employee_filter, challenge__is_published=True,
-        challenge__start_date__lte=today, challenge__end_date__gte=today,
-    ).values_list("user_id", flat=True))
-    program_participants = set(ProgramEnrollment.objects.filter(
-        **employee_filter, program__is_published=True,
-        program__start_date__lte=today, program__end_date__gte=today,
-    ).values_list("user_id", flat=True))
-    evaluated = set(ChallengeProgress.objects.filter(
-        enrollment__user__role=Role.EMPLOYEE, enrollment__user__is_active=True,
-        evaluated_at__gte=recent,
-    ).filter(Q(has_step_data=True) | Q(verified_running_minutes__gt=0)).values_list("enrollment__user_id", flat=True))
-    checked_in = set(ProgramCheckIn.objects.filter(
-        enrollment__user__role=Role.EMPLOYEE, enrollment__user__is_active=True,
-        created_at__gte=recent,
-    ).values_list("enrollment__user_id", flat=True))
-    cards = [
-        ("Active employees", User.objects.filter(role=Role.EMPLOYEE, is_active=True).count()),
-        ("Participating now", len(challenge_participants | program_participants)),
-        ("Engaged in last 7 days", len(evaluated | checked_in)),
-        ("Challenge completions", ChallengeProgress.objects.filter(is_complete=True,
-            enrollment__user__role=Role.EMPLOYEE).count()),
-        ("Teams", Team.objects.count()),
-        ("Sources synced in 7 days", FitnessSource.objects.filter(last_successful_sync_at__gte=recent).count()),
-        ("Published posts", CommunityPost.objects.filter(status=CommunityPost.Status.PUBLISHED).count()),
-        ("Saved meals", Meal.objects.count()),
-        ("Open reports", CommunityReport.objects.filter(status=CommunityReport.Status.OPEN).count()),
-        ("Pushes awaiting delivery", PushDelivery.objects.filter(state__in=[PushDelivery.State.PENDING,
-            PushDelivery.State.RETRY]).count()),
-    ]
-    active_ids = list(User.objects.filter(role=Role.EMPLOYEE, is_active=True).values_list("pk", flat=True))
-    today_steps = step_totals(active_ids, today, today)
-    cards.insert(2, ("Employees with synced steps today", len(today_steps)))
-    cards.insert(3, ("Verified steps today", sum(row["steps"] for row in today_steps.values())))
-    recent_reports = CommunityReport.objects.filter(status=CommunityReport.Status.OPEN).select_related(
-        "post", "post__author", "reporter").order_by("-created_at")[:5]
+    week_start, _ = step_period("week")
     return render(request, "portal/dashboard.html", page_context("Overview", "dashboard",
-        cards=cards, recent_reports=recent_reports, today=today, recent=recent,
-        top_staff=staff_rankings()[:3], top_steps=[row for row in staff_rankings("steps") if row["step_days"]][:3]))
+        today=today, kpis=figures.kpis(today), activity=figures.activity_series(today),
+        signups=figures.signup_series(today), departments=figures.department_participation(today),
+        live=figures.live_challenges(today), attention=figures.attention(today),
+        top_staff=staff_rankings()[:5], top_teams=figures.top_teams(),
+        top_steps=[row for row in staff_rankings("steps", "week") if row["step_days"]][:5],
+        recent_signups=figures.recent_signups(), habits=figures.today_habits(today),
+        recent_reports=CommunityReport.objects.filter(status=CommunityReport.Status.OPEN).select_related(
+            "post", "reporter").order_by("-created_at")[:5]))
+
+
+@staff_only
+@never_cache
+def challenge_detail(request, pk):
+    from . import dashboard as figures
+    challenge = get_object_or_404(Challenge, pk=pk)
+    today = timezone.localdate()
+    enrollments = list(ChallengeEnrollment.objects.filter(challenge=challenge).select_related(
+        "user", "user__profile__team", "progress").order_by("joined_at"))
+    points = {row["enrollment_id"]: row["total"] or 0 for row in PointsLedger.objects.filter(
+        enrollment__challenge=challenge).values("enrollment_id").annotate(total=Sum("delta"))}
+    syncs = figures.last_sync_by_user([e.user_id for e in enrollments])
+    rows, buckets = [], [0, 0, 0, 0, 0]
+    for e in enrollments:
+        progress = getattr(e, "progress", None)
+        value = progress.progress_value if progress and progress.has_step_data else None
+        percent = min(100, round(100 * value / challenge.target)) if value is not None and challenge.target else 0
+        done = bool(progress and progress.is_complete)
+        buckets[4 if done else min(3, percent // 25)] += 1
+        rows.append({"enrollment": e, "label": challenge.progress_label(progress) or "No recorded data yet",
+                     "percent": 100 if done else percent, "done": done, "points": points.get(e.pk, 0),
+                     "flagged": progress.flagged_days if progress else 0, "last_sync": syncs.get(e.user_id),
+                     "value": value or 0})
+    rows.sort(key=lambda r: (not r["done"], -r["value"]))
+    completed = sum(1 for r in rows if r["done"])
+    with_data = [r for r in rows if r["value"]]
+    if challenge.start_date > today:
+        status = f"Starts {challenge.start_date:%d %b %Y}"
+    elif challenge.end_date < today:
+        status = "Ended"
+    else:
+        left = (challenge.end_date - today).days
+        status = "Last day" if left == 0 else f"{left} day{'s' if left != 1 else ''} left"
+    return render(request, "portal/challenge_detail.html", page_context(challenge.title, "challenges",
+        challenge=challenge, rows=rows, status=status, icon=figures.KIND_ICONS.get(challenge.kind, "bi-flag"),
+        stats={"joined": len(rows), "completed": completed,
+               "percent": round(100 * completed / len(rows)) if rows else 0,
+               "flagged": sum(1 for r in rows if r["flagged"]),
+               "average": (sum(r["value"] for r in with_data) / len(with_data)) if with_data else None},
+        buckets=buckets))
 
 
 @staff_only
@@ -136,6 +147,16 @@ def employees(request):
     query = request.GET.get("q", "").strip()[:100]
     recent = timezone.now() - timedelta(days=7)
     queryset = User.objects.filter(role=Role.EMPLOYEE).select_related("profile__team", "profile__department")
+    quick = request.GET.get("filter", "")
+    if quick == "no_team":
+        queryset = queryset.filter(Q(profile__team__isnull=True) | Q(profile__isnull=True), is_active=True)
+    elif quick == "not_synced":
+        synced = FitnessSource.objects.filter(last_successful_sync_at__gte=recent).values_list("user_id", flat=True)
+        queryset = queryset.filter(is_active=True).exclude(pk__in=synced)
+    elif quick == "new":
+        queryset = queryset.filter(date_joined__gte=recent)
+    else:
+        quick = ""
     if query:
         queryset = queryset.filter(Q(email__icontains=query) | Q(first_name__icontains=query) |
                                    Q(last_name__icontains=query) | Q(employee_id__icontains=query))
@@ -161,7 +182,8 @@ def employees(request):
         employee.month_steps = month_steps.get(employee.pk, {}).get("steps")
         employee.month_step_days = month_steps.get(employee.pk, {}).get("days", 0)
         employee.net_points = points.get(employee.pk, 0)
-    return render(request, "portal/employees.html", page_context("Employees", "employees", page=page, query=query))
+    return render(request, "portal/employees.html", page_context("Employees", "employees", page=page, query=query,
+                                                                 quick=quick))
 
 
 @staff_only
@@ -204,7 +226,8 @@ def employee_detail(request, pk):
                 "Upcoming" if enrollment.challenge.start_date > today else "In progress",
             "points": challenge_points.get(enrollment.pk, 0),
             "steps": progress.verified_steps if progress and progress.has_step_data else None,
-            "running_minutes": progress.verified_running_minutes if progress else None})
+            "running_minutes": progress.verified_running_minutes if progress else None,
+            "label": enrollment.challenge.progress_label(progress), "flagged": progress.flagged_days if progress else 0})
     program_rows = ProgramEnrollment.objects.filter(user=employee).select_related("program").annotate(
         checkin_total=Count("check_ins")).order_by("-joined_at")
     points = points_totals([employee.pk]).get(employee.pk, 0)
@@ -260,11 +283,7 @@ def records(request, section):
         headers = ["Team", "Department", "Manager", "Employees"]
         make_cells = lambda obj: [obj.name, obj.department or "—", obj.manager or "—", obj.member_count]
     elif section == "challenges":
-        queryset = model.objects.annotate(enrollment_count=Count("enrollments", distinct=True)).order_by("-start_date", "-pk")
-        headers = ["Challenge", "Dates", "Target", "Participants", "Published"]
-        make_cells = lambda obj: [obj.title, f"{obj.start_date} to {obj.end_date}",
-                                  f"{obj.target_running_minutes} running min" if obj.kind == Challenge.Kind.RUNNING else f"{obj.target_steps} steps",
-                                  obj.enrollment_count, "Yes" if obj.is_published else "Draft"]
+        return challenge_list(request)
     else:
         # Personal plans belong to one employee and are never listed or edited here.
         queryset = model.objects.filter(owner__isnull=True).annotate(
@@ -276,6 +295,34 @@ def records(request, section):
     rows = [{"cells": make_cells(obj), "edit_url": reverse(f"portal:{edit_name}", args=[obj.pk])} for obj in page]
     return render(request, "portal/records.html", page_context(title, section, page=page, rows=rows,
         headers=headers, new_url=reverse(f"portal:{new_name}")))
+
+
+def challenge_list(request):
+    from . import dashboard as figures
+    today = timezone.localdate()
+    state = request.GET.get("state", "")
+    queryset = Challenge.objects.annotate(
+        joined=Count("enrollments", distinct=True),
+        completed=Count("enrollments", filter=Q(enrollments__progress__is_complete=True), distinct=True),
+    ).order_by("-start_date", "-pk")
+    if state == "live":
+        queryset = queryset.filter(is_published=True, start_date__lte=today, end_date__gte=today)
+    elif state == "upcoming":
+        queryset = queryset.filter(start_date__gt=today)
+    elif state == "ended":
+        queryset = queryset.filter(end_date__lt=today)
+    elif state == "draft":
+        queryset = queryset.filter(is_published=False)
+    else:
+        state = ""
+    page = Paginator(queryset, 20).get_page(request.GET.get("page"))
+    for c in page:
+        c.icon = figures.KIND_ICONS.get(c.kind, "bi-flag")
+        c.percent = round(100 * c.completed / c.joined) if c.joined else 0
+        c.phase = ("draft" if not c.is_published else "upcoming" if c.start_date > today else
+                   "ended" if c.end_date < today else "live")
+    return render(request, "portal/challenges.html", page_context("Challenges", "challenges", page=page, state=state,
+                                                                  today=today))
 
 
 @staff_only
@@ -293,11 +340,14 @@ def record_form(request, section, pk=None):
                 for user_id in ChallengeEnrollment.objects.filter(challenge=saved).values_list("user_id", flat=True):
                     reconcile_user(User.objects.get(pk=user_id))
         messages.success(request, f"{title[:-1] if title.endswith('s') else title} saved.")
+        if section == "challenges":
+            return redirect("portal:challenge_detail", pk=saved.pk)
         return redirect(f"portal:{section}")
     return render(request, "portal/form.html", page_context(
         f"Edit {title.lower().rstrip('s')}" if instance else f"Add {title.lower().rstrip('s')}",
         section, form=form, cancel_url=reverse(f"portal:{section}"),
         draft_kind={"challenges": "challenge", "programs": "program"}.get(section),
+        kind_help=CHALLENGE_KIND_HELP if section == "challenges" else None,
         help_text="Published items remain visible in the app. Fields that affect an existing enrollment are locked."))
 
 

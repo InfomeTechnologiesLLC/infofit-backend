@@ -35,7 +35,7 @@ class PortalTests(TestCase):
                              reverse("portal:login") + "?next=/portal/", fetch_redirect_response=False)
         response = self.client.post(reverse("portal:login"), {"username": self.staff.email, "password": PW})
         self.assertRedirects(response, reverse("portal:dashboard"))
-        self.assertContains(self.client.get(reverse("portal:dashboard")), "Operations overview")
+        self.assertContains(self.client.get(reverse("portal:dashboard")), "Needs your attention")
         self.client.logout()
         response = self.client.post(reverse("portal:login"), {"username": self.employee.email, "password": PW})
         self.assertContains(response, "cannot access the staff portal")
@@ -57,13 +57,19 @@ class PortalTests(TestCase):
         ProgramCheckIn.objects.create(enrollment=wellness, local_date=self.today)
         response = self.client.get(reverse("portal:dashboard"))
         self.assertEqual(response.status_code, 200)
-        self.assertIn(("Participating now", 1), response.context["cards"])
-        self.assertIn(("Engaged in last 7 days", 1), response.context["cards"])
-        self.assertIn(("Challenge completions", 1), response.context["cards"])
+        kpis = {k["label"]: k["value"] for k in response.context["kpis"]}
+        self.assertEqual(kpis["Taking part now"], 1)
+        self.assertEqual(kpis["Active in last 7 days"], 1)
+        self.assertEqual(kpis["Wellness check-ins today"], 1)
+        live = {row["challenge"].pk: row for row in response.context["live"]}
+        self.assertEqual((live[challenge.pk]["joined"], live[challenge.pk]["completed"]), (1, 1))
+        detail = self.client.get(reverse("portal:challenge_detail", args=[challenge.pk]))
+        self.assertContains(detail, self.employee.email.split("@")[0][:1])
+        self.assertContains(detail, "Completed")
         self.assertNotContains(response, "healthy employee")
         employee_page = self.client.get(reverse("portal:employees"))
         self.assertContains(employee_page, self.employee.email)
-        self.assertContains(employee_page, "Activity recorded")
+        self.assertContains(employee_page, "Active this week")
 
     def test_navigation_and_management_forms_render(self):
         for name in ("dashboard", "employees", "departments", "teams", "challenges",

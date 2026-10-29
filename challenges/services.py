@@ -2,7 +2,8 @@ from django.db import transaction
 from django.db.models import Sum
 from django.utils import timezone
 
-from fitness.models import DailyActivity, ExerciseRecord, FitnessAccount
+from fitness.models import FitnessAccount
+from . import scoring
 from .models import BadgeAward, Challenge, ChallengeEnrollment, ChallengeProgress, PointsLedger
 from notifications.models import Notification
 from notifications.services import create_notification
@@ -17,35 +18,9 @@ def reconcile_user(user):
             challenge = enrollment.challenge
             progress, _ = ChallengeProgress.objects.get_or_create(enrollment=enrollment)
             progress = ChallengeProgress.objects.select_for_update().get(pk=progress.pk)
-            steps = 0
-            has_data = False
-            running_minutes = 0
-            if account and account.active_source:
-                if challenge.kind == Challenge.Kind.RUNNING:
-                    # Session start is precise enough to exclude runs before joining.
-                    sessions = ExerciseRecord.objects.filter(
-                        user=user, source=account.active_source,
-                        local_date__gte=challenge.start_date, local_date__lte=challenge.end_date,
-                        start_at__gte=enrollment.joined_at,
-                        exercise_type__in=("running", "running_treadmill", "56", "57"),
-                    )
-                    seconds = sum(max(0, int((row.end_at - row.start_at).total_seconds())) for row in sessions)
-                    running_minutes = seconds // 60
-                else:
-                    # A daily total cannot separate steps before and after joining.
-                    # Start with the first full local day after enrollment.
-                    rows = DailyActivity.objects.filter(
-                        user=user, source=account.active_source,
-                        local_date__gt=enrollment.joined_local_date,
-                        local_date__gte=challenge.start_date,
-                        local_date__lte=challenge.end_date, metric_status__steps="available",
-                        steps__isnull=False,
-                    )
-                    aggregate = rows.aggregate(steps=Sum("steps"))
-                    has_data = aggregate["steps"] is not None
-                    steps = aggregate["steps"] or 0
-            complete = (running_minutes >= challenge.target_running_minutes if challenge.kind == Challenge.Kind.RUNNING
-                        else has_data and steps >= challenge.target_steps)
+            source = account.active_source if account else None
+            result = scoring.score(challenge, enrollment, source)
+            complete = result.has_data and result.value >= challenge.target > 0
             if complete != progress.is_complete:
                 progress.revision += 1
                 PointsLedger.objects.create(
@@ -72,9 +47,12 @@ def reconcile_user(user):
                             f"You earned {challenge.badge_title}.",
                             f"challenge:{enrollment.pk}:badge:{progress.revision}",
                         )
-            progress.verified_steps = steps
-            progress.has_step_data = has_data
-            progress.verified_running_minutes = running_minutes
+            # The older steps/running fields stay filled for older app versions.
+            progress.verified_steps = int(result.value) if challenge.kind == Challenge.Kind.STEPS else 0
+            progress.has_step_data = result.has_data
+            progress.verified_running_minutes = int(result.value) if challenge.kind == Challenge.Kind.RUNNING else 0
+            progress.progress_value = result.value
+            progress.flagged_days = result.flagged_days
             progress.is_complete = complete
             progress.evaluated_at = timezone.now()
             progress.save()

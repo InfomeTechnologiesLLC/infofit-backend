@@ -144,8 +144,7 @@ def get_challenges(user, args):
     open_now = Challenge.objects.filter(is_published=True, start_date__lte=today, end_date__gte=today).exclude(id__in=joined)
     return {**own_challenge_summary(user),
             "open_to_join": [{"challenge_id": c.pk, "title": c.title, "kind": c.kind, "ends": c.end_date.isoformat(),
-                              "target_steps": c.target_steps or None,
-                              "target_running_minutes": c.target_running_minutes or None,
+                              "goal": c.target_label, "what_counts": c.counting_note,
                               "reward_points": c.reward_points} for c in open_now[:10]]}
 
 
@@ -277,8 +276,7 @@ def join_challenge(user, args):
         raise ToolError("The employee has already joined this challenge.")
     if not challenge.start_date <= today <= challenge.end_date:
         raise ToolError("That challenge is not open for joining today.")
-    target = (f"{challenge.target_running_minutes} recorded running minutes" if challenge.kind == Challenge.Kind.RUNNING
-              else f"{challenge.target_steps:,} steps")
+    target = challenge.target_label
     return _propose(user, "join_challenge", {"challenge_id": challenge.pk}, f"Join {challenge.title}",
                     [f"Goal: {target} by {challenge.end_date:%d %b}", f"{challenge.reward_points} points on completion"])
 

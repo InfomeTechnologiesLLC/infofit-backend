@@ -1,33 +1,157 @@
 {% extends 'portal/base.html' %}
 {% block content %}
-<div class="mb-4"><h1 class="h2 mb-1">Operations overview</h1><p class="text-muted mb-0">Live counts from the app database, as of {{ today }}.</p></div>
+<div class="page-head d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4">
+  <div>
+    <div class="text-muted small fw-semibold">{{ today|date:"l, j F Y" }}</div>
+    <h1 class="h3 mb-0">Good {% now "H" as hour %}{% if hour < "12" %}morning{% elif hour < "17" %}afternoon{% else %}evening{% endif %}, here's how everyone is doing</h1>
+  </div>
+  <div class="d-flex flex-wrap gap-2">
+    <a class="btn btn-primary" href="{% url 'portal:challenge_new' %}"><i class="bi bi-plus-lg me-1"></i>New challenge</a>
+    <a class="btn btn-light border" href="{% url 'portal:program_new' %}"><i class="bi bi-heart-pulse me-1"></i>New program</a>
+    <a class="btn btn-light border" href="{% url 'portal:employee_new' %}"><i class="bi bi-person-plus me-1"></i>Add employee</a>
+    <a class="btn btn-light border" href="{% url 'portal:insights' %}"><i class="bi bi-stars me-1"></i>Ask AI</a>
+  </div>
+</div>
+
 <div class="row g-3 mb-4">
-{% for label, value in cards %}
-  <div class="col-6 col-xl-3"><div class="card h-100 p-3"><div class="text-muted small mb-2">{{ label }}</div><div class="metric">{{ value }}</div></div></div>
-{% endfor %}
+  {% for k in kpis %}
+  <div class="col-6 col-xl-3"><div class="card kpi h-100"><div class="d-flex gap-3 align-items-start">
+    <div class="chip tone-{{ k.tone }}"><i class="bi {{ k.icon }}"></i></div>
+    <div class="min-w-0"><div class="label">{{ k.label }}</div><div class="value">{{ k.value }}</div><div class="note">{{ k.note }}</div></div>
+  </div></div></div>
+  {% endfor %}
 </div>
+
+<div class="row g-3 mb-4">
+  <div class="col-xl-8"><div class="card p-4 h-100">
+    <div class="card-title-row"><h2>Steps and active employees, last 30 days</h2><span class="small text-muted">Recorded automatically; typed-in steps excluded</span></div>
+    <div style="height:290px"><canvas id="activityChart" aria-label="Daily steps and number of employees who synced, last 30 days" role="img"></canvas></div>
+  </div></div>
+  <div class="col-xl-4"><div class="card p-4 h-100">
+    <div class="card-title-row"><h2>Needs your attention</h2>{% if not attention %}<span class="badge-soft tone-success">All clear</span>{% endif %}</div>
+    {% for icon, tone, headline, detail, target, query in attention %}
+      <a class="list-row text-reset" href="{% url 'portal:'|add:target %}{{ query }}">
+        <div class="chip tone-{{ tone }}" style="width:36px;height:36px;font-size:1rem"><i class="bi {{ icon }}"></i></div>
+        <div class="min-w-0"><div class="fw-semibold">{{ headline }}</div><div class="small text-muted">{{ detail }}</div></div>
+        <i class="bi bi-chevron-right ms-auto text-muted"></i>
+      </a>
+    {% empty %}
+      <div class="empty"><i class="bi bi-check2-circle"></i>Nothing waiting. Posts, reports, syncing and challenges all look fine.</div>
+    {% endfor %}
+  </div></div>
+</div>
+
 <div class="card p-4 mb-4">
-  <h2 class="h5">What these participation counts mean</h2>
-  <p class="mb-2"><strong>Participating now:</strong> distinct active employees enrolled in a published challenge or wellness program whose dates include today.</p>
-  <p class="mb-0"><strong>Engaged in last 7 days:</strong> distinct active employees with a verified challenge evaluation or a wellness program check-in since {{ recent|date:'M j, Y' }}. These are participation measures, not a health score or medical judgment.</p>
+  <div class="card-title-row"><h2>Challenges</h2><a class="small fw-semibold" href="{% url 'portal:challenges' %}">All challenges <i class="bi bi-arrow-right"></i></a></div>
+  {% if live %}
+  <div class="table-responsive"><table class="table table-modern"><thead><tr><th>Challenge</th><th>Goal</th><th>Status</th><th>Joined</th><th style="min-width:200px">Completed</th><th></th></tr></thead><tbody>
+  {% for row in live %}<tr>
+    <td><div class="d-flex align-items-center gap-2"><div class="chip tone-violet" style="width:34px;height:34px;font-size:1rem"><i class="bi {{ row.icon }}"></i></div>
+      <div><a class="fw-semibold text-reset" href="{% url 'portal:challenge_detail' row.challenge.pk %}">{{ row.challenge.title }}</a><div class="small text-muted">{{ row.challenge.get_kind_display }}</div></div></div></td>
+    <td>{{ row.challenge.target_label }}</td>
+    <td><span class="badge-soft tone-{{ row.tone }}">{{ row.status }}</span></td>
+    <td>{{ row.joined }}</td>
+    <td><div class="d-flex align-items-center gap-2"><div class="progress flex-grow-1"><div class="progress-bar" style="width:{{ row.percent }}%"></div></div><span class="small fw-semibold">{{ row.completed }} · {{ row.percent }}%</span></div></td>
+    <td class="text-end">{% if row.flagged %}<span class="badge-soft tone-warning" title="Participants with days above the daily limit"><i class="bi bi-exclamation-triangle"></i> {{ row.flagged }}</span>{% endif %}</td>
+  </tr>{% endfor %}
+  </tbody></table></div>
+  {% else %}
+  <div class="empty"><i class="bi bi-trophy"></i>No live challenges. <a href="{% url 'portal:challenge_new' %}">Create one</a> to get people moving.</div>
+  {% endif %}
 </div>
-<div class="card p-4 mb-4">
-  <div class="d-flex justify-content-between align-items-center mb-3"><h2 class="h5 mb-0">Top staff points</h2><a href="{% url 'portal:points' %}">Full table</a></div>
-  <p class="small text-muted">Net challenge points after any corrections. Ties are ordered by employee record.</p>
-  {% if top_staff %}<div class="table-responsive"><table class="table mb-0"><thead><tr><th>Rank</th><th>Employee</th><th>Points</th></tr></thead><tbody>
-  {% for row in top_staff %}<tr><td>#{{ row.rank }}</td><td>{{ row.user.full_name }}</td><td>{{ row.points }}</td></tr>{% endfor %}
-  </tbody></table></div>{% else %}<p class="text-muted mb-0">No employees yet.</p>{% endif %}
+
+<div class="row g-3 mb-4">
+  <div class="col-lg-4"><div class="card p-4 h-100">
+    <div class="card-title-row"><h2>Top points</h2><a class="small fw-semibold" href="{% url 'portal:points' %}">Rankings</a></div>
+    {% for row in top_staff %}<div class="list-row">
+      <span class="fw-bold text-muted" style="width:22px">{{ row.rank }}</span><span class="avatar">{{ row.user.first_name|slice:":1" }}{{ row.user.last_name|slice:":1"|default:row.user.email|slice:":1" }}</span>
+      <a class="text-reset fw-semibold text-truncate" href="{% url 'portal:employee_detail' row.user.pk %}">{{ row.user.full_name }}</a>
+      <span class="ms-auto fw-bold">{{ row.points }}</span></div>
+    {% empty %}<div class="empty"><i class="bi bi-award"></i>No points yet.</div>{% endfor %}
+  </div></div>
+  <div class="col-lg-4"><div class="card p-4 h-100">
+    <div class="card-title-row"><h2>Most steps this week</h2><a class="small fw-semibold" href="{% url 'portal:points' %}?sort=steps&amp;period=week">Rankings</a></div>
+    {% for row in top_steps %}<div class="list-row">
+      <span class="fw-bold text-muted" style="width:22px">{{ forloop.counter }}</span><span class="avatar">{{ row.user.first_name|slice:":1" }}{{ row.user.last_name|slice:":1"|default:row.user.email|slice:":1" }}</span>
+      <a class="text-reset fw-semibold text-truncate" href="{% url 'portal:employee_detail' row.user.pk %}">{{ row.user.full_name }}</a>
+      <span class="ms-auto fw-bold">{{ row.steps|floatformat:"0g" }}</span></div>
+    {% empty %}<div class="empty"><i class="bi bi-person-walking"></i>No steps synced this week.</div>{% endfor %}
+  </div></div>
+  <div class="col-lg-4"><div class="card p-4 h-100">
+    <div class="card-title-row"><h2>Top teams</h2><a class="small fw-semibold" href="{% url 'portal:teams' %}">Teams</a></div>
+    {% for team in top_teams %}<div class="list-row">
+      <span class="fw-bold text-muted" style="width:22px">{{ forloop.counter }}</span><div class="chip tone-blue" style="width:34px;height:34px;font-size:1rem"><i class="bi bi-diagram-3"></i></div>
+      <div><div class="fw-semibold">{{ team.name }}</div><div class="small text-muted">{{ team.members }} member{{ team.members|pluralize }} with points</div></div>
+      <span class="ms-auto fw-bold">{{ team.points }}</span></div>
+    {% empty %}<div class="empty"><i class="bi bi-diagram-3"></i>No team points yet.</div>{% endfor %}
+  </div></div>
 </div>
-<div class="card p-4 mb-4">
-  <div class="d-flex justify-content-between align-items-center mb-3"><h2 class="h5 mb-0">Top steps this month</h2><a href="{% url 'portal:points' %}?sort=steps&amp;period=month">Full ranking</a></div>
-  {% if top_steps %}<div class="table-responsive"><table class="table mb-0"><thead><tr><th>Rank</th><th>Employee</th><th>Steps</th><th>Recorded days</th></tr></thead><tbody>
-  {% for row in top_steps %}<tr><td>#{{ row.rank }}</td><td><a href="{% url 'portal:employee_detail' row.user.pk %}">{{ row.user.full_name }}</a></td><td>{{ row.steps }}</td><td>{{ row.step_days }}</td></tr>{% endfor %}
-  </tbody></table></div>{% else %}<p class="text-muted mb-0">No steps synced this month.</p>{% endif %}
+
+<div class="row g-3 mb-4">
+  <div class="col-lg-6"><div class="card p-4 h-100">
+    <div class="card-title-row"><h2>Departments active this week</h2><span class="small text-muted">Synced steps or checked in, last 7 days</span></div>
+    {% for d in departments %}<div class="mb-3">
+      <div class="d-flex justify-content-between small mb-1"><span class="fw-semibold">{{ d.name }}</span><span class="text-muted">{{ d.percent }}% of {{ d.employees }}</span></div>
+      <div class="progress"><div class="progress-bar" style="width:{{ d.percent }}%"></div></div></div>
+    {% empty %}<div class="empty"><i class="bi bi-building"></i>No departments yet. <a href="{% url 'portal:department_new' %}">Add one</a>.</div>{% endfor %}
+  </div></div>
+  <div class="col-lg-6"><div class="card p-4 h-100">
+    <div class="card-title-row"><h2>New sign-ups per week</h2><a class="small fw-semibold" href="{% url 'portal:employees' %}?filter=new">New this week</a></div>
+    <div style="height:180px"><canvas id="signupChart" aria-label="New employee accounts per week, last 8 weeks" role="img"></canvas></div>
+    <div class="mt-3">
+      {% for person in recent_signups|slice:":4" %}<div class="list-row">
+        <span class="avatar">{{ person.first_name|slice:":1" }}{{ person.last_name|slice:":1"|default:person.email|slice:":1" }}</span>
+        <div class="min-w-0"><a class="fw-semibold text-reset" href="{% url 'portal:employee_detail' person.pk %}">{{ person.full_name }}</a>
+          <div class="small text-muted">{{ person.profile.department|default:"No department" }} · {{ person.profile.team|default:"no team yet" }}</div></div>
+        <span class="ms-auto small text-muted">{{ person.date_joined|timesince }} ago</span></div>
+      {% endfor %}
+    </div>
+  </div></div>
 </div>
-<div class="card p-4">
-  <div class="d-flex justify-content-between align-items-center mb-3"><h2 class="h5 mb-0">Open community reports</h2><a href="{% url 'portal:reports' %}">View all</a></div>
-  {% if recent_reports %}<div class="table-responsive"><table class="table table-hover mb-0"><thead><tr><th>Post</th><th>Reported by</th><th>Reason</th><th>Received</th></tr></thead><tbody>
-    {% for report in recent_reports %}<tr><td><a href="{% url 'portal:report_detail' report.pk %}">#{{ report.post_id }}</a></td><td>{{ report.reporter.email }}</td><td>{{ report.reason|truncatechars:80 }}</td><td>{{ report.created_at|date:'M j, Y H:i' }}</td></tr>{% endfor %}
-  </tbody></table></div>{% else %}<p class="text-muted mb-0">No open reports.</p>{% endif %}
+
+<div class="row g-3">
+  <div class="col-md-6 col-xl-3"><div class="card kpi h-100"><div class="d-flex gap-3"><div class="chip tone-cyan"><i class="bi bi-droplet"></i></div><div><div class="label">Logged water today</div><div class="value">{{ habits.water_people }}</div><div class="note">employees</div></div></div></div></div>
+  <div class="col-md-6 col-xl-3"><div class="card kpi h-100"><div class="d-flex gap-3"><div class="chip tone-amber"><i class="bi bi-egg-fried"></i></div><div><div class="label">Logged a meal today</div><div class="value">{{ habits.meal_people }}</div><div class="note">employees</div></div></div></div></div>
+  <div class="col-md-6 col-xl-3"><div class="card kpi h-100"><div class="d-flex gap-3"><div class="chip tone-pink"><i class="bi bi-check2-square"></i></div><div><div class="label">Program check-ins today</div><div class="value">{{ habits.checkins }}</div><div class="note">self-reported</div></div></div></div></div>
+  <div class="col-md-6 col-xl-3"><div class="card kpi h-100"><div class="d-flex gap-3"><div class="chip tone-violet"><i class="bi bi-chat-heart"></i></div><div><div class="label">Community posts</div><div class="value">{{ habits.posts_week }}</div><div class="note">published in the last 7 days</div></div></div></div></div>
 </div>
+<p class="small text-muted mt-4 mb-0"><i class="bi bi-info-circle"></i> Activity figures count participation, not health. Days without synced data are missing, never zero.</p>
+
+{{ activity|json_script:"activity-data" }}
+{{ signups|json_script:"signup-data" }}
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.js" crossorigin="anonymous"></script>
+<script>
+(function () {
+  if (!window.Chart) return;
+  Chart.defaults.font.family = "Inter, system-ui, sans-serif";
+  Chart.defaults.color = "#5b6b80";
+  const activity = JSON.parse(document.getElementById("activity-data").textContent);
+  const ctx = document.getElementById("activityChart").getContext("2d");
+  const fill = ctx.createLinearGradient(0, 0, 0, 280);
+  fill.addColorStop(0, "rgba(8,145,178,.28)"); fill.addColorStop(1, "rgba(8,145,178,0)");
+  new Chart(ctx, {
+    data: { labels: activity.labels, datasets: [
+      { type: "line", label: "Steps (all employees)", data: activity.steps, borderColor: "#0891b2", backgroundColor: fill,
+        fill: true, tension: .35, pointRadius: 0, borderWidth: 2.5, yAxisID: "y" },
+      { type: "bar", label: "Employees who synced", data: activity.people, backgroundColor: "rgba(124,58,237,.22)",
+        borderRadius: 4, yAxisID: "y1" } ] },
+    options: { maintainAspectRatio: false, interaction: { mode: "index", intersect: false },
+      plugins: { legend: { position: "bottom", labels: { usePointStyle: true, boxWidth: 8 } } },
+      scales: { x: { grid: { display: false }, ticks: { maxTicksLimit: 8 } },
+        y: { beginAtZero: true, grid: { color: "#eef2f7" }, ticks: { callback: v => v >= 1000 ? (v / 1000) + "k" : v } },
+        y1: { beginAtZero: true, position: "right", grid: { display: false }, ticks: { precision: 0 } } } }
+  });
+  const signups = JSON.parse(document.getElementById("signup-data").textContent);
+  new Chart(document.getElementById("signupChart"), {
+    type: "bar",
+    data: { labels: signups.labels, datasets: [{ label: "New accounts", data: signups.counts,
+      backgroundColor: "rgba(8,145,178,.75)", borderRadius: 6 }] },
+    options: { maintainAspectRatio: false, plugins: { legend: { display: false } },
+      scales: { x: { grid: { display: false } }, y: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: "#eef2f7" } } } }
+  });
+})();
+</script>
 {% endblock %}

@@ -1,24 +1,31 @@
 {% extends 'portal/base.html' %}
 {% block content %}
-<div class="d-flex flex-wrap justify-content-between gap-2 align-items-center mb-3">
-  <div><h1 class="h2 mb-1">Employees</h1><p class="text-muted mb-0">Individual activity and challenge progress from saved app records.</p></div>
-  <a class="btn btn-primary" href="{% url 'portal:employee_new' %}">Add employee</a>
+<div class="page-head d-flex flex-wrap justify-content-between gap-3 align-items-end mb-4">
+  <div><h1 class="h3 mb-1">Employees</h1><p class="text-muted mb-0">Everyone with an employee account, their activity and challenge progress.</p></div>
+  <a class="btn btn-primary" href="{% url 'portal:employee_new' %}"><i class="bi bi-person-plus me-1"></i>Add employee</a>
 </div>
-<form method="get" class="d-flex gap-2 mb-3" role="search">
-  <input class="form-control" type="search" name="q" value="{{ query }}" placeholder="Search email, name, or employee ID" aria-label="Search employees">
-  <button class="btn btn-outline-primary" type="submit">Search</button>
+<form method="get" class="d-flex flex-wrap gap-2 mb-3" role="search">
+  <div class="input-group" style="max-width:460px"><span class="input-group-text bg-white"><i class="bi bi-search"></i></span><input class="form-control" type="search" name="q" value="{{ query }}" placeholder="Search name, email or employee ID" aria-label="Search employees"></div>
+  {% if quick %}<input type="hidden" name="filter" value="{{ quick }}">{% endif %}
+  <button class="btn btn-dark" type="submit">Search</button>
+  <div class="seg d-flex flex-wrap gap-2 ms-lg-auto">
+    <a class="btn btn-sm {% if not quick %}btn-dark{% else %}btn-light border{% endif %}" href="?">All</a>
+    <a class="btn btn-sm {% if quick == 'new' %}btn-dark{% else %}btn-light border{% endif %}" href="?filter=new">New this week</a>
+    <a class="btn btn-sm {% if quick == 'no_team' %}btn-dark{% else %}btn-light border{% endif %}" href="?filter=no_team">No team</a>
+    <a class="btn btn-sm {% if quick == 'not_synced' %}btn-dark{% else %}btn-light border{% endif %}" href="?filter=not_synced">Not synced in 7 days</a>
+  </div>
 </form>
-<div class="card p-3"><div class="table-responsive"><table class="table table-hover mb-3">
+<div class="card"><div class="table-responsive"><table class="table table-modern">
   <thead><tr><th>Employee</th><th>Team</th><th>Account</th><th>Steps this month</th><th>Challenges completed</th><th>Points</th><th>Recent participation</th></tr></thead>
   <tbody>{% for employee in page %}<tr>
-    <td><a href="{% url 'portal:employee_detail' employee.pk %}">{{ employee.full_name }}</a><div class="small text-muted">{{ employee.email }}</div></td>
-    <td>{{ employee.profile.team|default:'—' }}</td>
-    <td>{% if employee.is_active %}<span class="badge text-bg-success">Active</span>{% else %}<span class="badge text-bg-secondary">Inactive</span>{% endif %}</td>
-    <td>{% if employee.month_step_days %}{{ employee.month_steps }} <span class="small text-muted">({{ employee.month_step_days }} days)</span>{% else %}<span class="text-muted">No synced data</span>{% endif %}</td>
+    <td><div class="d-flex align-items-center gap-2"><span class="avatar">{{ employee.first_name|slice:":1" }}{{ employee.last_name|slice:":1"|default:employee.email|slice:":1" }}</span><div><a class="fw-semibold text-reset" href="{% url 'portal:employee_detail' employee.pk %}">{{ employee.full_name }}</a><div class="small text-muted">{{ employee.email }}</div></div></div></td>
+    <td>{% if employee.profile.team %}{{ employee.profile.team }}{% else %}<span class="badge-soft tone-warning">No team</span>{% endif %}<div class="small text-muted">{{ employee.profile.department|default:"" }}</div></td>
+    <td>{% if employee.is_active %}<span class="badge-soft tone-success">Active</span>{% else %}<span class="badge-soft tone-secondary">Inactive</span>{% endif %}</td>
+    <td>{% if employee.month_step_days %}{{ employee.month_steps|floatformat:"0g" }} <span class="small text-muted">({{ employee.month_step_days }} days)</span>{% else %}<span class="text-muted">No synced data</span>{% endif %}</td>
     <td>{{ employee.completed_count }} / {{ employee.challenge_count }}</td>
     <td>{{ employee.net_points }}</td>
-    <td>{% if employee.recent_checkins or employee.recent_evaluations %}<span class="badge text-bg-info">Activity recorded</span>{% else %}<span class="text-muted">No recent record</span>{% endif %}</td>
-  </tr>{% empty %}<tr><td colspan="7" class="text-muted">No employees found.</td></tr>{% endfor %}</tbody>
-</table></div>{% include 'portal/pagination.html' %}</div>
+    <td>{% if employee.recent_checkins or employee.recent_evaluations %}<span class="badge-soft tone-info">Active this week</span>{% else %}<span class="text-muted">No recent record</span>{% endif %}</td>
+  </tr>{% empty %}<tr><td colspan="7"><div class="empty"><i class="bi bi-people"></i>No employees found.</div></td></tr>{% endfor %}</tbody>
+</table></div><div class="p-3">{% include 'portal/pagination.html' %}</div></div>
 <p class="small text-muted mt-3">Steps are synced Health Connect readings from the active device. Missing days are not counted as zero.</p>
 {% endblock %}

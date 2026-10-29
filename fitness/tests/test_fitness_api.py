@@ -51,6 +51,19 @@ class FitnessApiTests(APITestCase):
         self.assertEqual(self.client.get(reverse("fitness_home")).status_code, 401)
         self.assertEqual(self.sync().status_code, 401)
 
+    def test_manual_entries_and_recording_method_are_stored(self):
+        from fitness.models import DailyActivity, ExerciseRecord
+        day = self.day(steps=9000)
+        day["manual_steps"] = 4000
+        day["exercises"][0]["recording_method"] = "manual"
+        self.assertEqual(self.sync(day).status_code, 200)
+        self.assertEqual(DailyActivity.objects.get(user=self.user).manual_steps, 4000)
+        self.assertEqual(ExerciseRecord.objects.get(user=self.user).recording_method, "manual")
+        # Older app versions send neither field.
+        self.assertEqual(self.sync(self.day(), sequence=2).status_code, 200)
+        self.assertIsNone(DailyActivity.objects.get(user=self.user).manual_steps)
+        self.assertEqual(ExerciseRecord.objects.get(user=self.user).recording_method, "unknown")
+
     def test_sync_and_home_are_isolated(self):
         self.assertEqual(self.sync().status_code, 200)
         response = self.client.get(reverse("fitness_home"), {"date": "2026-09-30"})

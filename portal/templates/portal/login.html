@@ -1,16 +1,18 @@
 {% extends 'portal/base.html' %}
 {% block login_content %}
-<main class="container py-5" style="max-width:440px">
-  <div class="card p-4 mt-5">
-    <h1 class="brand h3 mb-1">INFOME FIT</h1>
-    <p class="text-muted mb-4">Sign in to the staff portal</p>
+<main class="min-vh-100 d-flex align-items-center justify-content-center p-3" style="background: radial-gradient(1200px 600px at 10% -10%, rgba(6,182,212,.25), transparent), radial-gradient(900px 500px at 110% 110%, rgba(124,58,237,.25), transparent), #0b1220;">
+  <div class="card p-4 p-md-5 border-0" style="width:100%;max-width:430px">
+    <div class="d-flex align-items-center gap-2 mb-4"><div class="if-logo">IF</div><div><div class="fw-bold fs-5 lh-sm">INFOME FIT</div><div class="small text-muted">Staff portal</div></div></div>
+    <h1 class="h4 fw-bold mb-1">Welcome back</h1>
+    <p class="text-muted mb-4">Sign in with your staff account.</p>
     <form method="post">{% csrf_token %}
-      {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors }}</div>{% endif %}
+      {% if form.non_field_errors %}<div class="alert alert-danger py-2">{{ form.non_field_errors }}</div>{% endif %}
       {% for field in form %}
-        <div class="mb-3"><label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{{ field.errors }}</div>
+        <div class="mb-3"><label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% for e in field.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}</div>
       {% endfor %}
-      <button class="btn btn-primary w-100" type="submit">Sign in</button>
+      <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
     </form>
+    <p class="small text-muted mt-4 mb-0"><i class="bi bi-lock"></i> Only HR and admin accounts can use the portal.</p>
   </div>
 </main>
 {% endblock %}

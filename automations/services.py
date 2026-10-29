@@ -417,12 +417,8 @@ def send_challenge_alerts(now=None):
             progress = getattr(enrollment, "progress", None)
             if challenge.end_date != day + timedelta(days=1) or (progress and progress.is_complete):
                 continue
-            if challenge.kind == Challenge.Kind.RUNNING:
-                status_text = f"{progress.verified_running_minutes if progress else 0} of {challenge.target_running_minutes} running minutes so far."
-            elif progress and progress.has_step_data:
-                status_text = f"{progress.verified_steps:,} of {challenge.target_steps:,} steps so far."
-            else:
-                status_text = "Sync your steps to see where you are."
+            label = challenge.progress_label(progress)
+            status_text = f"{label} so far." if label else "Open the app so your progress syncs."
             _, created = create_notification(
                 s.user, Notification.Kind.CHALLENGE_ALERT, f"{challenge.title} ends tomorrow"[:120], status_text,
                 f"automation:challenge-ends:{challenge.pk}", data={"challenge_id": challenge.pk})

@@ -49,12 +49,10 @@ def _active_challenges(user, today):
 def _challenge_fact(enrollment):
     challenge = enrollment.challenge
     progress = getattr(enrollment, "progress", None)
-    if challenge.kind == challenge.Kind.RUNNING:
-        value = progress.verified_running_minutes if progress else 0
-        return f"{challenge.title}: {value} of {challenge.target_running_minutes} recorded running minutes since joining."
-    if not progress or not progress.has_step_data:
-        return f"{challenge.title}: step progress has not synced since joining."
-    return f"{challenge.title}: {progress.verified_steps} of {challenge.target_steps} eligible steps since joining."
+    label = challenge.progress_label(progress)
+    if not label:
+        return f"{challenge.title} (goal {challenge.target_label}): no recorded progress has synced since joining."
+    return f"{challenge.title} (goal {challenge.target_label}): {label} so far."
 
 
 def daily_facts(user):
@@ -117,10 +115,7 @@ def challenge_facts(user, challenge_id):
         raise NotFound("Joined challenge not found.")
     challenge = enrollment.challenge
     facts = [f"Challenge: {challenge.title}.", _challenge_fact(enrollment)]
-    if challenge.kind == challenge.Kind.RUNNING:
-        facts.append("Only recorded running exercise sessions starting after joining count; steps alone do not count.")
-    else:
-        facts.append("Eligible daily steps start on the next local day after joining.")
+    facts.append(challenge.counting_note)
     progress = getattr(enrollment, "progress", None)
     facts.append("Challenge complete." if progress and progress.is_complete else "Challenge in progress.")
     if today > challenge.end_date:

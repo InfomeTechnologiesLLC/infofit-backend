@@ -1,0 +1,75 @@
+{% extends 'portal/base.html' %}
+{% block content %}
+<a href="{% url 'portal:challenges' %}" class="small fw-semibold"><i class="bi bi-arrow-left"></i> Challenges</a>
+<div class="page-head d-flex flex-wrap justify-content-between align-items-start gap-3 mt-2 mb-4">
+  <div class="d-flex gap-3 align-items-center">
+    <div class="chip tone-violet" style="width:56px;height:56px;font-size:1.6rem"><i class="bi {{ icon }}"></i></div>
+    <div><h1 class="h3 mb-1">{{ challenge.title }}</h1>
+      <div class="text-muted">{{ challenge.get_kind_display }} · goal <strong>{{ challenge.target_label }}</strong> · {{ challenge.start_date|date:"j M" }} – {{ challenge.end_date|date:"j M Y" }}</div></div>
+  </div>
+  <div class="d-flex gap-2 align-items-center">
+    {% if challenge.is_published %}<span class="badge-soft tone-success">{{ status }}</span>{% else %}<span class="badge-soft tone-warning">Draft (not visible in the app)</span>{% endif %}
+    <a class="btn btn-light border" href="{% url 'portal:challenge_edit' challenge.pk %}"><i class="bi bi-pencil me-1"></i>Edit</a>
+  </div>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-6 col-xl-3"><div class="card kpi h-100"><div class="label">Joined</div><div class="value">{{ stats.joined }}</div><div class="note">employees</div></div></div>
+  <div class="col-6 col-xl-3"><div class="card kpi h-100"><div class="label">Completed</div><div class="value">{{ stats.completed }}</div><div class="note">{{ stats.percent }}% of those who joined</div></div></div>
+  <div class="col-6 col-xl-3"><div class="card kpi h-100"><div class="label">Average progress</div><div class="value">{% if stats.average is not None %}{% if challenge.kind == 'distance' %}{{ stats.average|floatformat:1 }}{% else %}{{ stats.average|floatformat:0 }}{% endif %}{% else %}—{% endif %}</div><div class="note">{{ challenge.unit }}, among people with data</div></div></div>
+  <div class="col-6 col-xl-3"><div class="card kpi h-100"><div class="label">Unusual days</div><div class="value">{{ stats.flagged }}</div><div class="note">participants with days capped at the limit</div></div></div>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-lg-8"><div class="card p-4 h-100">
+    <div class="card-title-row"><h2>What counts</h2></div>
+    <p class="mb-2">{{ challenge.counting_note }}</p>
+    {% if challenge.description %}<p class="text-muted mb-2">{{ challenge.description }}</p>{% endif %}
+    <ul class="small text-muted mb-0">
+      <li>Only each person's one active phone counts, and only data recorded automatically by the phone, watch or a workout app.</li>
+      <li>Overlapping workouts recorded by two apps are counted once. Workouts under 10 minutes are ignored; one workout counts for at most 4 hours.</li>
+      <li>Days above the daily limit (50,000 steps, 60 km or 2,500 kcal) are capped and listed as unusual days below.</li>
+      <li>Points ({{ challenge.reward_points }}){% if challenge.badge_title %} and the badge "{{ challenge.badge_title }}"{% endif %} are given automatically on reaching the goal, and taken back if the data is later corrected.</li>
+    </ul>
+  </div></div>
+  <div class="col-lg-4"><div class="card p-4 h-100">
+    <div class="card-title-row"><h2>How far people are</h2></div>
+    <div style="height:200px"><canvas id="bucketChart" aria-label="Participants by progress towards the goal" role="img"></canvas></div>
+  </div></div>
+</div>
+
+<div class="card">
+  <div class="p-4 pb-2 card-title-row"><h2>Participants</h2><span class="small text-muted">Finished first, then by progress</span></div>
+  <div class="table-responsive"><table class="table table-modern">
+    <thead><tr><th>Employee</th><th>Team</th><th style="min-width:220px">Progress</th><th>Status</th><th>Points</th><th>Last sync</th></tr></thead>
+    <tbody>{% for r in rows %}<tr>
+      <td><div class="d-flex align-items-center gap-2"><span class="avatar">{{ r.enrollment.user.first_name|slice:":1" }}{{ r.enrollment.user.last_name|slice:":1"|default:r.enrollment.user.email|slice:":1" }}</span>
+        <div><a class="fw-semibold text-reset" href="{% url 'portal:employee_detail' r.enrollment.user.pk %}">{{ r.enrollment.user.full_name }}</a><div class="small text-muted">joined {{ r.enrollment.joined_at|date:"j M" }}</div></div></div></td>
+      <td>{{ r.enrollment.user.profile.team|default:"—" }}</td>
+      <td><div class="small mb-1">{{ r.label }}</div><div class="progress"><div class="progress-bar" style="width:{{ r.percent }}%"></div></div></td>
+      <td>{% if r.done %}<span class="badge-soft tone-success"><i class="bi bi-check2"></i> Completed</span>{% else %}<span class="badge-soft tone-secondary">{{ r.percent }}%</span>{% endif %}
+        {% if r.flagged %}<span class="badge-soft tone-warning ms-1" title="Days above the daily limit were capped"><i class="bi bi-exclamation-triangle"></i> {{ r.flagged }} unusual day{{ r.flagged|pluralize }}</span>{% endif %}</td>
+      <td class="fw-semibold">{{ r.points }}</td>
+      <td class="small text-muted">{% if r.last_sync %}{{ r.last_sync|timesince }} ago{% else %}never{% endif %}</td>
+    </tr>{% empty %}<tr><td colspan="6"><div class="empty"><i class="bi bi-people"></i>Nobody has joined yet{% if not challenge.is_published %}. Publish the challenge so it shows in the app{% endif %}.</div></td></tr>{% endfor %}</tbody>
+  </table></div>
+</div>
+{{ buckets|json_script:"bucket-data" }}
+{% endblock %}
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.js" crossorigin="anonymous"></script>
+<script>
+(function () {
+  if (!window.Chart) return;
+  Chart.defaults.font.family = "Inter, system-ui, sans-serif";
+  new Chart(document.getElementById("bucketChart"), {
+    type: "bar",
+    data: { labels: ["0–24%", "25–49%", "50–74%", "75–99%", "Done"],
+      datasets: [{ data: JSON.parse(document.getElementById("bucket-data").textContent),
+        backgroundColor: ["#cbd5e1", "#93c5fd", "#67e8f9", "#a78bfa", "#22c55e"], borderRadius: 6 }] },
+    options: { maintainAspectRatio: false, plugins: { legend: { display: false } },
+      scales: { x: { grid: { display: false } }, y: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: "#eef2f7" } } } }
+  });
+})();
+</script>
+{% endblock %}

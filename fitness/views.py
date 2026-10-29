@@ -78,6 +78,7 @@ def replace_records(model, user, source, day, records):
             "local_date": day,
             "start_at": record["start_at"],
             "end_at": record["end_at"],
+            "recording_method": record.get("recording_method", "unknown"),
         }
         if model is ExerciseRecord:
             fields["exercise_type"] = record.get("exercise_type", "unknown")
@@ -109,6 +110,8 @@ class SyncView(APIView):
                 raise Conflict("Sync sequence is stale. Refresh source state and retry.")
             for day in data["days"]:
                 values = {metric: day[metric] for metric in METRICS}
+                for manual in ("manual_steps", "manual_distance_m", "manual_active_kcal"):
+                    values[manual] = day.get(manual)
                 DailyActivity.objects.update_or_create(
                     user=request.user, local_date=day["local_date"],
                     defaults={"source": source, "time_zone": data["time_zone"],

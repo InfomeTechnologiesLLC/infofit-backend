@@ -1,10 +1,10 @@
 {% extends 'portal/base.html' %}
 {% block content %}
-<a href="{% url 'portal:reports' %}" class="small">← Community reports</a>
-<h1 class="h2 mt-2">Report #{{ report.pk }}</h1>
+<a href="{% url 'portal:reports' %}" class="small fw-semibold"><i class="bi bi-arrow-left"></i> Community reports</a>
+<h1 class="h3 fw-bold mt-2">Report #{{ report.pk }}</h1>
 <div class="card p-4" style="max-width:850px">
   <dl class="row"><dt class="col-sm-3">Reporter</dt><dd class="col-sm-9">{{ report.reporter.email }}</dd><dt class="col-sm-3">Post author</dt><dd class="col-sm-9">{{ report.post.author.email }}</dd><dt class="col-sm-3">Reason</dt><dd class="col-sm-9">{{ report.reason }}</dd><dt class="col-sm-3">Status</dt><dd class="col-sm-9">{{ report.get_status_display }}</dd><dt class="col-sm-3">Post status</dt><dd class="col-sm-9">{{ report.post.get_status_display }}</dd></dl>
-  <h2 class="h5">Reported content</h2><p style="white-space:pre-wrap">{{ report.post.body|default:'[Photo post without a caption]' }}</p>
+  <h2 class="h6 fw-bold mb-3">Reported content</h2><p style="white-space:pre-wrap">{{ report.post.body|default:'[Photo post without a caption]' }}</p>
   {% if report.post.image %}<img class="img-fluid rounded border mb-3" style="max-height:520px" src="{% url 'portal:post_photo' report.post_id %}" alt="Photo attached to reported post {{ report.post_id }}">{% endif %}
   <div class="d-flex flex-wrap gap-2">
     <a class="btn btn-outline-secondary" href="{% url 'portal:post_detail' report.post_id %}">View full post</a>

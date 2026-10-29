@@ -1,7 +1,7 @@
 {% extends 'portal/base.html' %}
 {% block content %}
-<a href="{% url 'portal:posts' %}" class="small">← Community posts</a>
-<h1 class="h2 mt-2">Post #{{ post.pk }}</h1>
+<a href="{% url 'portal:posts' %}" class="small fw-semibold"><i class="bi bi-arrow-left"></i> Community posts</a>
+<h1 class="h3 fw-bold mt-2">Post #{{ post.pk }}</h1>
 <div class="card p-4" style="max-width:850px">
   <div class="d-flex justify-content-between"><div><strong>{{ post.author.email }}</strong><div class="small text-muted">{{ post.get_visibility_display }}{% if post.team %} · {{ post.team.name }}{% endif %} · {{ post.created_at|date:'M j, Y H:i' }}</div></div><span class="badge {% if post.status == 'published' %}text-bg-success{% elif post.status == 'review' %}text-bg-warning{% else %}text-bg-secondary{% endif %}">{{ post.get_status_display }}</span></div>
   {% if post.status == 'review' %}<div class="alert alert-warning mt-3 mb-0"><strong>Held by the automatic check.</strong> {{ post.moderation_note|default:'No reason given.' }} Only the author can see it until you decide. The check can be wrong, so read the post yourself.</div>{% endif %}

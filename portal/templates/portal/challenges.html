@@ -1,0 +1,27 @@
+{% extends 'portal/base.html' %}
+{% block content %}
+<div class="page-head d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+  <div><h1 class="h3 mb-1">Challenges</h1><p class="text-muted mb-0">Every challenge is scored automatically from the phone or watch. Entries typed in by hand never count.</p></div>
+  <a class="btn btn-primary" href="{% url 'portal:challenge_new' %}"><i class="bi bi-plus-lg me-1"></i>New challenge</a>
+</div>
+<div class="seg d-flex flex-wrap gap-2 mb-3" role="group" aria-label="Filter challenges">
+  <a class="btn btn-sm {% if not state %}btn-dark{% else %}btn-light border{% endif %}" href="?">All</a>
+  <a class="btn btn-sm {% if state == 'live' %}btn-dark{% else %}btn-light border{% endif %}" href="?state=live">Live</a>
+  <a class="btn btn-sm {% if state == 'upcoming' %}btn-dark{% else %}btn-light border{% endif %}" href="?state=upcoming">Upcoming</a>
+  <a class="btn btn-sm {% if state == 'ended' %}btn-dark{% else %}btn-light border{% endif %}" href="?state=ended">Ended</a>
+  <a class="btn btn-sm {% if state == 'draft' %}btn-dark{% else %}btn-light border{% endif %}" href="?state=draft">Drafts</a>
+</div>
+<div class="card"><div class="table-responsive"><table class="table table-modern">
+  <thead><tr><th>Challenge</th><th>Goal</th><th>Dates</th><th>Status</th><th>Joined</th><th style="min-width:180px">Completed</th><th></th></tr></thead>
+  <tbody>{% for c in page %}<tr>
+    <td><div class="d-flex align-items-center gap-2"><div class="chip tone-violet" style="width:36px;height:36px;font-size:1rem"><i class="bi {{ c.icon }}"></i></div>
+      <div><a class="fw-semibold text-reset" href="{% url 'portal:challenge_detail' c.pk %}">{{ c.title }}</a><div class="small text-muted">{{ c.get_kind_display }} · {{ c.reward_points }} pts{% if c.badge_title %} · {{ c.badge_title }}{% endif %}</div></div></div></td>
+    <td>{{ c.target_label }}</td>
+    <td class="small">{{ c.start_date|date:"j M" }} – {{ c.end_date|date:"j M Y" }}</td>
+    <td>{% if c.phase == 'live' %}<span class="badge-soft tone-success">Live</span>{% elif c.phase == 'upcoming' %}<span class="badge-soft tone-info">Upcoming</span>{% elif c.phase == 'ended' %}<span class="badge-soft tone-secondary">Ended</span>{% else %}<span class="badge-soft tone-warning">Draft</span>{% endif %}</td>
+    <td>{{ c.joined }}</td>
+    <td><div class="d-flex align-items-center gap-2"><div class="progress flex-grow-1"><div class="progress-bar" style="width:{{ c.percent }}%"></div></div><span class="small fw-semibold">{{ c.completed }}</span></div></td>
+    <td class="text-end text-nowrap"><a class="btn btn-sm btn-light border" href="{% url 'portal:challenge_detail' c.pk %}">View</a> <a class="btn btn-sm btn-light border" href="{% url 'portal:challenge_edit' c.pk %}">Edit</a></td>
+  </tr>{% empty %}<tr><td colspan="7"><div class="empty"><i class="bi bi-trophy"></i>No challenges here yet.</div></td></tr>{% endfor %}</tbody>
+</table></div><div class="p-3">{% include 'portal/pagination.html' %}</div></div>
+{% endblock %}

@@ -1,18 +1,18 @@
 {% extends 'portal/base.html' %}
 {% block content %}
 <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-3">
-  <div><a href="{% url 'portal:employees' %}" class="small">← Employees</a><h1 class="h2 mt-2 mb-1">{{ employee.full_name }}</h1><p class="text-muted mb-0">{{ employee.email }}{% if employee.employee_id %} · {{ employee.employee_id }}{% endif %}</p></div>
+  <div><a href="{% url 'portal:employees' %}" class="small fw-semibold"><i class="bi bi-arrow-left"></i> Employees</a><h1 class="h3 fw-bold mt-2 mb-1">{{ employee.full_name }}</h1><p class="text-muted mb-0">{{ employee.email }}{% if employee.employee_id %} · {{ employee.employee_id }}{% endif %}</p></div>
   <a class="btn btn-outline-primary" href="{% url 'portal:employee_edit' employee.pk %}">Edit details</a>
 </div>
 <div class="row g-3 mb-3">
-  <div class="col-sm-6 col-xl-3"><div class="card p-3 h-100"><div class="small text-muted">Steps today</div><div class="metric">{% if step_summary.today.days %}{{ step_summary.today.steps }}{% else %}—{% endif %}</div><div class="small text-muted">{% if step_summary.today.days %}Synced{% else %}No synced record{% endif %}</div></div></div>
-  <div class="col-sm-6 col-xl-3"><div class="card p-3 h-100"><div class="small text-muted">Steps this week</div><div class="metric">{% if step_summary.week.days %}{{ step_summary.week.steps }}{% else %}—{% endif %}</div><div class="small text-muted">{{ step_summary.week.days|default:0 }} recorded days</div></div></div>
-  <div class="col-sm-6 col-xl-3"><div class="card p-3 h-100"><div class="small text-muted">Steps this month</div><div class="metric">{% if step_summary.month.days %}{{ step_summary.month.steps }}{% else %}—{% endif %}</div><div class="small text-muted">{{ step_summary.month.days|default:0 }} recorded days · rank {% if rankings.steps %}#{{ rankings.steps }}{% else %}—{% endif %}</div></div></div>
-  <div class="col-sm-6 col-xl-3"><div class="card p-3 h-100"><div class="small text-muted">All saved steps</div><div class="metric">{% if step_summary.all.days %}{{ step_summary.all.steps }}{% else %}—{% endif %}</div><div class="small text-muted">{{ step_summary.all.days|default:0 }} recorded days</div></div></div>
-  <div class="col-sm-6 col-xl-3"><div class="card p-3 h-100"><div class="small text-muted">Challenge points</div><div class="metric">{{ points }}</div><div class="small text-muted">Rank {% if rankings.points %}#{{ rankings.points }}{% else %}—{% endif %} · {{ completed_count }} completed</div></div></div>
+  <div class="col-sm-6 col-xl-3"><div class="card p-3 h-100"><div class="small text-muted">Steps today</div><div class="kpi-value fs-3 fw-bold">{% if step_summary.today.days %}{{ step_summary.today.steps }}{% else %}—{% endif %}</div><div class="small text-muted">{% if step_summary.today.days %}Synced{% else %}No synced record{% endif %}</div></div></div>
+  <div class="col-sm-6 col-xl-3"><div class="card p-3 h-100"><div class="small text-muted">Steps this week</div><div class="kpi-value fs-3 fw-bold">{% if step_summary.week.days %}{{ step_summary.week.steps }}{% else %}—{% endif %}</div><div class="small text-muted">{{ step_summary.week.days|default:0 }} recorded days</div></div></div>
+  <div class="col-sm-6 col-xl-3"><div class="card p-3 h-100"><div class="small text-muted">Steps this month</div><div class="kpi-value fs-3 fw-bold">{% if step_summary.month.days %}{{ step_summary.month.steps }}{% else %}—{% endif %}</div><div class="small text-muted">{{ step_summary.month.days|default:0 }} recorded days · rank {% if rankings.steps %}#{{ rankings.steps }}{% else %}—{% endif %}</div></div></div>
+  <div class="col-sm-6 col-xl-3"><div class="card p-3 h-100"><div class="small text-muted">All saved steps</div><div class="kpi-value fs-3 fw-bold">{% if step_summary.all.days %}{{ step_summary.all.steps }}{% else %}—{% endif %}</div><div class="small text-muted">{{ step_summary.all.days|default:0 }} recorded days</div></div></div>
+  <div class="col-sm-6 col-xl-3"><div class="card p-3 h-100"><div class="small text-muted">Challenge points</div><div class="kpi-value fs-3 fw-bold">{{ points }}</div><div class="small text-muted">Rank {% if rankings.points %}#{{ rankings.points }}{% else %}—{% endif %} · {{ completed_count }} completed</div></div></div>
 </div>
 <div class="row g-3 mb-3">
-  <div class="col-lg-6"><div class="card p-4 h-100"><h2 class="h5">Account and organization</h2><dl class="row mb-0">
+  <div class="col-lg-6"><div class="card p-4 h-100"><h2 class="h6 fw-bold mb-3">Account and organization</h2><dl class="row mb-0">
     <dt class="col-5">Status</dt><dd class="col-7">{% if employee.is_active %}Active{% else %}Inactive{% endif %}</dd>
     <dt class="col-5">Department</dt><dd class="col-7">{{ employee.profile.department|default:'—' }}</dd>
     <dt class="col-5">Team</dt><dd class="col-7">{{ employee.profile.team|default:'—' }}</dd>
@@ -22,7 +22,7 @@
     <dt class="col-5">Fitness goal</dt><dd class="col-7">{{ employee.profile.get_fitness_goal_display }}</dd>
     <dt class="col-5">Joined company</dt><dd class="col-7">{{ employee.profile.date_of_joining|date:'M j, Y'|default:'—' }}</dd>
   </dl></div></div>
-  <div class="col-lg-6"><div class="card p-4 h-100"><h2 class="h5">Participation and sync</h2><dl class="row mb-0">
+  <div class="col-lg-6"><div class="card p-4 h-100"><h2 class="h6 fw-bold mb-3">Participation and sync</h2><dl class="row mb-0">
     <dt class="col-7">Challenges joined</dt><dd class="col-5">{{ challenge_count }}</dd>
     <dt class="col-7">Challenges completed</dt><dd class="col-5">{{ completed_count }} · rank {% if rankings.challenges %}#{{ rankings.challenges }}{% else %}—{% endif %}</dd>
     <dt class="col-7">Wellness programs joined</dt><dd class="col-5">{{ program_count }}</dd>
@@ -33,10 +33,10 @@
   </dl></div></div>
 </div>
 <div class="card p-4 mb-3">
-  <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3"><div><h2 class="h5 mb-1">Daily step records</h2><span class="small text-muted">{{ month_start|date:'F Y' }} · active Health Connect source</span></div>
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3"><div><h2 class="h6 fw-bold mb-1">Daily step records</h2><span class="small text-muted">{{ month_start|date:'F Y' }} · active Health Connect source</span></div>
     <div class="d-flex gap-2"><a class="btn btn-outline-secondary btn-sm" href="?month={{ previous_month }}">← Previous</a>{% if next_month %}<a class="btn btn-outline-secondary btn-sm" href="?month={{ next_month }}">Next →</a>{% endif %}</div>
   </div>
-  <div class="table-responsive"><table class="table table-sm mb-0"><thead><tr><th>Day</th><th>Steps</th><th>Distance</th><th>Active calories</th><th>Exercise</th><th>Sleep</th></tr></thead><tbody>
+  <div class="table-responsive"><table class="table table-modern"><thead><tr><th>Day</th><th>Steps</th><th>Distance</th><th>Active calories</th><th>Exercise</th><th>Sleep</th></tr></thead><tbody>
     {% for day in activity_days %}<tr><td>{{ day.local_date|date:'D, M j' }}</td><td>{% if day.steps is not None %}{{ day.steps }}{% else %}No reading{% endif %}</td>
       <td>{% if day.distance_m is not None %}{{ day.distance_m|floatformat:0 }} m{% else %}—{% endif %}</td>
       <td>{% if day.active_kcal is not None %}{{ day.active_kcal|floatformat:0 }} kcal{% else %}—{% endif %}</td>
@@ -46,20 +46,20 @@
   </tbody></table></div>
   <p class="small text-muted mb-0 mt-2">Only recorded days appear. No reading means data was not available; it does not mean zero activity.</p>
 </div>
-<div class="card p-4 mb-3"><h2 class="h5">Challenges</h2><div class="table-responsive"><table class="table table-sm mb-0"><thead><tr><th>Challenge</th><th>Type</th><th>Target</th><th>Verified progress</th><th>Status</th><th>Points</th><th>Joined</th></tr></thead><tbody>
-  {% for row in challenge_rows %}<tr><td>{{ row.challenge.title }}</td><td>{{ row.challenge.get_kind_display }}</td>
-    <td>{% if row.challenge.kind == 'running' %}{{ row.challenge.target_running_minutes }} running min{% else %}{{ row.challenge.target_steps }} steps{% endif %}</td>
-    <td>{% if row.challenge.kind == 'running' %}{{ row.running_minutes|default:0 }} running min{% elif row.steps is not None %}{{ row.steps }} steps{% else %}No verified steps{% endif %}</td>
-    <td>{% if row.status == 'Complete' %}<span class="badge text-bg-success">Complete</span>{% else %}<span class="badge text-bg-secondary">{{ row.status }}</span>{% endif %}</td>
+<div class="card p-4 mb-3"><h2 class="h6 fw-bold mb-3">Challenges</h2><div class="table-responsive"><table class="table table-modern"><thead><tr><th>Challenge</th><th>Type</th><th>Target</th><th>Verified progress</th><th>Status</th><th>Points</th><th>Joined</th></tr></thead><tbody>
+  {% for row in challenge_rows %}<tr><td><a class="fw-semibold text-reset" href="{% url 'portal:challenge_detail' row.challenge.pk %}">{{ row.challenge.title }}</a></td><td>{{ row.challenge.get_kind_display }}</td>
+    <td>{{ row.challenge.target_label }}</td>
+    <td>{{ row.label|default:"No recorded data yet" }}{% if row.flagged %} <span class="badge-soft tone-warning" title="Days above the daily limit were capped"><i class="bi bi-exclamation-triangle"></i> {{ row.flagged }}</span>{% endif %}</td>
+    <td>{% if row.status == 'Complete' %}<span class="badge-soft tone-success">Complete</span>{% else %}<span class="badge-soft tone-secondary">{{ row.status }}</span>{% endif %}</td>
     <td>{{ row.points }}</td>
     <td>{{ row.joined_at|date:'M j, Y' }}</td></tr>
   {% empty %}<tr><td colspan="7" class="text-muted">No challenges joined.</td></tr>{% endfor %}
 </tbody></table></div></div>
-<div class="card p-4 mb-3"><h2 class="h5">Other recorded activity in {{ month_start|date:'F Y' }}</h2>
+<div class="card p-4 mb-3"><h2 class="h6 fw-bold mb-3">Other recorded activity in {{ month_start|date:'F Y' }}</h2>
   <dl class="row mb-0"><dt class="col-sm-5">Water logged</dt><dd class="col-sm-7">{% if hydration_month.entries %}{{ hydration_month.total_ml }} ml across {{ hydration_month.entries }} entries{% else %}No entries{% endif %}</dd>
     <dt class="col-sm-5">Meals saved</dt><dd class="col-sm-7">{{ monthly_meals }}</dd></dl>
 </div>
-<div class="card p-4"><h2 class="h5">Wellness programs</h2><div class="table-responsive"><table class="table table-sm mb-0"><thead><tr><th>Program</th><th>Dates</th><th>Check-ins</th><th>Joined</th></tr></thead><tbody>
+<div class="card p-4"><h2 class="h6 fw-bold mb-3">Wellness programs</h2><div class="table-responsive"><table class="table table-modern"><thead><tr><th>Program</th><th>Dates</th><th>Check-ins</th><th>Joined</th></tr></thead><tbody>
   {% for row in program_rows %}<tr><td>{{ row.program.title }}</td><td>{{ row.program.start_date }} to {{ row.program.end_date }}</td><td>{{ row.checkin_total }}</td><td>{{ row.joined_at|date:'M j, Y' }}</td></tr>
   {% empty %}<tr><td colspan="4" class="text-muted">No wellness programs joined.</td></tr>{% endfor %}
 </tbody></table></div></div>

@@ -32,6 +32,8 @@ class RecordSerializer(serializers.Serializer):
     start_at = serializers.DateTimeField()
     end_at = serializers.DateTimeField()
     exercise_type = serializers.CharField(max_length=64, required=False)
+    recording_method = serializers.ChoiceField(choices=["manual", "automatic", "active", "unknown"],
+                                               required=False, default="unknown")
 
     def validate(self, data):
         if data["start_at"] >= data["end_at"]:
@@ -47,6 +49,9 @@ class DaySerializer(serializers.Serializer):
     active_kcal = serializers.FloatField(min_value=0, max_value=100000, allow_null=True, required=False, default=None)
     exercise_minutes = serializers.IntegerField(min_value=0, max_value=1440, allow_null=True, required=False, default=None)
     sleep_minutes = serializers.IntegerField(min_value=0, max_value=1440, allow_null=True, required=False, default=None)
+    manual_steps = serializers.IntegerField(min_value=0, max_value=1000000, allow_null=True, required=False, default=None)
+    manual_distance_m = serializers.FloatField(min_value=0, max_value=1000000, allow_null=True, required=False, default=None)
+    manual_active_kcal = serializers.FloatField(min_value=0, max_value=100000, allow_null=True, required=False, default=None)
     metric_status = serializers.DictField(child=serializers.ChoiceField(choices=STATUSES))
     exercises = RecordSerializer(many=True)
     sleep = RecordSerializer(many=True)

@@ -95,11 +95,10 @@ def own_challenge_summary(user):
     return {
         "points": points,
         "challenges": [
-            {"title": row.challenge.title, "kind": row.challenge.kind,
-             "verified_steps": getattr(row.progress, "verified_steps", None),
-             "target_steps": row.challenge.target_steps,
-             "verified_running_minutes": getattr(row.progress, "verified_running_minutes", None),
-             "target_running_minutes": row.challenge.target_running_minutes,
+            {"title": row.challenge.title, "kind": row.challenge.get_kind_display(),
+             "goal": row.challenge.target_label, "ends": row.challenge.end_date.isoformat(),
+             "progress": row.challenge.progress_label(getattr(row, "progress", None)) or "no recorded progress synced yet",
+             "what_counts": row.challenge.counting_note,
              "complete": getattr(row.progress, "is_complete", False)}
             for row in enrollments
         ],

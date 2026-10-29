@@ -1,6 +1,6 @@
 {% extends 'portal/base.html' %}
 {% block content %}
-<h1 class="h2 mb-1">Ask about participation</h1>
+<h1 class="h3 fw-bold mb-1">Ask about participation</h1>
 <p class="text-muted mb-3">Ask in plain English. Answers use only group totals: no names, and no group smaller than five people. The assistant can be wrong, so check the figures below before acting.</p>
 <form method="post" class="card p-3 mb-3" style="max-width:900px">{% csrf_token %}
   <label class="form-label fw-semibold" for="question">Your question</label>
@@ -18,12 +18,12 @@
 <h2 class="h5 mt-4">The figures the assistant can see</h2>
 {% if not dataset.available %}<div class="alert alert-info" style="max-width:900px">{{ dataset.reason }}</div>{% else %}
 <div class="row g-3 mb-3" style="max-width:1100px">
-  {% for name, p in dataset.participation.items %}<div class="col-6 col-md-3"><div class="card p-3 h-100"><div class="small text-muted">{{ name|cut:"_"|title }}</div><div class="metric">{{ p.percent }}%</div><div class="small">{{ p.active_employees }} of {{ dataset.employees }} active</div></div></div>{% endfor %}
+  {% for name, p in dataset.participation.items %}<div class="col-6 col-md-3"><div class="card p-3 h-100"><div class="small text-muted">{{ name|cut:"_"|title }}</div><div class="kpi-value fs-3 fw-bold">{{ p.percent }}%</div><div class="small">{{ p.active_employees }} of {{ dataset.employees }} active</div></div></div>{% endfor %}
 </div>
-<div class="card p-3 mb-3" style="max-width:1100px"><div class="table-responsive"><table class="table mb-0"><thead><tr><th>Department</th><th>Employees</th><th>Active this month</th><th>Same days last month</th><th>Avg steps per synced day</th></tr></thead><tbody>
+<div class="card p-3 mb-3" style="max-width:1100px"><div class="table-responsive"><table class="table table-modern"><thead><tr><th>Department</th><th>Employees</th><th>Active this month</th><th>Same days last month</th><th>Avg steps per synced day</th></tr></thead><tbody>
 {% for d in dataset.departments %}<tr><td>{{ d.department }}</td><td>{{ d.employees }}</td><td>{{ d.active_this_month_percent }}%</td><td>{{ d.active_same_days_last_month_percent }}%</td><td>{{ d.average_steps_per_synced_day_this_month|default:"—" }}</td></tr>{% empty %}<tr><td colspan="5" class="text-muted">No department has five or more employees yet.</td></tr>{% endfor %}
 </tbody></table></div></div>
-<div class="card p-3" style="max-width:1100px"><div class="table-responsive"><table class="table mb-0"><thead><tr><th>Challenge</th><th>Status</th><th>Participants</th><th>Completed</th></tr></thead><tbody>
+<div class="card p-3" style="max-width:1100px"><div class="table-responsive"><table class="table table-modern"><thead><tr><th>Challenge</th><th>Status</th><th>Participants</th><th>Completed</th></tr></thead><tbody>
 {% for c in dataset.challenges %}<tr><td>{{ c.title }}</td><td>{{ c.status }}</td><td>{{ c.participants }}</td><td>{{ c.completed|default:"—" }}</td></tr>{% empty %}<tr><td colspan="4" class="text-muted">No recent challenges.</td></tr>{% endfor %}
 </tbody></table></div></div>
 {% endif %}

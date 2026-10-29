@@ -135,34 +135,73 @@ class TeamForm(BootstrapFormMixin, forms.ModelForm):
         self.style_fields()
 
 
+# What HR reads under the type picker, per challenge kind (also used by the form's script).
+CHALLENGE_KIND_HELP = {
+    "steps": "Total steps recorded by the phone or watch.",
+    "running": "Minutes of recorded running workouts (outdoor or treadmill). Walking steps never count.",
+    "distance": "Total kilometres walked or run, recorded by the phone or watch.",
+    "active_minutes": "Minutes of any recorded workout of 10 minutes or more (walks, gym, sports, cycling...).",
+    "workout": "Minutes of one chosen activity, e.g. cycling, swimming or yoga, recorded as a workout.",
+    "calories": "Active calories burned, from a watch or fitness app. Phones without one may record none.",
+    "step_days": "Number of days someone reaches a daily step goal. Rewards consistency, not just big days.",
+    "sleep_nights": "Number of nights with enough sleep, recorded by a watch or sleep-tracking app.",
+}
+
+
 class ChallengeForm(BootstrapFormMixin, forms.ModelForm):
+    """One form for every challenge kind; the page script shows only the fields the chosen kind uses."""
+
     class Meta:
         model = Challenge
-        fields = ("slug", "title", "description", "kind", "start_date", "end_date", "target_steps", "target_running_minutes", "reward_points", "badge_title", "is_published")
+        fields = ("title", "slug", "description", "kind", "activity_type", "target_steps", "target_running_minutes",
+                  "target_value", "daily_threshold", "start_date", "end_date", "reward_points", "badge_title",
+                  "is_published")
         widgets = {"start_date": forms.DateInput(attrs={"type": "date"}),
-                   "end_date": forms.DateInput(attrs={"type": "date"})}
+                   "end_date": forms.DateInput(attrs={"type": "date"}),
+                   "description": forms.Textarea(attrs={"rows": 3})}
+        labels = {"kind": "Challenge type", "activity_type": "Which activity counts", "target_value": "Target",
+                  "daily_threshold": "Daily minimum", "slug": "Short code (unique, used in links)",
+                  "is_published": "Published (visible in the app)"}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["target_steps"].required = False
-        self.fields["target_running_minutes"].required = False
-        self.fields["kind"].help_text = "Running uses recorded Health Connect running sessions, not steps. Changing a published challenge recalculates points."
-        self.fields["target_steps"].help_text = "For a steps challenge only. Steps from the day you join do not count."
-        self.fields["target_running_minutes"].help_text = "For a running challenge only. Sessions must start after enrollment."
+        for name in ("target_steps", "target_running_minutes", "target_value", "daily_threshold", "activity_type"):
+            self.fields[name].required = False
+        self.fields["kind"].help_text = "Every type is scored automatically from the phone or watch. Entries typed in by hand never count."
+        self.fields["target_steps"].help_text = "Total steps to reach. Steps from the joining day do not count."
+        self.fields["target_running_minutes"].help_text = "Minutes of running workouts recorded after joining."
+        self.fields["target_value"].help_text = "In the unit shown."
+        self.fields["daily_threshold"].help_text = "Steps per day, or minutes of sleep per night (420 = 7 hours)."
+        self.fields["reward_points"].help_text = "Given automatically when someone reaches the target, and taken back if their data is later corrected."
+        self.fields["is_published"].help_text = "Once published, the code, dates, step target, points and badge are locked."
         self.style_fields()
+        self.fields["kind"].widget.attrs["data-kind-select"] = "1"
         if self.instance.pk and (self.instance.is_published or self.instance.enrollments.exists()):
             for name in ("slug", "start_date", "end_date", "target_steps", "reward_points", "badge_title"):
                 self.fields[name].disabled = True
 
     def clean(self):
         data = super().clean()
-        if data.get("kind") == Challenge.Kind.RUNNING and not data.get("target_running_minutes"):
+        kind = data.get("kind")
+        if kind == Challenge.Kind.RUNNING and not data.get("target_running_minutes"):
             self.add_error("target_running_minutes", "Enter a running time target.")
-        if data.get("kind") == Challenge.Kind.STEPS and not data.get("target_steps"):
+        if kind == Challenge.Kind.STEPS and not data.get("target_steps"):
             self.add_error("target_steps", "Enter a step target.")
-        if (not self.instance.pk and data.get("kind") == Challenge.Kind.STEPS and
-                data.get("start_date") == data.get("end_date")):
-            self.add_error("end_date", "A step challenge needs at least two dates because joining-day steps cannot be verified separately.")
+        if kind not in (Challenge.Kind.STEPS, Challenge.Kind.RUNNING, None) and not data.get("target_value"):
+            self.add_error("target_value", "Enter a target.")
+        if kind == Challenge.Kind.WORKOUT and not data.get("activity_type"):
+            self.add_error("activity_type", "Choose which activity counts.")
+        if kind in (Challenge.Kind.STEP_DAYS, Challenge.Kind.SLEEP_NIGHTS) and not data.get("daily_threshold"):
+            self.add_error("daily_threshold", "Enter the daily minimum.")
+        if kind != Challenge.Kind.WORKOUT:
+            data["activity_type"] = ""
+        for name in ("target_steps", "target_running_minutes", "target_value", "daily_threshold"):
+            if data.get(name) is None:
+                data[name] = 0
+        if (not self.instance.pk and kind in (Challenge.Kind.STEPS, Challenge.Kind.DISTANCE, Challenge.Kind.CALORIES,
+                                              Challenge.Kind.STEP_DAYS, Challenge.Kind.SLEEP_NIGHTS) and
+                data.get("start_date") and data.get("start_date") == data.get("end_date")):
+            self.add_error("end_date", "This type needs at least two dates, because the joining day cannot be counted.")
         return data
 
 

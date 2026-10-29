@@ -38,10 +38,17 @@ def challenge_payload(challenge, enrollment=None, today=None):
         "can_join": bool(today and challenge.is_published and challenge.start_date <= today <= challenge.end_date),
         "verified_steps": progress.verified_steps if progress and progress.has_step_data else None,
         "verified_running_minutes": progress.verified_running_minutes if progress else 0,
-        "counting_note": ("Only recorded running sessions starting after you join count."
-                          if challenge.kind == Challenge.Kind.RUNNING else
-                          "Daily steps start counting on the next local day after you join."),
+        "counting_note": challenge.counting_note,
         "complete": progress.is_complete if progress else False,
+        # Generic fields for every challenge kind (newer app versions use these).
+        "kind_label": challenge.get_kind_display(),
+        "unit": challenge.unit,
+        "target": challenge.target,
+        "target_label": challenge.target_label,
+        "activity_type": challenge.activity_type or None,
+        "daily_threshold": challenge.daily_threshold or None,
+        "progress_value": progress.progress_value if progress and progress.has_step_data else None,
+        "progress_label": challenge.progress_label(progress),
     }
 
 

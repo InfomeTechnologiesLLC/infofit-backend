@@ -24,6 +24,7 @@ urlpatterns = [
     path("teams/<int:pk>/edit/", views.record_form, {"section": "teams"}, name="team_edit"),
     path("challenges/", views.records, {"section": "challenges"}, name="challenges"),
     path("challenges/new/", views.record_form, {"section": "challenges"}, name="challenge_new"),
+    path("challenges/<int:pk>/", views.challenge_detail, name="challenge_detail"),
     path("challenges/<int:pk>/edit/", views.record_form, {"section": "challenges"}, name="challenge_edit"),
     path("programs/", views.records, {"section": "programs"}, name="programs"),
     path("programs/new/", views.record_form, {"section": "programs"}, name="program_new"),
