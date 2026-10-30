@@ -20,3 +20,23 @@ def _notifications_problem():
         return has_problem()
     except Exception:  # never break a page over the sidebar dot
         return False
+
+
+_BRAND = None
+
+
+def brand(request):
+    """INFOME FIT logo images as data URIs, so they show even when the server doesn't serve static files."""
+    global _BRAND
+    if _BRAND is None:
+        import base64
+        from pathlib import Path
+        folder = Path(__file__).resolve().parent / "static" / "portal" / "img"
+        images = {}
+        for key, name in (("logo", "logo.png"), ("mark", "mark-tile.png"), ("favicon", "favicon.png")):
+            try:
+                images[key] = "data:image/png;base64," + base64.b64encode((folder / name).read_bytes()).decode("ascii")
+            except OSError:
+                images[key] = ""
+        _BRAND = images
+    return {"brand": _BRAND}

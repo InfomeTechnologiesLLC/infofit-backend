@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ title|default:"Staff portal" }} · INFOME FIT</title>
+  {% if brand.favicon %}<link rel="icon" type="image/png" href="{{ brand.favicon }}">{% endif %}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -25,8 +26,8 @@
     /* sidebar */
     .if-side { width: 252px; background: linear-gradient(180deg, var(--if-side), var(--if-side-2)); color: var(--if-side-ink); }
     @media (min-width: 992px) { .if-side { position: fixed; inset: 0 auto 0 0; } .if-main { margin-left: 252px; } }
-    .if-logo { width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center; font-weight: 800; color: #fff;
-               background: linear-gradient(135deg, #06b6d4, #7c3aed); box-shadow: 0 6px 18px rgba(124,58,237,.35); }
+    .if-logo { width: 38px; height: 38px; border-radius: 11px; display: block; flex: none; background: #fff; box-shadow: 0 6px 18px rgba(0,0,0,.25); }
+    .if-logo-full { display: block; height: 52px; width: auto; max-width: 100%; }
     .if-side .group { font-size: .7rem; letter-spacing: .09em; text-transform: uppercase; color: var(--if-side-muted); margin: 1.1rem .9rem .35rem; }
     .if-side .nav-link { color: var(--if-side-ink); border-radius: .6rem; padding: .5rem .8rem; display: flex; align-items: center; gap: .65rem; font-weight: 500; }
     .if-side .nav-link i { font-size: 1.05rem; opacity: .85; }
@@ -86,7 +87,7 @@
   {% with counts=nav_counts %}
   <aside class="if-side offcanvas-lg offcanvas-start d-flex flex-column" tabindex="-1" id="portalNav" aria-label="Portal sections">
     <div class="d-flex align-items-center gap-2 px-3 pt-3 pb-2">
-      <div class="if-logo">IF</div>
+      <img class="if-logo" src="{{ brand.mark }}" alt="">
       <div class="lh-sm"><div class="fw-bold text-white">INFOME FIT</div><div class="small" style="color:var(--if-side-muted)">Staff portal</div></div>
       <button type="button" class="btn-close btn-close-white ms-auto d-lg-none" data-bs-dismiss="offcanvas" data-bs-target="#portalNav" aria-label="Close menu"></button>
     </div>
@@ -117,7 +118,7 @@
   <div class="if-main">
     <div class="if-top d-lg-none px-3 py-2 d-flex align-items-center gap-2">
       <button class="btn btn-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#portalNav" aria-controls="portalNav" aria-label="Open menu"><i class="bi bi-list"></i></button>
-      <div class="if-logo" style="width:30px;height:30px;font-size:.8rem">IF</div><span class="fw-bold">INFOME FIT</span>
+      <img class="if-logo" src="{{ brand.mark }}" alt="" style="width:30px;height:30px;border-radius:8px;box-shadow:none;border:1px solid var(--if-line)"><span class="fw-bold">INFOME FIT</span>
     </div>
     <main class="container-fluid content-wrap px-3 px-md-4 py-4">
       {% for message in messages %}<div class="alert alert-{{ message.tags|default:'info' }} d-flex align-items-center gap-2 border-0 shadow-sm" role="status"><i class="bi bi-check-circle"></i>{{ message }}</div>{% endfor %}
