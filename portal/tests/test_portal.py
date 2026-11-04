@@ -81,6 +81,34 @@ class PortalTests(TestCase):
                 self.assertContains(response, "Staff portal")
         self.assertRedirects(self.client.get("/"), reverse("portal:dashboard"), fetch_redirect_response=False)
 
+    def test_apple_health_partial_upload_distinguishes_step_dates_from_recent_calories(self):
+        from uuid import uuid4
+        from fitness.models import DailyActivity, FitnessAccount, FitnessSource
+        source = FitnessSource.objects.create(user=self.employee, installation_id=uuid4(), kind="apple_health",
+                                               last_successful_sync_at=timezone.now())
+        FitnessAccount.objects.create(user=self.employee, active_source=source)
+        historical = self.today.replace(day=1) - timedelta(days=3)
+        DailyActivity.objects.create(user=self.employee, source=source, local_date=historical, time_zone="UTC",
+                                     steps=17208, metric_status={"steps": "available"}, observed_at=timezone.now())
+        today = DailyActivity.objects.create(user=self.employee, source=source, local_date=self.today, time_zone="UTC",
+                                             active_kcal=51, metric_status={"steps": "no_data", "active_kcal": "available"},
+                                             observed_at=timezone.now())
+        url = reverse("portal:employee_detail", args=[self.employee.pk])
+        response = self.client.get(url)
+        self.assertContains(response, "Last Apple Health sync")
+        self.assertContains(response, "active Apple Health source")
+        self.assertContains(response, "No step readings received for today.")
+        self.assertContains(response, '?month=' + historical.strftime("%Y-%m"))
+        self.assertEqual(response.context["step_coverage"], {"first_date": historical, "last_date": historical, "days": 1})
+        self.assertIsNone(response.context["step_summary"]["month"])
+        self.assertEqual(response.context["step_summary"]["all"]["steps"], 17208)
+        today.steps = 1000
+        today.metric_status["steps"] = "available"
+        today.save()
+        response = self.client.get(url)
+        self.assertNotContains(response, "No step readings received for today.")
+        self.assertEqual(response.context["step_summary"]["month"]["steps"], 1000)
+
     def test_department_team_and_program_creation(self):
         self.assertEqual(self.client.post(reverse("portal:department_new"), {"name": "Engineering"}).status_code, 302)
         department = Department.objects.get(name="Engineering")
@@ -169,7 +197,7 @@ class PortalTests(TestCase):
         photo = self.client.get(reverse("portal:post_photo", args=[post.pk]))
         self.assertEqual(photo.status_code, 200)
         self.assertEqual(photo["Cache-Control"], "private, no-store")
-        photo.close()
+        self.assertTrue(b"".join(photo.streaming_content))
         self.client.force_login(self.employee)
         self.assertEqual(self.client.get(reverse("portal:post_photo", args=[post.pk])).status_code, 403)
         self.client.force_login(self.staff)

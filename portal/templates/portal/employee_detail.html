@@ -16,10 +16,17 @@
 <div class="row g-3 mb-3">
   <div class="col-sm-6 col-xl-3"><div class="card p-3 h-100"><div class="small text-muted">Steps today</div><div class="kpi-value fs-3 fw-bold">{% if step_summary.today.days %}{{ step_summary.today.steps }}{% else %}—{% endif %}</div><div class="small text-muted">{% if step_summary.today.days %}Synced{% else %}No synced record{% endif %}</div></div></div>
   <div class="col-sm-6 col-xl-3"><div class="card p-3 h-100"><div class="small text-muted">Steps this week</div><div class="kpi-value fs-3 fw-bold">{% if step_summary.week.days %}{{ step_summary.week.steps }}{% else %}—{% endif %}</div><div class="small text-muted">{{ step_summary.week.days|default:0 }} recorded days</div></div></div>
-  <div class="col-sm-6 col-xl-3"><div class="card p-3 h-100"><div class="small text-muted">Steps this month</div><div class="kpi-value fs-3 fw-bold">{% if step_summary.month.days %}{{ step_summary.month.steps }}{% else %}—{% endif %}</div><div class="small text-muted">{{ step_summary.month.days|default:0 }} recorded days · rank {% if rankings.steps %}#{{ rankings.steps }}{% else %}—{% endif %}</div></div></div>
+  <div class="col-sm-6 col-xl-3"><div class="card p-3 h-100"><div class="small text-muted">Steps this month</div><div class="kpi-value fs-3 fw-bold">{% if step_summary.month.days %}{{ step_summary.month.steps }}{% else %}—{% endif %}</div><div class="small text-muted">{{ step_summary.month.days|default:0 }} recorded days · rank {% if step_summary.month.days and rankings.steps %}#{{ rankings.steps }}{% else %}—{% endif %}</div></div></div>
   <div class="col-sm-6 col-xl-3"><div class="card p-3 h-100"><div class="small text-muted">All saved steps</div><div class="kpi-value fs-3 fw-bold">{% if step_summary.all.days %}{{ step_summary.all.steps }}{% else %}—{% endif %}</div><div class="small text-muted">{{ step_summary.all.days|default:0 }} recorded days</div></div></div>
   <div class="col-sm-6 col-xl-3"><div class="card p-3 h-100"><div class="small text-muted">Challenge points</div><div class="kpi-value fs-3 fw-bold">{{ points }}</div><div class="small text-muted">Rank {% if rankings.points %}#{{ rankings.points }}{% else %}—{% endif %} · {{ completed_count }} completed</div></div></div>
 </div>
+{% if fitness_source.kind == 'apple_health' and not step_summary.today.days %}
+<div class="alert alert-info mb-3" role="status">
+  <strong>No step readings received for today.</strong>
+  {% if step_coverage.last_date %}The latest received step date is <a href="?month={{ step_coverage.last_date|date:'Y-m' }}">{{ step_coverage.last_date|date:'M j, Y' }}</a>.{% else %}No step readings have reached this account yet.{% endif %}
+  A successful upload may contain calories or other metrics without steps. In HealthySync, enable Steps and run Historical Sync for the missing dates.
+</div>
+{% endif %}
 <div class="row g-3 mb-3">
   <div class="col-lg-6"><div class="card p-4 h-100"><h2 class="h6 fw-bold mb-3">Account and organization</h2><dl class="row mb-0">
     <dt class="col-5">Status</dt><dd class="col-7">{% if employee.is_active %}Active{% else %}Inactive{% endif %}</dd>
@@ -38,11 +45,20 @@
     <dt class="col-7">Check-ins in last 7 days</dt><dd class="col-5">{{ checkin_count }}</dd>
     <dt class="col-7">Community posts</dt><dd class="col-5">{{ community_post_count }}</dd>
     <dt class="col-7">Meals saved</dt><dd class="col-5">{{ meal_count }}</dd>
-    <dt class="col-7">Last Health Connect sync</dt><dd class="col-5">{{ last_sync|date:'M j, Y H:i'|default:'No sync' }}</dd>
+    <dt class="col-7">Last {{ fitness_source_label }} sync</dt><dd class="col-5">{{ last_sync|date:'M j, Y H:i'|default:'No sync' }}</dd>
+    <dt class="col-7">Received step dates</dt><dd class="col-5">{% if step_coverage.days %}{{ step_coverage.first_date|date:'M j, Y' }} – {{ step_coverage.last_date|date:'M j, Y' }}<br><span class="small text-muted">{{ step_coverage.days }} recorded day{{ step_coverage.days|pluralize }}; gaps may exist</span>{% else %}No step readings received{% endif %}</dd>
   </dl></div></div>
 </div>
 <div class="card p-4 mb-3">
-  <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3"><div><h2 class="h6 fw-bold mb-1">Daily step records</h2><span class="small text-muted">{{ month_start|date:'F Y' }} · active Health Connect source</span></div>
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+    <div><h2 class="h6 fw-bold mb-1"><i class="bi bi-phone me-1"></i>iPhone / Apple Health</h2>
+      <p class="small text-muted mb-0">{% if apple_health_connection.token_hash %}A sync token has been issued. Manage the connection or generate a replacement.{% else %}Set up HealthySync with a personal upload token and instructions for this employee.{% endif %}</p>
+    </div>
+    <a class="btn btn-outline-primary" href="{% url 'portal:employee_apple_health' employee.pk %}">{% if apple_health_connection.token_hash %}Manage iPhone sync{% else %}Set up iPhone{% endif %}</a>
+  </div>
+</div>
+<div class="card p-4 mb-3">
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3"><div><h2 class="h6 fw-bold mb-1">Daily step records</h2><span class="small text-muted">{{ month_start|date:'F Y' }} · {% if fitness_source %}active {{ fitness_source_label }} source{% else %}no active source{% endif %}</span></div>
     <div class="d-flex gap-2"><a class="btn btn-outline-secondary btn-sm" href="?month={{ previous_month }}">← Previous</a>{% if next_month %}<a class="btn btn-outline-secondary btn-sm" href="?month={{ next_month }}">Next →</a>{% endif %}</div>
   </div>
   <div class="table-responsive"><table class="table table-modern"><thead><tr><th>Day</th><th>Steps</th><th>Distance</th><th>Active calories</th><th>Exercise</th><th>Sleep</th></tr></thead><tbody>

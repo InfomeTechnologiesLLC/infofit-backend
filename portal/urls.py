@@ -20,6 +20,7 @@ urlpatterns = [
     path("employees/<int:pk>/delete/", views.employee_delete, name="employee_delete"),
     path("employees/<int:pk>/password/", views.employee_password, name="employee_password"),
     path("employees/<int:pk>/active/", views.employee_toggle_active, name="employee_toggle_active"),
+    path("employees/<int:pk>/apple-health/", views.employee_apple_health, name="employee_apple_health"),
     path("departments/", views.records, {"section": "departments"}, name="departments"),
     path("departments/new/", views.record_form, {"section": "departments"}, name="department_new"),
     path("departments/<int:pk>/edit/", views.record_form, {"section": "departments"}, name="department_edit"),

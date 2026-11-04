@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "automations",
     "assistant",
     "portal",
+    "employee_web",
 ]
 
 MIDDLEWARE = [

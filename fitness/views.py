@@ -42,6 +42,7 @@ def source_data(account):
     return {
         "installation_id": str(source.installation_id) if source else None,
         "device_label": source.device_label if source else None,
+        "kind": source.kind if source else None,
         "time_zone": account.time_zone,
         "last_sequence": source.last_sequence if source else 0,
         "last_successful_sync_at": source.last_successful_sync_at if source else None,
@@ -66,6 +67,8 @@ class SourceView(APIView):
                 user=request.user, installation_id=data["installation_id"],
                 defaults={"device_label": data.get("device_label", "")},
             )
+            if source.kind != "health_connect":
+                raise Conflict("Use the Apple Health connection endpoint to activate this source.")
             source.device_label = data.get("device_label", source.device_label)
             source.save(update_fields=["device_label"])
             account.active_source = source
@@ -106,6 +109,8 @@ class SyncView(APIView):
             source = account.active_source
             if source is None or source.installation_id != data["installation_id"]:
                 raise Conflict("This device is not the active fitness source.")
+            if source.kind != "health_connect":
+                raise Conflict("This source accepts HealthySync uploads only.")
             prior = FitnessSyncBatch.objects.filter(user=request.user, idempotency_key=data["idempotency_key"]).first()
             if prior:
                 if prior.payload_hash != payload_hash:
@@ -121,8 +126,8 @@ class SyncView(APIView):
                 DailyActivity.objects.update_or_create(
                     user=request.user, local_date=day["local_date"],
                     defaults={"source": source, "time_zone": data["time_zone"],
-                              "observed_at": day["observed_at"],
-                              "metric_status": day["metric_status"], **values},
+                               "observed_at": day["observed_at"],
+                               "metric_status": day["metric_status"], "verified_metrics": {}, **values},
                 )
                 if day["metric_status"]["exercise_minutes"] in ("available", "no_data"):
                     replace_records(ExerciseRecord, request.user, source, day["local_date"], day["exercises"])
@@ -145,7 +150,8 @@ class SyncView(APIView):
 def day_payload(day):
     return {"date": day.local_date, "time_zone": day.time_zone,
             "metrics": {metric: getattr(day, metric) for metric in METRICS},
-            "metric_status": day.metric_status, "last_synced_at": day.synced_at}
+            "metric_status": day.metric_status, "last_synced_at": day.synced_at,
+            "verified_metrics": day.verified_metrics}
 
 
 def step_estimates(day):
@@ -181,7 +187,7 @@ class HomeView(APIView):
             "last_synced_at": None,
         }
         data.update({"step_goal": profile.daily_step_goal,
-                     "source": "health_connect" if day else None,
+                      "source": account.active_source.kind if day else None,
                      "step_estimates": step_estimates(day),
                      "estimate_note": "Rough step-based estimate (0.75 m and 0.04 kcal per step); actual values may differ. Never used for rewards.",
                      "last_successful_sync_at": account.active_source.last_successful_sync_at if account.active_source else None})
@@ -202,10 +208,11 @@ class StepSummaryView(APIView):
             metric_status__steps="available", steps__isnull=False,
         ) if account.active_source else DailyActivity.objects.none()
         result = rows.aggregate(total=Sum("steps"), days=Count("id"))
+        provider = "Apple Health" if account.active_source and account.active_source.kind == "apple_health" else "Health Connect"
         return Response({"period": period, "from": start, "to": today,
                          "steps": result["total"], "days_with_data": result["days"],
                          "days_elapsed": (today - start).days + 1,
-                         "note": "Health Connect step data only. Missing days are not counted as zero."})
+                         "note": f"{provider} step data only. Missing days are not counted as zero."})
 
 
 def date_range(request):
@@ -239,7 +246,8 @@ class RecordView(APIView):
             local_date__range=(start, end)).order_by("-start_at")[:200] if account.active_source else []
         fields = ("record_id", "origin_package", "local_date", "start_at", "end_at")
         return Response([{**{field: getattr(row, field) for field in fields},
-                          **({"exercise_type": row.exercise_type} if self.model is ExerciseRecord else {})}
+                          **({"exercise_type": row.exercise_type, "duration_seconds": row.duration_seconds}
+                             if self.model is ExerciseRecord else {})}
                          for row in rows])
 
 

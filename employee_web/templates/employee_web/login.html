@@ -1,0 +1,31 @@
+{% extends 'employee_web/base.html' %}
+{% block title %}Welcome · Infome Fit{% endblock %}
+{% block content %}
+<main class="login-shell">
+  <img class="brand-logo" src="{{ brand.logo }}" alt="INFOME FIT">
+  <section class="login-hero">
+    <div class="login-symbol" aria-hidden="true">↗</div>
+    <p class="eyebrow">YOUR TEAM. YOUR WELLBEING.</p>
+    <h1>A little movement.<br>A lot of good.</h1>
+    <p>Your progress, your challenges, and your community. Together in one place.</p>
+    <div class="hero-pills"><span>Move together</span><span>Climb the rankings</span></div>
+  </section>
+  <section class="card login-card">
+    <p class="eyebrow">WELCOME TO INFOME FIT</p>
+    <h2>Your team is waiting</h2>
+    <p class="muted">Sign in with the same Auth token you use in HealthySync.</p>
+    <form method="post" id="login-form">
+      {% csrf_token %}
+      {% for error in form.non_field_errors %}<p class="error" role="alert">{{ error }}</p>{% endfor %}
+      <label for="{{ form.token.id_for_label }}">Auth token</label>
+      <div class="token-field">{{ form.token }}<button type="button" id="show-token" class="text-button" aria-pressed="false">Show</button></div>
+      {% for error in form.token.errors %}<p class="error" role="alert">{{ error }}</p>{% endfor %}
+      <p class="small muted" id="token-help">Paste the personal token sent by HR. It begins with <strong>ahs_</strong>.</p>
+      <button type="submit" class="button primary wide">Let's get moving <span aria-hidden="true">→</span></button>
+    </form>
+    <p class="small muted login-help">Need a token? Ask HR to open your employee profile and choose <strong>Set up iPhone</strong>.</p>
+  </section>
+  <p class="small muted install-note">On iPhone, open Safari's Share menu → Add to Home Screen for quick access.</p>
+</main>
+{% endblock %}
+{% block scripts %}<script src="{% url 'employee_web:asset' 'login.js' %}" defer></script>{% endblock %}

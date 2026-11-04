@@ -1,0 +1,129 @@
+{% extends 'portal/base.html' %}
+{% block content %}
+<a href="{% url 'portal:employee_detail' employee.pk %}" class="small fw-semibold"><i class="bi bi-arrow-left"></i> Back to employee</a>
+<div class="page-head mt-2 mb-4">
+  <h1 class="h3 mb-1">iPhone / Apple Health</h1>
+  <p class="text-muted mb-0">{{ employee.full_name }} · {{ employee.email }}</p>
+</div>
+<div class="row g-4">
+  <div class="col-xl-7">
+    {% if token %}
+    <section class="card p-4 mb-3" aria-labelledby="token-heading">
+      <h2 id="token-heading" class="h5 fw-bold"><i class="bi bi-check-circle text-success me-1"></i>Token ready</h2>
+      <p class="text-muted">Copy these details now and share them with {{ employee.full_name }}. This token is shown only when generated. Any previous token has stopped working.</p>
+      <label class="form-label" for="sync-token">Personal sync token</label>
+      <div class="input-group mb-3">
+        <input id="sync-token" class="form-control font-monospace" type="text" value="{{ token }}" readonly autocomplete="off" spellcheck="false">
+        <button class="btn btn-outline-primary" type="button" data-copy="sync-token">Copy token</button>
+      </div>
+      <label class="form-label" for="setup-instructions">Instructions to send to the employee</label>
+      <textarea id="setup-instructions" class="form-control mb-3" rows="11" readonly autocomplete="off" spellcheck="false">Infome Fit — iPhone setup for {{ employee.full_name }} ({{ employee.email }})
+1. Install HealthySync: https://apps.apple.com/in/app/healthysync/id6776575569
+2. In HealthySync Settings, choose Your own backend.
+Backend URL: {{ backend_url }}
+Auth token: {{ token }}
+3. Save, grant Apple Health read access, and enable Steps and the other categories you want to share.
+4. Choose Hourly best-effort and run Sync last 24 hours. Keep the app open until it finishes.
+5. For earlier missing dates, use Historical Sync / Backfill.
+6. Open Infome Fit in Safari: {{ employee_app_url }}
+7. Paste the same Auth token to see your activity and rankings, join challenges, and post in the community.
+8. In Safari, use Share → Add to Home Screen for quick access.
+Enter only the base URL above. Do not add /healthz/ or /api/apple-health/sync.
+Hourly syncing depends on iOS scheduling. Opening HealthySync also triggers catch-up.</textarea>
+      <div class="d-flex flex-wrap gap-2">
+        <button class="btn btn-primary" type="button" data-copy="setup-instructions"><i class="bi bi-clipboard me-1"></i>Copy setup instructions</button>
+        <a class="btn btn-light border" href="{% url 'portal:employee_detail' employee.pk %}">Done</a>
+      </div>
+    </section>
+    {% else %}
+    <form method="post" class="card p-4 mb-3">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="generate">
+      <h2 class="h5 fw-bold">{% if connection.token_hash %}Replace the sync token{% else %}Generate a sync token{% endif %}</h2>
+      <p class="text-muted">{% if connection.token_hash %}The existing token cannot be displayed again. Rotating it stops the old token and its employee web sessions immediately; paste the replacement into HealthySync and sign in to Infome Fit again.{% else %}Connect this employee's Apple Health data through HealthySync. Their personal token also signs them in to the Infome Fit employee web app.{% endif %}</p>
+      {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors }}</div>{% endif %}
+      {% if not employee.is_active %}<div class="alert alert-info">This employee is deactivated. Reactivate them from their employee page before generating a token.</div>{% endif %}
+      {% for field in form %}
+      <div class="mb-3">
+        {% if field.field.widget.input_type == 'checkbox' %}
+        <div class="form-check">{{ field }}<label class="form-check-label fw-semibold" for="{{ field.id_for_label }}">{{ field.label }}</label></div>
+        {% else %}<label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% endif %}
+        {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+        {% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+      </div>
+      {% endfor %}
+      <div><button class="btn btn-primary" type="submit" {% if not employee.is_active %}disabled{% endif %}><i class="bi bi-key me-1"></i>{% if connection.token_hash %}Rotate token{% else %}Generate token{% endif %}</button></div>
+    </form>
+    {% endif %}
+    {% if connection.token_hash and not token %}
+    <form method="post" class="card p-4">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="revoke">
+      <h2 class="h6 fw-bold">Stop iPhone uploads</h2>
+      <p class="small text-muted">Revoking this token stops HealthySync uploads and signs this employee out of the employee web app. Previously synced activity stays saved.</p>
+      <div><button class="btn btn-outline-danger" type="submit">Revoke token</button></div>
+    </form>
+    {% endif %}
+  </div>
+  <div class="col-xl-5">
+    <section class="card p-4 mb-3" aria-labelledby="employee-app-heading">
+      <h2 id="employee-app-heading" class="h6 fw-bold mb-3">Employee web app</h2>
+      <p class="small text-muted">Share this link with the employee. They sign in with the same Auth token to see rankings, join challenges, and use the community.</p>
+      <label class="form-label" for="employee-app-url">Infome Fit link</label>
+      <div class="input-group mb-2">
+        <input id="employee-app-url" class="form-control" type="text" value="{{ employee_app_url }}" readonly spellcheck="false">
+        <button class="btn btn-outline-primary" type="button" data-copy="employee-app-url">Copy link</button>
+      </div>
+      <a href="{{ employee_app_url }}" target="_blank" rel="noopener noreferrer" class="small fw-semibold">Open employee app <i class="bi bi-box-arrow-up-right"></i></a>
+    </section>
+    <section class="card p-4 mb-3" aria-labelledby="connection-heading">
+      <h2 id="connection-heading" class="h6 fw-bold mb-3">Connection status</h2>
+      <dl class="row mb-0">
+        <dt class="col-sm-5">Apple Health</dt><dd class="col-sm-7">{% if not employee.is_active %}Employee deactivated{% elif not connection %}Not configured{% elif not connection.token_hash %}Token revoked{% elif not connection_active %}Another device is active{% elif connection.device_id %}Connected{% else %}Waiting for first sync{% endif %}</dd>
+        <dt class="col-sm-5">Active source</dt><dd class="col-sm-7">{% if active_source %}{{ active_source.get_kind_display }}{% if active_source.device_label %} · {{ active_source.device_label }}{% endif %}{% else %}None{% endif %}</dd>
+        {% if connection %}
+        <dt class="col-sm-5">Linked device</dt><dd class="col-sm-7 text-break">{{ connection.device_id|default:'Binds on first upload' }}</dd>
+        <dt class="col-sm-5">Last Apple Health sync</dt><dd class="col-sm-7">{{ connection.source.last_successful_sync_at|date:'M j, Y H:i'|default:'No sync yet' }}</dd>
+        {% endif %}
+      </dl>
+    </section>
+    <section class="card p-4" aria-labelledby="setup-heading">
+      <h2 id="setup-heading" class="h6 fw-bold mb-3">HealthySync setup</h2>
+      <label class="form-label" for="backend-url">Backend URL</label>
+      <div class="input-group mb-2">
+        <input id="backend-url" class="form-control" type="text" value="{{ backend_url }}" readonly spellcheck="false">
+        <button class="btn btn-outline-primary" type="button" data-copy="backend-url">Copy URL</button>
+      </div>
+      <p class="small text-muted">Use this base URL exactly. HealthySync adds the upload path itself.</p>
+      <ol class="small ps-3 mb-0">
+        <li class="mb-2">Install <a href="https://apps.apple.com/in/app/healthysync/id6776575569" target="_blank" rel="noopener noreferrer">HealthySync for iPhone</a>.</li>
+        <li class="mb-2">Choose <strong>Your own backend</strong> and paste the URL and personal token.</li>
+        <li class="mb-2">Allow Apple Health access, enable Steps, and choose <strong>Hourly best-effort</strong>.</li>
+        <li>Run <strong>Sync last 24 hours</strong>, then check the employee's step dates in this portal. Use backfill for earlier missing dates.</li>
+      </ol>
+    </section>
+  </div>
+</div>
+<p id="copy-status" class="small text-muted mt-3" role="status" aria-live="polite"></p>
+{% endblock %}
+{% block scripts %}
+<script>
+(function () {
+  const status = document.getElementById("copy-status");
+  document.querySelectorAll("[data-copy]").forEach(function (button) {
+    button.addEventListener("click", async function () {
+      const field = document.getElementById(button.dataset.copy);
+      try {
+        if (!navigator.clipboard || !window.isSecureContext) throw new Error("Clipboard unavailable");
+        await navigator.clipboard.writeText(field.value);
+        status.textContent = "Copied.";
+      } catch (error) {
+        field.focus();
+        field.select();
+        status.textContent = "Selected. Press Copy on your device or Ctrl+C / Command+C.";
+      }
+    });
+  });
+})();
+</script>
+{% endblock %}

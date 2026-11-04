@@ -59,6 +59,13 @@ class RankingsTests(TestCase):
         self.assertEqual([(r["name"], r["value"]) for r in data["rows"]], expected)
         self.assertTrue(next(r for r in data["rows"] if r["name"] == "Falcons")["is_me"])
 
+    def test_android_totals_are_preserved_and_apple_uses_verified_samples(self):
+        DailyActivity.objects.filter(user=self.me, local_date=self.today).update(manual_steps=1000)
+        DailyActivity.objects.filter(user=self.top).update(verified_metrics={"steps": 2000})
+        DailyActivity.objects.filter(user=self.shy).update(verified_metrics={"steps": None})
+        data = self.api.get("/api/v1/challenges/rankings/?board=steps_today").json()
+        self.assertEqual([(row["name"], row["value"]) for row in data["rows"]], [("You", 3000), ("Joe B.", 2000)])
+
     def test_points_board_and_empty_message(self):
         data = self.api.get("/api/v1/challenges/rankings/?board=points").json()
         self.assertEqual(data["rows"], [])

@@ -10,12 +10,12 @@ from django.contrib.auth.views import LoginView
 from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
-from django.db.models import Count, Max, Q, Sum
+from django.db.models import Count, Max, Min, Q, Sum
 from django.http import FileResponse, Http404, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_http_methods
 from django.views.decorators.cache import never_cache
 from django.core.paginator import Paginator
 
@@ -24,12 +24,14 @@ from challenges.models import Challenge, ChallengeEnrollment, ChallengeProgress,
 from automations.services import announce_new_activities
 from challenges.services import reconcile_user
 from community.models import CommunityPost, CommunityReport
-from fitness.models import DailyActivity, FitnessAccount, FitnessSource
+from fitness.apple_health import issue_token, revoke_token
+from fitness.models import AppleHealthConnection, DailyActivity, FitnessAccount, FitnessSource
+from fitness.views import Conflict
 from notifications.models import PushDelivery
 from nutrition.models import Meal
 from wellness.models import HydrationLog, ProgramCheckIn, ProgramEnrollment, WellnessProgram
 
-from .forms import (CHALLENGE_KIND_HELP, ChallengeForm, DepartmentForm, EmployeeForm, EmployeePasswordForm,
+from .forms import (CHALLENGE_KIND_HELP, ChallengeForm, DepartmentForm, EmployeeAppleHealthForm, EmployeeForm, EmployeePasswordForm,
                     PortalLoginForm, TeamForm, WellnessProgramForm)
 from .insights import points_totals, staff_rankings, step_period, step_totals
 from . import notification_health
@@ -216,7 +218,12 @@ def employee_detail(request, pk):
         month_start = today.replace(day=1)
     next_month = (month_start.replace(day=28) + timedelta(days=4)).replace(day=1)
     month_end = next_month - timedelta(days=1)
-    account = FitnessAccount.objects.filter(user=employee).first()
+    account = FitnessAccount.objects.select_related("active_source").filter(user=employee).first()
+    source = account.active_source if account else None
+    apple_health = AppleHealthConnection.objects.filter(user=employee).first()
+    source_label = source.get_kind_display() if source else "health data"
+    step_coverage = DailyActivity.objects.filter(user=employee, source=source, steps__isnull=False).aggregate(
+        first_date=Min("local_date"), last_date=Max("local_date"), days=Count("id")) if source else {}
     activity = DailyActivity.objects.filter(user=employee, source_id=account.active_source_id,
         local_date__range=(month_start, month_end)).order_by("-local_date") if account and account.active_source_id else DailyActivity.objects.none()
     activity_days = list(activity)
@@ -247,6 +254,8 @@ def employee_detail(request, pk):
     return render(request, "portal/employee_detail.html", page_context(employee.full_name, "employees",
         employee=employee, challenge_count=challenge_count, completed_count=completed_count,
         program_count=program_count, checkin_count=checkin_count, last_sync=last_sync,
+        fitness_source=source, fitness_source_label=source_label, step_coverage=step_coverage,
+        apple_health_connection=apple_health,
         step_summary=summary, activity_days=activity_days, challenge_rows=challenge_rows,
         program_rows=program_rows, points=points, rankings=rankings,
         month_start=month_start, previous_month=(month_start - timedelta(days=1)).strftime("%Y-%m"),
@@ -368,6 +377,42 @@ def employee_toggle_active(request, pk):
         messages.success(request, "{} is deactivated: they can no longer sign in, and their data is kept.".format(
             employee.email))
     return redirect("portal:employee_detail", pk=employee.pk)
+
+
+@staff_only
+@never_cache
+@require_http_methods(["GET", "POST"])
+def employee_apple_health(request, pk):
+    employee = get_object_or_404(User, pk=pk, role=Role.EMPLOYEE)
+    connection = AppleHealthConnection.objects.select_related("source").filter(user=employee).first()
+    form = EmployeeAppleHealthForm(request.POST if request.method == "POST" else None, employee=employee,
+        initial={"device_label": connection.source.device_label if connection else "iPhone / HealthySync"})
+    token = None
+    if request.method == "POST":
+        action = request.POST.get("action")
+        if action == "revoke":
+            revoke_token(employee)
+            logger.info("Portal user %s revoked Apple Health access for employee %s", request.user.pk, employee.pk)
+            messages.success(request, "Apple Health token revoked. Previously synced activity is retained.")
+            return redirect("portal:employee_apple_health", pk=employee.pk)
+        if action != "generate":
+            return HttpResponse("Unknown Apple Health action.", status=400)
+        if form.is_valid():
+            try:
+                connection, token = issue_token(employee, **form.cleaned_data)
+            except Conflict:
+                form.add_error("replace_existing",
+                    "This employee already has an active device. Select 'Replace the active fitness device' to switch.")
+            else:
+                logger.info("Portal user %s issued an Apple Health token for employee %s (new device: %s)",
+                            request.user.pk, employee.pk, form.cleaned_data["new_device"])
+    account = FitnessAccount.objects.select_related("active_source").filter(user=employee).first()
+    active_source = account.active_source if account else None
+    return render(request, "portal/employee_apple_health.html", page_context("iPhone / Apple Health", "employees",
+        employee=employee, connection=connection, active_source=active_source,
+        connection_active=bool(connection and active_source and connection.source_id == active_source.pk),
+        form=form, token=token, backend_url=request.build_absolute_uri("/").rstrip("/"),
+        employee_app_url=request.build_absolute_uri(reverse("employee_web:app"))))
 
 
 SECTION_CONFIG = {

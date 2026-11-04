@@ -1,3 +1,5 @@
+# New environments / Docker. Existing CentOS deployments use their current
+# newenv packages: follow fitness/APPLE_HEALTH.md before deploying this release.
 Django>=5.2,<5.3
 djangorestframework>=3.15
 djangorestframework-simplejwt>=5.3

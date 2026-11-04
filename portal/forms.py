@@ -140,6 +140,25 @@ class EmployeePasswordForm(BootstrapFormMixin, forms.Form):
         return data
 
 
+class EmployeeAppleHealthForm(BootstrapFormMixin, forms.Form):
+    device_label = forms.CharField(label="Device label", max_length=100, initial="iPhone / HealthySync")
+    new_device = forms.BooleanField(label="This is a new iPhone or a HealthySync reinstall", required=False,
+        help_text="Creates a new device connection. Leave unchecked when replacing a token on the same phone.")
+    replace_existing = forms.BooleanField(label="Replace the active fitness device", required=False,
+        help_text="Switches this employee's active source to this iPhone. The previous device stops syncing; saved history is retained.")
+
+    def __init__(self, *args, employee, **kwargs):
+        self.employee = employee
+        super().__init__(*args, **kwargs)
+        self.style_fields()
+
+    def clean(self):
+        data = super().clean()
+        if not self.employee.is_active:
+            raise forms.ValidationError("Reactivate this employee before generating a sync token.")
+        return data
+
+
 class DepartmentForm(BootstrapFormMixin, forms.ModelForm):
     class Meta:
         model = Department

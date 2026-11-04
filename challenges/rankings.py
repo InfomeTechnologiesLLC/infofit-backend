@@ -1,9 +1,10 @@
 """Company rankings for the app: steps (today, this week, this month), challenge points and teams.
 
 Names are shown as "First L."; anyone can hide their name (they are then shown as "Colleague" but still
-ranked). Steps come only from each person's active phone, as synced; nothing typed in by hand counts.
+ranked). Steps come only from each person's active phone. Legacy Android boards use synced totals;
+Apple Health boards use the separately normalized non-manual totals.
 """
-from django.db.models import Count, F, Sum
+from django.db.models import F, Sum
 from django.utils import timezone
 
 from accounts.models import Role, User
@@ -51,8 +52,14 @@ def _people():
 def _steps(user_ids, start, end):
     rows = (DailyActivity.objects.filter(user_id__in=user_ids, source_id=F("user__fitness_account__active_source_id"),
                                          steps__isnull=False, local_date__gte=start, local_date__lte=end)
-            .values("user_id").annotate(steps=Sum("steps"), days=Count("id")))
-    return {row["user_id"]: row["steps"] or 0 for row in rows}
+            .only("user_id", "steps", "verified_metrics"))
+    totals = {}
+    for row in rows:
+        # Preserve the established Android leaderboard totals during the iOS rollout.
+        value = row.verified_metrics.get("steps", row.steps)
+        if value is not None:
+            totals[row.user_id] = totals.get(row.user_id, 0) + value
+    return totals
 
 
 def _fmt(value, unit):

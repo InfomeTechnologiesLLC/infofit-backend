@@ -59,7 +59,7 @@ class Score:
 
 def _verified(day, metric, manual_field):
     """The day's total minus anything typed in by hand."""
-    return max(0.0, float(getattr(day, metric)) - float(getattr(day, manual_field) or 0))
+    return day.verified_value(metric)
 
 
 def _merged_duration(intervals, cap=MAX_SESSION):
@@ -95,7 +95,9 @@ def _sessions(challenge, enrollment, source, types=None, minimum=MIN_SESSION):
     ).exclude(recording_method="manual")
     if types is not None:
         rows = rows.filter(exercise_type__in=types)
-    return [(r.start_at, r.end_at) for r in rows if r.end_at - r.start_at >= minimum]
+    intervals = [(r.start_at, min(r.end_at, r.start_at + timedelta(seconds=r.duration_seconds))
+                  if r.duration_seconds is not None else r.end_at) for r in rows]
+    return [(start, end) for start, end in intervals if end - start >= minimum]
 
 
 def score(challenge, enrollment, source):
@@ -115,8 +117,11 @@ def score(challenge, enrollment, source):
         total = 0.0
         good_days = 0
         for day in _days(challenge, enrollment, source, status).exclude(**{f"{metric}__isnull": True}):
+            verified = _verified(day, metric, manual)
+            if verified is None:
+                continue
             result.has_data = True
-            amount = _verified(day, metric, manual) / scale
+            amount = verified / scale
             if amount > cap:
                 result.flagged_days += 1
                 amount = cap

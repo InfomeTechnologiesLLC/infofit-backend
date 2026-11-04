@@ -1,0 +1,21 @@
+{% extends 'employee_web/base.html' %}
+{% block content %}
+<div class="app-shell" id="app" data-api="{% url 'employee_web:app' %}api/" data-login="{% url 'employee_web:login' %}">
+  <header class="topbar">
+    <a href="#home" aria-label="Infome Fit home"><img class="brand-logo" src="{{ brand.logo }}" alt="INFOME FIT"></a>
+    <div class="row"><button class="icon-button" id="refresh" aria-label="Refresh page"><span data-icon="refresh"></span></button><button class="avatar dark" id="profile" aria-label="Your profile">Me</button></div>
+  </header>
+  <main id="screen" tabindex="-1" aria-busy="true"><div class="loading" role="status">Loading your day…</div></main>
+  <noscript><p class="card">Enable JavaScript in Safari to use the employee app.</p></noscript>
+  <nav class="bottom-nav" aria-label="Main navigation">
+    <a href="#home" data-tab="home"><span data-icon="home"></span><span>Home</span></a>
+    <a href="#challenges" data-tab="challenges"><span data-icon="trophy"></span><span>Challenges</span></a>
+    <a href="#rankings" data-tab="rankings"><span data-icon="rankings"></span><span>Rankings</span></a>
+    <a href="#community" data-tab="community"><span data-icon="community"></span><span>Community</span></a>
+  </nav>
+</div>
+<div id="toast" class="toast" role="status" hidden></div>
+<dialog id="sheet" aria-labelledby="sheet-title"><div class="sheet-header"><h2 id="sheet-title"></h2><button class="icon-button" id="close-sheet" aria-label="Close dialog">×</button></div><div id="sheet-body"></div></dialog>
+<form id="logout-form" method="post" action="{% url 'employee_web:logout' %}" hidden>{% csrf_token %}</form>
+{% endblock %}
+{% block scripts %}<script src="{% url 'employee_web:asset' 'app.js' %}" defer></script>{% endblock %}

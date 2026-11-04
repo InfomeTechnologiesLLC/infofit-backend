@@ -1,6 +1,6 @@
 """Staff-only participation and verified step summaries.
 
-Steps come from the employee's active Health Connect source. Missing readings are
+Steps come from the employee's active fitness source. Missing readings are
 not treated as zero, and the rankings are activity counts rather than health scores.
 """
 from datetime import timedelta
