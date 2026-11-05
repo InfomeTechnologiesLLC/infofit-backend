@@ -212,6 +212,17 @@ class EmployeeWebTests(TestCase):
         self.assertEqual(self.write(f"challenges/{available.pk}/join/", {"user_id": self.other.pk}).status_code, 201)
         self.assertEqual(ChallengeEnrollment.objects.get().user, self.user)
 
+    def test_browser_rankings_exclude_android_manual_steps(self):
+        self.login()
+        android = FitnessSource.objects.create(user=self.other, installation_id=uuid4())
+        FitnessAccount.objects.create(user=self.other, active_source=android)
+        DailyActivity.objects.create(user=self.other, source=android, local_date=self.today, time_zone="UTC",
+            steps=15000, manual_steps=14000, metric_status={"steps": "available"}, observed_at=timezone.now())
+        DailyActivity.objects.create(user=self.user, source=self.connection.source, local_date=self.today, time_zone="UTC",
+            steps=9000, verified_metrics={"steps": 2000}, metric_status={"steps": "available"}, observed_at=timezone.now())
+        data = self.client.get("/app/api/rankings/?board=steps_today").json()
+        self.assertEqual([(row["is_me"], row["value"]) for row in data["rows"]], [(True, 2000), (False, 1000)])
+
     def test_community_visibility_pagination_moderation_and_idempotent_posting(self):
         self.login()
         secret = CommunityPost.objects.create(author=self.other, body="Other team only", team=self.other.profile.team, visibility="team")

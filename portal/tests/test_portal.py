@@ -123,6 +123,32 @@ class PortalTests(TestCase):
         }).status_code, 302)
         self.assertTrue(WellnessProgram.objects.get(title="Take a walk").is_published)
 
+    def test_staff_step_rankings_exclude_manual_entries(self):
+        from uuid import uuid4
+        from fitness.models import DailyActivity, FitnessAccount, FitnessSource
+
+        android = FitnessSource.objects.create(user=self.employee, installation_id=uuid4())
+        FitnessAccount.objects.create(user=self.employee, active_source=android)
+        iphone_user = User.objects.create_user("iphone-ranking@example.test", PW)
+        iphone = FitnessSource.objects.create(user=iphone_user, installation_id=uuid4(), kind="apple_health")
+        FitnessAccount.objects.create(user=iphone_user, active_source=iphone)
+        DailyActivity.objects.create(user=self.employee, source=android, local_date=self.today, time_zone="UTC",
+            steps=15000, manual_steps=14000, metric_status={"steps": "available"}, observed_at=timezone.now())
+        DailyActivity.objects.create(user=iphone_user, source=iphone, local_date=self.today, time_zone="UTC",
+            steps=20000, verified_metrics={"steps": 2000}, metric_status={"steps": "available"}, observed_at=timezone.now())
+        # A summary without a normalized total must not boost either the score or its recorded-day count.
+        DailyActivity.objects.create(user=iphone_user, source=iphone, local_date=self.today - timedelta(days=40),
+            time_zone="UTC", steps=50000, verified_metrics={"steps": None}, metric_status={"steps": "available"},
+            observed_at=timezone.now())
+        for period in ("today", "week", "month", "all"):
+            with self.subTest(period=period):
+                response = self.client.get(reverse("portal:points"), {"sort": "steps", "period": period})
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual([(row["user"].pk, row["steps"], row["step_days"]) for row in response.context["rows"]],
+                                 [(iphone_user.pk, 2000, 1), (self.employee.pk, 1000, 1)])
+        summary = self.client.get(reverse("portal:employee_detail", args=[self.employee.pk]))
+        self.assertEqual(summary.context["step_summary"]["today"]["steps"], 15000)
+
     def test_employee_creation_and_edit_cannot_grant_admin_access(self):
         team = Team.objects.create(name="Blue")
         response = self.client.post(reverse("portal:employee_new"), {

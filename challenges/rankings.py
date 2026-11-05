@@ -1,16 +1,15 @@
 """Company rankings for the app: steps (today, this week, this month), challenge points and teams.
 
 Names are shown as "First L."; anyone can hide their name (they are then shown as "Colleague" but still
-ranked). Steps come only from each person's active phone. Legacy Android boards use synced totals;
-Apple Health boards use the separately normalized non-manual totals.
+ranked). Steps come only from each person's active phone, excluding explicitly manual entries
+with the same per-day calculation used for challenges.
 """
-from django.db.models import F, Sum
+from django.db.models import Sum
 from django.utils import timezone
 
 from accounts.models import Role, User
-from fitness.models import DailyActivity
-
 from .models import PointsLedger
+from .scoring import competition_step_totals
 
 BOARDS = {
     "steps_today": ("Steps today", "steps"),
@@ -21,7 +20,8 @@ BOARDS = {
 }
 TOP = 50
 NOTE = ("Steps update whenever someone's phone syncs: when they open the app, and about every hour in the "
-        "background. Only steps recorded by each person's active phone or watch count.")
+        "background. Only steps from each person's active phone or watch count. "
+        "Entries explicitly marked manual are excluded.")
 
 
 def period(board, today):
@@ -50,16 +50,7 @@ def _people():
 
 
 def _steps(user_ids, start, end):
-    rows = (DailyActivity.objects.filter(user_id__in=user_ids, source_id=F("user__fitness_account__active_source_id"),
-                                         steps__isnull=False, local_date__gte=start, local_date__lte=end)
-            .only("user_id", "steps", "verified_metrics"))
-    totals = {}
-    for row in rows:
-        # Preserve the established Android leaderboard totals during the iOS rollout.
-        value = row.verified_metrics.get("steps", row.steps)
-        if value is not None:
-            totals[row.user_id] = totals.get(row.user_id, 0) + value
-    return totals
+    return {pk: total["steps"] for pk, total in competition_step_totals(user_ids, start, end).items()}
 
 
 def _fmt(value, unit):

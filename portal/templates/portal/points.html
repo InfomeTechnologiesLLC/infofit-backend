@@ -1,7 +1,7 @@
 {% extends 'portal/base.html' %}
 {% block content %}
 <h1 class="h3 fw-bold mb-2">Individual rankings</h1>
-<p class="text-muted">Rank employees by net challenge points, synced steps, or completed challenges. These are activity rankings, not health scores.</p>
+<p class="text-muted">Rank employees by net challenge points, synced steps, or completed challenges. Step rankings exclude entries explicitly marked manual. These are activity rankings, not health scores.</p>
 <div class="d-flex flex-wrap gap-2 mb-3" aria-label="Ranking type">
   <a class="btn btn-sm {% if sort == 'points' %}btn-primary{% else %}btn-outline-primary{% endif %}" href="?sort=points&amp;period={{ period }}">Points</a>
   <a class="btn btn-sm {% if sort == 'steps' %}btn-primary{% else %}btn-outline-primary{% endif %}" href="?sort=steps&amp;period={{ period }}">Steps</a>

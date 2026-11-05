@@ -10,6 +10,7 @@ from django.utils import timezone
 
 from accounts.models import Role, User
 from challenges.models import ChallengeEnrollment, ChallengeProgress, PointsLedger
+from challenges.scoring import competition_step_totals
 from fitness.models import DailyActivity
 
 
@@ -61,7 +62,7 @@ def staff_rankings(sort="points", period="month"):
     employees = list(User.objects.filter(role=Role.EMPLOYEE, is_active=True).select_related("profile__team"))
     ids = [employee.pk for employee in employees]
     start, end = step_period(period)
-    steps = step_totals(ids, start, end)
+    steps = competition_step_totals(ids, start, end)
     points = points_totals(ids)
     completions = completion_totals(ids)
     joined = joined_totals(ids)

@@ -59,12 +59,40 @@ class RankingsTests(TestCase):
         self.assertEqual([(r["name"], r["value"]) for r in data["rows"]], expected)
         self.assertTrue(next(r for r in data["rows"] if r["name"] == "Falcons")["is_me"])
 
-    def test_android_totals_are_preserved_and_apple_uses_verified_samples(self):
-        DailyActivity.objects.filter(user=self.me, local_date=self.today).update(manual_steps=1000)
-        DailyActivity.objects.filter(user=self.top).update(verified_metrics={"steps": 2000})
+    def test_android_excludes_manual_steps_and_apple_uses_normalized_samples(self):
+        DailyActivity.objects.filter(user=self.me, local_date=self.today).update(manual_steps=2500)
+        DailyActivity.objects.filter(user=self.top).update(manual_steps=1000, verified_metrics={"steps": 2000})
         DailyActivity.objects.filter(user=self.shy).update(verified_metrics={"steps": None})
         data = self.api.get("/api/v1/challenges/rankings/?board=steps_today").json()
-        self.assertEqual([(row["name"], row["value"]) for row in data["rows"]], [("You", 3000), ("Joe B.", 2000)])
+        self.assertEqual([(row["name"], row["value"]) for row in data["rows"]], [("Joe B.", 2000), ("You", 500)])
+        self.assertIn("explicitly marked manual", data["note"])
+
+    def test_all_step_periods_exclude_manual_and_inactive_source_steps(self):
+        DailyActivity.objects.filter(user=self.me, local_date=self.today).update(manual_steps=2500)
+        inactive = FitnessSource.objects.create(user=self.me, installation_id=uuid.uuid4())
+        DailyActivity.objects.filter(user=self.me).exclude(local_date=self.today).update(source=inactive, steps=99999)
+        for board in ("steps_today", "steps_week", "steps_month"):
+            with self.subTest(board=board):
+                data = self.api.get("/api/v1/challenges/rankings/", {"board": board}).json()
+                self.assertEqual(data["me"]["value"], 500)
+                self.assertEqual(data["me"]["value_label"], "500 steps")
+
+    def test_team_averages_exclude_manual_steps(self):
+        DailyActivity.objects.exclude(local_date=self.today).delete()
+        DailyActivity.objects.filter(user=self.me).update(manual_steps=2500)
+        DailyActivity.objects.filter(user=self.shy).update(manual_steps=1000)
+        DailyActivity.objects.filter(user=self.top).update(manual_steps=10000)
+        data = self.api.get("/api/v1/challenges/rankings/?board=teams").json()
+        self.assertEqual([(row["name"], row["value"]) for row in data["rows"]],
+                         [("Falcons", 4250), ("Tigers", 2000)])
+
+    def test_manual_only_and_excess_manual_counts_do_not_rank(self):
+        DailyActivity.objects.filter(user=self.me, local_date=self.today).update(manual_steps=3000)
+        DailyActivity.objects.filter(user=self.top).update(manual_steps=13000)
+        DailyActivity.objects.filter(user=self.shy).update(manual_steps=9000)
+        data = self.api.get("/api/v1/challenges/rankings/?board=steps_today").json()
+        self.assertEqual(data["rows"], [])
+        self.assertIsNone(data["me"])
 
     def test_points_board_and_empty_message(self):
         data = self.api.get("/api/v1/challenges/rankings/?board=points").json()

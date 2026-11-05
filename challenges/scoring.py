@@ -12,6 +12,8 @@ Anti-cheat rules (the same for every kind):
 """
 from datetime import timedelta
 
+from django.db.models import F
+
 from fitness.models import DailyActivity, ExerciseRecord, SleepRecord
 
 DAILY_CAPS = {"steps": 50_000, "distance_km": 60.0, "calories": 2_500.0}
@@ -60,6 +62,30 @@ class Score:
 def _verified(day, metric, manual_field):
     """The day's total minus anything typed in by hand."""
     return day.verified_value(metric)
+
+
+def competition_step_totals(user_ids, start=None, end=None):
+    """Active-source steps for rankings, using the same manual exclusion as challenges.
+
+    An unknown Android manual breakdown still counts. An explicit null Apple Health
+    normalized total is unavailable, while a recorded zero remains a day with data.
+    """
+    rows = DailyActivity.objects.filter(
+        user_id__in=user_ids, source_id=F("user__fitness_account__active_source_id"),
+        steps__isnull=False,
+    )
+    if start is not None:
+        rows = rows.filter(local_date__gte=start)
+    if end is not None:
+        rows = rows.filter(local_date__lte=end)
+    totals = {}
+    for day in rows.only("user_id", "steps", "manual_steps", "verified_metrics"):
+        value = day.verified_value("steps")
+        if value is not None:
+            entry = totals.setdefault(day.user_id, {"steps": 0, "days": 0})
+            entry["steps"] += int(value)
+            entry["days"] += 1
+    return totals
 
 
 def _merged_duration(intervals, cap=MAX_SESSION):
