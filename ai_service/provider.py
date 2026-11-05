@@ -95,12 +95,6 @@ def _body(system, contents, max_tokens=400, temperature=0.3, tools=None, json_mo
     return body
 
 
-def _request_body(messages):
-    """Kept for callers and tests that build a plain request from chat messages."""
-    system, contents = to_contents(messages)
-    return _body(system, contents)
-
-
 def _check(model):
     key = settings.GEMINI_API_KEY
     if not key or not model:

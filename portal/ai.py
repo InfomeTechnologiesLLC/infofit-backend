@@ -9,7 +9,7 @@ import json
 from datetime import timedelta
 
 from django.conf import settings
-from django.db.models import Count, F, Q, Sum
+from django.db.models import Count, F, Sum
 from django.utils import timezone
 
 from accounts.models import Role, User

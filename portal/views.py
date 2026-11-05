@@ -1,7 +1,7 @@
 """Session-authenticated staff operations, separate from the Django admin UI."""
 import hashlib
 import logging
-from datetime import date, timedelta
+from datetime import timedelta
 from functools import wraps
 
 from django.contrib import messages
@@ -27,7 +27,6 @@ from community.models import CommunityPost, CommunityReport
 from fitness.apple_health import issue_token, revoke_token
 from fitness.models import AppleHealthConnection, DailyActivity, FitnessAccount, FitnessSource
 from fitness.views import Conflict
-from notifications.models import PushDelivery
 from nutrition.models import Meal
 from wellness.models import HydrationLog, ProgramCheckIn, ProgramEnrollment, WellnessProgram
 
@@ -86,7 +85,6 @@ def page_context(title, section, **extra):
 def dashboard(request):
     from . import dashboard as figures
     today = timezone.localdate()
-    week_start, _ = step_period("week")
     return render(request, "portal/dashboard.html", page_context("Overview", "dashboard",
         today=today, kpis=figures.kpis(today), activity=figures.activity_series(today),
         signups=figures.signup_series(today), departments=figures.department_participation(today),
@@ -175,8 +173,6 @@ def employees(request):
         challenge_count=Count("challenge_enrollments", distinct=True),
         completed_count=Count("challenge_enrollments__progress", filter=Q(
             challenge_enrollments__progress__is_complete=True), distinct=True),
-        checkin_count=Count("wellness_enrollments__check_ins", distinct=True),
-        last_checkin=Max("wellness_enrollments__check_ins__created_at"),
         recent_checkins=Count("wellness_enrollments__check_ins", filter=Q(
             wellness_enrollments__check_ins__created_at__gte=recent), distinct=True),
         recent_evaluations=Count("challenge_enrollments__progress", filter=Q(
@@ -480,7 +476,7 @@ def challenge_list(request):
 
 @staff_only
 def record_form(request, section, pk=None):
-    model, form_class, title, _, list_name = SECTION_CONFIG[section]
+    model, form_class, title, _, _ = SECTION_CONFIG[section]
     base = model.objects.filter(owner__isnull=True) if section == "programs" else model.objects.all()
     instance = get_object_or_404(base, pk=pk) if pk else None
     form = form_class(request.POST or None, instance=instance)

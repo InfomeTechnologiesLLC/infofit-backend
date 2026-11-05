@@ -32,7 +32,6 @@ from .models import AutomationLog, AutomationSettings, StepGoalSuggestion
 log = logging.getLogger("infome.automations")
 
 DAILY_CAP = 2          # automated coaching messages per person per local day, across all kinds
-SLOT_MINUTES = 5       # the scheduler runs every 5 minutes
 # A message is sent at the first scheduler run after its time, up to this long after it. This way nothing is
 # lost when the scheduler (cron or Celery) runs late or was briefly down. Each message still goes out once a day.
 CATCH_UP_MINUTES = 120

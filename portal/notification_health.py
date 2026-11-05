@@ -9,7 +9,7 @@ from django.utils import timezone
 
 from accounts.models import Role, User
 from automations.models import AutomationSettings
-from notifications.models import Notification, PushDelivery, PushDevice, SchedulerHeartbeat
+from notifications.models import Notification, PushDelivery, SchedulerHeartbeat
 from notifications.tasks import push_problem
 
 STALE_AFTER = timedelta(minutes=15)

@@ -4,7 +4,7 @@ from datetime import timedelta
 from django.db.models import Count, F, Max, Q, Sum
 from django.utils import timezone
 
-from accounts.models import Department, Role, Team, User
+from accounts.models import Department, Role, User
 from challenges.models import Challenge, ChallengeEnrollment, ChallengeProgress, PointsLedger
 from community.models import CommunityPost, CommunityReport
 from fitness.models import DailyActivity, FitnessSource

@@ -330,7 +330,7 @@ def apply_action(user, proposal, request_id, now, zone_name):
         return {"checkin_id": checkin.pk, "created": created}, f"Checked in to {program.title}. Nice work."
 
     if action == "start_plan":
-        from datetime import date, timedelta
+        from datetime import timedelta
         start = max(_iso_date(payload["start"]), local_today(user))
         program = WellnessProgram.objects.create(
             title=payload["title"][:120], summary="Your personal plan from IVA"[:280],

@@ -6,7 +6,6 @@ from django.core.files.base import ContentFile
 from django.db import IntegrityError, transaction
 from django.db.models import Count, Q
 from django.http import FileResponse
-from django.utils import timezone
 from PIL import Image, ImageOps, UnidentifiedImageError
 from rest_framework import status
 from rest_framework.exceptions import APIException, NotFound, PermissionDenied, ValidationError
