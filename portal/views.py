@@ -144,7 +144,7 @@ def points_leaderboard(request):
     if sort not in {"points", "steps", "challenges"}:
         sort = "points"
     period = request.GET.get("period", "month")
-    if period not in {"week", "month", "all"}:
+    if period not in {"today", "week", "month", "all"}:
         period = "month"
     return render(request, "portal/points.html", page_context(
         "Individual rankings", "points", rows=staff_rankings(sort, period), sort=sort, period=period))

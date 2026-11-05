@@ -9,6 +9,7 @@
 </div>
 <div class="d-flex flex-wrap gap-2 mb-3" aria-label="Step period">
   <span class="small text-muted align-self-center">Step period:</span>
+  <a class="btn btn-sm {% if period == 'today' %}btn-secondary{% else %}btn-outline-secondary{% endif %}" href="?sort={{ sort }}&amp;period=today">Today</a>
   <a class="btn btn-sm {% if period == 'week' %}btn-secondary{% else %}btn-outline-secondary{% endif %}" href="?sort={{ sort }}&amp;period=week">This week</a>
   <a class="btn btn-sm {% if period == 'month' %}btn-secondary{% else %}btn-outline-secondary{% endif %}" href="?sort={{ sort }}&amp;period=month">This month</a>
   <a class="btn btn-sm {% if period == 'all' %}btn-secondary{% else %}btn-outline-secondary{% endif %}" href="?sort={{ sort }}&amp;period=all">All saved days</a>
