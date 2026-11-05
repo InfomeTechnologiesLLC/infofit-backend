@@ -155,16 +155,13 @@ input[type="file"] { font-size: 13px; padding: 10px; }
 .login-hero h1 { font-size: 32px; margin: 10px 0; letter-spacing: -.9px; }
 .login-hero > p:not(.eyebrow) { max-width: 270px; color: #ffffffdb; font-size: 13px; }
 .login-symbol { font-size: 110px; line-height: 1; position: absolute; right: -4px; top: -18px; opacity: .13; font-weight: 800; }
-.hero-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 23px; }
-.hero-pills span { background: #ffffff24; border-radius: 99px; padding: 6px 10px; font-size: 10px; font-weight: 700; }
 .login-card { margin-top: 20px; padding: 24px; }
 .login-card > .muted { font-size: 13px; margin: 8px 0 20px; }
 .token-field { position: relative; }
 .token-field input { padding-right: 62px; }
 .token-field button { position: absolute; right: 6px; top: 3px; }
-#token-help { margin: 10px 0 18px; }
+#login-form > button[type="submit"] { margin-top: 18px; }
 .login-help { border-top: 1px solid var(--line); padding-top: 18px; margin-top: 20px; }
-.install-note { text-align: center; margin-top: 20px; }
 @media (max-width: 360px) {
   .app-shell { padding-left: 14px; padding-right: 14px; }
   .hero { gap: 14px; padding: 20px 16px; }

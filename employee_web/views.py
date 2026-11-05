@@ -17,7 +17,7 @@ from .authentication import SESSION_KEY, TokenLoginThrottle, browser_connection,
 class TokenLoginForm(forms.Form):
     token = forms.CharField(label="Auth token", max_length=128, strip=True,
         widget=forms.PasswordInput(attrs={"placeholder": "ahs_…", "autocomplete": "off",
-            "autocapitalize": "none", "spellcheck": "false", "aria-describedby": "token-help"}))
+            "autocapitalize": "none", "spellcheck": "false"}))
 
 
 @require_http_methods(["GET", "HEAD"])

@@ -8,7 +8,6 @@
     <p class="eyebrow">YOUR TEAM. YOUR WELLBEING.</p>
     <h1>A little movement.<br>A lot of good.</h1>
     <p>Your progress, your challenges, and your community. Together in one place.</p>
-    <div class="hero-pills"><span>Move together</span><span>Climb the rankings</span></div>
   </section>
   <section class="card login-card">
     <p class="eyebrow">WELCOME TO INFOME FIT</p>
@@ -20,12 +19,10 @@
       <label for="{{ form.token.id_for_label }}">Auth token</label>
       <div class="token-field">{{ form.token }}<button type="button" id="show-token" class="text-button" aria-pressed="false">Show</button></div>
       {% for error in form.token.errors %}<p class="error" role="alert">{{ error }}</p>{% endfor %}
-      <p class="small muted" id="token-help">Paste the personal token sent by HR. It begins with <strong>ahs_</strong>.</p>
       <button type="submit" class="button primary wide">Let's get moving <span aria-hidden="true">→</span></button>
     </form>
-    <p class="small muted login-help">Need a token? Ask HR to open your employee profile and choose <strong>Set up iPhone</strong>.</p>
+    <p class="small muted login-help">Need a token? Ask the development team to open your employee profile and choose <strong>Set up iPhone</strong>.</p>
   </section>
-  <p class="small muted install-note">On iPhone, open Safari's Share menu → Add to Home Screen for quick access.</p>
 </main>
 {% endblock %}
 {% block scripts %}<script src="{% url 'employee_web:asset' 'login.js' %}" defer></script>{% endblock %}
