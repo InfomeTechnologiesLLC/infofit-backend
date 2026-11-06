@@ -150,20 +150,86 @@ class AppleHealthTests(APITestCase):
         self.assertEqual(AppleHealthRecord.objects.filter(deleted=True).count(), 3)
         self.assertIsNone(DailyActivity.objects.get().steps)
 
-    def test_summaries_do_not_double_count_samples_or_award_unverified_points(self):
+    def test_summaries_count_for_rankings_and_rewards_without_double_counting_samples(self):
         enrollment = self.enroll()
         self.post(self.body(metrics=[self.aggregate()], timezone="UTC"))
         day = DailyActivity.objects.get()
         self.assertEqual(day.steps, 8000)
-        self.assertIsNone(day.verified_value("steps"))
-        self.assertEqual(PointsLedger.objects.count(), 0)
-        self.assertEqual(_steps([self.user.pk], day.local_date, day.local_date), {})
+        self.assertEqual(day.verified_value("steps"), 8000)
+        self.assertEqual(list(PointsLedger.objects.values_list("delta", flat=True)), [25])
+        self.assertEqual(_steps([self.user.pk], day.local_date, day.local_date), {self.user.pk: 8000})
         self.post(self.body(metrics=[self.metric()], timezone="UTC", generated_at="2026-10-02T12:00:00Z"))
         day.refresh_from_db()
         self.assertEqual(day.steps, 8000)
-        self.assertEqual(day.verified_value("steps"), 1200)
+        self.assertEqual(day.verified_value("steps"), 8000)
         self.assertTrue(ChallengeProgress.objects.get(enrollment=enrollment).is_complete)
-        self.assertEqual(_steps([self.user.pk], day.local_date, day.local_date), {self.user.pk: 1200})
+        self.assertEqual(_steps([self.user.pk], day.local_date, day.local_date), {self.user.pk: 8000})
+        self.assertEqual(PointsLedger.objects.count(), 1)
+
+    def test_summaries_count_for_distance_calories_and_step_day_challenges(self):
+        distance = self.enroll(kind="distance", target_value=5)
+        calories = self.enroll(kind="calories", target_value=300)
+        step_days = self.enroll(kind="step_days", daily_threshold=7000, target_value=1)
+        self.post(self.body(metrics=[self.aggregate(),
+            {**self.aggregate(value=6), "id": "healthkit:aggregate:distance", "type": "distance_walking_running", "unit": "km"},
+            {**self.aggregate(value=400), "id": "healthkit:aggregate:energy", "type": "active_energy", "unit": "kcal"}], timezone="UTC"))
+        day = DailyActivity.objects.get()
+        self.assertEqual(day.verified_metrics, {"steps": 8000, "distance_m": 6000, "active_kcal": 400})
+        for enrollment, value in ((distance, 6), (calories, 400), (step_days, 1)):
+            progress = ChallengeProgress.objects.get(enrollment=enrollment)
+            self.assertTrue(progress.is_complete)
+            self.assertEqual(progress.progress_value, value)
+
+    def test_summary_credit_excludes_known_manual_steps_inside_and_outside_summary(self):
+        summary = self.aggregate()
+        summary["end_at"] = "2026-09-30T12:00:00Z"
+        inside = self.metric("manual-inside", value=2000, metadata={"HKWasUserEntered": "true"})
+        outside = self.metric("manual-outside", value=500, metadata={"HKWasUserEntered": "true"},
+                              start_at="2026-09-30T15:00:00Z", end_at="2026-09-30T16:00:00Z")
+        self.post(self.body(metrics=[summary, self.metric(), inside, outside], timezone="UTC"))
+        day = DailyActivity.objects.get()
+        self.assertEqual(day.steps, 8500)
+        self.assertEqual(day.verified_value("steps"), 6000)
+        self.assertEqual(_steps([self.user.pk], day.local_date, day.local_date), {self.user.pk: 6000})
+
+    def test_summary_correction_reverses_reward_and_zero_is_still_data(self):
+        enrollment = self.enroll()
+        self.post(self.body(metrics=[self.aggregate()], timezone="UTC"))
+        self.post(self.body(metrics=[self.aggregate(value=0)], timezone="UTC", generated_at="2026-10-02T12:00:00Z"))
+        day = DailyActivity.objects.get()
+        self.assertEqual(day.verified_value("steps"), 0)
+        progress = ChallengeProgress.objects.get(enrollment=enrollment)
+        self.assertTrue(progress.has_step_data)
+        self.assertFalse(progress.is_complete)
+        self.assertEqual(list(PointsLedger.objects.order_by("revision").values_list("delta", flat=True)), [25, -25])
+
+    def test_rebuild_restores_legacy_summary_credit_and_awards_only_once(self):
+        self.post(self.body(metrics=[self.aggregate(), self.metric()], timezone="UTC"))
+        enrollment = self.enroll(target=5000)
+        day = DailyActivity.objects.get()
+        source_sync = FitnessSource.objects.get(pk=self.source.pk).last_successful_sync_at
+        # Previously, summary-only days had null credit and mixed days only counted raw samples.
+        for old_credit in (None, 1200):
+            DailyActivity.objects.filter(pk=day.pk).update(verified_metrics={"steps": old_credit})
+            call_command("rebuild_apple_health_activity", self.user.email, stdout=StringIO())
+            day.refresh_from_db()
+            self.assertEqual(day.steps, 8000)
+            self.assertEqual(day.verified_value("steps"), 8000)
+            self.assertTrue(ChallengeProgress.objects.get(enrollment=enrollment).is_complete)
+            self.assertEqual(_steps([self.user.pk], day.local_date, day.local_date), {self.user.pk: 8000})
+        self.assertEqual(list(PointsLedger.objects.values_list("delta", flat=True)), [25])
+        self.assertEqual(AppleHealthRecord.objects.count(), 2)
+        self.assertEqual(AppleHealthSyncBatch.objects.count(), 1)
+        self.assertEqual(FitnessSource.objects.get(pk=self.source.pk).last_successful_sync_at, source_sync)
+
+    def test_rebuild_skips_history_of_inactive_apple_source(self):
+        self.post(self.body(metrics=[self.aggregate()], timezone="UTC"))
+        android = FitnessSource.objects.create(user=self.user, installation_id=uuid4())
+        FitnessAccount.objects.filter(user=self.user).update(active_source=android)
+        DailyActivity.objects.filter(user=self.user).update(source=android, steps=600, verified_metrics={})
+        call_command("rebuild_apple_health_activity", stdout=StringIO())
+        day = DailyActivity.objects.get()
+        self.assertEqual((day.source_id, day.steps, day.verified_value("steps")), (android.pk, 600, 600))
 
     def test_partial_summary_and_uncovered_samples(self):
         aggregate = self.aggregate()
@@ -172,7 +238,7 @@ class AppleHealthTests(APITestCase):
         self.post(self.body(metrics=[aggregate, self.metric(), later], timezone="UTC"))
         day = DailyActivity.objects.get()
         self.assertEqual(day.steps, 8500)
-        self.assertEqual(day.verified_value("steps"), 1700)
+        self.assertEqual(day.verified_value("steps"), 8500)
 
     def test_summary_corrections_and_raw_deletion_invalidation(self):
         self.post(self.body(metrics=[self.aggregate(), self.metric()], timezone="UTC"))

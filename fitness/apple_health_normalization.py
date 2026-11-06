@@ -2,8 +2,9 @@
 
 HealthKit's source-priority list is not exported. For overlapping raw quantities we use
 the largest per-source rate, rather than summing phone and watch readings. Daily HealthKit
-summaries take precedence for display within their interval; only raw non-manual readings
-contribute to verified totals. These are deliberately separate computations.
+summaries take precedence within their interval for both display and competition credit.
+Explicitly manual readings are subtracted from credit; a summary's unknown manual-entry
+breakdown does not prevent the rest of that day's activity from counting.
 """
 from collections import defaultdict
 from datetime import datetime, time, timedelta, timezone as dt_timezone
@@ -214,17 +215,14 @@ def normalize_days(source, dates, observed_at, time_zone):
             if metric == "exercise_minutes":
                 values[metric] = min(1440, values[metric])
             if metric in verified:
-                raw = [record for record in samples if not is_aggregate(record)]
-                if raw:
-                    amount = quantity_total(raw, day, summaries=False, automatic_only=True)
-                    verified[metric] = int(round(amount)) if metric == "steps" else round(amount, 6)
+                # Use the same summary-first daily total as Home. Raw samples inside a
+                # summary must neither add to it nor replace it with a partial total.
+                known_manual = quantity_total([record for record in samples if is_manual(record)], day)
+                credited = max(0.0, amount - known_manual)
+                verified[metric] = int(round(credited)) if metric == "steps" else round(credited, 6)
+                # Null still means the export has no complete manual-entry breakdown.
                 if not any(is_aggregate(record) for record in samples):
-                    amount = sum(record.payload["value"] * QUANTITIES[record_type][1][record.payload["unit"]]
-                                 * ((day_segment(record, day)[1] - day_segment(record, day)[0]).total_seconds()
-                                    / (record.end_at - record.start_at).total_seconds()
-                                    if record.end_at > record.start_at else 1)
-                                 for record in raw if is_manual(record) and day_segment(record, day))
-                    manual["manual_" + metric] = int(round(amount)) if metric == "steps" else round(amount, 6)
+                    manual["manual_" + metric] = int(round(known_manual)) if metric == "steps" else round(known_manual, 6)
 
         workouts = [record for record in current if record.kind == "workout" and not record.deleted]
         keep = []

@@ -40,8 +40,8 @@ class DailyActivity(models.Model):
     manual_distance_m = models.FloatField(null=True, blank=True)
     manual_active_kcal = models.FloatField(null=True, blank=True)
     metric_status = models.JSONField(default=dict)
-    # Apple Health summaries have no manual-entry breakdown. Explicit null means no verified total;
-    # absent keys retain the Android total-minus-manual behavior.
+    # Apple Health summary-first daily credit, excluding explicitly manual readings.
+    # Null means unavailable; absent keys retain Android's total-minus-manual behavior.
     verified_metrics = models.JSONField(default=dict, **database_default({}))
     observed_at = models.DateTimeField()
     synced_at = models.DateTimeField(auto_now=True)

@@ -1,8 +1,9 @@
-"""How every challenge kind is scored, using only data the phone or watch recorded by itself.
+"""How every challenge kind is scored, using synced phone/watch activity and daily summaries.
 
 Anti-cheat rules (the same for every kind):
 - Only the employee's ONE active phone counts (a second phone cannot add to the total).
 - Anything typed in by hand in a fitness app (Health Connect "manual entry") is subtracted or ignored.
+- Apple Health daily summaries count, excluding manual entries identified in the export.
 - A challenge counts exactly its own dates: everything recorded from the start date to the end date (whole days, in
   the employee's own time zone), whenever the employee joined. A challenge starting today counts today's steps;
   one starting tomorrow counts from tomorrow.
@@ -67,8 +68,8 @@ def _verified(day, metric, manual_field):
 def competition_step_totals(user_ids, start=None, end=None):
     """Active-source steps for rankings, using the same manual exclusion as challenges.
 
-    An unknown Android manual breakdown still counts. An explicit null Apple Health
-    normalized total is unavailable, while a recorded zero remains a day with data.
+    Unknown manual breakdowns still count, including Apple Health daily summaries.
+    An explicit null normalized total is unavailable; a recorded zero is a day with data.
     """
     rows = DailyActivity.objects.filter(
         user_id__in=user_ids, source_id=F("user__fitness_account__active_source_id"),

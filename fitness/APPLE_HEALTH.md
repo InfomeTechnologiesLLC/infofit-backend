@@ -271,8 +271,9 @@ represent active workout duration as a continuous interval beginning at the star
 
 Historical quantity exports can contain `healthkit:aggregate:TYPE:DATE` records
 with `metadata.aggregation = "daily_sum"`. These replace overlapping raw values
-for **display**, rather than being added to them. Raw readings outside a partial
-summary's interval still count. Aggregate corrections replace their previous value.
+for **Home, staff totals, rankings, and challenge credit**, rather than being added
+to them. Raw readings outside a partial summary's interval still count. Aggregate
+corrections replace their previous value.
 A known raw deletion invalidates an older overlapping summary until it is refreshed.
 An unknown deletion ID carries no date/type, so it cannot invalidate an unrelated
 summary. Refresh the summary to reflect that deletion. Summaries are snapshots:
@@ -286,16 +287,40 @@ for summaries. Consequently:
   they are not added together. This is an approximation, not an exact reproduction
   of Apple Health's private overlap policy. Sources with the same exported bundle
   ID cannot always be distinguished.
-- `HKWasUserEntered` excludes manually entered raw activity from challenge credit.
-- `DailyActivity.verified_metrics` stores non-manual raw totals separately from
-  displayed totals. Summary-only history has null verified totals and does not earn
-  step/distance/calorie challenge credit or step-leaderboard credit. Ordinary
-  incremental sync supplies individual samples; credit updates as those arrive.
+- `HKWasUserEntered` identifies manual activity to subtract from competition credit,
+  including known manual readings covered by a summary. Unknown manual content inside
+  a summary is accepted; lacking a breakdown does not make the daily total unavailable.
+- `DailyActivity.verified_metrics` stores summary-first daily totals minus identified
+  manual activity. The field name is retained for API compatibility. Summary-only
+  history counts for step rankings and step/distance/calorie/step-day challenges.
+  Adding overlapping raw samples does not double-count or reduce summary credit to
+  a partial raw total. Existing challenge caps, date windows, and reward corrections apply.
 - Shared fitness responses expose `verified_metrics` and `source: "apple_health"`.
   Android days retain their existing total-minus-manual scoring behavior.
 
 The phone controls background scheduling. Check the connection's last successful
 sync timestamp and use manual sync/backfill when needed.
+
+### Recalculate history saved before summary credit was enabled
+
+After deploying the updated backend and restarting its application workers, run:
+
+```sh
+./newenv/bin/python -B manage.py rebuild_apple_health_activity
+```
+
+This reprojects retained records for each account's active Apple Health source,
+then recalculates enrolled challenge progress, points, and badges in the same
+per-account transaction. Already-saved summary-only and partially credited days
+become eligible without requiring another phone upload. Repeated runs do not
+duplicate rewards. Android-active accounts and inactive Apple Health sources are
+skipped. No schema migration is needed for this change.
+
+Pass an employee email to recalculate only that account:
+
+```sh
+./newenv/bin/python -B manage.py rebuild_apple_health_activity employee@example.com
+```
 
 ## Verification
 

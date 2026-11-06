@@ -201,6 +201,38 @@ class EmployeeWebTests(TestCase):
         self.assertEqual(PointsLedger.objects.count(), 1)
         self.assertEqual(BadgeAward.objects.count(), 1)
 
+    def test_iphone_daily_summary_matches_home_all_rankings_and_challenge_rewards(self):
+        self.login()
+        challenge = self.challenge(target_steps=700)
+        self.assertEqual(self.write(f"challenges/{challenge.pk}/join/").status_code, 201)
+        day = self.today.isoformat()
+        end = timezone.now().isoformat()
+        payload = {"schema_version": 2, "device_id": "summary-iphone", "export_id": str(uuid4()),
+            "generated_at": timezone.now().isoformat(), "timezone": "UTC", "source": "ios-healthkit",
+            "date_range": {"start": f"{day}T00:00:00Z", "end": end},
+            "metrics": [{"id": f"healthkit:aggregate:step_count:{day}", "type": "step_count", "value": 710,
+                "unit": "count", "start_at": f"{day}T00:00:00Z", "end_at": end,
+                "source_name": "Apple Health", "metadata": {"aggregation": "daily_sum", "aggregation_period": "day"}}],
+            "workouts": [], "deletions": []}
+        response = Client().post(reverse("apple_health_sync"), payload, content_type="application/json",
+            HTTP_AUTHORIZATION="Bearer " + self.token)
+        self.assertEqual(response.status_code, 200, response.content)
+        self.assertEqual(self.client.get("/app/api/home/").json()["metrics"]["steps"], 710)
+        self.assertEqual(self.client.get("/app/api/steps/").json()["steps"], 710)
+        for board in ("steps_today", "steps_week", "steps_month", "teams"):
+            with self.subTest(board=board):
+                web = self.client.get(f"/app/api/rankings/?board={board}").json()
+                self.assertEqual(web["me"]["value"], 710)
+                self.assertEqual(web["message"], "")
+                native = Client().get(f"/api/v1/challenges/rankings/?board={board}",
+                    HTTP_AUTHORIZATION="Bearer " + str(AccessToken.for_user(self.user))).json()
+                self.assertEqual(web["rows"], native["rows"])
+        mine = self.client.get("/app/api/challenges/mine/").json()
+        self.assertEqual(mine["challenges"][0]["verified_steps"], 710)
+        self.assertTrue(mine["challenges"][0]["complete"])
+        self.assertEqual(mine["points_total"], 50)
+        self.assertEqual(self.client.get("/app/api/rankings/?board=points").json()["me"]["value"], 50)
+
     def test_challenge_publication_deadline_and_caller_identity(self):
         self.login()
         available = self.challenge()
